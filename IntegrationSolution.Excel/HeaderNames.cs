@@ -10,14 +10,14 @@ namespace IntegrationSolution.Excel
     {
         #region Headers
         public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
-        public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
+        //public readonly string StateNumber = "Гос.знак единицы оборудования";
         #endregion
     }
 }
