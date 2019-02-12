@@ -17,6 +17,7 @@ namespace UnityIoC
             _container = new UnityContainer();
 
             _container.RegisterType<ExcelPackage>();
+            _container.RegisterType<IUnityContainer, UnityContainer>();
 
         }
     }
