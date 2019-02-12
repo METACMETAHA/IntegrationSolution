@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityIoC", "UnityIoC\UnityIoC.csproj", "{EE962093-6EBA-4ECA-824C-F1C0A617676B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Logger", "IntegrationSolution.Logger\IntegrationSolution.Logger.csproj", "{8BB1B036-F627-49A2-8513-896D4736432E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EE962093-6EBA-4ECA-824C-F1C0A617676B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE962093-6EBA-4ECA-824C-F1C0A617676B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE962093-6EBA-4ECA-824C-F1C0A617676B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB1B036-F627-49A2-8513-896D4736432E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB1B036-F627-49A2-8513-896D4736432E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB1B036-F627-49A2-8513-896D4736432E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB1B036-F627-49A2-8513-896D4736432E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

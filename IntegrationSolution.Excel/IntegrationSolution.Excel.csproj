@@ -57,5 +57,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
+      <Project>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</Project>
+      <Name>IntegrationSolution.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

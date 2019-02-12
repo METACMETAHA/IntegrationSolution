@@ -1,5 +1,8 @@
-﻿using System;
+﻿using IntegrationSolution.Entities.Implementations;
+using IntegrationSolution.Excel.Implementations;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +17,9 @@ namespace Console
             Bootstrapper.Startup();
 
             var file = "export.xlsx";
+
+            ExcelWorker ex = new ExcelWorker(new OfficeOpenXml.ExcelPackage(new FileInfo(file)));
+            ex.GetVehicle<Car>();
         }
     }
 }
