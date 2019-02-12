@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,14 +59,20 @@ namespace IntegrationSolution.Excel
         public static readonly string ConsumptionLPGsSavingsOrOverruns = "Газ Экономия/Перерасход 3";
         #endregion
 
-        public static object GetPropValue(string propName)
-        {
-            var ks = typeof(HeaderNames).GetType().GetProperties(System.Reflection.BindingFlags.Static);
-            var ss = from it in new HeaderNames().GetType().GetProperties()
-                     where it.GetValue(it).ToString() == propName
-                     select it.Name;
+        public static Dictionary<string, string> PropertiesData { get; set; }
 
-            return null;
+        static HeaderNames()
+        {
+            PropertiesData = GetFieldValues(new HeaderNames());
+        }
+
+        public static Dictionary<string, string> GetFieldValues(object obj)
+        {
+            return obj.GetType()
+                      .GetFields(BindingFlags.Public | BindingFlags.Static)
+                      .Where(f => f.FieldType == typeof(string))
+                      .ToDictionary(f => f.Name,
+                                    f => (string)f.GetValue(null));
         }
     }
 }

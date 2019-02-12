@@ -85,10 +85,11 @@ namespace IntegrationSolution.Excel.Implementations
                     var vehicle = (T)Activator.CreateInstance(typeof(T));
                     foreach (var header in headers)
                     {
-                        vehicle.GetType().InvokeMember(nameof(vehicle.StateNumber),
+                        vehicle.GetType().InvokeMember(header.Key,
                         BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty,
-                        Type.DefaultBinder, vehicle, new object[] { "ss"});
+                        Type.DefaultBinder, vehicle, new object[] { _worksheet.Cells[row, header.Value.Column].Text});
                     }
+                    cars.Add(vehicle);
                 }
             }
             catch (Exception)
@@ -112,7 +113,7 @@ namespace IntegrationSolution.Excel.Implementations
             switch (typeof(T))
             {
                 case Type carType when carType == typeof(Car):
-                    HeaderNames.GetPropValue("Номер единицы оборудования");
+                    
                     return GetHeadersAddress(HeaderNames.UnitNumber, HeaderNames.UnitModel, HeaderNames.StateNumber);
 
                 default:
@@ -138,10 +139,11 @@ namespace IntegrationSolution.Excel.Implementations
                 {
                     try
                     {
-                        var addr = (from cell in _worksheet.Cells[_startCell.Row, _startCell.Column, _startCell.Row, _endCell.Column]
+                        var address = (from cell in _worksheet.Cells[_startCell.Row, _startCell.Column, _startCell.Row, _endCell.Column]
                                     where cell.Text == header
                                     select cell.Start).First();
-                        headersCells.Add(header, addr);
+                        var propName = HeaderNames.PropertiesData.First(x => x.Value == header).Key;
+                        headersCells.Add(propName, address);
                     }
                     catch (Exception)
                     { }
