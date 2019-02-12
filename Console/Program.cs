@@ -16,10 +16,11 @@ namespace Console
         {
             Bootstrapper.Startup();
 
-            var file = "export.xlsx";
+            var file = @"..\..\export.xlsx";
 
             ExcelWorker ex = new ExcelWorker(new OfficeOpenXml.ExcelPackage(new FileInfo(file)));
-            ex.GetVehicle<Car>();
+            var data = ex.GetVehicle<Car>();
+            System.Console.WriteLine(data.Count());
         }
     }
 }
