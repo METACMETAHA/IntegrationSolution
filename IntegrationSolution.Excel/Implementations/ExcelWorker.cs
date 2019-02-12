@@ -70,7 +70,8 @@ namespace IntegrationSolution.Excel.Implementations
         /// <summary>
         /// This function creates IVehicle-objects from excel file.
         /// At the first step, it detect type by T
-        /// At the second step, it creates related objects of IVehicle
+        /// At the second step, it creates related objects of IVehicle 
+        /// and fill its fields by their property names and values in address cells (It works Reflection)
         /// </summary>
         /// <exception cref=""></exception>
         /// <returns>IEnumerable of IVehicle</returns>
@@ -112,8 +113,7 @@ namespace IntegrationSolution.Excel.Implementations
         {
             switch (typeof(T))
             {
-                case Type carType when carType == typeof(Car):
-                    
+                case Type carType when carType == typeof(Car):                    
                     return GetHeadersAddress(HeaderNames.UnitNumber, HeaderNames.UnitModel, HeaderNames.StateNumber);
 
                 default:
@@ -124,9 +124,10 @@ namespace IntegrationSolution.Excel.Implementations
 
         /// <summary>
         /// This function gets headers` names and find them in excel headers (first row).
+        /// At the same time it replaces name of headers to related property name.
         /// </summary>
         /// <exception cref=""></exception>
-        /// <returns>IDictionary where key="name of header", value="address of cell"</returns>
+        /// <returns>IDictionary where key="name of header`s property", value="address of cell"</returns>
         private IDictionary<string, ExcelCellAddress> GetHeadersAddress(params string[] headers)
         {
             IDictionary<string, ExcelCellAddress> headersCells = new Dictionary<string, ExcelCellAddress>();
