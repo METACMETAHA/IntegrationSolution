@@ -33,7 +33,8 @@ namespace IntegrationSolution.Excel
         public static readonly string DepartureMotoHoursIndications = "Показания моточасов (выезд)";
         public static readonly string ReturnMotoHoursIndications = "Показания моточасов (возврат)";
         public static readonly string MotoHoursIndicationsAtAll = "Моточасов всего";
-               
+
+        public static readonly string CountTrips = "Количество маршрутов в ПЛ";
         public static readonly string DriverWorkMode = "Режим работы водителя";
         public static readonly string DriverWorkModeDescription = "Режим работы водителя - текст";
                
