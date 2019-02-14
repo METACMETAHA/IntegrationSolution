@@ -22,11 +22,11 @@ namespace Console
             Bootstrapper.Startup();
 
             var file = @"..\..\export.xlsx";
+            
 
             ExcelWorker ex = new ExcelWorker(new OfficeOpenXml.ExcelPackage(new FileInfo(file)));
             var data = ex.GetVehicle<Car>();
 
-            IFuel ff = new FuelBase<Gas>("Gas");
             
             for (int i = 0; i < 20; i++)
             {

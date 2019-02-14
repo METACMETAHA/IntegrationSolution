@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Helpers\AttributeProvider.cs" />
     <Compile Include="Helpers\Converter.cs" />
+    <Compile Include="Helpers\FilterData.cs" />
     <Compile Include="Helpers\HeaderAttribute.cs" />
     <Compile Include="Implementations\Fuel\Disel.cs" />
     <Compile Include="Implementations\Fuel\FuelBase.cs" />

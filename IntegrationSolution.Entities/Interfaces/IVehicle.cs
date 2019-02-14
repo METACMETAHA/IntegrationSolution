@@ -1,5 +1,6 @@
 ﻿using IntegrationSolution.Entities.Helpers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace IntegrationSolution.Entities.Interfaces
 {   
     public interface IVehicle
     {
+        IEnumerable<IFuel> Fuels { get; set; }
+
         string UnitNumber { get; set; }
 
         string UnitModel { get; set; }

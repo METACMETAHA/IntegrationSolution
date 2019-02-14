@@ -15,5 +15,10 @@ namespace IntegrationSolution.Entities.Implementations
 
         private string _stateNumber;
         public string StateNumber { get => _stateNumber; set => _stateNumber = Converter.ToStateNumber(value); }
+
+        public IEnumerable<IFuel> Fuels { get; set; }
+
+        public Car()
+        { }
     }
 }
