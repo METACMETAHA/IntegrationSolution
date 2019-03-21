@@ -12,11 +12,13 @@ namespace IntegrationSolution.Entities.Implementations
     {
         public string UnitModel { get; set; }
         public string UnitNumber { get; set; }
+        public string Type { get; set; }
+        public string Department { get; set; }
 
         private string _stateNumber;
         public string StateNumber { get => _stateNumber; set => _stateNumber = Converter.ToStateNumber(value); }
 
-        public IEnumerable<IFuel> Fuels { get; set; }
+        public Dictionary<string, IFuel> Fuels { get; set; }
 
         public Car()
         { }

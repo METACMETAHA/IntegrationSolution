@@ -11,13 +11,16 @@ namespace IntegrationSolution.Entities.Interfaces
 {   
     public interface IVehicle
     {
-        IEnumerable<IFuel> Fuels { get; set; }
+        Dictionary<string, IFuel> Fuels { get; set; }
 
         string UnitNumber { get; set; }
 
         string UnitModel { get; set; }
 
         string StateNumber { get; set; }
-        
+
+        string Type { get; set; }
+
+        string Department { get; set; }
     }
 }

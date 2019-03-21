@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml;
+﻿using IntegrationSolution.Excel.Implementations;
+using IntegrationSolution.Excel.Interfaces;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace UnityIoC
 
             _container.RegisterType<ExcelPackage>();
             _container.RegisterType<IUnityContainer, UnityContainer>();
-
+            _container.RegisterType<IExcel, ExcelBase>();
         }
     }
 }

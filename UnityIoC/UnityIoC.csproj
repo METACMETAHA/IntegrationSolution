@@ -68,5 +68,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
+      <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
+      <Name>IntegrationSolution.Excel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

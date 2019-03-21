@@ -8,19 +8,19 @@ namespace IntegrationSolution.Entities.Implementations
     {
         public string Title { get; private set; }
 
-        [HeaderAttribute("DepartureBalance&replace&")]
+        [Header("DepartureBalance&replace&")]
         public string DepartureBalance { get; set; }
 
-        [HeaderAttribute("ReturnBalance&replace&")]
+        [Header("ReturnBalance&replace&")]
         public string ReturnBalance { get; set; }
 
-        [HeaderAttribute("Consumption&replace&Actual")]
+        [Header("Consumption&replace&Actual")]
         public string ConsumptionActual { get; set; }
 
-        [HeaderAttribute("Consumption&replace&Normative")]
+        [Header("Consumption&replace&Normative")]
         public string ConsumptionNormative { get; set; }
 
-        [HeaderAttribute("Consumption&replace&SavingsOrOverruns")]
+        [Header("Consumption&replace&SavingsOrOverruns")]
         public string ConsumptionSavingsOrOverruns { get; set; }
 
 

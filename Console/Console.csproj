@@ -51,6 +51,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="export.XLSX" />
+    <None Include="Main2.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
