@@ -43,7 +43,8 @@ namespace IntegrationSolution.Excel
                
         public const string DepartmentCode = "Служба";
         public const string DepartmentTitle = "Наименование Службы";
-               
+
+        #region Fuel
         public const string DepartureBalanceGas = "Бензин Остаток при Выезде 1";
         public const string ReturnBalanceGas = "Бензин Остаток при Возвращении 1";
         public const string ConsumptionGasActual = "Бензин Фактический расход 1";
@@ -60,7 +61,8 @@ namespace IntegrationSolution.Excel
         public const string ReturnBalanceLPG = "Газ Остаток при Возвращении 3";
         public const string ConsumptionLPGActual = "Газ Фактический расход 3";
         public const string ConsumptionLPGNormative = "Газ Нормативный расход 3";
-        public const string ConsumptionLPGsSavingsOrOverruns = "Газ Экономия/Перерасход 3";
+        public const string ConsumptionLPGSavingsOrOverruns = "Газ Экономия/Перерасход 3";
+        #endregion Fuel
         #endregion
 
 

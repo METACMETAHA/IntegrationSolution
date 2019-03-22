@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace IntegrationSolution.Entities.Helpers
+namespace IntegrationSolution.Common.Converters
 {
-    public static class Converter
+    public static class StateNumberConverter
     {
         // Dictionary for transform state number from latin to cyrillic
         private static Dictionary<char, char> mapTranform = new Dictionary<char, char>

@@ -27,11 +27,16 @@ namespace Console
             var file = @"..\..\export.xlsx";
 
             ICarOperations excel = new ExcelCarOperations(new OfficeOpenXml.ExcelPackage(new FileInfo(fileMain)));
-
             var data = excel.GetVehicles();
 
-            var k = data.Where(x => string.IsNullOrWhiteSpace(x.StateNumber) || string.IsNullOrWhiteSpace(x.UnitModel) 
-            || string.IsNullOrWhiteSpace(x.Type) || string.IsNullOrWhiteSpace(x.Department)).FirstOrDefault();
+            ICarOperations ex = new ExcelCarOperations(new OfficeOpenXml.ExcelPackage(new FileInfo(file)));
+            for (int i = 0; i < data.Count(); i++)
+            {
+                var v = data.ElementAtOrDefault(i);
+                if(v != null)
+                    ex.FillVehicleAvaliableData(ref v);
+            }
+            
             for (int i = 0; i < 20; i++)
             {
                 System.Console.WriteLine(data.ElementAt(i).StateNumber + "\t" + data.ElementAt(i).UnitModel);

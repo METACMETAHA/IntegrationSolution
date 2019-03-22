@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Entities.Helpers;
+using IntegrationSolution.Entities.SelfEntities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,9 @@ namespace IntegrationSolution.Entities.Interfaces
 {   
     public interface IVehicle
     {
-        Dictionary<string, IFuel> Fuels { get; set; }
+        Trip TripResulted { get; }
+
+        ICollection<Trip> Trips { get; set; }
 
         string UnitNumber { get; set; }
 
@@ -22,5 +25,7 @@ namespace IntegrationSolution.Entities.Interfaces
         string Type { get; set; }
 
         string Department { get; set; }
+
+        
     }
 }

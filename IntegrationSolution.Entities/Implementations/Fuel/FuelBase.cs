@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace IntegrationSolution.Entities.Implementations
 {
-    public abstract class FuelBase<T> : IFuel where T : class
+    public class FuelBase : IFuel //where T : class
     {
         public string Title { get; private set; }
 
@@ -32,11 +32,11 @@ namespace IntegrationSolution.Entities.Implementations
         {
             if (!string.IsNullOrWhiteSpace(FuelName))
                 Title = FuelName;
-            else
-                Title = typeof(T).Name;
+            //else
+                //Title = typeof(T).Name;
 
-            foreach (var prop in this.GetType().GetProperties().Where(x => x.GetCustomAttributes(typeof(HeaderAttribute), false).Length > 0))
-                AttributeProvider.SetHeaderDescription<T>(prop.Name, typeof(T).Name);
+            //foreach (var prop in this.GetType().GetProperties().Where(x => x.GetCustomAttributes(typeof(HeaderAttribute), false).Length > 0))
+            //    AttributeProvider.SetHeaderDescription<T>(prop.Name, typeof(T).Name);
         }
     }
 }

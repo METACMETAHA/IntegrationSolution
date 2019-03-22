@@ -49,7 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\CommonOperationsBase.cs" />
+    <Compile Include="Common\PathListData.cs" />
+    <Compile Include="Common\StaticHelper.cs" />
     <Compile Include="Common\HeaderNames.cs" />
     <Compile Include="Implementations\ExcelBase.cs" />
     <Compile Include="Implementations\ExcelCarOperations.cs" />
@@ -62,6 +63,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
+      <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>
+      <Name>IntegrationSolution.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
       <Project>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</Project>
       <Name>IntegrationSolution.Entities</Name>

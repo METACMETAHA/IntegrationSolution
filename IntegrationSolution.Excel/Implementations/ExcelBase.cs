@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Excel.Implementations
 {
-    public class ExcelBase : IExcel, IExcelBorders, IDisposable
+    public abstract class ExcelBase : IExcel, IExcelBorders, IDisposable
     {
         #region Properties
         public ExcelPackage Excel { get; protected set; }
@@ -27,6 +27,28 @@ namespace IntegrationSolution.Excel.Implementations
         public ExcelBase(ExcelPackage excelPackage)
         {
             Excel = excelPackage;
+            TryClearFromPathList();
+        }
+
+
+        public void TryClearFromPathList()
+        {
+            if (StaticHelper.GetHeadersAddress(this, HeaderNames.PathListStatus).Count == 0)
+                return;
+
+            var rows = StaticHelper.GetRowsWithValue(this,
+                PathListData.PathListStatusDictionary[IntegrationSolution.Common.Enums.PathListStatusEnum.Miv],
+                HeaderNames.PathListStatus);
+
+            foreach (var item in rows)
+            {
+                try
+                {
+                    WorkSheet.DeleteRow(item.Row);
+                }
+                catch (Exception)
+                { }
+            }
         }
 
 
