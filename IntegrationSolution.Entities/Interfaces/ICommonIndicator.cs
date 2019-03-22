@@ -8,6 +8,6 @@ namespace IntegrationSolution.Entities.Interfaces
 {
     public interface ICommonIndicator
     {
-        string TotalMileage { get; set; }
+        double TotalMileage { get; set; }
     }
 }

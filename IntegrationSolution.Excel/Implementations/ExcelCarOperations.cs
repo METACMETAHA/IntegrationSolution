@@ -1,4 +1,5 @@
-﻿using IntegrationSolution.Common.Enums;
+﻿using IntegrationSolution.Common.Converters;
+using IntegrationSolution.Common.Enums;
 using IntegrationSolution.Entities.Helpers;
 using IntegrationSolution.Entities.Implementations;
 using IntegrationSolution.Entities.Interfaces;
@@ -191,7 +192,7 @@ namespace IntegrationSolution.Excel.Implementations
                 || vehicle == null)
                 return false;
 
-            vehicle.Trips = GetTripsByStateNumber(vehicle.StateNumber);
+            vehicle.Trips = GetTripsByStateNumber(vehicle.StateNumber)?.ToList();
 
             return true;
         }
@@ -234,22 +235,22 @@ namespace IntegrationSolution.Excel.Implementations
                     #region SetValues of car
                     // Set values for odometr
                     if (headerDepartureOdometerValue.Value != null)
-                        trip.DepartureOdometerValue = WorkSheet.Cells[row.Row, headerDepartureOdometerValue.Value.Column].Text;
+                        trip.DepartureOdometerValue = WorkSheet.Cells[row.Row, headerDepartureOdometerValue.Value.Column].Text.ToDouble();
 
                     if (headerReturnOdometerValue.Value != null)
-                        trip.ReturnOdometerValue = WorkSheet.Cells[row.Row, headerReturnOdometerValue.Value.Column].Text;
+                        trip.ReturnOdometerValue = WorkSheet.Cells[row.Row, headerReturnOdometerValue.Value.Column].Text.ToDouble();
 
                     if (headerTotalMileage.Value != null)
-                        trip.TotalMileage = WorkSheet.Cells[row.Row, headerTotalMileage.Value.Column].Text;
+                        trip.TotalMileage = WorkSheet.Cells[row.Row, headerTotalMileage.Value.Column].Text.ToDouble();
 
                     if (headerDepartureMotoHoursIndications.Value != null)
-                        trip.DepartureMotoHoursIndications = WorkSheet.Cells[row.Row, headerDepartureMotoHoursIndications.Value.Column].Text;
+                        trip.DepartureMotoHoursIndications = WorkSheet.Cells[row.Row, headerDepartureMotoHoursIndications.Value.Column].Text.ToDouble();
 
                     if (headerReturnMotoHoursIndications.Value != null)
-                        trip.ReturnMotoHoursIndications = WorkSheet.Cells[row.Row, headerReturnMotoHoursIndications.Value.Column].Text;
+                        trip.ReturnMotoHoursIndications = WorkSheet.Cells[row.Row, headerReturnMotoHoursIndications.Value.Column].Text.ToDouble();
 
                     if (headerMotoHoursIndicationsAtAll.Value != null)
-                        trip.MotoHoursIndicationsAtAll = WorkSheet.Cells[row.Row, headerMotoHoursIndicationsAtAll.Value.Column].Text;
+                        trip.MotoHoursIndicationsAtAll = WorkSheet.Cells[row.Row, headerMotoHoursIndicationsAtAll.Value.Column].Text.ToDouble();
 
                     // Start set values for date and time
                     if (headerDepartureFromGarageDate.Value != null)

@@ -181,31 +181,31 @@ namespace IntegrationSolution.Excel.Common
                     case nameof(HeaderNames.DepartureBalanceGas):
                     case nameof(HeaderNames.DepartureBalanceDisel):
                     case nameof(HeaderNames.DepartureBalanceLPG):
-                        fuel.DepartureBalance = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text;
+                        fuel.DepartureBalance = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
                         break;
 
                     case nameof(HeaderNames.ReturnBalanceGas):
                     case nameof(HeaderNames.ReturnBalanceDisel):
                     case nameof(HeaderNames.ReturnBalanceLPG):
-                        fuel.ReturnBalance = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text;
+                        fuel.ReturnBalance = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
                         break;
 
                     case nameof(HeaderNames.ConsumptionGasActual):
                     case nameof(HeaderNames.ConsumptionDiselActual):
                     case nameof(HeaderNames.ConsumptionLPGActual):
-                        fuel.ConsumptionActual = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text;
+                        fuel.ConsumptionActual = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
                         break;
 
                     case nameof(HeaderNames.ConsumptionGasNormative):
                     case nameof(HeaderNames.ConsumptionDiselNormative):
                     case nameof(HeaderNames.ConsumptionLPGNormative):
-                        fuel.ConsumptionNormative = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text;
+                        fuel.ConsumptionNormative = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
                         break;
 
                     case nameof(HeaderNames.ConsumptionGasSavingsOrOverruns):
                     case nameof(HeaderNames.ConsumptionDiselSavingsOrOverruns):
                     case nameof(HeaderNames.ConsumptionLPGSavingsOrOverruns):
-                        fuel.ConsumptionSavingsOrOverruns = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text;
+                        fuel.ConsumptionSavingsOrOverruns = excelFile.WorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
                         break;
 
                     default:

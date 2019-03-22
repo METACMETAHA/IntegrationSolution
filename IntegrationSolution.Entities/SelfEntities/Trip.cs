@@ -14,12 +14,12 @@ namespace IntegrationSolution.Entities.SelfEntities
     /// </summary>
     public class Trip : ICarIndicator, ICommonIndicator, IMoveDateTimeCheck, ITractorIndicators
     {
-        public string DepartureOdometerValue { get; set; }
-        public string ReturnOdometerValue { get; set; }
-        public string TotalMileage { get; set; }
-        public string DepartureMotoHoursIndications { get; set; }
-        public string ReturnMotoHoursIndications { get; set; }
-        public string MotoHoursIndicationsAtAll { get; set; }
+        public double DepartureOdometerValue { get; set; }
+        public double ReturnOdometerValue { get; set; }
+        public double TotalMileage { get; set; }
+        public double DepartureMotoHoursIndications { get; set; }
+        public double ReturnMotoHoursIndications { get; set; }
+        public double MotoHoursIndicationsAtAll { get; set; }
 
         public string DepartureFromGarageDate { get; set; }
         public string DepartureFromGarageTime { get; set; }

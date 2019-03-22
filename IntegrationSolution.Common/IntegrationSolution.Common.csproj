@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\StateNumberConverter.cs" />
+    <Compile Include="Converters\StringToDoubleConverter.cs" />
     <Compile Include="Enums\FuelEnum.cs" />
     <Compile Include="Enums\PathListStatusEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

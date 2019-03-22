@@ -5,7 +5,6 @@ using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Excel.Implementations;
 using IntegrationSolution.Excel.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace Console
         static void Main(string[] args)
         {
             Bootstrapper.Startup();
-
+            
             var fileMain = @"..\..\Main2.xlsx";
             var file = @"..\..\export.xlsx";
 
@@ -30,6 +29,7 @@ namespace Console
             var data = excel.GetVehicles();
 
             ICarOperations ex = new ExcelCarOperations(new OfficeOpenXml.ExcelPackage(new FileInfo(file)));
+
             for (int i = 0; i < data.Count(); i++)
             {
                 var v = data.ElementAtOrDefault(i);
@@ -37,9 +37,19 @@ namespace Console
                     ex.FillVehicleAvaliableData(ref v);
             }
             
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < data.Count(); i++)
             {
-                System.Console.WriteLine(data.ElementAt(i).StateNumber + "\t" + data.ElementAt(i).UnitModel);
+                var obj = data.ElementAt(i);
+                System.Console.WriteLine(obj.StateNumber + "\t" + obj.UnitModel);
+
+                var dangerTrips = obj.TripsWithMileageDeviation();
+                if (dangerTrips?.Count > 0)
+                {
+                    foreach (var item in dangerTrips)
+                    {
+                        System.Console.WriteLine("\t\t" + item.TotalMileage + "km");
+                    }
+                }
             }
 
             System.Console.WriteLine("Count:\t" + data.Count());

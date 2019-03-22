@@ -8,7 +8,7 @@ namespace IntegrationSolution.Entities.Interfaces
 {
     public interface ICarIndicator
     {
-        string DepartureOdometerValue { get; set; }
-        string ReturnOdometerValue { get; set; }
+        double DepartureOdometerValue { get; set; }
+        double ReturnOdometerValue { get; set; }
     }
 }

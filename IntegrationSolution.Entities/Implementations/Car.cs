@@ -16,7 +16,7 @@ namespace IntegrationSolution.Entities.Implementations
         private string _stateNumber;
         public string StateNumber { get => _stateNumber; set => _stateNumber = StateNumberConverter.ToStateNumber(value); }
 
-        public Trip TripResulted { get => CalcTripResulted(); }
+        public Trip TripResulted { get => GetTripResulted(); }
         public ICollection<Trip> Trips { get; set; }
 
         public Car()
@@ -25,18 +25,36 @@ namespace IntegrationSolution.Entities.Implementations
         }
 
 
-        private Trip CalcTripResulted()
+        private Trip GetTripResulted()
         {
             if (Trips == null || Trips.Count == 0)
                 return null;
 
-            Trip trip = new Trip();
+            Trip trip = new Trip()
+            { TotalMileage = 0 };
+
             foreach (var item in Trips)
             {
-
+                trip.TotalMileage += item.TotalMileage;
             }
 
             return trip;
+        }
+
+
+        public IList<Trip> TripsWithMileageDeviation()
+        {
+            if (Trips == null || Trips.Count == 0)
+                return null;
+
+            IList<Trip> result = new List<Trip>();
+            foreach (var item in Trips)
+            {
+                var deviation = item.ReturnOdometerValue - item.DepartureOdometerValue;
+                if (deviation != item.TotalMileage)
+                    result.Add(item);
+            }
+            return result;
         }
     }
 }
