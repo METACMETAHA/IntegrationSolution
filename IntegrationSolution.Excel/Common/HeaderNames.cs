@@ -43,6 +43,7 @@ namespace IntegrationSolution.Excel
                
         public const string DepartmentCode = "Служба";
         public const string DepartmentTitle = "Наименование Службы";
+        
 
         #region Fuel
         public const string DepartureBalanceGas = "Бензин Остаток при Выезде 1";
@@ -69,6 +70,7 @@ namespace IntegrationSolution.Excel
         #region Headers from second file
         public const string Departments = "Службы/отделы";
         public const string TypeOfVehicle = "Тип";
+        public const string PartOfStructureNameForResult = "Структурные подразделени";
         /// <summary>
         /// From second file
         /// </summary>

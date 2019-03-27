@@ -14,5 +14,7 @@ namespace IntegrationSolution.Excel.Interfaces
         ExcelWorksheet WorkSheet { get; }
 
         void TryOpen();
+        void Save();
+        void AddHeader(int row, int column, string Title);
     }
 }

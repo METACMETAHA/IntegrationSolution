@@ -3,6 +3,7 @@ using IntegrationSolution.Excel.Interfaces;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +20,13 @@ namespace IntegrationSolution.Excel.Implementations
         public ExcelCellAddress EndCell { get; private set; }
         #endregion
 
-        #region Variables
-        
-        #endregion
+        private StyleExcel _styleExcel;
 
 
         public ExcelBase(ExcelPackage excelPackage)
         {
             Excel = excelPackage;
+            _styleExcel = new StyleExcel();
             TryClearFromPathList();
         }
 
@@ -85,9 +85,44 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
+        public void Save()
+        {
+            this.Excel.Save();
+        }
+
+
         public void Dispose()
         {
             Excel?.Dispose();
+        }
+
+
+        public void AddHeader(int row, int column, string Title)
+        {
+            try
+            {
+                WorkSheet.SetValue(row, column, Title);
+            
+                WorkSheet.Column(column).Width = 22;
+                WorkSheet.Cells[row, column].Style.Font.SetFromFont(_styleExcel.HeadersFont);
+
+                WorkSheet.Cells[row, column].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+                WorkSheet.Cells[row, column].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+
+                WorkSheet.Cells[row, column].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                WorkSheet.Cells[row, column].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                WorkSheet.Cells[row, column].Style.WrapText = true;
+
+                WorkSheet.Cells[row, column].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Gray125;
+                WorkSheet.Cells[row, column].Style.Fill.PatternColor.SetColor(_styleExcel.HeadersBackgroundColor);
+                WorkSheet.Cells[row, column].Style.Fill.BackgroundColor.SetColor(_styleExcel.HeadersBackgroundColor);
+                this.SetBorders();
+            }
+            catch (Exception)
+            {
+                
+            }
         }
     }
 }

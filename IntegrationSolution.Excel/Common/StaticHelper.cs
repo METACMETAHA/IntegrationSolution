@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Common.Enums;
+using IntegrationSolution.Entities.SelfEntities;
 
 namespace IntegrationSolution.Excel.Common
 {
@@ -36,9 +37,53 @@ namespace IntegrationSolution.Excel.Common
                         var address = (from cell in excelFile.WorkSheet.Cells[
                             excelFile.StartCell.Row,
                             excelFile.StartCell.Column,
-                            excelFile.StartCell.Row+1,
+                            excelFile.StartCell.Row + 1,
                             excelFile.EndCell.Column]
                                        where cell.Text.ToLower() == header.ToLower()
+                                       select cell.Start).First();
+                        var propName = HeaderNames.PropertiesData.First(x => x.Value == header).Key;
+                        headersCells.Add(propName, address);
+
+                        if (headersCells.Count == headers.Length)
+                            break;
+                    }
+                    catch (Exception)
+                    { }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return headersCells;
+        }
+
+
+        /// <summary>
+        /// This function gets headers` names and find the same in excel headers (first row).
+        /// At the same time it replaces name of headers to related property name.
+        /// </summary>
+        /// <exception cref=""></exception>
+        /// <returns>IDictionary where key="name of header`s property", value="address of cell"</returns>
+        public static IDictionary<string, ExcelCellAddress> GetSameHeadersAddress(ExcelBase excelFile, params string[] headers)
+        {
+            IDictionary<string, ExcelCellAddress> headersCells = new Dictionary<string, ExcelCellAddress>();
+            try
+            {
+                if (excelFile?.WorkSheet is null)
+                    excelFile.TryOpen();
+
+                foreach (var header in headers)
+                {
+                    try
+                    {
+                        var address = (from cell in excelFile.WorkSheet.Cells[
+                            excelFile.StartCell.Row,
+                            excelFile.StartCell.Column,
+                            excelFile.StartCell.Row + 1,
+                            excelFile.EndCell.Column]
+                                       where cell.Text.ToLower().Contains(header.ToLower())
                                        select cell.Start).First();
                         var propName = HeaderNames.PropertiesData.First(x => x.Value == header).Key;
                         headersCells.Add(propName, address);
@@ -79,6 +124,35 @@ namespace IntegrationSolution.Excel.Common
                               let cellVal = (header == HeaderNames.StateNumber) ? // checking cell for StateNumber or not (need for convert string)
                               cell.Text.ToLower().ToStateNumber() : cell.Text.ToLower()
                               where cellVal == Value.ToLower().ToStateNumber()
+                              select cell.Start).ToList();
+
+
+                if (search.Count() > 0)
+                    SearchingCells.AddRange(search);
+            }
+
+            return SearchingCells;
+        }
+
+
+        public static IEnumerable<ExcelCellAddress> GetRowsWithFormula(ExcelBase excelFile, params string[] searchingHeaders)
+        {
+            if (searchingHeaders.Length == 0 || excelFile == null)
+                return null;
+
+            List<ExcelCellAddress> SearchingCells = new List<ExcelCellAddress>();
+
+            foreach (var header in searchingHeaders)
+            {
+                var address = StaticHelper.GetHeadersAddress(excelFile, header).FirstOrDefault().Value;
+                if (address == null)
+                    continue;
+
+                var search = (from cell in excelFile.WorkSheet.Cells
+                               [excelFile.StartCell.Row,
+                               address.Column,
+                               excelFile.EndCell.Row, address.Column]
+                              where !string.IsNullOrWhiteSpace(cell.Formula)
                               select cell.Start).ToList();
 
 
@@ -133,7 +207,7 @@ namespace IntegrationSolution.Excel.Common
             switch (header.Key)
             {
                 //case nameof(HeaderNames.FullNameOfDriver):
-                    
+
 
                 default:
                     try
@@ -215,8 +289,8 @@ namespace IntegrationSolution.Excel.Common
 
             return fuel;
         }
-        
-        
+
+
         public static Driver GetDriverFromRow(ExcelBase excelFile, int row, Dictionary<string, ExcelCellAddress> rangeHeaders)
         {
             if (rangeHeaders.Count == 0)
@@ -247,6 +321,181 @@ namespace IntegrationSolution.Excel.Common
             #endregion
 
             return driver;
+        }
+
+
+        /// <summary>
+        /// Excel file should contain StateNumber header
+        /// </summary>
+        /// <param name="excelFile"></param>
+        /// <param name="rangeHeaders"></param>
+        public static void AddHeaders(ExcelBase excelFile, params string[] rangeHeaders)
+        {
+            int headerRow = 0;
+            var header = GetHeadersAddress(excelFile, HeaderNames.StateNumber)?.FirstOrDefault();
+            if (header != null)
+                headerRow = header.Value.Value.Row;
+
+            int currentCol = excelFile.EndCell.Column;
+            while (!string.IsNullOrWhiteSpace(excelFile.WorkSheet.Cells[headerRow, currentCol].Text))
+                currentCol++;
+
+            foreach (var item in rangeHeaders)
+            {
+                excelFile.AddHeader(headerRow, currentCol++, item);
+            }
+        }
+
+
+        /// <summary>
+        /// Append columns of input all data
+        /// </summary>
+        /// <param name="excelFile">File to write</param>
+        /// <param name="vehicles">Collection of cars and their data</param>
+        /// <param name="rangeHeaders">Headers to add and fill</param>
+        public static void WriteVehicleDataAndHeaders(ExcelBase excelFile, IEnumerable<IVehicle> vehicles, params string[] rangeHeaders)
+        {
+            AddHeaders(excelFile, rangeHeaders);
+
+            foreach (var vehicle in vehicles)
+            {
+                AddOrUpdateMileageColumn(excelFile, vehicle);
+                AddOrUpdateFuelColumn(excelFile, vehicle);
+            }
+        }
+
+
+        /// <summary>
+        /// Calculate in program and write down results
+        /// </summary>
+        /// <param name="excelFile"></param>
+        public static void WriteSummaryFormula(ExcelBase excelFile, IDictionary<string, TotalIndicators> summary, params string[] HeadersToFill)
+        {
+            var headers = GetSameHeadersAddress(excelFile, HeaderNames.PartOfStructureNameForResult, HeaderNames.Departments);
+            if (headers == null || headers.Count != 2)
+                return;
+            
+            var rowsToWrite = GetRowsWithFormula(excelFile, HeaderNames.Departments);
+
+            var headersToFillAddress = GetHeadersAddress(excelFile, HeadersToFill);
+            if (headersToFillAddress.Count != HeadersToFill.Length)
+                return;
+
+            foreach (var row in rowsToWrite)
+            {
+                string toFind = excelFile.WorkSheet.Cells[row.Row, row.Column].Text;
+                var data = summary.FirstOrDefault(x => x.Key == toFind);
+                if (data.Value == null)
+                    continue;
+
+                foreach (var header in headersToFillAddress)
+                {
+                    switch (header.Key)
+                    {
+                        case nameof(HeaderNames.TotalMileageResult):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Mileage);                          
+                            break;
+                        case nameof(HeaderNames.TotalJobDoneResult):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.MotoJob);
+                            break;
+                        case nameof(HeaderNames.ConsumptionGasActualResult):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Gas);
+                            break;
+                        case nameof(HeaderNames.ConsumptionDieselActualResult):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Disel);
+                            break;
+                        case nameof(HeaderNames.ConsumptionLPGActualResult):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.LPG);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+
+        private static void AddOrUpdateFuelColumn(ExcelBase excelFile, IVehicle vehicle)
+        {
+            if (vehicle == null || vehicle.Trips == null || vehicle.Trips.Count() == 0)
+                return;
+
+            var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, HeaderNames.StateNumber);
+            if (header == null || header.Count() == 0)
+                return;
+
+            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, HeaderNames.ConsumptionGasActualResult,
+                HeaderNames.ConsumptionDieselActualResult, HeaderNames.ConsumptionLPGActualResult);
+            if (fuelHeaders.Count != 3)
+                return;
+
+            foreach (var item in vehicle.TripResulted?.FuelDictionary)
+            {
+                try
+                {
+                    switch (item.Key)
+                    {
+                        case FuelEnum.Disel:
+                            excelFile.WorkSheet.SetValue(
+                                header.FirstOrDefault().Row,
+                                fuelHeaders[nameof(HeaderNames.ConsumptionDieselActualResult)].Column,
+                                item.Value.ConsumptionActual);
+                            break;
+
+                        case FuelEnum.Gas:
+                            excelFile.WorkSheet.SetValue(
+                                header.FirstOrDefault().Row,
+                                fuelHeaders[nameof(HeaderNames.ConsumptionGasActualResult)].Column,
+                                item.Value.ConsumptionActual);
+                            break;
+
+                        case FuelEnum.LPG:
+                            excelFile.WorkSheet.SetValue(
+                                header.FirstOrDefault().Row,
+                                fuelHeaders[nameof(HeaderNames.ConsumptionLPGActualResult)].Column,
+                                item.Value.ConsumptionActual);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception)
+                { }
+            }
+
+        }
+
+
+        private static void AddOrUpdateMileageColumn(ExcelBase excelFile, IVehicle vehicle)
+        {
+            if (vehicle == null || vehicle.Trips == null || vehicle.Trips.Count() == 0)
+                return;
+
+            var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, HeaderNames.StateNumber);
+            if (header == null || header.Count() == 0)
+                return;
+
+            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, HeaderNames.TotalMileageResult,
+                HeaderNames.TotalJobDoneResult);
+            if (fuelHeaders.Count != 2)
+                return;
+
+            try
+            {
+                excelFile.WorkSheet.SetValue(
+                                    header.FirstOrDefault().Row,
+                                    fuelHeaders[nameof(HeaderNames.TotalMileageResult)].Column,
+                                    vehicle.TripResulted?.TotalMileage);
+
+                excelFile.WorkSheet.SetValue(
+                                    header.FirstOrDefault().Row,
+                                    fuelHeaders[nameof(HeaderNames.TotalJobDoneResult)].Column,
+                                    vehicle.TripResulted?.MotoHoursIndicationsAtAll);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

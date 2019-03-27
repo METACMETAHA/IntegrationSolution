@@ -12,6 +12,7 @@ namespace IntegrationSolution.Entities.Implementations
         public string UnitNumber { get; set; }
         public string Type { get; set; }
         public string Department { get; set; }
+        public string StructureName { get; set; }
 
         private string _stateNumber;
         public string StateNumber { get => _stateNumber; set => _stateNumber = StateNumberConverter.ToStateNumber(value); }
@@ -30,12 +31,25 @@ namespace IntegrationSolution.Entities.Implementations
             if (Trips == null || Trips.Count == 0)
                 return null;
 
-            Trip trip = new Trip()
-            { TotalMileage = 0 };
+            Trip trip = new Trip();
 
             foreach (var item in Trips)
             {
                 trip.TotalMileage += item.TotalMileage;
+                trip.MotoHoursIndicationsAtAll += 
+                    (item.MotoHoursIndicationsAtAll == 0 && 
+                    item.DepartureMotoHoursIndications != item.ReturnMotoHoursIndications &&
+                    item.DepartureMotoHoursIndications != 0) ?
+                    item.ReturnMotoHoursIndications - item.DepartureMotoHoursIndications : item.MotoHoursIndicationsAtAll;
+
+                foreach (var fuel in item.FuelDictionary)
+                {
+                    if (!trip.FuelDictionary.ContainsKey(fuel.Key))
+                        trip.FuelDictionary.Add(fuel.Key, new FuelBase(fuel.Key.ToString()));
+
+                    trip.FuelDictionary[fuel.Key].ConsumptionActual += fuel.Value.ConsumptionActual;
+                }
+
             }
 
             return trip;
@@ -52,6 +66,22 @@ namespace IntegrationSolution.Entities.Implementations
             {
                 var deviation = item.ReturnOdometerValue - item.DepartureOdometerValue;
                 if (deviation != item.TotalMileage)
+                    result.Add(item);
+            }
+            return result;
+        }
+
+
+        public IList<Trip> TripsWithMotoHoursDeviation()
+        {
+            if (Trips == null || Trips.Count == 0)
+                return null;
+
+            IList<Trip> result = new List<Trip>();
+            foreach (var item in Trips)
+            {
+                var deviation = item.ReturnMotoHoursIndications - item.DepartureMotoHoursIndications;
+                if (deviation != item.MotoHoursIndicationsAtAll)
                     result.Add(item);
             }
             return result;

@@ -59,6 +59,7 @@
     <Compile Include="Interfaces\ITractorIndicators.cs" />
     <Compile Include="Interfaces\IVehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelfEntities\TotalIndicators.cs" />
     <Compile Include="SelfEntities\Trip.cs" />
   </ItemGroup>
   <ItemGroup>

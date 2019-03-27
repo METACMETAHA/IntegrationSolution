@@ -120,12 +120,6 @@ namespace IntegrationSolution.Excel.Implementations
         #endregion
 
 
-        /// <summary>
-        /// This function gets all IVehicle-objects from excel file which is storage of cars.
-        /// Fill next properties of object: Тип, Гос.знак единицы оборудования, Марка
-        /// </summary>
-        /// <exception cref=""></exception>
-        /// <returns>IEnumerable of IVehicle</returns>
         public IEnumerable<IVehicle> GetVehicles()
         {
             ICollection<IVehicle> cars = new List<IVehicle>();
@@ -137,6 +131,8 @@ namespace IntegrationSolution.Excel.Implementations
                     HeaderNames.ModelOfVehicle,
                     HeaderNames.StateNumber,
                     HeaderNames.Departments);
+
+                headers.Add(StaticHelper.GetSameHeadersAddress(this, HeaderNames.PartOfStructureNameForResult).FirstOrDefault());
 
                 for (int row = headers.First().Value.Row + 1; row < this.EndCell.Row; row++)
                 {
@@ -163,18 +159,22 @@ namespace IntegrationSolution.Excel.Implementations
                                     vehicle.Department = this.WorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
+                                case nameof(HeaderNames.PartOfStructureNameForResult):
+                                    vehicle.StructureName = this.WorkSheet.Cells[row, item.Value.Column].Text;
+                                    break;
+
                                 default:
                                     continue;
                             }
                         }
-                        catch (Exception)
-                        { }
+                        catch (Exception ex)
+                        { throw ex; }
                     }
                     if (!string.IsNullOrWhiteSpace(vehicle.StateNumber))
                         cars.Add(vehicle);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
@@ -271,17 +271,70 @@ namespace IntegrationSolution.Excel.Implementations
 
                     result.Add(trip);
                 }
-                catch (Exception)
-                { }
+                catch (Exception ex)
+                { throw ex; }
             }
             return result;
         }
 
 
-        public void AddOrUpdateFuelColumn(IVehicle vehicle)
+        public void FillFullDataColumns(ICollection<IVehicle> vehicles)
         {
-            if (vehicle == null || vehicle.Trips?.Count() == 0)
+            StaticHelper.WriteVehicleDataAndHeaders(this, vehicles, 
+                HeaderNames.TotalMileageResult, 
+                HeaderNames.TotalJobDoneResult,
+                HeaderNames.ConsumptionGasActualResult,
+                HeaderNames.ConsumptionDieselActualResult, 
+                HeaderNames.ConsumptionLPGActualResult);
+        }
+
+
+        public void FillTotalResults(ICollection<IVehicle> vehicles)
+        {
+            var total = GetTotal(vehicles);
+
+            if (total.Count == 0)
                 return;
+
+            StaticHelper.WriteSummaryFormula(this, total,
+                HeaderNames.TotalMileageResult,
+                HeaderNames.TotalJobDoneResult,
+                HeaderNames.ConsumptionGasActualResult,
+                HeaderNames.ConsumptionDieselActualResult,
+                HeaderNames.ConsumptionLPGActualResult);
+
+        }
+
+
+        /// <summary>
+        /// Get total values of each Structure (Структурные подразделения)
+        /// </summary>
+        /// <param name="vehicles"></param>
+        /// <returns>Dictionary, where key is Structure, value is TotalIndicators</returns>
+        private IDictionary<string, TotalIndicators> GetTotal(ICollection<IVehicle> vehicles)
+        {
+            var structures = vehicles.ToLookup(x => x.StructureName);
+            Dictionary<string, TotalIndicators> summary = new Dictionary<string, TotalIndicators>();
+
+            foreach (var structure in structures)
+            {
+                TotalIndicators total = new TotalIndicators();
+
+                foreach (var auto in structure)
+                {
+                    if (auto.TripResulted == null)
+                        continue;
+
+                    total.Mileage += auto.TripResulted.TotalMileage;
+                    total.MotoJob += auto.TripResulted.MotoHoursIndicationsAtAll;
+                    total.Gas += auto.TripResulted.FuelDictionary[FuelEnum.Gas].ConsumptionActual;
+                    total.LPG += auto.TripResulted.FuelDictionary[FuelEnum.LPG].ConsumptionActual;
+                    total.Disel += auto.TripResulted.FuelDictionary[FuelEnum.Disel].ConsumptionActual;
+                }
+                summary.Add(structure.Key, total);
+            }
+
+            return summary;
         }
     }
 }
