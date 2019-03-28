@@ -62,10 +62,6 @@
       <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
       <Name>IntegrationSolution.Excel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UnityIoC\UnityIoC.csproj">
-      <Project>{ee962093-6eba-4eca-824c-f1c0a617676b}</Project>
-      <Name>UnityIoC</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,7 @@
 ﻿using IntegrationSolution.Excel.Common;
+using IntegrationSolution.Excel.Implementations;
+using IntegrationSolution.Excel.Interfaces;
+using OfficeOpenXml;
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
@@ -27,6 +30,9 @@ namespace IntegrationSolution.Excel
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             _container.RegisterSingleton<StyleExcel>();
+
+            containerRegistry.Register<ExcelPackage>();
+            containerRegistry.Register<IExcel, ExcelBase>();
         }
     }
 }

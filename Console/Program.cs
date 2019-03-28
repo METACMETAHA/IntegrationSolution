@@ -1,18 +1,8 @@
-﻿using IntegrationSolution.Entities.Helpers;
-using IntegrationSolution.Entities.Implementations;
-using IntegrationSolution.Entities.Implementations.Fuel;
-using IntegrationSolution.Entities.Interfaces;
-using IntegrationSolution.Excel.Common;
-using IntegrationSolution.Excel.Implementations;
+﻿using IntegrationSolution.Excel.Implementations;
 using IntegrationSolution.Excel.Interfaces;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using UnityIoC;
 
 namespace Console
 {
@@ -21,7 +11,7 @@ namespace Console
         [STAThread]
         static void Main(string[] args)
         {
-            Bootstrapper.Startup();
+            //Bootstrapper.Startup();
             
             var fileMain = @"..\..\Main2.xlsx";
             var file = @"..\..\export.xlsx";

@@ -1,0 +1,226 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<LinearGradientBrush x:Key="WindowBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFD2D2D2" Offset="0"/>
+        <GradientStop Color="#FFF9F9F9" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="DarkWindowBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF03162A" Offset="0"/>
+        <GradientStop Color="#FF5575A3" Offset="1"/>
+    </LinearGradientBrush>
+   
+    <LinearGradientBrush x:Key="HeaderBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF1C5484" Offset="0.004"/>
+        <GradientStop Color="#FF0A3365" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Login_Bg" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFC6C6C6" Offset="0.641"/>
+        <GradientStop Color="#FFB1B1B1" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Graident_Bg" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFeeeeee" Offset="0"/>
+        <GradientStop Color="#FFc8c8c8" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="DateBg" Color="#FF3B424C"/>
+	
+    <LinearGradientBrush x:Key="DateBg2" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF0b3366" Offset="0"/>
+        <GradientStop Color="#FF1d5787" Offset="1"/>
+	</LinearGradientBrush>
+	<LinearGradientBrush x:Key="DateGlow" EndPoint="0.5,1" StartPoint="0.5,0">
+		<GradientStop Color="White" Offset="0"/>
+		<GradientStop Offset="1"/>
+	</LinearGradientBrush>
+	<SolidColorBrush x:Key="TimeForeground" Color="#FF7CA0D3"/>
+	<SolidColorBrush x:Key="DateForeground" Color="#FFB6CDD6"/>
+	<SolidColorBrush x:Key="WelcomeForeground" Color="#FFD6E0ED"/>
+    <SolidColorBrush x:Key="MainArea_BG" Color="#FFf1f1f1"/>
+	<SolidColorBrush x:Key="DarkMainArea_BG" Color="#FF0F1D32"/>
+    <SolidColorBrush x:Key="header_borderbrush" Color="#ffa0b6ca"/>
+    <SolidColorBrush x:Key="MainAreaBorder" Color="#FFc7c7c7"/>
+    <SolidColorBrush x:Key="DarkMainAreaBorder" Color="#FF446DA8"/>
+	<SolidColorBrush x:Key="MainAreaHeader" Color="#FF253A5A"/>
+    <SolidColorBrush x:Key="MainHeaderForground" Color="#FF27405e"/>
+	<SolidColorBrush x:Key="Control_Bg" Color="#FF24334A"/>
+	<SolidColorBrush x:Key="Control_BorderBrush" Color="#FF50698D"/>
+	<SolidColorBrush x:Key="Control_Bg_MO" Color="#FF2B4162"/>
+	<SolidColorBrush x:Key="Control_Bg_Pressed" Color="#FF1B2B45"/>
+    <SolidColorBrush x:Key="Control_Border" Color="#b4c8f1"/>
+    <SolidColorBrush x:Key="RedColor" Color="#FFFF8C8C"/>
+    <SolidColorBrush x:Key="DarkRedColor" Color="#FFFA4747"/>
+
+
+    <SolidColorBrush x:Key="GridStartBg" Color="#FFF8FAFE"/>
+    <SolidColorBrush x:Key="GridEndBg" Color="#FFEAF2FF"/>
+
+
+
+
+    <!--white control colors-->
+	<SolidColorBrush x:Key="whiteControl_Bg" Color="#FFffffff"/>
+	<SolidColorBrush x:Key="whiteControl_BorderBrush" Color="#FF94afd4"/>
+	<SolidColorBrush x:Key="whiteControl_Bg_MO" Color="#FF2B4162"/>
+	
+	<SolidColorBrush x:Key="ToolbarBg" Color="#FF263347"/>
+
+    <Style TargetType="Control" x:Key="editingStyleForFrameWorkElement">
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsInEditMode, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                         Value="True">
+                <Setter Property="IsHitTestVisible" Value="True"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="FrameworkElement"
+           x:Key="multiSiteVisibilityStyle">
+        <Setter Property="Visibility" 
+                Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsInMultiSiteMode}"
+                                         Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--treeItem-->
+    <Style x:Key="TreeViewItemFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
+    <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="Transparent" Height="16" Padding="5,5,5,5" Width="16">
+                        <Path x:Name="ExpandPath" Data="{StaticResource TreeArrow}" Fill="Transparent" Stroke="#FF989898">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="135" CenterY="3" CenterX="3"/>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Stroke" TargetName="ExpandPath" Value="#FF1BBBFA"/>
+                            <Setter Property="Fill" TargetName="ExpandPath" Value="Transparent"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="RenderTransform" TargetName="ExpandPath">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180" CenterY="3" CenterX="3"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Fill" TargetName="ExpandPath" Value="#FF595959"/>
+                            <Setter Property="Stroke" TargetName="ExpandPath" Value="#FF262626"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <LinearGradientBrush x:Key="selected_brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFD7E9FB" Offset="0"/>
+        <GradientStop Color="#FFC1DCFC" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="selected_border" Color="#FF7DA2CE"/>
+    <LinearGradientBrush x:Key="mo_brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFE9F1F9" Offset="0"/>
+        <GradientStop Color="#FFDCEBFD" Offset="0.988"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="mo_border" Color="#FFB9D7F9"/>
+    <Style x:Key="TreeViewItem" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="Padding" Value="1,0,0,0"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="19" Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ExpandCollapseToggleStyle}"/>
+                        <Border x:Name="Bd" Height="24" BorderThickness="1" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" CornerRadius="3" BorderBrush="Transparent" Background="Transparent">
+                            <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Margin="5,0,15,0"/>
+                        </Border>
+                        <ItemsPresenter x:Name="ItemsHost" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="false">
+                            <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource mo_brush}"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource mo_border}"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource selected_brush}"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource selected_border}"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true"/>
+                                <Condition Property="IsSelectionActive" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource selected_brush}"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="VirtualizingStackPanel.IsVirtualizing" Value="true">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="CompareTextStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Padding" Value="20,10,0,0"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+    </Style>
+
+    <!--********************-->
+
+
+</ResourceDictionary>

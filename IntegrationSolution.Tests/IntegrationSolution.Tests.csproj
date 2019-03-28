@@ -73,10 +73,6 @@
       <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
       <Name>IntegrationSolution.Excel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UnityIoC\UnityIoC.csproj">
-      <Project>{EE962093-6EBA-4ECA-824C-F1C0A617676B}</Project>
-      <Name>UnityIoC</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

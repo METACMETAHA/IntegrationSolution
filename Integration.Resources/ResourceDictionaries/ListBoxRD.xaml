@@ -1,0 +1,264 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<SolidColorBrush x:Key="white_bg" Color="White"/>
+	<SolidColorBrush x:Key="blue_bd" Color="#FF6A8EB0"/>
+    <LinearGradientBrush x:Key="light_gray_fade_gradient" EndPoint="0.5,1.638" StartPoint="0.5,-0.108">
+        <GradientStop Color="#99000000"/>
+        <GradientStop Color="#00000000" Offset="0.257"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="whitegradient" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFE0E0E0" Offset="0"/>
+        <GradientStop Color="White" Offset="0.078"/>
+    </LinearGradientBrush>
+    <Style x:Key="ListBoxItemStyle_MenuView" TargetType="{x:Type ListBoxItem}">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+		<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+		<Setter Property="Padding" Value="2,0,0,0"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ListBoxItem}">
+					<Border x:Name="Bd" BorderThickness="1" BorderBrush="#007696CD" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" CornerRadius="3" Margin="3">
+						<Border.Background>
+							<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+								<GradientStop Color="#00395178" Offset="0"/>
+								<GradientStop Color="#001C2339" Offset="1"/>
+							</LinearGradientBrush>
+						</Border.Background>
+						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="0,15"/>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="true">
+							<Setter Property="Background" TargetName="Bd">
+								<Setter.Value>
+									<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+								<GradientStop Color="#3D395178" Offset="0"/>
+								<GradientStop Color="#3D1C2339" Offset="1"/>
+							</LinearGradientBrush>
+								</Setter.Value>
+							</Setter>
+						</Trigger>
+						<Trigger Property="IsSelected" Value="true">
+							<Setter Property="Background" TargetName="Bd">
+								<Setter.Value>
+									<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+								<GradientStop Color="#3D395178" Offset="0"/>
+								<GradientStop Color="#3D1C2339" Offset="1"/>
+							</LinearGradientBrush>
+								</Setter.Value>
+							</Setter>
+							<Setter Property="BorderBrush" TargetName="Bd" Value="#3D7696CD"/>
+						</Trigger>
+						
+						<Trigger Property="IsEnabled" Value="false">
+							<Setter Property="Opacity" Value="0.5"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="{x:Type ListBoxItem}" x:Key="ListItemStyle">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Padding" Value="2,0,0,0"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ListBoxItem}">
+					<Border x:Name="Bd" MinHeight="27" BorderThickness="1" BorderBrush="Transparent" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" CornerRadius="3" Margin="0">
+                        <ContentPresenter  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Margin="5,0"/>
+					</Border>
+					<ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+							<Setter Property="BorderBrush" Value="#FF7DA2CE" TargetName="Bd"/>
+							<Setter Property="Background" TargetName="Bd">
+								<Setter.Value>
+									<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+										<GradientStop Color="#FFE9F4FF" Offset="0"/>
+										<GradientStop Color="#FFD6E7FD" Offset="1"/>
+									</LinearGradientBrush>
+								</Setter.Value>
+							</Setter>
+						</Trigger>
+						<Trigger Property="IsSelected" Value="true">
+							<Setter Property="BorderBrush" Value="#FF7DA2CE" TargetName="Bd"/>
+							<Setter Property="Background" TargetName="Bd">
+								<Setter.Value>
+									<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+										<GradientStop Color="#FFDAEAFC" Offset="0"/>
+										<GradientStop Color="#FFC1DBFC" Offset="1"/>
+									</LinearGradientBrush>
+								</Setter.Value>
+							</Setter>
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="false">
+							<Setter Property="Opacity" Value="0.65"/>
+						</Trigger>
+                       
+                    </ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style  TargetType="{x:Type ListBox}" x:Key="ListBoxStyle">
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="ItemContainerStyle" Value="{DynamicResource ListItemStyle}"/>
+		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+		<Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+		<Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+		<Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ListBox}">
+					<Border x:Name="Bd" CornerRadius="3" BorderBrush="{DynamicResource blue_bd}" BorderThickness="{TemplateBinding BorderThickness}" Background="{DynamicResource white_bg}" Padding="3" SnapsToDevicePixels="true">
+						<Grid>
+							<Border Height="20" Margin="-2,-2,-2,0" Opacity="0.5" CornerRadius="3,3,0,0" VerticalAlignment="Top" Background="{DynamicResource light_gray_fade_gradient}"/>
+							<ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+							<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+						</ScrollViewer>
+						</Grid>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsEnabled" Value="false">
+							<Setter Property="Opacity" TargetName="Bd" Value="0.65"/>
+						</Trigger>
+						<Trigger Property="IsGrouping" Value="true">
+							<Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+    <Style  TargetType="{x:Type ListBox}" x:Key="SimpleListBoxStyle">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListItemStyle}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Border x:Name="Bd" CornerRadius="0" BorderBrush="{DynamicResource blue_bd}" BorderThickness="{TemplateBinding BorderThickness}" Background="{DynamicResource white_bg}" Padding="3" SnapsToDevicePixels="true">
+                        <Grid>
+                            <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="Bd" Value="0.65"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style  TargetType="{x:Type ListBox}" x:Key="ListBoxStyle_NOStyle">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListItemStyle}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Border x:Name="Bd" CornerRadius="0" BorderThickness="0" Background="Transparent" Padding="3" SnapsToDevicePixels="true">
+                        <Grid>
+                            <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="Bd" Value="0.65"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ListBox"
+               x:Key="listBoxMultiSiteStyle"
+                           BasedOn="{StaticResource ListBoxStyle_NOStyle}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsInMultiSiteMode, Mode=OneWay}"
+                                         Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="Reports_ListItemStyle">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="Bd" Height="Auto" Width="250"  Padding="{TemplateBinding Padding}"  CornerRadius="1" BorderThickness="1"  BorderBrush="#ffb8d6fb" Margin="0,0,10,10" SnapsToDevicePixels="True">
+                        <Border.Background>
+                            <LinearGradientBrush  EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFfafbfd" Offset="0"/>
+                                <GradientStop Color="#ffebf3fd" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <!--<Border.Effect>
+                            <DropShadowEffect Opacity="0.2" ShadowDepth="1"/>
+                        </Border.Effect>-->
+                        <ContentPresenter  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Margin="5,0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background"  TargetName="Bd">
+                                <Setter.Value>
+                                    <LinearGradientBrush  EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFebf4fd" Offset="0"/>
+                                        <GradientStop Color="#ffc6defc" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Background"  TargetName="Bd">
+                                <Setter.Value>
+                                    <LinearGradientBrush  EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFffebc5" Offset="0"/>
+                                        <GradientStop Color="#ffffcc69" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.65"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

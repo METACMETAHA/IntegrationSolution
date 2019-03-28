@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</ProjectGuid>
+    <ProjectGuid>{DFA26885-87B2-457A-BA04-AE4222649462}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntegrationSolution.Entities</RootNamespace>
-    <AssemblyName>IntegrationSolution.Entities</AssemblyName>
+    <RootNamespace>Integration.Resources</RootNamespace>
+    <AssemblyName>Integration.Resources</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,36 +42,60 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\AttributeProvider.cs" />
-    <Compile Include="Helpers\FilterData.cs" />
-    <Compile Include="Helpers\HeaderAttribute.cs" />
-    <Compile Include="Implementations\Driver.cs" />
-    <Compile Include="Implementations\Fuel\Disel.cs" />
-    <Compile Include="Implementations\Fuel\FuelBase.cs" />
-    <Compile Include="Implementations\Car.cs" />
-    <Compile Include="Implementations\Fuel\Gas.cs" />
-    <Compile Include="Implementations\Fuel\LPG.cs" />
-    <Compile Include="Interfaces\ICarIndicator.cs" />
-    <Compile Include="Interfaces\ICommonIndicator.cs" />
-    <Compile Include="Interfaces\IFuel.cs" />
-    <Compile Include="Interfaces\IMoveDateTimeCheck.cs" />
-    <Compile Include="Interfaces\IPerson.cs" />
-    <Compile Include="Interfaces\ITractorIndicators.cs" />
-    <Compile Include="Interfaces\IVehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelfEntities\TotalIndicators.cs" />
-    <Compile Include="SelfEntities\Trip.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
-      <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>
-      <Name>IntegrationSolution.Common</Name>
-    </ProjectReference>
+    <Folder Include="Fonts\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <Page Include="ResourceDictionaries\ButtonsRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\ContextMenuRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\ImagesDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\ListBoxRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\MainRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\MergedDictionaries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\ModalWindowRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\ResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\ScrollbarRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\TabControlRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\TextBoxRD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
