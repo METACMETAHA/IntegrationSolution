@@ -27,10 +27,5 @@ namespace Integration.ModuleGUI.ViewModels
         {
             return true;
         }
-
-        protected override void Submit()
-        {
-
-        }
     }
 }

@@ -13,59 +13,20 @@ namespace Integration.ModuleGUI.Models
         /// <summary>
         /// IpAddress From Field
         /// </summary>
-        private string _ipAddress;
-        public string IpAddress
+        private string _pathToMainFile;
+        public string PathToMainFile
         {
-            get { return _ipAddress; }
-            set { SetProperty(ref _ipAddress, value); }
+            get { return _pathToMainFile; }
+            set { SetProperty(ref _pathToMainFile, value); }
         }
 
 
-        private int _idSite;
-        public int IdSite
+        private string _pathToPathListFile;
+        public string PathToPathListFile
         {
-            get { return _idSite; }
+            get { return _pathToPathListFile; }
             set
-            {
-                if (value < 0)
-                    throw new ArgumentException("Site ID must be > 0");
-                SetProperty(ref _idSite, value);
-            }
-        }
-
-
-        private string _siteName;
-        public string SiteName
-        {
-            get { return _siteName; }
-            set
-            { SetProperty(ref _siteName, value); }
-        }
-
-
-        private int _copyFromSiteId;
-        public int CopyFromSiteId
-        {
-            get { return _copyFromSiteId; }
-            set
-            {
-                if (value < 0 || value == IdSite)
-                    throw new ArgumentException("Site ID must be > 0 and not equals to current Site ID");
-                SetProperty(ref _copyFromSiteId, value);
-            }
-        }
-
-
-        private int _zNumber;
-        public int ZNumber
-        {
-            get { return _zNumber; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentException("Z number must be > 0");
-                SetProperty(ref _zNumber, value);
-            }
+            { SetProperty(ref _pathToPathListFile, value); }
         }
         #endregion Properties
 

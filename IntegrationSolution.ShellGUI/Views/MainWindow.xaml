@@ -1,16 +1,19 @@
-﻿<Window x:Class="IntegrationSolution.ShellGUI.MainWindow"
+﻿<Controls:MetroWindow x:Class="IntegrationSolution.ShellGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:IntegrationSolution.ShellGUI"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:views="clr-namespace:Integration.Infrastructure.Views;assembly=Integration.Infrastructure"
         xmlns:prism="http://www.codeplex.com/prism"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        TryToBeFlickerFree="True" TitleBarHeight="35"
+        BorderThickness="0" GlowBrush="Black" NonActiveWindowTitleBrush="LightGray"
+        NonActiveGlowBrush="Black" NonActiveBorderBrush="Black"
+        Title="Test" Height="550" Width="1000">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="7*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
@@ -25,4 +28,4 @@
 
     </Grid>
 
-</Window>
+</Controls:MetroWindow>

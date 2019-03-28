@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:WizardProgressBarLibrary;assembly=WizardProgressBarLibrary"
+             xmlns:progressRing="clr-namespace:ProgressRing;assembly=ProgressRing"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
@@ -17,10 +19,10 @@
             <controls:WizardProgressBar 
                 ItemsSource="{Binding ConfigData.Steps}"
                 DisplayMemberPath="Key.Title"
-                                    Foreground="{StaticResource HeaderBackground}"                                     
-                                    Progress="{Binding Progress}"
-                                    SnapsToDevicePixels="True"
-                                    Margin="20"/>
+                Foreground="{StaticResource HeaderBackground}"
+                Progress="{Binding Progress}"
+                SnapsToDevicePixels="True"
+                Margin="20"/>
         </Grid>
 
         <ContentControl Grid.Row="1" Content="{Binding Path=ConfigData.SelectedVM.Value}" Margin="5"/>
@@ -30,15 +32,17 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Style="{DynamicResource login_ok_btn_style}"
-                    Command="{Binding MoveCommandPrev}" 
+            <!--IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoBack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"-->
+            <Button Grid.Column="0"
+                    Command="{Binding MoveCommandPrev}" Content="Назад"
                     HorizontalAlignment="Left" Margin="5" 
-                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoBack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">Prev</Button>
+                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            </Button>
+            Change style of buttons on CanGo___ - false;
             <Button Grid.Column="1" Style="{DynamicResource login_ok_btn_style}"
-                    Command="{Binding MoveCommandNext}"
+                    Command="{Binding MoveCommandNext}" Content="Далее"
                     HorizontalAlignment="Right" Margin="5" 
-                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">Next</Button>
+                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Button>
 
         </Grid>
     </Grid>

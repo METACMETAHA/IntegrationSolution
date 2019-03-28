@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
              xmlns:converter="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -12,33 +13,35 @@
         <converter:InverseBooleanConverter x:Key="boolConvert"/>
     </UserControl.Resources>
 
-    <StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Padding="10" Margin="30 12" Text="Общий список машин" Style="{StaticResource MedHeaderBold}" TextAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Padding="10" Margin="30 12" Text="Путевые листы" Style="{StaticResource MedHeaderBold}" TextAlignment="Center"/>
 
-            <StackPanel Grid.Column="0">
-                <TextBlock Padding="10" Margin="30 12" Text="IP address" Style="{StaticResource SmallHeader}" TextAlignment="Center"/>
-                <TextBlock Padding="10" Margin="30 12" Text="Site name" Style="{StaticResource SmallHeader}" TextAlignment="Center"/>
-                <TextBlock Padding="10" Margin="30 12" Text="Site ID" Style="{StaticResource SmallHeader}" TextAlignment="Center"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1">
-                <!--<controls:IPTextBox Padding="5" Margin="25 10" Address="{Binding SiteData.IpAddress, UpdateSourceTrigger=PropertyChanged}"
-                                    IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"/>-->
-                <TextBox Padding="10" Margin="30 10" Text="{Binding SiteData.SiteName, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Grid.Column="1" Grid.Row="0" Padding="4" Margin="30 10" AllowDrop="True" 
+                 metro:TextBoxHelper.Watermark="Путь к файлу"
+                 Text="{Binding ModuleData.PathToMainFile, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"/>
-                <TextBox Padding="10" Margin="30 10" Text="{Binding SiteData.IdSite, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+        
+        <TextBox Grid.Column="1" Grid.Row="1" Padding="4" Margin="30 10" 
+                 metro:TextBoxHelper.Watermark="Путь к файлу"
+                 Text="{Binding ModuleData.PathToPathListFile, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"/>
-            </StackPanel>
 
-        </Grid>
+        <Button Grid.Column="2" Grid.Row="0" Margin="10 0" BorderThickness="1" VerticalAlignment="Center" Content="Загрузить файл..." Style="{StaticResource GrayButton}"/>
 
-        <Button Padding="15" MaxWidth="250" HorizontalAlignment="Right" Margin="15 15" Content="Submit" IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}" Command="{Binding SubmitCommand}"/>
+        <Button Grid.Column="2" Grid.Row="1" Margin="10 0" BorderThickness="1" VerticalAlignment="Center" Content="Загрузить файл..." Style="{StaticResource GrayButton}"/>
+    </Grid>
 
-    </StackPanel>
 
 </UserControl>
