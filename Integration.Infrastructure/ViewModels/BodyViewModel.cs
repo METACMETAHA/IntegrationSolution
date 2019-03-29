@@ -49,11 +49,11 @@ namespace Integration.Infrastructure.ViewModels
         public BodyViewModel(IUnityContainer container, IEventAggregator ea)
         {
             _container = container;
-
+            
             ConfigData = container.Resolve<ConfigurationData>();
 
             MoveCommandPrev = new DelegateCommand(MovePrev);
-            MoveCommandNext = new DelegateCommand(MoveNext);
+            MoveCommandNext = new DelegateCommand(MoveNext, CanMoveNext);
 
             Initialize();
         }
@@ -85,11 +85,15 @@ namespace Integration.Infrastructure.ViewModels
         {
             var index = ConfigData.Steps.IndexOf(ConfigData.SelectedVM);
 
-            if (ConfigData.SelectedVM.Key.MoveNext())
+            if (ConfigData.SelectedVM.Key.MoveNext().Result)
             {
                 ConfigData.SelectedVM = (ConfigData.Steps.Count > index + 1) ? ConfigData.Steps.ElementAt(index + 1) : ConfigData.Steps.LastOrDefault();
                 Progress = (this.Progress < 100) ? Progress += OneStepPoints : 100;
             }
+        }
+        private bool CanMoveNext()
+        {
+            return true;
         }
         #endregion Commands
     }

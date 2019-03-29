@@ -2,11 +2,14 @@
 using Integration.ModuleGUI;
 using IntegrationSolution.Excel;
 using IntegrationSolution.ShellGUI.ViewModels;
+using MahApps.Metro.Controls;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
+using System;
 using System.Windows;
+using System.Windows.Navigation;
 using Unity;
 
 namespace IntegrationSolution.ShellGUI
@@ -21,7 +24,7 @@ namespace IntegrationSolution.ShellGUI
     {
         protected override Window CreateShell()
         {
-            this.InitializeModules();
+            base.InitializeModules();
             return Container.Resolve<MainWindow>();
         }
 
@@ -29,7 +32,6 @@ namespace IntegrationSolution.ShellGUI
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             base.ConfigureServiceLocator();
-            
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
         }
 

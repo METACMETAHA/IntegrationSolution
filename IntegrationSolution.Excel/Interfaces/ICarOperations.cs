@@ -24,12 +24,16 @@ namespace IntegrationSolution.Excel.Interfaces
         /// </summary>
         /// <param name="vehicle"></param>
         /// <returns></returns>
-        bool FillVehicleAvaliableData(ref IVehicle vehicle);
+        bool SetFieldsOfVehicleByAvaliableData(ref IVehicle vehicle);
 
 
-        void FillFullDataColumns(ICollection<IVehicle> vehicles);
+        /// <summary>
+        /// Add Headers and write data of each car
+        /// </summary>
+        /// <param name="vehicles"></param>
+        void WriteInHeadersAndDataForTotalResult(ICollection<IVehicle> vehicles);
 
 
-        void FillTotalResults(ICollection<IVehicle> vehicles);
+        void WriteInTotalResultOfEachStructure(ICollection<IVehicle> vehicles);
     }
 }

@@ -82,7 +82,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
         }
 
 
-        public abstract bool MoveNext();
+        public abstract Task<bool> MoveNext();
 
 
         public abstract bool MoveBack();

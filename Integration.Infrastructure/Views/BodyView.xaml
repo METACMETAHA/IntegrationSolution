@@ -32,17 +32,37 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <!--IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoBack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"-->
             <Button Grid.Column="0"
                     Command="{Binding MoveCommandPrev}" Content="Назад"
                     HorizontalAlignment="Left" Margin="5" 
-                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoBack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource login_ok_btn_style}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ConfigData.SelectedVM.Key.CanGoBack}" Value="false">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
-            Change style of buttons on CanGo___ - false;
-            <Button Grid.Column="1" Style="{DynamicResource login_ok_btn_style}"
+
+            <Button Grid.Column="1"
                     Command="{Binding MoveCommandNext}" Content="Далее"
                     HorizontalAlignment="Right" Margin="5" 
-                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></Button>
+                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource login_ok_btn_style}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ConfigData.SelectedVM.Key.CanGoNext}" Value="false">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
         </Grid>
     </Grid>

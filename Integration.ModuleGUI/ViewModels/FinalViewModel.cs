@@ -23,7 +23,7 @@ namespace Integration.ModuleGUI.ViewModels
             return true;
         }
 
-        public override bool MoveNext()
+        public override async Task<bool> MoveNext()
         {
             return true;
         }

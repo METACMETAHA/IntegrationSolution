@@ -689,7 +689,7 @@
                             <ContentPresenter TextElement.Foreground="White" TextElement.FontSize="14" TextElement.FontFamily="MyriadPro" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </Border>
-                   <ControlTemplate.Triggers>
+                    <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocused" Value="true"/>
                         <Trigger Property="ToggleButton.IsChecked" Value="true"/>
                         <Trigger Property="IsEnabled" Value="false">

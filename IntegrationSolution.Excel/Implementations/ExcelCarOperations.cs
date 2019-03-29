@@ -183,7 +183,7 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public bool FillVehicleAvaliableData(ref IVehicle vehicle)
+        public bool SetFieldsOfVehicleByAvaliableData(ref IVehicle vehicle)
         {
             if (StaticHelper.GetHeadersAddress(this,
                 HeaderNames.UnitNumber,
@@ -278,7 +278,7 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public void FillFullDataColumns(ICollection<IVehicle> vehicles)
+        public void WriteInHeadersAndDataForTotalResult(ICollection<IVehicle> vehicles)
         {
             StaticHelper.WriteVehicleDataAndHeaders(this, vehicles, 
                 HeaderNames.TotalMileageResult, 
@@ -289,7 +289,7 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public void FillTotalResults(ICollection<IVehicle> vehicles)
+        public void WriteInTotalResultOfEachStructure(ICollection<IVehicle> vehicles)
         {
             var total = GetTotal(vehicles);
 

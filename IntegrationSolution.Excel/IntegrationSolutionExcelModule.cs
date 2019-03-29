@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using Unity.Injection;
 
 namespace IntegrationSolution.Excel
 {
@@ -33,6 +34,7 @@ namespace IntegrationSolution.Excel
 
             containerRegistry.Register<ExcelPackage>();
             containerRegistry.Register<IExcel, ExcelBase>();
+            containerRegistry.Register<ICarOperations, ExcelCarOperations>();
         }
     }
 }

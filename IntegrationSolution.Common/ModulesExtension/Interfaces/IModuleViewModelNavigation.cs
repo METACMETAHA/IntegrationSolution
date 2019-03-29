@@ -16,7 +16,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Interfaces
 
         bool CanGoBack { get; set; }
 
-        bool MoveNext();
+        Task<bool> MoveNext();
 
         bool MoveBack();
     }

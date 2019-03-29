@@ -10,9 +10,7 @@ namespace Console
     {
         [STAThread]
         static void Main(string[] args)
-        {
-            //Bootstrapper.Startup();
-            
+        {            
             var fileMain = @"..\..\Main2.xlsx";
             var file = @"..\..\export.xlsx";
 
@@ -26,14 +24,12 @@ namespace Console
                 var v = data.ElementAtOrDefault(i);
                 if (v != null)
                 {
-                    ex.FillVehicleAvaliableData(ref v);
+                    ex.SetFieldsOfVehicleByAvaliableData(ref v);
                 }
-            }
+            }           
 
-            
-
-            excel.FillFullDataColumns(data.ToList());
-            excel.FillTotalResults(data.ToList());
+            excel.WriteInHeadersAndDataForTotalResult(data.ToList());
+            excel.WriteInTotalResultOfEachStructure(data.ToList());
             (excel as IExcel)?.Save();
 
             for (int i = 0; i < data.Count(); i++)

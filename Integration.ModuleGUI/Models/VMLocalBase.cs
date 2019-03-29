@@ -23,7 +23,9 @@ namespace Integration.ModuleGUI.Models
 
 
         public VMLocalBase(IUnityContainer container, IEventAggregator ea) : base(container, ea)
-        { }
+        {
+            ModuleData = container.Resolve<CommonModuleData>();
+        }
 
 
         #region Commands

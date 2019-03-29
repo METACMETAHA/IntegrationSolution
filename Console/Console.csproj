@@ -52,6 +52,7 @@
     <None Include="App.config" />
     <None Include="export.XLSX" />
     <None Include="Main2.xlsx" />
+    <None Include="март.XLSX" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">

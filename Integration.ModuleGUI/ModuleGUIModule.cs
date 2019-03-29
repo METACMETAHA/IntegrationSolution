@@ -1,7 +1,9 @@
-﻿using Integration.ModuleGUI.ViewModels;
+﻿using Integration.ModuleGUI.Models;
+using Integration.ModuleGUI.ViewModels;
 using Integration.ModuleGUI.Views;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,8 +29,9 @@ namespace Integration.ModuleGUI
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<LoadingFilesView, LoadingFilesViewModel>();
-            containerRegistry.RegisterForNavigation<FinalView, FinalViewModel>();
+            //containerRegistry.RegisterForNavigation<LoadingFilesView, LoadingFilesViewModel>();
+            //containerRegistry.RegisterForNavigation<FinalView, FinalViewModel>();
+            containerRegistry.RegisterSingleton<CommonModuleData>();
         }
     }
 }

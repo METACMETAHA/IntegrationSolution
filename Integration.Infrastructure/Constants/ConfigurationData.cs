@@ -56,6 +56,7 @@ namespace Integration.Infrastructure.Constants
             Steps = new ObservableCollection<Data>()
             {
                 { new Data(_container.Resolve<LoadingFilesViewModel>(), _container.Resolve<LoadingFilesView>()) },
+                { new Data(_container.Resolve<OperationsViewModel>(), _container.Resolve<OperationsView>()) },
                 { new Data(_container.Resolve<FinalViewModel>(), _container.Resolve<FinalView>()) }
             };
 
