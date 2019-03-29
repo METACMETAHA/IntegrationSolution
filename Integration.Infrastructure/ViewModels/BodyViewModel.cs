@@ -1,5 +1,7 @@
 ﻿using Integration.Infrastructure.Constants;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Unity;
 
@@ -81,15 +84,23 @@ namespace Integration.Infrastructure.ViewModels
 
 
         public DelegateCommand MoveCommandNext { get; private set; }
-        private void MoveNext()
+        private async void MoveNext()
         {
-            var index = ConfigData.Steps.IndexOf(ConfigData.SelectedVM);
+            var wnd = (MetroWindow)Application.Current.MainWindow;
+            var progress = await wnd.ShowProgressAsync("Подождите...", "Соблюдайте спокойствие!\nМы знаем что делаем)");
+            progress.SetIndeterminate();
 
-            if (ConfigData.SelectedVM.Key.MoveNext().Result)
+            var index = ConfigData.Steps.IndexOf(ConfigData.SelectedVM);
+            var resultTask = await ConfigData.SelectedVM.Key.MoveNext();
+
+            if (resultTask)
             {
                 ConfigData.SelectedVM = (ConfigData.Steps.Count > index + 1) ? ConfigData.Steps.ElementAt(index + 1) : ConfigData.Steps.LastOrDefault();
                 Progress = (this.Progress < 100) ? Progress += OneStepPoints : 100;
             }
+
+            if (progress.IsOpen)
+                await progress.CloseAsync();
         }
         private bool CanMoveNext()
         {

@@ -1,5 +1,7 @@
 ﻿using Integration.ModuleGUI.Models;
 using IntegrationSolution.Excel.Interfaces;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -8,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Unity;
 
 namespace Integration.ModuleGUI.ViewModels
@@ -18,7 +21,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             this.Title = "Операции";
             this.CanGoBack = true;
-            WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatistics);
+            WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
         }
 
 
@@ -34,38 +37,76 @@ namespace Integration.ModuleGUI.ViewModels
 
         #region Commands
         public DelegateCommand WriteTotalStatisticsInFileCommand { get; private set; }
-        protected void WriteTotalStatistics()
+        protected async void WriteTotalStatisticsJob()
         {
-            try
+            var wnd = (MetroWindow)Application.Current.MainWindow;
+            var progress = await wnd.ShowProgressAsync("Подождите...", "Инициализация файлов");
+            
+            await Task.Run(() =>
             {
-                var cars = (this.ModuleData.ExcelMainFile as ICarOperations)?.GetVehicles()?.ToList();
-                var storageData = (this.ModuleData.ExcelPathListFile as ICarOperations);
-
-                if (cars == null || storageData == null || cars.Count() == 0)
-                    throw new Exception("Ошибка. Попробуйте вернуться и загрузить файлы по новой.");
-
-                for (int i = 0; i < cars.Count; i++)
+                try
                 {
-                    var car = cars.ElementAtOrDefault(i);
-                    storageData.SetFieldsOfVehicleByAvaliableData(ref car);
+                    double percentage = 0;
+                    progress.SetTitle("Инициализация транспортных средств");
+                    percentage += 10;
+                    progress.SetProgress(percentage / 100);
+
+                    var cars = (this.ModuleData.ExcelMainFile as ICarOperations)?.GetVehicles()?.ToList();
+                    var storageData = (this.ModuleData.ExcelPathListFile as ICarOperations);
+
+                    progress.SetTitle($"Инициализация транспортных средств. На очереди {cars.Count} обьектов.");
+
+                    if (cars == null || storageData == null || cars.Count() == 0)
+                        throw new Exception("Ошибка. Попробуйте вернуться и загрузить файлы по новой.");
+
+                    int countCarsPerOnePercent = (cars.Count / 70) + 1;
+                    for (int i = 0; i < cars.Count; i++)
+                    {
+                        var car = cars.ElementAtOrDefault(i);
+                        storageData.SetFieldsOfVehicleByAvaliableData(ref car);
+
+                        if (i % countCarsPerOnePercent == 0)
+                        {
+                            progress.SetTitle($"Инициализация транспортных средств: Инициализация {i} обьекта из {cars.Count}.");
+                            progress.SetProgress(++percentage / 100);
+                        }
+                    }
+
+                    progress.SetTitle($"Запись в файл");
+                    if (percentage < 90)
+                        percentage += 9;
+                    progress.SetProgress(percentage / 100);
+                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInHeadersAndDataForTotalResult(cars);
+
+                    if (percentage < 90)
+                        percentage += 9;
+                    progress.SetProgress(percentage / 100);
+
+                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(cars);
+
+                    progress.SetTitle($"Сохранение");
+                    progress.SetProgress(0.99);
+                    ModuleData.ExcelMainFile.Save();
+                    this.CanGoNext = true;
+                    progress.SetProgress(1);
                 }
-
-                (this.ModuleData.ExcelMainFile as ICarOperations).WriteInHeadersAndDataForTotalResult(cars);
-                (this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(cars);
-
-                ModuleData.ExcelMainFile.Save();
-                this.CanGoNext = true;
-            }
-            catch (Exception ex)
-            {
-                this.Error = new IntegrationSolution.Common.Entities.Error()
+                catch (Exception ex)
                 {
-                    IsError = true,
-                    ErrorDescription = ex.Message
-                };
-            }
+                    this.Error = new IntegrationSolution.Common.Entities.Error()
+                    {
+                        IsError = true,
+                        ErrorDescription = ex.Message
+                    };
+                }
+            });
+
+            if (progress.IsOpen)
+                await progress.CloseAsync();
 
             base.NotifyOnUpdateEvents();
+
+            if (!this.Error.IsError)
+                wnd.ShowModalMessageExternal("Успех!", "Результаты успешно сохранены.");
         }
         #endregion
     }

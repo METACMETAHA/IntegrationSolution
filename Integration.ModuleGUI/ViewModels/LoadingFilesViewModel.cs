@@ -20,41 +20,37 @@ namespace Integration.ModuleGUI.ViewModels
         public LoadingFilesViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
             this.Title = "Загрузка файлов";
-            LoadFileCommand = new DelegateCommand<string>(Load);            
+            LoadFileCommand = new DelegateCommand<string>(Load);
         }
 
 
         public override async Task<bool> MoveNext()
         {
-            var wnd = (MetroWindow)Application.Current.MainWindow;
-            var progress = await wnd.ShowMessageAsync("Please wait...", "Progress message");
-            //System.Threading.Thread.Sleep(5000);
-            var exception = ModuleData.TryCreateObject();
-
-            if (exception == null)
+            return await Task.Run(() =>
             {
-                this.IsFinished = true;
-                this.Error = new IntegrationSolution.Common.Entities.Error()
+                var exception = ModuleData.TryCreateObject();
+
+                if (exception == null)
                 {
-                    IsError = false,
-                    ErrorDescription = "Отлично!"
-                };
-            }
-            else
-            {
-                this.Error = new IntegrationSolution.Common.Entities.Error()
+                    this.IsFinished = true;
+                    this.Error = new IntegrationSolution.Common.Entities.Error()
+                    {
+                        IsError = false,
+                        ErrorDescription = "Отлично!"
+                    };
+                }
+                else
                 {
-                    IsError = true,
-                    ErrorDescription = exception.Message
-                };
-            }
+                    this.Error = new IntegrationSolution.Common.Entities.Error()
+                    {
+                        IsError = true,
+                        ErrorDescription = exception.Message
+                    };
+                }
 
-            base.NotifyOnUpdateEvents();
-
-            //if (progress.IsOpen)
-            //    await progress.CloseAsync();
-
-            return (exception == null) ? true : false;
+                base.NotifyOnUpdateEvents();
+                return (exception == null) ? true : false;
+            });
         }
 
 
@@ -72,10 +68,8 @@ namespace Integration.ModuleGUI.ViewModels
 
         #region Commands
         public DelegateCommand<string> LoadFileCommand { get; private set; }
-        protected async void Load(string NameControl)
+        protected void Load(string NameControl)
         {
-            var wnd = (MetroWindow)Application.Current.MainWindow;
-            var progress = await wnd.ShowMessageAsync("Please wait...", "Progress message");
             if (string.IsNullOrWhiteSpace(NameControl))
                 return;
 
