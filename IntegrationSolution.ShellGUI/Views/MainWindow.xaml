@@ -8,8 +8,9 @@
         WindowStartupLocation="CenterScreen"
         TryToBeFlickerFree="True" TitleBarHeight="35"
         BorderThickness="0" GlowBrush="Black" NonActiveWindowTitleBrush="LightGray"
+        TitleCharacterCasing="Upper" WindowTitleBrush="White"
         NonActiveGlowBrush="Black" NonActiveBorderBrush="Black"
-        Title="Test" Height="550" Width="1000">
+        Title="DTEK" Height="550" Width="1000">
 
     <Grid>
         <Grid.RowDefinitions>

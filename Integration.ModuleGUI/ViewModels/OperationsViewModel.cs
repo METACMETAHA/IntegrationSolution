@@ -98,6 +98,7 @@ namespace Integration.ModuleGUI.ViewModels
                         ErrorDescription = ex.Message
                     };
                 }
+
             });
 
             if (progress.IsOpen)
@@ -105,8 +106,9 @@ namespace Integration.ModuleGUI.ViewModels
 
             base.NotifyOnUpdateEvents();
 
-            if (!this.Error.IsError)
+            if (this.Error == null || !this.Error.IsError)
                 wnd.ShowModalMessageExternal("Успех!", "Результаты успешно сохранены.");
+            
         }
         #endregion
     }

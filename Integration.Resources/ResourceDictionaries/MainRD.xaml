@@ -9,10 +9,9 @@
         <GradientStop Color="#FF03162A" Offset="0"/>
         <GradientStop Color="#FF5575A3" Offset="1"/>
     </LinearGradientBrush>
-   
     <LinearGradientBrush x:Key="HeaderBackground" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF1C5484" Offset="0.004"/>
-        <GradientStop Color="#FF0A3365" Offset="1"/>
+        <GradientStop Color="#FFEFC000" Offset="0.007"/>
+        <GradientStop Color="#FFE0C659" Offset="1"/>
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="Login_Bg" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FFC6C6C6" Offset="0.641"/>

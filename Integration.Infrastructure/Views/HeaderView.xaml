@@ -12,8 +12,15 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Style="{StaticResource NormalHeaderInverse}" Text="TODO: Logo"/>
-        <!--<Image Grid.Column="1" Source="{StaticResource AfconLogo}" HorizontalAlignment="Right" Height="30" Margin="20"/>-->
+        <TextBlock Grid.Column="0" Style="{StaticResource NormalHeader}" Text="Мониторинг транспортного обеспечения"
+                   VerticalAlignment="Center">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.3" BlurRadius="5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        
+        <ContentControl Grid.Column="1" Content="{StaticResource DtekLogo}" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Height="65" Margin="20 0"/>
 
     </Grid>
 </UserControl>

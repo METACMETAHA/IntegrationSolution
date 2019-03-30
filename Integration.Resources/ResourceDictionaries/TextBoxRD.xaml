@@ -382,10 +382,11 @@
         <Setter Property="Foreground" Value="#ff275884"/>
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
-    <Style x:Key="NormalHeaderInverse" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#FFFFFFFF" />
-        <Setter Property="FontSize" Value="20" />
+    <Style x:Key="NormalHeader" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="FontSize" Value="24" />
         <Setter Property="Margin" Value="20"/>
+        <Setter Property="FontWeight" Value="UltraLight"/>
     </Style>
     <Style x:Key="FooterNormalTextBlock" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
