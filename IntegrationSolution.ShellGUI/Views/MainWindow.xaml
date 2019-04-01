@@ -10,7 +10,8 @@
         BorderThickness="0" GlowBrush="Black" NonActiveWindowTitleBrush="LightGray"
         TitleCharacterCasing="Upper" WindowTitleBrush="White"
         NonActiveGlowBrush="Black" NonActiveBorderBrush="Black"
-        Title="DTEK" Height="550" Width="1000">
+        MinHeight="480" MinWidth="900"
+        Title="DTEK" Height="590" Width="1000">
 
     <Grid>
         <Grid.RowDefinitions>

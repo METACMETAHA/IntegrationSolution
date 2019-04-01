@@ -3,31 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:scroll="clr-namespace:Integration.Infrastructure.Behavior"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             MaxHeight="180">
     <!--Footer-->
-    <Grid Grid.Row="2">
-        <!--<StackPanel>
-            <Border BorderThickness="1" BorderBrush="{StaticResource HeaderBackground}"></Border>
-            <TextBlock FontSize="22" Padding="20"
-                       Text="{Binding Path=Status.ErrorDescription, Mode=TwoWay}" 
-                       HorizontalAlignment="Right">
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Status.IsError}" Value="True">
-                                <Setter Property="Foreground" Value="Red"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Status.IsError}" Value="False">
-                                <Setter Property="Foreground" Value="Green"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-        </StackPanel>-->
-        <ListView ItemsSource="{Binding LogData}" MinHeight="70" 
-                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <Grid>
+        <ListView ItemsSource="{Binding LogData}" MinHeight="70"  MaxHeight="125"
+                  scroll:ListViewScrollingBehavior.ScrollOnNewItem="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock  Margin="5" Text="{Binding ErrorDescription}">

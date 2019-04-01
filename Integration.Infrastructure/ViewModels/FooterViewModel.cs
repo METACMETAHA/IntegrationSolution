@@ -45,10 +45,9 @@ namespace Integration.Infrastructure.ViewModels
         }
         #endregion Properties
 
-        IUnityContainer cont;
+
         public FooterViewModel(IUnityContainer container, IEventAggregator ea)
         {
-            cont = container;
             LogData = new ConcurrentObservableCollection<Error>();
             ea.GetEvent<StatusUpdateEvent>().Subscribe((error) => Status = error);
         }
