@@ -355,6 +355,9 @@ namespace IntegrationSolution.Excel.Common
         /// <param name="rangeHeaders">Headers to add and fill</param>
         public static void WriteVehicleDataAndHeaders(ExcelBase excelFile, IEnumerable<IVehicle> vehicles, params string[] rangeHeaders)
         {
+            var existedHeaders = GetHeadersAddress(excelFile, rangeHeaders);
+            rangeHeaders = Array.FindAll(rangeHeaders, x => !existedHeaders.ContainsKey(x)).ToArray();
+
             AddHeaders(excelFile, rangeHeaders);
 
             foreach (var vehicle in vehicles)

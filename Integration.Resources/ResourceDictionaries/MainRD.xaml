@@ -11,7 +11,7 @@
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="HeaderBackground" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FFEFC000" Offset="0.007"/>
-        <GradientStop Color="#FFE0C659" Offset="1"/>
+        <GradientStop Color="#FFF7D74D" Offset="1"/>
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="Login_Bg" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FFC6C6C6" Offset="0.641"/>

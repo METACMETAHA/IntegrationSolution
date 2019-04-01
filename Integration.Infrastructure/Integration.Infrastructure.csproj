@@ -77,6 +77,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\ConcurrentObservableCollection.cs" />
     <Compile Include="Constants\ConfigurationData.cs" />
     <Compile Include="InfrastructureModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

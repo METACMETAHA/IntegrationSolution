@@ -7,7 +7,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <!--Footer-->
     <Grid Grid.Row="2">
-        <StackPanel>
+        <!--<StackPanel>
             <Border BorderThickness="1" BorderBrush="{StaticResource HeaderBackground}"></Border>
             <TextBlock FontSize="22" Padding="20"
                        Text="{Binding Path=Status.ErrorDescription, Mode=TwoWay}" 
@@ -25,6 +25,25 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-        </StackPanel>
+        </StackPanel>-->
+        <ListView ItemsSource="{Binding LogData}" MinHeight="70" 
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock  Margin="5" Text="{Binding ErrorDescription}">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="Green"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsError}" Value="True">
+                                        <Setter Property="Foreground" Value="#FFC50606"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>
