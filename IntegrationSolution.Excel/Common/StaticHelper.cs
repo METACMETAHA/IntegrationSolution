@@ -356,6 +356,12 @@ namespace IntegrationSolution.Excel.Common
         public static void WriteVehicleDataAndHeaders(ExcelBase excelFile, IEnumerable<IVehicle> vehicles, params string[] rangeHeaders)
         {
             var existedHeaders = GetHeadersAddress(excelFile, rangeHeaders);
+            foreach (var item in existedHeaders)
+            {
+                var search = HeaderNames.PropertiesData.FirstOrDefault(x => x.Key == item.Key).Value;
+                if (!string.IsNullOrWhiteSpace(search))
+                    rangeHeaders = Array.FindAll(rangeHeaders, x => x != search).ToArray();
+            }
             rangeHeaders = Array.FindAll(rangeHeaders, x => !existedHeaders.ContainsKey(x)).ToArray();
 
             AddHeaders(excelFile, rangeHeaders);

@@ -1,5 +1,6 @@
 ﻿using Integration.Infrastructure.Constants;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
+using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
@@ -52,7 +53,7 @@ namespace Integration.Infrastructure.ViewModels
         public BodyViewModel(IUnityContainer container, IEventAggregator ea)
         {
             _container = container;
-            
+
             ConfigData = container.Resolve<ConfigurationData>();
 
             MoveCommandPrev = new DelegateCommand(MovePrev);

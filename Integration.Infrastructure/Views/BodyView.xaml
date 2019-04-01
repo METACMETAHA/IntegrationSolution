@@ -7,13 +7,13 @@
              xmlns:progressRing="clr-namespace:ProgressRing;assembly=ProgressRing"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             MinHeight="300">
+             prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="8*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
@@ -36,8 +36,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0"
+            <Button Grid.Column="0" x:Name="BtnMoveBack"
                     Command="{Binding MoveCommandPrev}" Content="Назад"
                     HorizontalAlignment="Left" Margin="5" 
                     IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoBack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -53,7 +54,39 @@
                 </Button.Style>
             </Button>
 
-            <Button Grid.Column="1"
+            <TextBlock Grid.Column="1" Text="Заполните поля">
+                <TextBlock.Foreground>
+                    <SolidColorBrush x:Name="OwnBrush" Color="#FF5D5D5D" />
+                </TextBlock.Foreground>
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource InfoTextBoxBtwnNavButtons}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=BtnMoveBack, Path=Visibility}" Value="Visible">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=BtnMoveNext, Path=Visibility}" Value="Visible">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="OwnBrush"
+                                            Storyboard.TargetProperty="Color"
+                                            From="DarkOrange" To="SteelBlue" RepeatBehavior="Forever"
+                                            Duration="0:0:3" AutoReverse="True"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+            
+
+            <Button Grid.Column="2" x:Name="BtnMoveNext"
                     Command="{Binding MoveCommandNext}" Content="Далее"
                     HorizontalAlignment="Right" Margin="5" 
                     IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -68,7 +101,11 @@
                     </Style>
                 </Button.Style>
             </Button>
+        </Grid>
 
+        <Grid Grid.Row="3">
+            <TextBlock HorizontalAlignment="Right" Foreground="DarkGray" FontSize="11" FontFamily="Gadugi" Text="Полоса разделения (передвижная)"/>
         </Grid>
     </Grid>
+    
 </UserControl>

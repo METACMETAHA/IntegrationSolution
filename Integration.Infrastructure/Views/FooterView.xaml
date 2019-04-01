@@ -5,11 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:scroll="clr-namespace:Integration.Infrastructure.Behavior"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             MaxHeight="180">
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <!--Footer-->
     <Grid>
-        <ListView ItemsSource="{Binding LogData}" MinHeight="70"  MaxHeight="125"
+        <ListView ItemsSource="{Binding LogData}"
                   scroll:ListViewScrollingBehavior.ScrollOnNewItem="True">
             <ListView.ItemTemplate>
                 <DataTemplate>

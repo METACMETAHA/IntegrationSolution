@@ -84,6 +84,8 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (fileDialog.ShowDialog() != true)
                 return;
+            
+            _logger.Debug($"Попытка загрузить файл: {fileDialog.FileName}");
 
             if (!File.Exists(fileDialog.FileName))
             {

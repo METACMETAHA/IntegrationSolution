@@ -12,13 +12,9 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Style="{StaticResource NormalHeader}" Text="Мониторинг транспортного обеспечения"
-                   VerticalAlignment="Center">
-            <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.3" BlurRadius="5"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        
+        <TextBlock Grid.Column="0" Style="{StaticResource NormalHeaderWithEffect}" Text="Мониторинг транспортного обеспечения"
+                   VerticalAlignment="Center"/>
+
         <ContentControl Grid.Column="1" Content="{StaticResource DtekLogo}" HorizontalAlignment="Right" VerticalAlignment="Center"
                         Height="65" Margin="20 0"/>
 

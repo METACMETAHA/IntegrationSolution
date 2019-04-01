@@ -382,11 +382,16 @@
         <Setter Property="Foreground" Value="#ff275884"/>
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
-    <Style x:Key="NormalHeader" TargetType="{x:Type TextBlock}">
+    <Style x:Key="NormalHeaderWithEffect" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="Margin" Value="20"/>
         <Setter Property="FontWeight" Value="UltraLight"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.3" BlurRadius="8"/>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="FooterNormalTextBlock" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -394,4 +399,12 @@
         <Setter Property="Margin" Value="20"/>
     </Style>
 
+
+    <Style x:Key="InfoTextBoxBtwnNavButtons" TargetType="{x:Type TextBlock}">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Microsoft JhengHei Light"/>
+        <Setter Property="FontSize" Value="23"/>
+        <Setter Property="Foreground" Value="#FF797B89"/>
+    </Style>
 </ResourceDictionary>

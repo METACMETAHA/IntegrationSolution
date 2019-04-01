@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Entitie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Tests", "IntegrationSolution.Tests\IntegrationSolution.Tests.csproj", "{1F524319-258F-48E8-ADFB-ADA2B7FF6167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Logger", "IntegrationSolution.Logger\IntegrationSolution.Logger.csproj", "{8BB1B036-F627-49A2-8513-896D4736432E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Common", "IntegrationSolution.Common\IntegrationSolution.Common.csproj", "{B4F847FE-667C-4189-92AE-9CCCAF77E341}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration.GUI", "Integration.GUI", "{CF6A8420-B51C-4E46-8F4A-A27C5C0687DE}"
@@ -55,10 +53,6 @@ Global
 		{1F524319-258F-48E8-ADFB-ADA2B7FF6167}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F524319-258F-48E8-ADFB-ADA2B7FF6167}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F524319-258F-48E8-ADFB-ADA2B7FF6167}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BB1B036-F627-49A2-8513-896D4736432E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BB1B036-F627-49A2-8513-896D4736432E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BB1B036-F627-49A2-8513-896D4736432E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BB1B036-F627-49A2-8513-896D4736432E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4F847FE-667C-4189-92AE-9CCCAF77E341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4F847FE-667C-4189-92AE-9CCCAF77E341}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4F847FE-667C-4189-92AE-9CCCAF77E341}.Release|Any CPU.ActiveCfg = Release|Any CPU

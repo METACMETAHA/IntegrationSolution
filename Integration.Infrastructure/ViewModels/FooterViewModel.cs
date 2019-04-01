@@ -1,6 +1,8 @@
 ﻿using Integration.Infrastructure.Constants;
 using IntegrationSolution.Common.Entities;
 using IntegrationSolution.Common.Events;
+using log4net;
+using log4net.Core;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -18,6 +20,8 @@ namespace Integration.Infrastructure.ViewModels
 {
     public class FooterViewModel : BindableBase
     {
+        private readonly ILog _logger;
+
         #region Properties
         private Error _status;
         public Error Status
@@ -27,6 +31,13 @@ namespace Integration.Infrastructure.ViewModels
             {
                 if (value != null && !string.IsNullOrWhiteSpace(value.ErrorDescription))
                 {
+                    #region WriteLog
+                    if (value.IsError == true)
+                        _logger.Error(value.ErrorDescription);
+                    else
+                        _logger.Debug(value.ErrorDescription);
+                    #endregion
+
                     LogData.Add(value);
                     if (LogData.Count > 150)
                         LogData.Remove(LogData.First());
@@ -48,6 +59,7 @@ namespace Integration.Infrastructure.ViewModels
 
         public FooterViewModel(IUnityContainer container, IEventAggregator ea)
         {
+            _logger = LogManager.GetLogger(this.GetType());
             LogData = new ConcurrentObservableCollection<Error>();
             ea.GetEvent<StatusUpdateEvent>().Subscribe((error) => Status = error);
         }

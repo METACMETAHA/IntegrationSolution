@@ -2,6 +2,7 @@
 using Integration.ModuleGUI;
 using IntegrationSolution.Excel;
 using IntegrationSolution.ShellGUI.ViewModels;
+using log4net;
 using MahApps.Metro.Controls;
 using Prism.Events;
 using Prism.Ioc;
@@ -32,7 +33,16 @@ namespace IntegrationSolution.ShellGUI
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             base.ConfigureServiceLocator();
+            log4net.Config.XmlConfigurator.Configure();
+
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
+        }
+
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            LogManager.GetLogger(this.GetType()).Info("Запуск программы!");
         }
 
 

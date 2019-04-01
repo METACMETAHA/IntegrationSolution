@@ -15,7 +15,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             CanGoBack = true;
             CanGoNext = false;
-            this.Title = "Done";
+            this.Title = "Конец работы";
         }
 
         public override bool MoveBack()

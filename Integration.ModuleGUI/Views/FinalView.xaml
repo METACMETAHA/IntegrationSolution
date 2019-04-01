@@ -13,7 +13,25 @@
     </UserControl.Resources>
 
     <Grid>
-        <TextBlock Text="Looks great!!! You may close the application now. Thank you :)" FontSize="36" TextAlignment="Center"/>
+        <TextBlock Text="Отлично. Можете закрыть приложение :)" 
+                   Style="{StaticResource InfoTextBoxBtwnNavButtons}"
+                   FontSize="36" VerticalAlignment="Center">
+            <TextBlock.Foreground>
+                <SolidColorBrush x:Name="OwnBrush" Color="#FF5D5D5D" />
+            </TextBlock.Foreground>
+            <TextBlock.Triggers>
+                <EventTrigger RoutedEvent="TextBlock.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetName="OwnBrush"
+                                            Storyboard.TargetProperty="Color"
+                                            From="DarkOrange" To="SteelBlue" RepeatBehavior="Forever"
+                                            Duration="0:0:3" AutoReverse="True"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </TextBlock.Triggers>
+        </TextBlock>
     </Grid>
 
 </UserControl>
