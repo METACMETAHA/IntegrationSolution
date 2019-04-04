@@ -52,6 +52,8 @@
     <None Include="App.config" />
     <None Include="export.XLSX" />
     <None Include="Main2.xlsx" />
+    <None Include="Интенсивность использивания ТС Декабрь 2018.xlsx" />
+    <None Include="Копия Перезакрепление ТС КЭС 18.03.19 на утв.xlsx" />
     <None Include="март.XLSX" />
   </ItemGroup>
   <ItemGroup>

@@ -43,7 +43,15 @@ namespace IntegrationSolution.Excel
                
         public const string DepartmentCode = "Служба";
         public const string DepartmentTitle = "Наименование Службы";
-        
+
+        #region Cost Headers
+        public const string Amortization = "Амортизация";
+        public const string DriversFOT = "ФОТ водителя, грн.";
+        public const string TotalCost = "Всего затрат, грн.";
+        public const string TotalCostDisel = "Затраты на топливо (ДТ), грн без НДС";
+        public const string TotalCostGas = "Затраты на топливо (бензин), грн без НДС";
+        public const string TotalCostLPG = "Затраты на топливо (ГАЗ), грн без НДС";
+        #endregion
 
         #region Fuel
         public const string DepartureBalanceGas = "Бензин Остаток при Выезде 1";
