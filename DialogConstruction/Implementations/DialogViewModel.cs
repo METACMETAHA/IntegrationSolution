@@ -64,7 +64,7 @@ namespace DialogConstruction.Implementations
         protected void Close(TResult result)
         {
             _tcs.SetResult(result);
-
+            
             Closed?.Invoke(this, EventArgs.Empty);
         }
 

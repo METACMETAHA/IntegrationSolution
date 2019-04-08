@@ -31,8 +31,10 @@ namespace IntegrationSolution.Dialogs
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<IDialogManager, DialogConstruction.Implementations.DialogManager>();            
+            containerRegistry.Register<IDialogManager, DialogConstruction.Implementations.DialogManager>();   
+            
             RegisterDialog<TestDialogView, TestDialogViewModel>(DialogNamesEnum.TestDialog.ToString());
+            RegisterDialog<FuelPriceInputDialog, FuelPriceInputDialogVM>(DialogNamesEnum.FuelPriceDialog.ToString());
         }
 
         public void RegisterDialog<TView, TViewModel>(string dialogName)

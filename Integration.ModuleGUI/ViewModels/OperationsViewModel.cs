@@ -2,6 +2,7 @@
 using DialogConstruction.Interfaces;
 using Integration.ModuleGUI.Models;
 using IntegrationSolution.Common.Enums;
+using IntegrationSolution.Common.Models;
 using IntegrationSolution.Dialogs.ViewModels;
 using IntegrationSolution.Dialogs.Views;
 using IntegrationSolution.Excel.Interfaces;
@@ -49,10 +50,9 @@ namespace Integration.ModuleGUI.ViewModels
         protected async void WriteTotalStatisticsJob()
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
+            var resultInputFuelPrice = await OnShowSampleDialogAsync();
+
             var progress = await wnd.ShowProgressAsync("Подождите...", "Инициализация файлов");
-
-
-            await OnShowSampleDialogAsync();
 
             await Task.Run(() =>
             {
@@ -149,13 +149,19 @@ namespace Integration.ModuleGUI.ViewModels
         }
 
 
-        private async Task OnShowSampleDialogAsync()
+        private async Task<bool> OnShowSampleDialogAsync()
         {
-            var text = await _dialogManager.ShowDialogAsync<string>(DialogNamesEnum.TestDialog);
+            var text = await _dialogManager.ShowDialogAsync<FuelPrice>(DialogNamesEnum.FuelPriceDialog);
+
+            if (text == null)
+                return false;
+
             if (text != null)
             {
                 await _dialogManager.ShowMessageBox(Title, "You entered: " + text);
             }
+
+            return true;
         }
     }
 }

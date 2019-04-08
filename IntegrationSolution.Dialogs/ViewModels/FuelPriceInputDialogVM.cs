@@ -1,36 +1,31 @@
 ﻿using DialogConstruction.Commands;
 using DialogConstruction.Implementations;
+using IntegrationSolution.Common.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace IntegrationSolution.Dialogs.ViewModels
 {
-    public class TestDialogViewModel : DialogViewModel<string>
+    public class FuelPriceInputDialogVM : DialogViewModel<FuelPrice>
     {
-        private string _text;
+        public FuelPrice FuelPrice { get; set; }
 
-        public TestDialogViewModel()
+        public FuelPriceInputDialogVM()
         {
             OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
-            _text = String.Empty;
+            AddValidationRule(() => FuelPrice, text => FuelPrice != null && FuelPrice.GasCost > 5, "Text must not be empty");
 
-            AddValidationRule(() => Text, text => !String.IsNullOrEmpty(text), "Text must not be empty");
-        }
-
-        public string Text
-        {
-            get { return _text; }
-            set
+            FuelPrice = new FuelPrice()
             {
-                if (_text != value)
-                {
-                    _text = value;
-                    ValidateAllRules();
-                    NotifyOfPropertyChange(() => Text);
-                }
-            }
+                GasCost = 10
+            };
         }
+
 
         public ICommand OkCommand { get; set; }
 
@@ -43,7 +38,7 @@ namespace IntegrationSolution.Dialogs.ViewModels
 
         private void OnOk()
         {
-            Close(Text);
+            Close(FuelPrice);
         }
 
         private void OnCancel()

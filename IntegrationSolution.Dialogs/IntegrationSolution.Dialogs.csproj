@@ -94,13 +94,13 @@
   <ItemGroup>
     <Compile Include="DialogsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\TestDialogViewModel.cs" />
-    <Compile Include="Views\TestDialogView.xaml.cs">
-      <DependentUpon>TestDialogView.xaml</DependentUpon>
+    <Compile Include="ViewModels\FuelPriceInputDialogVM.cs" />
+    <Compile Include="Views\FuelPriceInputDialog.xaml.cs">
+      <DependentUpon>FuelPriceInputDialog.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\TestDialogView.xaml">
+    <Page Include="Views\FuelPriceInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,16 +18,16 @@ using System.Windows.Shapes;
 namespace IntegrationSolution.Dialogs.Views
 {
     /// <summary>
-    /// Interaction logic for TestDialogView.xaml
+    /// Interaction logic for FuelPriceInputDialog.xaml
     /// </summary>
-    public partial class TestDialogView : BaseMetroDialog
+    public partial class FuelPriceInputDialog : BaseMetroDialog
     {
-        public TestDialogView()
+        public FuelPriceInputDialog()
         {
             InitializeComponent();
         }
 
-        public TestDialogView(MetroWindow owningWindow, MetroDialogSettings settings) : base(owningWindow, settings)
+        public FuelPriceInputDialog(MetroWindow owningWindow, MetroDialogSettings settings) : base(owningWindow, settings)
         {
             InitializeComponent();
         }

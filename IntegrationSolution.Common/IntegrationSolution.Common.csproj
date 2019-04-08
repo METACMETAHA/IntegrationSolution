@@ -80,6 +80,7 @@
     <Compile Include="Events\CanGoNextUpdateEvent.cs" />
     <Compile Include="Events\StatusUpdateEvent.cs" />
     <Compile Include="Events\SubmitFinishedEvent.cs" />
+    <Compile Include="Models\FuelPrice.cs" />
     <Compile Include="ModulesExtension\Implementations\ViewModelBase.cs" />
     <Compile Include="ModulesExtension\Interfaces\IActiveState.cs" />
     <Compile Include="ModulesExtension\Interfaces\IModuleViewModelNavigation.cs" />

@@ -70,18 +70,7 @@ namespace DialogConstruction.Implementations
 
             return result;
         }
-
-        public async Task ShowAs(BaseMetroDialog dialog, DialogViewModel<string> viewModel, MetroDialogSettings settings = null)
-        {
-            //var view = ViewLocator.GetViewForViewModel(viewModel);
-            dialog.DataContext = viewModel;
-            var firstMetroWindow = Application.Current.Windows.OfType<MetroWindow>().First();
-            await firstMetroWindow.ShowMetroDialogAsync(dialog, settings);
-            await viewModel.Task;
-            await firstMetroWindow.HideMetroDialogAsync(dialog, settings);
-            
-        }
-
+        
         public async Task<TResult> ShowDialogAsync<TResult>(DialogNamesEnum View, MetroDialogSettings settings = null)
         {
             var view = _container.Resolve<BaseMetroDialog>(View.ToString());
