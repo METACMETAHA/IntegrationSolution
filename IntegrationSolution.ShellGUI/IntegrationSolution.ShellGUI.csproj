@@ -161,6 +161,10 @@
       <Project>{dfa26885-87b2-457a-ba04-ae4222649462}</Project>
       <Name>Integration.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IntegrationSolution.Dialogs\IntegrationSolution.Dialogs.csproj">
+      <Project>{73924EE8-8F52-40D2-B7A2-E49C76642E66}</Project>
+      <Name>IntegrationSolution.Dialogs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
       <Project>{ca90b115-9c20-4ecb-8a52-14b2826f07a6}</Project>
       <Name>IntegrationSolution.Excel</Name>

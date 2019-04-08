@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6418561A-B51D-400C-A78E-589B8B887803}</ProjectGuid>
+    <ProjectGuid>{73924EE8-8F52-40D2-B7A2-E49C76642E66}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Integration.ModuleGUI</RootNamespace>
-    <AssemblyName>Integration.ModuleGUI</AssemblyName>
+    <RootNamespace>IntegrationSolution.Dialogs</RootNamespace>
+    <AssemblyName>IntegrationSolution.Dialogs</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -46,12 +46,6 @@
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.4.0.0-alpha0232\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus">
-      <HintPath>..\Console\bin\Debug\EPPlus.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.2.0.0-alpha0262\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -79,11 +73,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -95,56 +86,21 @@
     <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.10.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.10.2\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CommonModuleData.cs" />
-    <Compile Include="Models\VMLocalBase.cs" />
-    <Compile Include="ModuleGUIModule.cs" />
+    <Compile Include="DialogsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\FinalViewModel.cs" />
-    <Compile Include="ViewModels\LoadingFilesViewModel.cs" />
-    <Compile Include="ViewModels\OperationsViewModel.cs" />
-    <Compile Include="Views\FinalView.xaml.cs">
-      <DependentUpon>FinalView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoadingFilesView.xaml.cs">
-      <DependentUpon>LoadingFilesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OperationsView.xaml.cs">
-      <DependentUpon>OperationsView.xaml</DependentUpon>
+    <Compile Include="ViewModels\TestDialogViewModel.cs" />
+    <Compile Include="Views\TestDialogView.xaml.cs">
+      <DependentUpon>TestDialogView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Resources\Entypo.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Entypo-license.txt" />
-    <Content Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\IconsNonShared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\FinalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LoadingFilesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OperationsView.xaml">
+    <Page Include="Views\TestDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -154,26 +110,14 @@
       <Project>{417D2DE2-22D4-4B0D-8CA2-984202507C67}</Project>
       <Name>DialogConstruction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Integration.Resources\Integration.Resources.csproj">
-      <Project>{dfa26885-87b2-457a-ba04-ae4222649462}</Project>
-      <Name>Integration.Resources</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
       <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IntegrationSolution.Dialogs\IntegrationSolution.Dialogs.csproj">
-      <Project>{73924EE8-8F52-40D2-B7A2-E49C76642E66}</Project>
-      <Name>IntegrationSolution.Dialogs</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
-      <Project>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</Project>
-      <Name>IntegrationSolution.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
-      <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
-      <Name>IntegrationSolution.Excel</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

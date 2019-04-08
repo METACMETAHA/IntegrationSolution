@@ -1,4 +1,9 @@
-﻿using Integration.ModuleGUI.Models;
+﻿using DialogConstruction.Implementations;
+using DialogConstruction.Interfaces;
+using Integration.ModuleGUI.Models;
+using IntegrationSolution.Common.Enums;
+using IntegrationSolution.Dialogs.ViewModels;
+using IntegrationSolution.Dialogs.Views;
 using IntegrationSolution.Excel.Interfaces;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -15,13 +20,17 @@ using Unity;
 
 namespace Integration.ModuleGUI.ViewModels
 {
-    public class OperationsViewModel : VMLocalBase
+    public class OperationsViewModel : VMLocalBase, ICancelableOnClosingHandler
     {
-        public OperationsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
+        private readonly IDialogManager _dialogManager;
+
+        public OperationsViewModel(IDialogManager dialogManager, IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
             this.Title = "Операции";
             this.CanGoBack = true;
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
+
+            _dialogManager = dialogManager;
         }
 
 
@@ -41,7 +50,10 @@ namespace Integration.ModuleGUI.ViewModels
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
             var progress = await wnd.ShowProgressAsync("Подождите...", "Инициализация файлов");
-            
+
+
+            await OnShowSampleDialogAsync();
+
             await Task.Run(() =>
             {
                 try
@@ -111,5 +123,39 @@ namespace Integration.ModuleGUI.ViewModels
             
         }
         #endregion
+
+
+        public bool OnClosing()
+        {
+            var mySettings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Quit",
+                NegativeButtonText = "Cancel",
+                AnimateShow = true,
+                AnimateHide = false
+            };
+
+            _dialogManager.ShowMessageBox("Quit application?",
+                "Sure you want to quit application?",
+                MessageDialogStyle.AffirmativeAndNegative, mySettings)
+                .ContinueWith(t => {
+                    if (t.Result == MessageDialogResult.Affirmative)
+                    {
+                        Application.Current.Shutdown();
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            return true;
+        }
+
+
+        private async Task OnShowSampleDialogAsync()
+        {
+            var text = await _dialogManager.ShowDialogAsync<string>(DialogNamesEnum.TestDialog);
+            if (text != null)
+            {
+                await _dialogManager.ShowMessageBox(Title, "You entered: " + text);
+            }
+        }
     }
 }

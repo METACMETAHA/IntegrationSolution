@@ -1,5 +1,6 @@
 ﻿using Integration.Infrastructure;
 using Integration.ModuleGUI;
+using IntegrationSolution.Dialogs;
 using IntegrationSolution.Excel;
 using IntegrationSolution.ShellGUI.ViewModels;
 using log4net;
@@ -53,6 +54,7 @@ namespace IntegrationSolution.ShellGUI
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<InfrastructureModule>(); // required module
+            moduleCatalog.AddModule<DialogsModule>();
             moduleCatalog.AddModule<ModuleGUIModule>(); // module for views
             moduleCatalog.AddModule<IntegrationSolutionExcelModule>(); // module with Excel logic
         }
