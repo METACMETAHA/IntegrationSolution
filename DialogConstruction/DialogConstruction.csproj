@@ -93,11 +93,8 @@
   <ItemGroup>
     <Compile Include="Commands\AsyncRelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Implementations\DialogManager.cs" />
     <Compile Include="Implementations\DialogViewModel.cs" />
-    <Compile Include="Implementations\PropertyChangedBase.cs" />
-    <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />
     <Compile Include="Interfaces\ICancelableOnClosingHandler.cs" />
     <Compile Include="Interfaces\IDialogManager.cs" />
     <Compile Include="Interfaces\IDialogViewModel.cs" />

@@ -33,7 +33,6 @@ namespace IntegrationSolution.Dialogs
         {
             containerRegistry.Register<IDialogManager, DialogConstruction.Implementations.DialogManager>();   
             
-            RegisterDialog<TestDialogView, TestDialogViewModel>(DialogNamesEnum.TestDialog.ToString());
             RegisterDialog<FuelPriceInputDialog, FuelPriceInputDialogVM>(DialogNamesEnum.FuelPriceDialog.ToString());
         }
 

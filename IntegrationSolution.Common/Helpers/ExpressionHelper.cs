@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DialogConstruction.Helpers
+namespace IntegrationSolution.Common.Helpers
 {
     /// <summary>
     /// Extension methods for <see cref="Expression"/>s.

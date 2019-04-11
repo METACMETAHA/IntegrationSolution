@@ -89,6 +89,8 @@ namespace DialogConstruction.Interfaces
         Task<TResult> ShowDialogAsync<TViewModel, TResult>(MetroDialogSettings settings = null) where TViewModel : DialogViewModel<TResult>;
 
         Task<TResult> ShowDialogAsync<TResult>(DialogNamesEnum View, MetroDialogSettings settings = null);
+        Task<TResult> ShowDialogAsync<TResult>(DialogNamesEnum View,
+            DialogViewModel<TResult> ViewModel, MetroDialogSettings settings = null);
 
         /// <summary>
         /// Displays a message box asynchronously.

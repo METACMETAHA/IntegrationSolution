@@ -161,6 +161,10 @@
       <Project>{dfa26885-87b2-457a-ba04-ae4222649462}</Project>
       <Name>Integration.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
+      <Project>{B4F847FE-667C-4189-92AE-9CCCAF77E341}</Project>
+      <Name>IntegrationSolution.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Dialogs\IntegrationSolution.Dialogs.csproj">
       <Project>{73924EE8-8F52-40D2-B7A2-E49C76642E66}</Project>
       <Name>IntegrationSolution.Dialogs</Name>

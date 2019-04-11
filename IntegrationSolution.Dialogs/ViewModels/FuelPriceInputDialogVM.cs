@@ -2,48 +2,67 @@
 using DialogConstruction.Implementations;
 using IntegrationSolution.Common.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace IntegrationSolution.Dialogs.ViewModels
 {
     public class FuelPriceInputDialogVM : DialogViewModel<FuelPrice>
     {
-        public FuelPrice FuelPrice { get; set; }
+        private FuelPrice _fuelPrice;
+        public FuelPrice FuelPrice
+        {
+            get { return _fuelPrice; }
+            set
+            {
+                _fuelPrice = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public FuelPriceInputDialogVM()
         {
+            FuelPrice = new FuelPrice();
             OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
-            AddValidationRule(() => FuelPrice, text => FuelPrice != null && FuelPrice.GasCost > 5, "Text must not be empty");
-
-            FuelPrice = new FuelPrice()
-            {
-                GasCost = 10
-            };
+            //AddValidationRule(() => FuelPrice, x => x.HasErrors , "Text must not be empty");
         }
 
+        private bool CheckInput()
+        {
+            if (FuelPrice == null)
+                return false;
 
+            if (FuelPrice.DiselCost < 1
+                || FuelPrice.GasCost < 1
+                || FuelPrice.LPGCost < 1)
+                return false;
+
+            if (FuelPrice.DiselCost > 1000
+                || FuelPrice.GasCost > 1000
+                || FuelPrice.LPGCost > 1000)
+                return false;
+            
+            return true;
+        }
+
+        #region Commands
         public ICommand OkCommand { get; set; }
-
-        public ICommand CancelCommand { get; set; }
-
         private bool CanOk()
         {
-            return !HasErrors;
+            return CheckInput();
+            //return !HasErrors;
         }
-
         private void OnOk()
         {
             Close(FuelPrice);
         }
 
+
+        public ICommand CancelCommand { get; set; }
         private void OnCancel()
         {
             Close(null);
         }
+        #endregion
     }
 }

@@ -21,9 +21,13 @@ using Unity;
 
 namespace Integration.ModuleGUI.ViewModels
 {
-    public class OperationsViewModel : VMLocalBase, ICancelableOnClosingHandler
+    public class OperationsViewModel : VMLocalBase
     {
+        #region Variables
         private readonly IDialogManager _dialogManager;
+        private DialogViewModel<FuelPrice> _dialogFuelContext;
+        #endregion
+
 
         public OperationsViewModel(IDialogManager dialogManager, IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
@@ -31,18 +35,20 @@ namespace Integration.ModuleGUI.ViewModels
             this.CanGoBack = true;
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
 
+            //_dialogFuelContext = _container.Resolve<DialogViewModel<FuelPrice>>();
             _dialogManager = dialogManager;
         }
 
 
+        #region Moves next/back
         public override bool MoveBack() => this.CanGoBack;
-
 
         public override async Task<bool> MoveNext()
         {
             this.IsFinished = true;
             return CanGoNext;
         }
+        #endregion
 
 
         #region Commands
@@ -50,7 +56,10 @@ namespace Integration.ModuleGUI.ViewModels
         protected async void WriteTotalStatisticsJob()
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
-            var resultInputFuelPrice = await OnShowSampleDialogAsync();
+
+            var fuelPrices = await _dialogManager.ShowDialogAsync<FuelPrice>(DialogNamesEnum.FuelPriceDialog);
+            if (fuelPrices == null)
+                return;
 
             var progress = await wnd.ShowProgressAsync("Подождите...", "Инициализация файлов");
 
@@ -125,43 +134,7 @@ namespace Integration.ModuleGUI.ViewModels
         #endregion
 
 
-        public bool OnClosing()
-        {
-            var mySettings = new MetroDialogSettings()
-            {
-                AffirmativeButtonText = "Quit",
-                NegativeButtonText = "Cancel",
-                AnimateShow = true,
-                AnimateHide = false
-            };
+        
 
-            _dialogManager.ShowMessageBox("Quit application?",
-                "Sure you want to quit application?",
-                MessageDialogStyle.AffirmativeAndNegative, mySettings)
-                .ContinueWith(t => {
-                    if (t.Result == MessageDialogResult.Affirmative)
-                    {
-                        Application.Current.Shutdown();
-                    }
-                }, TaskScheduler.FromCurrentSynchronizationContext());
-
-            return true;
-        }
-
-
-        private async Task<bool> OnShowSampleDialogAsync()
-        {
-            var text = await _dialogManager.ShowDialogAsync<FuelPrice>(DialogNamesEnum.FuelPriceDialog);
-
-            if (text == null)
-                return false;
-
-            if (text != null)
-            {
-                await _dialogManager.ShowMessageBox(Title, "You entered: " + text);
-            }
-
-            return true;
-        }
     }
 }

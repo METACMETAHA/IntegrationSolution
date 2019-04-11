@@ -1,10 +1,15 @@
-﻿using DialogConstruction.Helpers;
+﻿using IntegrationSolution.Common.Helpers;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DialogConstruction.Implementations
+namespace IntegrationSolution.Common.Implementations
 {
     /// <summary>
     /// Base class implementing <see cref="INotifyPropertyChanged"/>.
@@ -32,7 +37,7 @@ namespace DialogConstruction.Implementations
         /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the changed property.</param>
-        protected virtual void NotifyOfPropertyChange(string propertyName = null)
+        protected virtual void NotifyOfPropertyChange([CallerMemberName]string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

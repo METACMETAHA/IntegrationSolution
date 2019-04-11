@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntegrationSolution.Common.Implementations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Common.Models
 {
-    public class FuelPrice : INotifyPropertyChanged
+    public class FuelPrice : PropertyChangedBase
     {
         private double _gasCost;
         public double GasCost
@@ -17,16 +18,36 @@ namespace IntegrationSolution.Common.Models
             set
             {
                 _gasCost = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
+            }
+        }
 
+        private double _diselCost;
+        public double DiselCost
+        {
+            get { return _diselCost; }
+            set
+            {
+                _diselCost = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private double _lpgCost;
+        public double LPGCost
+        {
+            get { return _lpgCost; }
+            set
+            {
+                _lpgCost = value;
+                NotifyOfPropertyChange();
             }
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public FuelPrice()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            //GasCost = DiselCost = LPGCost = 1;
         }
     }
 }

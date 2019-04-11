@@ -34,10 +34,6 @@ namespace Integration.Infrastructure
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ConfigurationData>();
-
-            //containerRegistry.RegisterForNavigation<BodyView, BodyViewModel>();
-            //containerRegistry.RegisterForNavigation<FooterView, FooterViewModel>();
-            //containerRegistry.RegisterForNavigation<HeaderView, HeaderViewModel>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Integration.Infrastructure;
 using Integration.ModuleGUI;
+using IntegrationSolution.Common;
 using IntegrationSolution.Dialogs;
 using IntegrationSolution.Excel;
 using IntegrationSolution.ShellGUI.ViewModels;
@@ -55,6 +56,7 @@ namespace IntegrationSolution.ShellGUI
         {
             moduleCatalog.AddModule<InfrastructureModule>(); // required module
             moduleCatalog.AddModule<DialogsModule>();
+            moduleCatalog.AddModule<CommonModule>();
             moduleCatalog.AddModule<ModuleGUIModule>(); // module for views
             moduleCatalog.AddModule<IntegrationSolutionExcelModule>(); // module with Excel logic
         }

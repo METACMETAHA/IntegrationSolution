@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"  
              xmlns:local="clr-namespace:IntegrationSolution.Dialogs.Views"
              mc:Ignorable="d" Title="Цены на топливо">
@@ -10,29 +11,55 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="1000*" MaxWidth="200" />
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label
-      Grid.Row="0" Grid.Column="0"
-      Content="_Enter text:"
-      Margin="0 4"/>
-            <TextBox
-      Grid.Row="0" Grid.Column="1"
-      Text="{Binding GasCost, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-      Margin="0 5"/>
+            <metro:NumericUpDown Grid.Row="0" Grid.Column="0"
+                metro:TextBoxHelper.UseFloatingWatermark="True"
+                metro:TextBoxHelper.Watermark="Газ"
+                metro:TextBoxHelper.IsWaitingForData="True"                 
+                Maximum="1000" Minimum="1" Interval="0.1"
+                ButtonsAlignment="Right" Padding="5"
+                BorderThickness="0"
+                StringFormat=" {0:N2}  грн/л" Margin="5 10"
+                Value="{Binding FuelPrice.LPGCost, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <metro:NumericUpDown Grid.Row="0" Grid.Column="1"
+                metro:TextBoxHelper.UseFloatingWatermark="True"
+                metro:TextBoxHelper.Watermark="Бензин"
+                metro:TextBoxHelper.IsWaitingForData="True"                 
+                Maximum="1000" Minimum="1" Interval="0.1"
+                ButtonsAlignment="Right" Padding="5"
+                BorderThickness="0"
+                StringFormat=" {0:N2}  грн/л" Margin="5 10"
+                Value="{Binding FuelPrice.GasCost, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <metro:NumericUpDown Grid.Row="0" Grid.Column="2"
+                metro:TextBoxHelper.UseFloatingWatermark="True"
+                metro:TextBoxHelper.Watermark="Дизель"
+                metro:TextBoxHelper.IsWaitingForData="True"                 
+                Maximum="1000" Minimum="1" Interval="0.1"
+                ButtonsAlignment="Right" Padding="5"
+                BorderThickness="0"
+                StringFormat=" {0:N2}  грн/л" Margin="5 10"
+                Value="{Binding FuelPrice.DiselCost, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
 
             <StackPanel
       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
       Orientation="Horizontal" HorizontalAlignment="Right"
-      Margin="0 5 0 10">
-                <Button Command="{Binding OkCommand}" Content="OK" Margin="0 0 10 0" Width="100" IsDefault="True"/>
-                <Button Command="{Binding CancelCommand}" Content="Cancel" Width="100" IsCancel="True"/>
+      Margin="10">
+                <Button Command="{Binding OkCommand}" Content="OK" IsDefault="True"
+                        HorizontalAlignment="Right"
+                        Width="100" Margin="10" Style="{DynamicResource AccentedSquareButtonStyle}"/>
+                <Button Command="{Binding CancelCommand}" Content="Cancel" IsCancel="True"
+                        HorizontalAlignment="Right"
+                        Width="100" Margin="10" Style="{DynamicResource SquareButtonStyle}"/>
             </StackPanel>
 
         </Grid>
