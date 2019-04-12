@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntegrationSolution.Common.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,34 @@ namespace IntegrationSolution.Common.Converters
         {
             StringBuilder stateNum = new StringBuilder();
             foreach (var it in StateNumber?.Trim().Replace(" ", string.Empty))
+            {
+                if (mapTranform.ContainsKey(it))
+                    stateNum.Append(mapTranform[it]);
+                else
+                    stateNum.Append(it);
+            }
+            return stateNum.ToString();
+        }
+
+
+        /// <summary>
+        /// Related to car name from Wialon
+        /// This function converts string, which contains state number and car name to single format
+        /// </summary>
+        /// <returns>Converted string</returns>
+        public static string ToStateNumberWialon(this string StateNumber)
+        {
+            StringBuilder stateNum = new StringBuilder();
+
+            StateNumber = StateNumber.Replace('(', ' ').Replace(')', ' ');
+
+            byte[] bytes = Encoding.Default.GetBytes(StateNumber);
+            var encodedState = Encoding.UTF8.GetString(bytes);
+
+            var collection = encodedState?.Trim().Split(' ');           
+            
+            //выкинуть из коллекции выше названиемашин и оставить номера...пройтись по спискуу и проверить
+            foreach (var it in collection)
             {
                 if (mapTranform.ContainsKey(it))
                     stateNum.Append(mapTranform[it]);

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace DialogConstruction.Implementations
 {
@@ -52,6 +53,16 @@ namespace DialogConstruction.Implementations
     public abstract class DialogViewModel<TResult> : ValidationPropertyChangedBase, IDialogViewModel
     {
         private readonly TaskCompletionSource<TResult> _tcs;
+        protected readonly IUnityContainer container;
+
+        /// <summary>
+        /// Constructor with injection.
+        /// </summary>
+        protected DialogViewModel(IUnityContainer unity)
+        {
+            _tcs = new TaskCompletionSource<TResult>();
+            container = unity;
+        }
 
         /// <summary>
         /// Constructor.

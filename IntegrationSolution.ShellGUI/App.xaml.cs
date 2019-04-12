@@ -14,6 +14,7 @@ using System;
 using System.Windows;
 using System.Windows.Navigation;
 using Unity;
+using WialonBase;
 
 namespace IntegrationSolution.ShellGUI
 {
@@ -58,6 +59,7 @@ namespace IntegrationSolution.ShellGUI
             moduleCatalog.AddModule<DialogsModule>();
             moduleCatalog.AddModule<CommonModule>();
             moduleCatalog.AddModule<ModuleGUIModule>(); // module for views
+            moduleCatalog.AddModule<WialonModule>();
             moduleCatalog.AddModule<IntegrationSolutionExcelModule>(); // module with Excel logic
         }
     }

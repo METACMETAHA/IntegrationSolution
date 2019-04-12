@@ -174,6 +174,10 @@
       <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
       <Name>IntegrationSolution.Excel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WialonBase\WialonBase.csproj">
+      <Project>{8019A8FB-BE45-4773-9D8B-19315197C451}</Project>
+      <Name>WialonBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,9 +27,5 @@ namespace IntegrationSolution.Entities.Interfaces
         string Department { get; set; }
 
         string StructureName { get; set; }
-
-        IList<Trip> TripsWithMileageDeviation();
-
-        IList<Trip> TripsWithMotoHoursDeviation();
     }
 }

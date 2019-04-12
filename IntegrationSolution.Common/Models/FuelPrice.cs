@@ -47,7 +47,7 @@ namespace IntegrationSolution.Common.Models
 
         public FuelPrice()
         {
-            //GasCost = DiselCost = LPGCost = 1;
+            GasCost = DiselCost = LPGCost = 10;
         }
     }
 }

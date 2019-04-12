@@ -25,7 +25,6 @@ namespace Integration.ModuleGUI.ViewModels
     {
         #region Variables
         private readonly IDialogManager _dialogManager;
-        private DialogViewModel<FuelPrice> _dialogFuelContext;
         #endregion
 
 

@@ -3,6 +3,7 @@ using DialogConstruction.Implementations;
 using IntegrationSolution.Common.Models;
 using System;
 using System.Windows.Input;
+using Unity;
 
 namespace IntegrationSolution.Dialogs.ViewModels
 {
@@ -19,9 +20,9 @@ namespace IntegrationSolution.Dialogs.ViewModels
             }
         }
 
-        public FuelPriceInputDialogVM()
+        public FuelPriceInputDialogVM(IUnityContainer unity) : base(unity)
         {
-            FuelPrice = new FuelPrice();
+            FuelPrice = unity.Resolve<FuelPrice>();
             OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
             //AddValidationRule(() => FuelPrice, x => x.HasErrors , "Text must not be empty");

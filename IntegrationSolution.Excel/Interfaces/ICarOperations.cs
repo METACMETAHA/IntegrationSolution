@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Common.Enums;
+using IntegrationSolution.Common.Models;
 using IntegrationSolution.Entities.Interfaces;
 using System;
 using System.Collections.Generic;

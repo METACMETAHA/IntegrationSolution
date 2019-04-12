@@ -1,5 +1,6 @@
 ﻿using IntegrationSolution.Common.Converters;
 using IntegrationSolution.Common.Enums;
+using IntegrationSolution.Common.Models;
 using IntegrationSolution.Entities.Helpers;
 using IntegrationSolution.Entities.Implementations;
 using IntegrationSolution.Entities.Interfaces;
@@ -12,16 +13,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace IntegrationSolution.Excel.Implementations
 {
     public class ExcelCarOperations : ExcelBase, ICarOperations
     {
         private Dictionary<string, ExcelCellAddress> _tripsAddress;
-
+        
 
         #region Constructors
-        public ExcelCarOperations(ExcelPackage excelPackage) : base(excelPackage)
+        public ExcelCarOperations(ExcelPackage excelPackage, IUnityContainer unityContainer) : base(excelPackage, unityContainer)
         {
             _tripsAddress = new Dictionary<string, ExcelCellAddress>();
             TryInitializeAll();
@@ -120,6 +122,7 @@ namespace IntegrationSolution.Excel.Implementations
         #endregion
 
 
+        #region Implementation
         public IEnumerable<IVehicle> GetVehicles()
         {
             ICollection<IVehicle> cars = new List<IVehicle>();
@@ -280,12 +283,18 @@ namespace IntegrationSolution.Excel.Implementations
 
         public void WriteInHeadersAndDataForTotalResult(ICollection<IVehicle> vehicles)
         {
-            StaticHelper.WriteVehicleDataAndHeaders(this, vehicles, 
+            StaticHelper.WriteVehicleDataAndHeaders(this, vehicles,
                 HeaderNames.TotalMileageResult, 
                 HeaderNames.TotalJobDoneResult,
                 HeaderNames.ConsumptionGasActualResult,
                 HeaderNames.ConsumptionDieselActualResult, 
-                HeaderNames.ConsumptionLPGActualResult);
+                HeaderNames.ConsumptionLPGActualResult,
+                HeaderNames.TotalCostGas,
+                HeaderNames.TotalCostDisel,
+                HeaderNames.TotalCostLPG,
+                HeaderNames.Amortization,
+                HeaderNames.DriversFOT,
+                HeaderNames.TotalCost);
         }
 
 
@@ -301,11 +310,19 @@ namespace IntegrationSolution.Excel.Implementations
                 HeaderNames.TotalJobDoneResult,
                 HeaderNames.ConsumptionGasActualResult,
                 HeaderNames.ConsumptionDieselActualResult,
-                HeaderNames.ConsumptionLPGActualResult);
+                HeaderNames.ConsumptionLPGActualResult,
+                HeaderNames.TotalCostGas,
+                HeaderNames.TotalCostDisel,
+                HeaderNames.TotalCostLPG,
+                HeaderNames.Amortization,
+                HeaderNames.DriversFOT,
+                HeaderNames.TotalCost);
 
         }
+        #endregion
 
 
+        #region Helpers
         /// <summary>
         /// Get total values of each Structure (Структурные подразделения)
         /// </summary>
@@ -336,5 +353,6 @@ namespace IntegrationSolution.Excel.Implementations
 
             return summary;
         }
+        #endregion
     }
 }

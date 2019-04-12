@@ -54,37 +54,5 @@ namespace IntegrationSolution.Entities.Implementations
 
             return trip;
         }
-
-
-        public IList<Trip> TripsWithMileageDeviation()
-        {
-            if (Trips == null || Trips.Count == 0)
-                return null;
-
-            IList<Trip> result = new List<Trip>();
-            foreach (var item in Trips)
-            {
-                var deviation = item.ReturnOdometerValue - item.DepartureOdometerValue;
-                if (deviation != item.TotalMileage)
-                    result.Add(item);
-            }
-            return result;
-        }
-
-
-        public IList<Trip> TripsWithMotoHoursDeviation()
-        {
-            if (Trips == null || Trips.Count == 0)
-                return null;
-
-            IList<Trip> result = new List<Trip>();
-            foreach (var item in Trips)
-            {
-                var deviation = item.ReturnMotoHoursIndications - item.DepartureMotoHoursIndications;
-                if (deviation != item.MotoHoursIndicationsAtAll)
-                    result.Add(item);
-            }
-            return result;
-        }
     }
 }

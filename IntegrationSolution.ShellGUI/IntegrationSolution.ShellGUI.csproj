@@ -177,6 +177,10 @@
       <Project>{5b3f58b4-e66b-47af-b4d2-20aa8d0f73fc}</Project>
       <Name>ProgressRing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WialonBase\WialonBase.csproj">
+      <Project>{8019A8FB-BE45-4773-9D8B-19315197C451}</Project>
+      <Name>WialonBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WizzardControl\WizardProgressBarLibrary.csproj">
       <Project>{c1633bdb-6a45-4ed1-bb3d-3b7e58e55fbb}</Project>
       <Name>WizardProgressBarLibrary</Name>

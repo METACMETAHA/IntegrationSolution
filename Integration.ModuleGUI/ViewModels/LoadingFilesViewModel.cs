@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using WialonBase.Implementation;
+using WialonBase.Interfaces;
 
 namespace Integration.ModuleGUI.ViewModels
 {
@@ -70,6 +72,11 @@ namespace Integration.ModuleGUI.ViewModels
         public DelegateCommand<string> LoadFileCommand { get; private set; }
         protected void Load(string NameControl)
         {
+            var ss = _container.Resolve<INavigationOperations>();
+            ss.GetCarsEnumarable();
+
+
+
             if (string.IsNullOrWhiteSpace(NameControl))
                 return;
 
