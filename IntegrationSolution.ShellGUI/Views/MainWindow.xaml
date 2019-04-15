@@ -4,15 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:views="clr-namespace:Integration.Infrastructure.Views;assembly=Integration.Infrastructure"
+        xmlns:VM="clr-namespace:IntegrationSolution.ShellGUI.ViewModels"
         xmlns:prism="http://www.codeplex.com/prism"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
         TryToBeFlickerFree="True" TitleBarHeight="35"
-        BorderThickness="0" GlowBrush="Black" NonActiveWindowTitleBrush="LightGray"
-        TitleCharacterCasing="Upper" WindowTitleBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-        NonActiveGlowBrush="Black" NonActiveBorderBrush="Black"
+        BorderThickness="0" GlowBrush="Black" 
+        NonActiveWindowTitleBrush="LightGray"
+        TitleCharacterCasing="Upper" 
+        WindowTitleBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+        NonActiveGlowBrush="Black" 
+        NonActiveBorderBrush="Black"
         MinHeight="480" MinWidth="900"
+        TitleAlignment="Center"
         Title="DTEK" Height="590" Width="1000">
 
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands ShowSeparators="True">
+            <Controls:ToggleSwitch Width="160" VerticalAlignment="Center"
+                                   Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+                                   Margin="5" IsChecked="{Binding IsConnectedNavigation}"
+                                   FontSize="15" FontFamily="Candara Light"
+                                   OffLabel="Нету связи" ThumbIndicatorWidth="18"
+                                   OffSwitchBrush="#FFE8C9C9"
+                                   OnSwitchBrush="#FF65BF65"
+                                   OnLabel="Подключено"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" MinHeight="60"/>

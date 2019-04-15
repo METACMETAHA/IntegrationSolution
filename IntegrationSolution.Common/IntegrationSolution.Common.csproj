@@ -82,6 +82,7 @@
     <Compile Include="Events\CanGoNextUpdateEvent.cs" />
     <Compile Include="Events\StatusUpdateEvent.cs" />
     <Compile Include="Events\SubmitFinishedEvent.cs" />
+    <Compile Include="Events\WialonConnectionEvent.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Implementations\PropertyChangedBase.cs" />
     <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />

@@ -72,11 +72,6 @@ namespace Integration.ModuleGUI.ViewModels
         public DelegateCommand<string> LoadFileCommand { get; private set; }
         protected void Load(string NameControl)
         {
-            var ss = _container.Resolve<INavigationOperations>();
-            ss.GetCarsEnumarable();
-
-
-
             if (string.IsNullOrWhiteSpace(NameControl))
                 return;
 

@@ -27,16 +27,9 @@ namespace WialonBase.Implementation
             _container = unityContainer;
             _logger = LogManager.GetLogger(this.GetType());
             _wialonConnection = _container.Resolve<WialonConnection>();
-            Open();
-        }
+        }        
 
-
-        public bool Open() => _wialonConnection.Connect();
-
-        public bool Close() => _wialonConnection.TryClose();
-
-
-        public IEnumerable<CarWialon> GetCarsEnumarable()
+        public ICollection<CarWialon> GetCarsEnumarable()
         {
             try
             {
@@ -64,10 +57,13 @@ namespace WialonBase.Implementation
             }
         }
 
-
         public void Dispose()
         {
-            this.Close();
+            this.TryClose();
         }
+
+        public bool TryConnect() => _wialonConnection.TryConnect();
+
+        public bool TryClose() => _wialonConnection.TryClose();
     }
 }

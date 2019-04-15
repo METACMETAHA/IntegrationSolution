@@ -25,7 +25,7 @@ namespace IntegrationSolution.Tests.Wialon.Tests
         public void TestWialonConnection()
         {
             WialonConnection con = new WialonConnection();
-            var connection = con.Connect();
+            var connection = con.TryConnect();
             var close = con.TryClose();
             Assert.IsTrue(connection);
             Assert.IsTrue(close);

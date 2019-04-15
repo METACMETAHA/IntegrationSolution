@@ -61,17 +61,30 @@ namespace IntegrationSolution.Common.Converters
             byte[] bytes = Encoding.Default.GetBytes(StateNumber);
             var encodedState = Encoding.UTF8.GetString(bytes);
 
-            var collection = encodedState?.Trim().Split(' ');           
+            var collection = encodedState?.Trim().Split(' ');
             
-            //выкинуть из коллекции выше названиемашин и оставить номера...пройтись по спискуу и проверить
-            foreach (var it in collection)
+            switch (collection.Length)
             {
-                if (mapTranform.ContainsKey(it))
-                    stateNum.Append(mapTranform[it]);
-                else
-                    stateNum.Append(it);
+                case 3:
+                case 4:
+                    if (collection[0].Length > 2)
+                    {
+                        for (int i = collection.Length - 2; i < collection.Length; i++)
+                            stateNum.Append(collection[i]);
+                    }
+                    else
+                    {
+                        foreach (var item in collection)
+                            stateNum.Append(item);
+                    }
+                    break;
+
+                default:
+                    for (int i = collection.Length - 3; i < collection.Length; i++)
+                        stateNum.Append(collection[i]);
+                    break;
             }
-            return stateNum.ToString();
+            return stateNum.ToString().ToStateNumber();
         }
     }
 }

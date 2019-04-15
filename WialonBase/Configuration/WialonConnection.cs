@@ -9,10 +9,11 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using WialonBase.Interfaces;
 
 namespace WialonBase.Configuration
 {
-    public class WialonConnection : PropertyChangedBase, IDisposable
+    public class WialonConnection : PropertyChangedBase, IConnection, IDisposable
     {
         #region Variables
         protected readonly ILog _logger;
@@ -40,7 +41,7 @@ namespace WialonBase.Configuration
         }
 
 
-        public bool Connect()
+        public bool TryConnect()
         {
             try
             {
@@ -55,6 +56,10 @@ namespace WialonBase.Configuration
 
                     var responseString = Encoding.Default.GetString(response);
                     _jsonConnectionInfo = JObject.Parse(responseString);
+
+                    if(_jsonConnectionInfo["reason"] != null)
+                        if (!string.IsNullOrWhiteSpace(_jsonConnectionInfo["reason"].Value<string>()))
+                            throw new Exception($"Подключение установлено, но получена следующая ошибка от сервера: {_jsonConnectionInfo["reason"].Value<string>()}");
                 }
 
                 return true;

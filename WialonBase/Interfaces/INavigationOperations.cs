@@ -8,8 +8,8 @@ using WialonBase.Entities;
 
 namespace WialonBase.Interfaces
 {
-    public interface INavigationOperations
+    public interface INavigationOperations : IConnection
     {
-        IEnumerable<CarWialon> GetCarsEnumarable();
+        ICollection<CarWialon> GetCarsEnumarable();
     }
 }

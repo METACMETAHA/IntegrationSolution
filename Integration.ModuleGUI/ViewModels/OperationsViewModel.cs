@@ -1,23 +1,21 @@
-﻿using DialogConstruction.Implementations;
-using DialogConstruction.Interfaces;
+﻿using DialogConstruction.Interfaces;
 using Integration.ModuleGUI.Models;
 using IntegrationSolution.Common.Enums;
 using IntegrationSolution.Common.Models;
-using IntegrationSolution.Dialogs.ViewModels;
-using IntegrationSolution.Dialogs.Views;
+using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Excel.Interfaces;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using WialonBase.Entities;
 
 namespace Integration.ModuleGUI.ViewModels
 {
@@ -27,14 +25,18 @@ namespace Integration.ModuleGUI.ViewModels
         private readonly IDialogManager _dialogManager;
         #endregion
 
+        #region Properties
+        public ICollection<IVehicle> Vehicles { get; set; }
+        public ICollection<CarWialon> VehiclesNavigate { get; set; }
+        #endregion
 
         public OperationsViewModel(IDialogManager dialogManager, IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
             this.Title = "Операции";
             this.CanGoBack = true;
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
+            CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
 
-            //_dialogFuelContext = _container.Resolve<DialogViewModel<FuelPrice>>();
             _dialogManager = dialogManager;
         }
 
@@ -60,6 +62,127 @@ namespace Integration.ModuleGUI.ViewModels
             if (fuelPrices == null)
                 return;
 
+            var progress = await InitializeCars();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var percentage = 75;
+
+                    progress.SetTitle($"Запись в файл");
+                    if (percentage < 90)
+                        percentage += 9;
+                    progress.SetProgress(percentage / 100);
+                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInHeadersAndDataForTotalResult(Vehicles);
+
+                    if (percentage < 90)
+                        percentage += 9;
+                    progress.SetProgress(percentage / 100);
+
+                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(Vehicles);
+
+                    progress.SetTitle($"Сохранение");
+                    progress.SetProgress(0.99);
+                    ModuleData.ExcelMainFile.Save();
+                    this.CanGoNext = true;
+                    progress.SetProgress(1);
+                }
+                catch (Exception ex)
+                {
+                    this.Error = new IntegrationSolution.Common.Entities.Error()
+                    {
+                        IsError = true,
+                        ErrorDescription = ex.Message
+                    };
+                }
+
+            });
+
+            if (progress.IsOpen)
+                await progress.CloseAsync();
+
+            base.NotifyOnUpdateEvents();
+
+            if (this.Error == null || !this.Error.IsError)
+                wnd.ShowModalMessageExternal("Успех!", "Результаты успешно сохранены.");
+
+        }
+
+
+        public DelegateCommand CheckDifferenceOfTotalSpeedCommand { get; private set; }
+        protected async void CheckDifference()
+        {
+            var wnd = (MetroWindow)Application.Current.MainWindow;
+
+            var wialonCars = _wialonContext.GetCarsEnumarable();
+            if (wialonCars == null)
+            {
+                await wnd.ShowMessageAsync("Ошибка!", "Проверьте подключение к навигационной системе Wialon.");
+                return;
+            }
+            else
+                VehiclesNavigate = wialonCars;
+
+            var progress = await InitializeCars();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var percentage = 75;
+
+                    progress.SetTitle($"Сравнение данных");
+                    if (percentage < 90)
+                        percentage += 9;
+                    progress.SetProgress(percentage / 100);
+
+                    foreach (var item in VehiclesNavigate)
+                    {
+                        var vehicle = Vehicles.FirstOrDefault(x => x.StateNumber == item.StateNumber);
+                        //if (vehicle.TripResulted.TotalMileage)
+                        // В ожидании проверки подобности!!!
+                    }
+
+                    if (percentage < 90)
+                        percentage += 9;
+                    progress.SetProgress(percentage / 100);
+
+                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(Vehicles);
+
+                    progress.SetTitle($"Сохранение");
+                    progress.SetProgress(0.99);
+                    ModuleData.ExcelMainFile.Save();
+                    this.CanGoNext = true;
+                    progress.SetProgress(1);
+                }
+                catch (Exception ex)
+                {
+                    this.Error = new IntegrationSolution.Common.Entities.Error()
+                    {
+                        IsError = true,
+                        ErrorDescription = ex.Message
+                    };
+                }
+
+            });
+
+            if (progress.IsOpen)
+                await progress.CloseAsync();
+
+            base.NotifyOnUpdateEvents();
+
+            if (this.Error == null || !this.Error.IsError)
+                wnd.ShowModalMessageExternal("Успех!", "Результаты успешно сохранены.");
+
+        }
+        #endregion
+
+
+        #region Helpers
+        private async Task<ProgressDialogController> InitializeCars()
+        {
+            var wnd = (MetroWindow)Application.Current.MainWindow;
             var progress = await wnd.ShowProgressAsync("Подождите...", "Инициализация файлов");
 
             await Task.Run(() =>
@@ -92,23 +215,7 @@ namespace Integration.ModuleGUI.ViewModels
                         }
                     }
 
-                    progress.SetTitle($"Запись в файл");
-                    if (percentage < 90)
-                        percentage += 9;
-                    progress.SetProgress(percentage / 100);
-                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInHeadersAndDataForTotalResult(cars);
-
-                    if (percentage < 90)
-                        percentage += 9;
-                    progress.SetProgress(percentage / 100);
-
-                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(cars);
-
-                    progress.SetTitle($"Сохранение");
-                    progress.SetProgress(0.99);
-                    ModuleData.ExcelMainFile.Save();
-                    this.CanGoNext = true;
-                    progress.SetProgress(1);
+                    Vehicles = cars;
                 }
                 catch (Exception ex)
                 {
@@ -118,22 +225,10 @@ namespace Integration.ModuleGUI.ViewModels
                         ErrorDescription = ex.Message
                     };
                 }
-
             });
 
-            if (progress.IsOpen)
-                await progress.CloseAsync();
-
-            base.NotifyOnUpdateEvents();
-
-            if (this.Error == null || !this.Error.IsError)
-                wnd.ShowModalMessageExternal("Успех!", "Результаты успешно сохранены.");
-            
+            return progress;
         }
         #endregion
-
-
-        
-
     }
 }

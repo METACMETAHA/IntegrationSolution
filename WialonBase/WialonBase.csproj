@@ -91,6 +91,7 @@
     <Compile Include="Entities\CarWialon.cs" />
     <Compile Include="Helpers\JsonToVehicleConverter.cs" />
     <Compile Include="Implementation\WialonOperations.cs" />
+    <Compile Include="Interfaces\IConnection.cs" />
     <Compile Include="Interfaces\INavigationOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WialonModule.cs" />

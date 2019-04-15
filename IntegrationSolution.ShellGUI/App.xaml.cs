@@ -29,7 +29,9 @@ namespace IntegrationSolution.ShellGUI
         protected override Window CreateShell()
         {
             base.InitializeModules();
-            return Container.Resolve<MainWindow>();
+            this.MainWindow = Container.Resolve<MainWindow>();
+            this.MainWindow.DataContext = Container.Resolve<MainWindowViewModel>();
+            return this.MainWindow;
         }
 
 

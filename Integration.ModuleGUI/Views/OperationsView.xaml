@@ -8,9 +8,20 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <Button Content="Подсчет"
-                Command="{Binding WriteTotalStatisticsInFileCommand}"
-                Style="{StaticResource LargeBlueBtn}"/>
-
+        <metro:MetroAnimatedSingleRowTabControl>
+            <TabItem Header="Операции">
+                <StackPanel>
+                    <Button Content="Подсчет общего" Margin="10" Padding="10"
+                            Command="{Binding WriteTotalStatisticsInFileCommand}"
+                            Style="{StaticResource LargeBlueBtn}"
+                            ToolTip="Подсчёт расхода топлива и затрат, общего пробега и моточасов наработки"/>
+                    <Button Content="Проверка валидности пробега" Margin="10" Padding="10"
+                            Command="{Binding CheckDifferenceOfTotalSpeedCommand}"
+                            Style="{StaticResource LargeBlueBtn}"
+                            ToolTip="Сравнение данных по пробегу из системы SAP и Wialon"/>
+                </StackPanel>
+            </TabItem>
+            
+        </metro:MetroAnimatedSingleRowTabControl>
     </Grid>
 </UserControl>

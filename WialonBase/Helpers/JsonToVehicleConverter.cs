@@ -15,8 +15,8 @@ namespace WialonBase.Helpers
         {
             try
             {
-                var state = obj["nm"].Value<string>().ToStateNumberWialon();
                 var id = int.Parse(obj["id"].Value<string>());
+                var state = obj["nm"].Value<string>().ToStateNumberWialon();
 
                 return new CarWialon(id, state);
             }
