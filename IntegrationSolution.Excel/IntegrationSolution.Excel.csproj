@@ -98,10 +98,9 @@
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
-      <Project>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</Project>
+      <Project>{a26a525e-0bbc-43fe-a9d5-07553da077ab}</Project>
       <Name>IntegrationSolution.Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

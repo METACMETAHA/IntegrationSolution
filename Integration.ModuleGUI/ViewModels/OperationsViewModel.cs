@@ -199,7 +199,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                     progress.SetTitle($"Инициализация транспортных средств. На очереди {cars.Count} обьектов.");
 
-                    if (cars == null || storageData == null || cars.Count() == 0)
+                    if (cars == null || storageData == null || !cars.Any())
                         throw new Exception("Ошибка. Попробуйте вернуться и загрузить файлы по новой.");
 
                     int countCarsPerOnePercent = (cars.Count / 70) + 1;

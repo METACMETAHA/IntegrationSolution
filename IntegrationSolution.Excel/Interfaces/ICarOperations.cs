@@ -1,11 +1,6 @@
-﻿using IntegrationSolution.Common.Enums;
-using IntegrationSolution.Common.Models;
-using IntegrationSolution.Entities.Interfaces;
+﻿using IntegrationSolution.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntegrationSolution.Excel.Interfaces
 {

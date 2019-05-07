@@ -20,9 +20,11 @@ namespace Consoles
             
             using (var client = new WebClient())
             {
-                var values = new NameValueCollection();
-                values["svc"] = "token/login";
-                values["params"] = "{\"token\":\"93662d5dd4ed0a21b9775bd4704d6666895DABE9AB194AF87912246CE60488C6F8B4D168\"}";
+                var values = new NameValueCollection
+                {
+                    ["svc"] = "token/login",
+                    ["params"] = "{\"token\":\"93662d5dd4ed0a21b9775bd4704d6666895DABE9AB194AF87912246CE60488C6F8B4D168\"}"
+                };
                 client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
 
                 var response = client.UploadValues("http://dtekgps.ohholding.com.ua/wialon/ajax.html", values);
