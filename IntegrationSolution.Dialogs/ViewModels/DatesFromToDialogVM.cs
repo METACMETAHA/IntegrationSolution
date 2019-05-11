@@ -2,62 +2,57 @@
 using DialogConstruction.Implementations;
 using IntegrationSolution.Common.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unity;
 
 namespace IntegrationSolution.Dialogs.ViewModels
 {
-    public class FuelPriceInputDialogVM : DialogViewModel<FuelPrice>
+    public class DatesFromToDialogVM : DialogViewModel<DatesFromToContext>
     {
-        private FuelPrice _fuelPrice;
-        public FuelPrice FuelPrice
+        private DatesFromToContext _dates;
+        public DatesFromToContext Dates
         {
-            get { return _fuelPrice; }
+            get { return _dates; }
             set
             {
-                _fuelPrice = value;
+                _dates = value;
                 NotifyOfPropertyChange();
             }
         }
 
-
-        public FuelPriceInputDialogVM(IUnityContainer unity) : base(unity)
+        public DatesFromToDialogVM(IUnityContainer unity) : base(unity)
         {
-            FuelPrice = unity.Resolve<FuelPrice>();
+            Dates = new DatesFromToContext();
             OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
-            //AddValidationRule(() => FuelPrice, x => x.HasErrors , "Text must not be empty");
         }
 
 
         private bool CheckInput()
         {
-            if (FuelPrice == null)
-                return false;
-
-            if (FuelPrice.DiselCost < 1
-                || FuelPrice.GasCost < 1
-                || FuelPrice.LPGCost < 1)
-                return false;
-
-            if (FuelPrice.DiselCost > 1000
-                || FuelPrice.GasCost > 1000
-                || FuelPrice.LPGCost > 1000)
+            if (Dates == null)
                 return false;
             
+            if (Dates.FromDate >= Dates.ToDate)
+                return false;
+
             return true;
         }
+
 
         #region Commands
         public ICommand OkCommand { get; set; }
         private bool CanOk()
         {
             return CheckInput();
-            //return !HasErrors;
         }
         private void OnOk()
         {
-            Close(FuelPrice);
+            Close(Dates);
         }
 
 

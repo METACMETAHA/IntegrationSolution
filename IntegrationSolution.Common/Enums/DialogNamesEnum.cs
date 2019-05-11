@@ -8,7 +8,7 @@ namespace IntegrationSolution.Common.Enums
 {
     public enum DialogNamesEnum
     {
-        TestDialog,
+        DatesFromTo,
         FuelPriceDialog
     }
 }

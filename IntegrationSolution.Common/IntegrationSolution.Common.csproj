@@ -86,6 +86,7 @@
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Implementations\PropertyChangedBase.cs" />
     <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />
+    <Compile Include="Models\DatesFromToContext.cs" />
     <Compile Include="Models\FuelPrice.cs" />
     <Compile Include="ModulesExtension\Implementations\ViewModelBase.cs" />
     <Compile Include="ModulesExtension\Interfaces\IActiveState.cs" />

@@ -88,9 +88,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\WialonConnection.cs" />
+    <Compile Include="Entities\CarDetails.cs" />
     <Compile Include="Entities\CarWialon.cs" />
-    <Compile Include="Helpers\JsonToVehicleConverter.cs" />
-    <Compile Include="Implementation\WialonOperations.cs" />
+    <Compile Include="Entities\Interfaces\ITripWialon.cs" />
+    <Compile Include="Entities\SpeedViolationWialon.cs" />
+    <Compile Include="Entities\TripBaseWialon.cs" />
+    <Compile Include="Entities\TripWialon.cs" />
+    <Compile Include="Helpers\DateTimeToUnixFormatConverter.cs" />
+    <Compile Include="Helpers\JsonToWialonEntitiesConverter.cs" />
+    <Compile Include="Helpers\UnixFormatToDateTimeConverter.cs" />
+    <Compile Include="Implementation\WialonWrapper.cs" />
     <Compile Include="Interfaces\IConnection.cs" />
     <Compile Include="Interfaces\INavigationOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

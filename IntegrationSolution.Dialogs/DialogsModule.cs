@@ -34,6 +34,7 @@ namespace IntegrationSolution.Dialogs
             containerRegistry.Register<IDialogManager, DialogConstruction.Implementations.DialogManager>();   
             
             RegisterDialog<FuelPriceInputDialog, FuelPriceInputDialogVM>(DialogNamesEnum.FuelPriceDialog.ToString());
+            RegisterDialog<DatesFromToDialog, DatesFromToDialogVM>(DialogNamesEnum.DatesFromTo.ToString());
         }
 
         public void RegisterDialog<TView, TViewModel>(string dialogName)

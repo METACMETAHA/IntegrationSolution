@@ -15,7 +15,7 @@
                             Command="{Binding WriteTotalStatisticsInFileCommand}"
                             Style="{StaticResource LargeBlueBtn}"
                             ToolTip="Подсчёт расхода топлива и затрат, общего пробега и моточасов наработки"/>
-                    <Button Content="Проверка валидности пробега" Margin="10" Padding="10"
+                    <Button Content="Проверка пробега" Margin="10" Padding="10"
                             Command="{Binding CheckDifferenceOfTotalSpeedCommand}"
                             Style="{StaticResource LargeBlueBtn}"
                             ToolTip="Сравнение данных по пробегу из системы SAP и Wialon"/>

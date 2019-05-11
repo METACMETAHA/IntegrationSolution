@@ -20,7 +20,9 @@ namespace IntegrationSolution.Excel.Common
     public class StaticHelper
     {
         [Dependency]
+#pragma warning disable IDE1006 // Naming Styles
         public static IUnityContainer container { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
 
         public StaticHelper(IUnityContainer unity)

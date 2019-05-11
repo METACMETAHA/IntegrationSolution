@@ -47,9 +47,11 @@ namespace WialonBase.Configuration
             {
                 using (var client = new WebClient())
                 {
-                    var values = new NameValueCollection();
-                    values["svc"] = "token/login";
-                    values["params"] = "{\"token\":\"" + Token + "\"}";
+                    var values = new NameValueCollection
+                    {
+                        ["svc"] = "token/login",
+                        ["params"] = "{\"token\":\"" + Token + "\"}"
+                    };
                     client.Headers[HttpRequestHeader.ContentType] = _contentType;
 
                     var response = client.UploadValues(APIUrl, values);
@@ -78,10 +80,12 @@ namespace WialonBase.Configuration
             {
                 using (var client = new WebClient())
                 {
-                    var values = new NameValueCollection();
-                    values["svc"] = "core/logout";
-                    values["params"] = "{}";
-                    values["sid"] = SessionID;
+                    var values = new NameValueCollection
+                    {
+                        ["svc"] = "core/logout",
+                        ["params"] = "{}",
+                        ["sid"] = SessionID
+                    };
                     client.Headers[HttpRequestHeader.ContentType] = _contentType;
 
                     var response = client.UploadValues(APIUrl, values);
@@ -104,15 +108,17 @@ namespace WialonBase.Configuration
         
 
         public JObject SendRequest(string path, params KeyValuePair<string,string> [] parameters)
-        {
+        { 
             try
             {
                 JObject obj;
                 using (var client = new WebClient())
                 {
-                    var values = new NameValueCollection();
-                    values["svc"] = path;
-                    values["sid"] = SessionID;
+                    var values = new NameValueCollection
+                    {
+                        ["svc"] = path,
+                        ["sid"] = SessionID
+                    };
 
                     StringBuilder param = new StringBuilder();
                     for (int i = 0; i < parameters.Length; i++)
@@ -148,10 +154,12 @@ namespace WialonBase.Configuration
                 JObject obj;
                 using (var client = new WebClient())
                 {
-                    var values = new NameValueCollection();
-                    values["svc"] = path;
-                    values["sid"] = SessionID;
-                    values["params"] = param;
+                    var values = new NameValueCollection
+                    {
+                        ["svc"] = path,
+                        ["sid"] = SessionID,
+                        ["params"] = param
+                    };
                     client.Headers[HttpRequestHeader.ContentType] = _contentType;
                     client.Headers[HttpRequestHeader.ContentEncoding] = Encoding.UTF8.BodyName;
                     var response = client.UploadValues(APIUrl, values);

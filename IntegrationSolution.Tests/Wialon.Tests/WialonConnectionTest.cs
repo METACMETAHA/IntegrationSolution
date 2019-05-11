@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using Unity;
 using WialonBase.Configuration;
 using WialonBase.Implementation;
+using WialonBase.Interfaces;
 
 namespace IntegrationSolution.Tests.Wialon.Tests
 {
@@ -32,16 +34,56 @@ namespace IntegrationSolution.Tests.Wialon.Tests
         }
 
 
-        //[DataTestMethod]
-        //public void TestGetVehiclesWialon()
-        //{
-        //    //WialonOperations con = _container.Resolve<WialonOperations>();
-        //    WialonOperations con = new WialonOperations(null);
-        //    var connection = con.Open();
-        //    var cars = con.GetCarsEnumarable();
-        //    var close = con.Close();
-        //    Assert.IsTrue(connection);
-        //    Assert.IsTrue(close);
-        //}
+        [DataTestMethod]
+        public void TestGetCarsEnumarable()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterSingleton<WialonConnection>();
+
+            WialonWrapper con = new WialonWrapper(container);
+            var connection = con.TryConnect();
+            var cars = con.GetCarsEnumarable();
+            var close = con.TryClose();
+
+            Assert.IsTrue(connection);
+            Assert.IsNotNull(cars);
+            Assert.IsFalse(cars.Count == 0);
+            Assert.IsTrue(close);
+        }
+
+
+        [DataTestMethod]
+        [DataRow(1023)]
+        public void TestGetCarInfo(int ID)
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterSingleton<WialonConnection>();
+
+            WialonWrapper con = new WialonWrapper(container);
+            var connection = con.TryConnect();
+            var cars = con.GetCarInfo(1023, new DateTime(2019, 5, 3), DateTime.Now);
+            var close = con.TryClose();
+
+            Assert.IsTrue(connection);
+            Assert.IsNotNull(cars);
+            Assert.IsTrue(close);
+        }
+
+
+        [DataTestMethod]
+        public void TestClean()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterSingleton<WialonConnection>();
+            
+            WialonWrapper con = new WialonWrapper(container);
+            var connection = con.TryConnect();
+            var clean = con.CleanUpResults();
+            var close = con.TryClose();
+            
+            Assert.IsTrue(connection);
+            Assert.IsTrue(clean);
+            Assert.IsTrue(close);
+        }
     }
 }

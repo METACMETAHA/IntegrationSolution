@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WialonBase.Configuration;
+using WialonBase.Entities;
+using WialonBase.Entities.Interfaces;
 using WialonBase.Implementation;
 using WialonBase.Interfaces;
 
@@ -19,7 +21,10 @@ namespace WialonBase
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<WialonConnection>();
-            containerRegistry.RegisterSingleton<INavigationOperations, WialonOperations>();
+            containerRegistry.RegisterSingleton<INavigationOperations, WialonWrapper>();
+
+            containerRegistry.Register<ITripWialon, TripWialon>(nameof(TripWialon));
+            containerRegistry.Register<ITripWialon, SpeedViolationWialon>(nameof(SpeedViolationWialon));
         }
     }
 }

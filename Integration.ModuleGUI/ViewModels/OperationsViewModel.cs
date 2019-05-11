@@ -114,7 +114,9 @@ namespace Integration.ModuleGUI.ViewModels
         protected async void CheckDifference()
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
+            
 
+            // Get cars from Wialon
             var wialonCars = _wialonContext.GetCarsEnumarable();
             if (wialonCars == null)
             {
@@ -124,35 +126,50 @@ namespace Integration.ModuleGUI.ViewModels
             else
                 VehiclesNavigate = wialonCars;
 
+
+            var datesFromTo = await _dialogManager.ShowDialogAsync<DatesFromToContext>(DialogNamesEnum.DatesFromTo);
+            if (datesFromTo == null)
+                return;
+
             var progress = await InitializeCars();
 
             await Task.Run(() =>
             {
                 try
                 {
-                    var percentage = 75;
-
-                    progress.SetTitle($"Сравнение данных");
+                    var percentage = 70;
+                    
+                    progress.SetTitle($"Выборка транспортных средств из системы Wialon");
                     if (percentage < 90)
-                        percentage += 9;
+                        percentage += 5;
+                    progress.SetProgress(percentage / 100);
+                    
+                    if (percentage < 90)
+                        percentage += 7;
                     progress.SetProgress(percentage / 100);
 
                     foreach (var item in VehiclesNavigate)
                     {
                         var vehicle = Vehicles.FirstOrDefault(x => x.StateNumber == item.StateNumber);
-                        //if (vehicle.TripResulted.TotalMileage)
-                        // В ожидании проверки подобности!!!
+                        if (vehicle == null)
+                            continue; // можно отобрать машины что отсутствуют для проверки SAPP vs Wialon
+
+                        var tripWialon = _wialonContext.GetCarInfo(item.ID,
+                            new DateTime(2019, 3, 1), new DateTime(2019, 3, 30));
+
+                        var diff = vehicle.TripResulted.TotalMileage - tripWialon.Mileage;
+                        //if(Math.Abs(diff))
                     }
 
                     if (percentage < 90)
                         percentage += 9;
                     progress.SetProgress(percentage / 100);
 
-                    (this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(Vehicles);
+                    //(this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(Vehicles);
 
                     progress.SetTitle($"Сохранение");
                     progress.SetProgress(0.99);
-                    ModuleData.ExcelMainFile.Save();
+                    
                     this.CanGoNext = true;
                     progress.SetProgress(1);
                 }
@@ -191,7 +208,7 @@ namespace Integration.ModuleGUI.ViewModels
                 {
                     double percentage = 0;
                     progress.SetTitle("Инициализация транспортных средств");
-                    percentage += 10;
+                    percentage += 5;
                     progress.SetProgress(percentage / 100);
 
                     var cars = (this.ModuleData.ExcelMainFile as ICarOperations)?.GetVehicles()?.ToList();
