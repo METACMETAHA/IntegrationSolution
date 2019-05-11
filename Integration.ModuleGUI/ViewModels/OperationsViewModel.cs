@@ -36,12 +36,21 @@ namespace Integration.ModuleGUI.ViewModels
         // Vehicles from Wialon which are not found in excel
         public ObservableCollection<CarWialon> VehiclesWialonDistinctExcel { get; set; }
 
+
+        private bool _isFlyoutOpen;
+        public bool IsFlyoutOpen
+        {
+            get { return _isFlyoutOpen; }
+            set { _isFlyoutOpen = value; }
+        }
+
         #endregion
 
         public OperationsViewModel(IDialogManager dialogManager, IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
             this.Title = "Операции";
             this.CanGoBack = true;
+            IsFlyoutOpen = true;
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
 

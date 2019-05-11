@@ -3,12 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
-             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
+
     <Grid>
-        <metro:MetroAnimatedSingleRowTabControl>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Controls:MetroAnimatedSingleRowTabControl>
             <TabItem Header="Операции">
                 <StackPanel>
                     <Button Content="Подсчет общего" Margin="10" Padding="10"
@@ -20,8 +28,53 @@
                             Style="{StaticResource LargeBlueBtn}"
                             ToolTip="Сравнение данных по пробегу из системы SAP и Wialon"/>
                 </StackPanel>
-            </TabItem>
-            
-        </metro:MetroAnimatedSingleRowTabControl>
+            </TabItem>            
+        </Controls:MetroAnimatedSingleRowTabControl>
+
+        
+        <!--<Controls:FlyoutsControl Grid.Column="1" Background="Black" Visibility="Visible" Width="230">
+            <Controls:FlyoutsControl>
+                <Controls:Flyout Header="Flyout" Position="Right" Width="200" Theme="Dark"
+                IsOpen="True" IsHitTestVisible="True" IsPinned="True">
+                    <TextBlock Text="Some text" />
+                </Controls:Flyout>
+            </Controls:FlyoutsControl>
+        </Controls:FlyoutsControl>-->
+        
+        <!--<Button HorizontalAlignment="Right" Width="20" Grid.Column="1">
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+            Storyboard.TargetName="theTransform"
+            Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)" 
+            From="0" To="360" Duration="0:0:5" AutoReverse="True"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>
+            Click to see the Popup animate
+        </Button>
+        <Popup IsOpen="True"                   
+       AllowsTransparency="True"
+       PopupAnimation="Slide"
+       HorizontalOffset="50"
+       VerticalOffset="50"
+       >
+            --><!--The Margin set on the Canvas provides the additional 
+      area around the Popup so that the Popup is visible when 
+      it rotates.--><!--
+            <Canvas Width="100" Height="100" Background="DarkBlue"
+          Margin="150">
+                <Canvas.RenderTransform>
+                    <TranslateTransform x:Name="theTransform" />
+                </Canvas.RenderTransform>
+                <TextBlock TextWrapping="Wrap" Foreground="White">
+      Rotating Popup
+                </TextBlock>
+            </Canvas>
+        </Popup>-->
+
     </Grid>
 </UserControl>
