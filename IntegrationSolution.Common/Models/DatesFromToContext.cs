@@ -34,9 +34,6 @@ namespace IntegrationSolution.Common.Models
 
 
         public DatesFromToContext()
-        {
-            FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            ToDate = DateTime.Now;
-        }
+        { }
     }
 }

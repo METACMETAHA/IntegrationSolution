@@ -7,6 +7,7 @@
              xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"  
              xmlns:local="clr-namespace:IntegrationSolution.Dialogs.Views"
              mc:Ignorable="d" Title="Выберите даты для корректного анализа данных из системы Wialon.">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,11 +20,12 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.ColumnSpan="3" Margin="10 25 10 10" Orientation="Horizontal" HorizontalAlignment="Center">
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" Content="За месяц" Padding="5" Margin="7"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" Content="За неделю" Padding="5" Margin="7"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" Content="Сегодня" Padding="5" Margin="7"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" Content="Выборочно" Padding="5" Margin="7"/>
+        
+            <StackPanel Grid.ColumnSpan="3" Margin="10 25 10 10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerMonth}" Content="За месяц" Padding="5" Margin="7"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerWeek}" Content="За неделю" Padding="5" Margin="7"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerDay}" Content="Сегодня" Padding="5" Margin="7"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Custom}" Content="Выборочно" Padding="5" Margin="7"/>
         </StackPanel>
 
         <Calendar Grid.Column="0" Grid.Row="1" Margin="10" SelectedDate="{Binding Dates.FromDate}" IsTodayHighlighted="False"

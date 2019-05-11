@@ -11,6 +11,7 @@ using Prism.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,6 +29,13 @@ namespace Integration.ModuleGUI.ViewModels
         #region Properties
         public ICollection<IVehicle> Vehicles { get; set; }
         public ICollection<CarWialon> VehiclesNavigate { get; set; }
+
+        // Vehicles from excel which are not found in Wialon
+        public ObservableCollection<IVehicle> VehiclesExcelDistinctWialon { get; set; }
+
+        // Vehicles from Wialon which are not found in excel
+        public ObservableCollection<CarWialon> VehiclesWialonDistinctExcel { get; set; }
+
         #endregion
 
         public OperationsViewModel(IDialogManager dialogManager, IUnityContainer container, IEventAggregator ea) : base(container, ea)
@@ -114,7 +122,10 @@ namespace Integration.ModuleGUI.ViewModels
         protected async void CheckDifference()
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
-            
+
+            var desicion = await wnd.ShowMessageAsync("Вы хотите продолжить?", "Данная процедура может занять около 5 минут.", MessageDialogStyle.AffirmativeAndNegative);
+            if (desicion != MessageDialogResult.Affirmative)
+                return;
 
             // Get cars from Wialon
             var wialonCars = _wialonContext.GetCarsEnumarable();
@@ -134,42 +145,64 @@ namespace Integration.ModuleGUI.ViewModels
             var progress = await InitializeCars();
 
             await Task.Run(() =>
+             {
+                 this.VehiclesExcelDistinctWialon = new ObservableCollection<IVehicle>(
+                     this.Vehicles.Where(x => VehiclesNavigate.FirstOrDefault(wialon => wialon.StateNumber == x.StateNumber) == null));
+                 this.VehiclesWialonDistinctExcel = new ObservableCollection<CarWialon>(
+                     this.VehiclesNavigate.Where(x => Vehicles.FirstOrDefault(veh => veh.StateNumber == x.StateNumber) == null));
+             });
+
+            await Task.Run(() =>
             {
                 try
                 {
-                    var percentage = 70;
+                    var percentage = 60;
                     
                     progress.SetTitle($"Выборка транспортных средств из системы Wialon");
                     if (percentage < 90)
-                        percentage += 5;
+                        percentage += 3;
                     progress.SetProgress(percentage / 100);
                     
-                    if (percentage < 90)
-                        percentage += 7;
-                    progress.SetProgress(percentage / 100);
+                    int intervalForWialonUnload = 100 - percentage;
+                    if (intervalForWialonUnload >= 25)
+                        intervalForWialonUnload -= 5;
+                    int stepForInterval = (VehiclesNavigate.Count / intervalForWialonUnload) + 1;
+                    int index = 0;
+                    int indexCurrent = 0;
 
                     foreach (var item in VehiclesNavigate)
                     {
+                        if (index++ > stepForInterval)
+                        {
+                            progress.SetProgress(++percentage / 100);
+                            index = 0;
+                        }
+
+                        indexCurrent++;
                         var vehicle = Vehicles.FirstOrDefault(x => x.StateNumber == item.StateNumber);
                         if (vehicle == null)
-                            continue; // можно отобрать машины что отсутствуют для проверки SAPP vs Wialon
-
+                            continue;
+                        
                         var tripWialon = _wialonContext.GetCarInfo(item.ID,
-                            new DateTime(2019, 3, 1), new DateTime(2019, 3, 30));
+                            datesFromTo.FromDate, datesFromTo.ToDate);
 
-                        var diff = vehicle.TripResulted.TotalMileage - tripWialon.Mileage;
+                        progress.SetMessage($"Осталось проверить: {VehiclesNavigate.Count - indexCurrent} транспортных средств\n" +
+                            $"Проверка {vehicle.UnitModel}  ({vehicle.StateNumber})\n" +
+                            $"Количество поездок за период: {vehicle.Trips?.Count} (SAP)\n" +
+                            $"Показания одометра за период по системе SAP: {vehicle.TripResulted?.TotalMileage} км\n" +
+                            $"Показания одометра за период по системе Wialon: {tripWialon.TotalMileage} км\n\n" +
+                            $"{((tripWialon.SpeedViolation != null)? $"Превышения скорости: {tripWialon.SpeedViolation.LocationBegin}\nСкорость фактическая/допустимая: {tripWialon.SpeedViolation.MaxSpeed}/{tripWialon.SpeedViolation.SpeedLimit}\nРасстояние: {tripWialon.SpeedViolation.Mileage} км)" : $"")}");
+
+                        if (vehicle.TripResulted != null) ;
+                            //var diff = vehicle.TripResulted.TotalMileage - tripWialon.Mileage;
                         //if(Math.Abs(diff))
                     }
 
-                    if (percentage < 90)
-                        percentage += 9;
+                    percentage = 99;
                     progress.SetProgress(percentage / 100);
 
                     //(this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(Vehicles);
-
-                    progress.SetTitle($"Сохранение");
-                    progress.SetProgress(0.99);
-                    
+                                        
                     this.CanGoNext = true;
                     progress.SetProgress(1);
                 }

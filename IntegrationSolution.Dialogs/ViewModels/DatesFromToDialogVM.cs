@@ -24,9 +24,77 @@ namespace IntegrationSolution.Dialogs.ViewModels
             }
         }
 
+        #region RadioButtons
+        private bool _perMonth;
+        public bool PerMonth
+        {
+            get { return _perMonth; }
+            set
+            {
+                if (value)
+                {
+                    Dates.FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                    Dates.ToDate = DateTime.Now;
+                }
+                _perMonth = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+
+        private bool _perWeek;
+        public bool PerWeek
+        {
+            get { return _perWeek; }
+            set
+            {
+                if (value)
+                {
+                    DayOfWeek day = DateTime.Now.DayOfWeek;
+                    int days = day - DayOfWeek.Monday;
+                    Dates.FromDate = DateTime.Now.AddDays(-days);
+                    Dates.ToDate = DateTime.Now;
+                }
+
+                _perWeek = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private bool _perDay;
+        public bool PerDay
+        {
+            get { return _perDay; }
+            set
+            {
+                if (value)
+                {
+                    Dates.FromDate = DateTime.Today;
+                    Dates.ToDate = DateTime.Now;
+                }
+
+                _perDay = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private bool _custom;
+        public bool Custom
+        {
+            get { return _custom; }
+            set
+            {
+                _custom = value;
+                NotifyOfPropertyChange();
+            }
+        }
+        #endregion
+
+
         public DatesFromToDialogVM(IUnityContainer unity) : base(unity)
         {
             Dates = new DatesFromToContext();
+            PerMonth = true;
             OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
         }
