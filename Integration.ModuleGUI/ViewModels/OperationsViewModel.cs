@@ -122,8 +122,24 @@ namespace Integration.ModuleGUI.ViewModels
             base.NotifyOnUpdateEvents();
 
             if (this.Error == null || !this.Error.IsError)
-                wnd.ShowModalMessageExternal("Успех!", "Результаты успешно сохранены.");
-
+            {
+                var userDesicion = wnd.ShowModalMessageExternal("Успех!",
+                    "Результаты успешно сохранены.\nЖелаете ли просмотреть результаты?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+                try
+                {
+                    if (userDesicion == MessageDialogResult.Affirmative)
+                        System.Diagnostics.Process.Start(ModuleData.PathToMainFile);
+                }
+                catch (Exception ex)
+                {
+                    this.Error = new IntegrationSolution.Common.Entities.Error()
+                    {
+                        IsError = true,
+                        ErrorDescription = ex.Message
+                    };
+                }
+            }
         }
 
 
@@ -166,12 +182,12 @@ namespace Integration.ModuleGUI.ViewModels
                 try
                 {
                     var percentage = 60;
-                    
+
                     progress.SetTitle($"Выборка транспортных средств из системы Wialon");
                     if (percentage < 90)
                         percentage += 3;
                     progress.SetProgress(percentage / 100);
-                    
+
                     int intervalForWialonUnload = 100 - percentage;
                     if (intervalForWialonUnload >= 25)
                         intervalForWialonUnload -= 5;
@@ -191,7 +207,7 @@ namespace Integration.ModuleGUI.ViewModels
                         var vehicle = Vehicles.FirstOrDefault(x => x.StateNumber == item.StateNumber);
                         if (vehicle == null)
                             continue;
-                        
+
                         var tripWialon = _wialonContext.GetCarInfo(item.ID,
                             datesFromTo.FromDate, datesFromTo.ToDate);
 
@@ -199,11 +215,11 @@ namespace Integration.ModuleGUI.ViewModels
                             $"Проверка {vehicle.UnitModel}  ({vehicle.StateNumber})\n" +
                             $"Количество поездок за период: {vehicle.Trips?.Count} (SAP)\n" +
                             $"Показания одометра за период по системе SAP: {vehicle.TripResulted?.TotalMileage} км\n" +
-                            $"Показания одометра за период по системе Wialon: {tripWialon.TotalMileage} км\n\n" +
-                            $"{((tripWialon.SpeedViolation != null)? $"Превышения скорости: {tripWialon.SpeedViolation.LocationBegin}\nСкорость фактическая/допустимая: {tripWialon.SpeedViolation.MaxSpeed}/{tripWialon.SpeedViolation.SpeedLimit}\nРасстояние: {tripWialon.SpeedViolation.Mileage} км)" : $"")}");
+                            $"Показания одометра за период по системе Wialon: {tripWialon.Mileage} км\n\n" +
+                            $"{((tripWialon.SpeedViolation != null) ? $"Превышения скорости: {tripWialon.SpeedViolation.LocationBegin}\nСкорость фактическая/допустимая: {tripWialon.SpeedViolation.MaxSpeed}/{tripWialon.SpeedViolation.SpeedLimit}\nРасстояние: {tripWialon.SpeedViolation.Mileage} км)" : $"")}");
 
                         if (vehicle.TripResulted != null) ;
-                            //var diff = vehicle.TripResulted.TotalMileage - tripWialon.Mileage;
+                        //var diff = vehicle.TripResulted.TotalMileage - tripWialon.Mileage;
                         //if(Math.Abs(diff))
                     }
 
@@ -211,9 +227,11 @@ namespace Integration.ModuleGUI.ViewModels
                     progress.SetProgress(percentage / 100);
 
                     //(this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(Vehicles);
-                                        
+
                     this.CanGoNext = true;
                     progress.SetProgress(1);
+
+                    this.MoveNext();
                 }
                 catch (Exception ex)
                 {

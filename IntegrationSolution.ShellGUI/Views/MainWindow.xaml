@@ -25,7 +25,7 @@
                                    Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
                                    Margin="5" IsChecked="{Binding IsConnectedNavigation}"
                                    FontSize="15" FontFamily="Candara Light"
-                                   OffLabel="Нету связи" ThumbIndicatorWidth="18"
+                                   OffLabel="Нету связи" ThumbIndicatorWidth="20"
                                    OffSwitchBrush="#FFE8C9C9"
                                    OnSwitchBrush="#FF65BF65"
                                    OnLabel="Подключено"/>

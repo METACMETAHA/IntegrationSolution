@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using WialonBase.Helpers;
 using WialonBase.Interfaces;
 
 namespace WialonBase.Configuration
@@ -58,6 +59,10 @@ namespace WialonBase.Configuration
 
                     var responseString = Encoding.Default.GetString(response);
                     _jsonConnectionInfo = JObject.Parse(responseString);
+
+                    var error = CheckError(_jsonConnectionInfo);
+                    if (error != null)
+                        throw new Exception(error);
 
                     if(_jsonConnectionInfo["reason"] != null)
                         if (!string.IsNullOrWhiteSpace(_jsonConnectionInfo["reason"].Value<string>()))
@@ -178,6 +183,20 @@ namespace WialonBase.Configuration
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
+                return null;
+            }
+        }
+
+
+        public string CheckError(JObject jObject)
+        {
+            try
+            {
+                var code = jObject["error"].Value<int>();
+                return WialonExceptions.GetErrorMsg(code);
+            }
+            catch (Exception)
+            {
                 return null;
             }
         }

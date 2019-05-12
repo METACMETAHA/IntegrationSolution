@@ -97,6 +97,7 @@
     <Compile Include="Helpers\DateTimeToUnixFormatConverter.cs" />
     <Compile Include="Helpers\JsonToWialonEntitiesConverter.cs" />
     <Compile Include="Helpers\UnixFormatToDateTimeConverter.cs" />
+    <Compile Include="Helpers\WialonExceptions.cs" />
     <Compile Include="Implementation\WialonWrapper.cs" />
     <Compile Include="Interfaces\IConnection.cs" />
     <Compile Include="Interfaces\INavigationOperations.cs" />

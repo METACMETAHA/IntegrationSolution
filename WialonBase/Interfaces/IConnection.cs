@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,12 @@ namespace WialonBase.Interfaces
         bool TryConnect();
 
         bool TryClose();
+
+        /// <summary>
+        /// This function checks Json parsed response from server for any error.
+        /// </summary>
+        /// <param name="jObject">parsed response</param>
+        /// <returns>Null if response without error or description of error</returns>
+        string CheckError(JObject jObject);
     }
 }

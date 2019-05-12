@@ -134,6 +134,8 @@ namespace WialonBase.Implementation
 
 
         public bool TryClose() => _wialonConnection.TryClose();
-        
+
+
+        public string CheckError(JObject jObject) => _wialonConnection.CheckError(jObject);
     }
 }
