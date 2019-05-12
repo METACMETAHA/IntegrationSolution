@@ -71,8 +71,8 @@
     <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.8.13.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.8.13\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -97,10 +98,9 @@
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
-      <Project>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</Project>
+      <Project>{a26a525e-0bbc-43fe-a9d5-07553da077ab}</Project>
       <Name>IntegrationSolution.Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,63 +1,40 @@
 ﻿using IntegrationSolution.Excel.Implementations;
 using IntegrationSolution.Excel.Interfaces;
 using System;
+using System.Windows;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
+using Newtonsoft.Json.Linq;
 
-namespace Console
+namespace Consoles
 {
     class Program
     {
         [STAThread]
         static void Main(string[] args)
-        {            
-            var fileMain = @"..\..\Main2.xlsx";
-            var file = @"..\..\export.xlsx";
-
-            ICarOperations excel = new ExcelCarOperations(new OfficeOpenXml.ExcelPackage(new FileInfo(fileMain)));
-            var data = excel.GetVehicles();
-
-            ICarOperations ex = new ExcelCarOperations(new OfficeOpenXml.ExcelPackage(new FileInfo(file)));
+        {
+            string site = "https://hst-api.wialon.com";
             
-            for (int i = 0; i < data.Count(); i++)
+            using (var client = new WebClient())
             {
-                var v = data.ElementAtOrDefault(i);
-                if (v != null)
+                var values = new NameValueCollection
                 {
-                    ex.SetFieldsOfVehicleByAvaliableData(ref v);
-                }
-            }           
+                    ["svc"] = "token/login",
+                    ["params"] = "{\"token\":\"93662d5dd4ed0a21b9775bd4704d6666895DABE9AB194AF87912246CE60488C6F8B4D168\"}"
+                };
+                client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
 
-            excel.WriteInHeadersAndDataForTotalResult(data.ToList());
-            excel.WriteInTotalResultOfEachStructure(data.ToList());
-            (excel as IExcel)?.Save();
+                var response = client.UploadValues("http://dtekgps.ohholding.com.ua/wialon/ajax.html", values);
 
-            for (int i = 0; i < data.Count(); i++)
-            {
-                var obj = data.ElementAt(i);
-                System.Console.WriteLine(obj.StateNumber + "\t" + obj.UnitModel);
-                System.Console.WriteLine($"Total mileage: {obj.TripResulted?.TotalMileage}");
+                var responseString = Encoding.Default.GetString(response);
+                Console.WriteLine(responseString);
 
-                var dangerTrips = obj.TripsWithMileageDeviation();
-                if (dangerTrips?.Count > 0)
-                {
-                    foreach (var item in dangerTrips)
-                    {
-                        System.Console.WriteLine("\t\tDeviation km:\t" + item.TotalMileage + "km");
-                    }
-                }
-
-                var dangerTripsMoto = obj.TripsWithMotoHoursDeviation();
-                if (dangerTripsMoto?.Count > 0)
-                {
-                    foreach (var item in dangerTripsMoto)
-                    {
-                        System.Console.WriteLine("\t\tDeviation moto:\t" + item.MotoHoursIndicationsAtAll + "hours");
-                    }
-                }
+                JObject json = JObject.Parse(responseString);
             }
-
-            System.Console.WriteLine("Count:\t" + data.Count());
+            Console.WriteLine("End");
         }
     }
 }

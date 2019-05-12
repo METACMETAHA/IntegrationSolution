@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace IntegrationSolution.Excel.Implementations
 {
@@ -21,13 +22,15 @@ namespace IntegrationSolution.Excel.Implementations
         #endregion
 
         private StyleExcel _styleExcel;
+        protected IUnityContainer container;
 
-
-        public ExcelBase(ExcelPackage excelPackage)
+        public ExcelBase(ExcelPackage excelPackage, IUnityContainer unityContainer)
         {
             Excel = excelPackage;
+            container = unityContainer;
             _styleExcel = new StyleExcel();
             TryClearFromPathList();
+            new StaticHelper(unityContainer);
         }
 
 

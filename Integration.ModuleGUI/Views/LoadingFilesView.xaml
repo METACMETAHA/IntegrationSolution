@@ -30,11 +30,15 @@
 
         <TextBox Grid.Column="1" Grid.Row="0" Padding="4" Margin="20 10" IsReadOnly="True"
                  metro:TextBoxHelper.Watermark="Путь к файлу"
+                 metro:TextBoxHelper.IsWaitingForData="True"
+                 metro:TextBoxHelper.UseFloatingWatermark="True"
                  Text="{Binding ModuleData.PathToMainFile, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"/>
 
         <TextBox Grid.Column="1" Grid.Row="1" Padding="4" Margin="20 10" IsReadOnly="True"
                  metro:TextBoxHelper.Watermark="Путь к файлу"
+                 metro:TextBoxHelper.IsWaitingForData="True"
+                 metro:TextBoxHelper.UseFloatingWatermark="True"
                  Text="{Binding ModuleData.PathToPathListFile, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"/>
 

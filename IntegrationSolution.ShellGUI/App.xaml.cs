@@ -1,5 +1,7 @@
 ﻿using Integration.Infrastructure;
 using Integration.ModuleGUI;
+using IntegrationSolution.Common;
+using IntegrationSolution.Dialogs;
 using IntegrationSolution.Excel;
 using IntegrationSolution.ShellGUI.ViewModels;
 using log4net;
@@ -12,6 +14,7 @@ using System;
 using System.Windows;
 using System.Windows.Navigation;
 using Unity;
+using WialonBase;
 
 namespace IntegrationSolution.ShellGUI
 {
@@ -26,7 +29,9 @@ namespace IntegrationSolution.ShellGUI
         protected override Window CreateShell()
         {
             base.InitializeModules();
-            return Container.Resolve<MainWindow>();
+            this.MainWindow = Container.Resolve<MainWindow>();
+            this.MainWindow.DataContext = Container.Resolve<MainWindowViewModel>();
+            return this.MainWindow;
         }
 
 
@@ -53,7 +58,10 @@ namespace IntegrationSolution.ShellGUI
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<InfrastructureModule>(); // required module
+            moduleCatalog.AddModule<DialogsModule>();
+            moduleCatalog.AddModule<CommonModule>();
             moduleCatalog.AddModule<ModuleGUIModule>(); // module for views
+            moduleCatalog.AddModule<WialonModule>();
             moduleCatalog.AddModule<IntegrationSolutionExcelModule>(); // module with Excel logic
         }
     }

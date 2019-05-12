@@ -13,5 +13,9 @@ namespace IntegrationSolution.Entities.SelfEntities
         public double Gas { get; set; }
         public double LPG { get; set; }
         public double Disel { get; set; }
+
+        public double GasCost { get; set; }
+        public double LPGCost { get; set; }
+        public double DiselCost { get; set; }
     }
 }

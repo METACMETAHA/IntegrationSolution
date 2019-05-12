@@ -11,11 +11,26 @@ using System.Threading.Tasks;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Common.Enums;
 using IntegrationSolution.Entities.SelfEntities;
+using IntegrationSolution.Common.Models;
+using Unity;
+using Unity.Attributes;
 
 namespace IntegrationSolution.Excel.Common
 {
     public class StaticHelper
     {
+        [Dependency]
+#pragma warning disable IDE1006 // Naming Styles
+        public static IUnityContainer container { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+
+
+        public StaticHelper(IUnityContainer unity)
+        {
+            container = unity;
+        }
+        
+
         /// <summary>
         /// This function gets headers` names and find them in excel headers (first row).
         /// At the same time it replaces name of headers to related property name.
@@ -127,7 +142,7 @@ namespace IntegrationSolution.Excel.Common
                               select cell.Start).ToList();
 
 
-                if (search.Count() > 0)
+                if (search.Any())
                     SearchingCells.AddRange(search);
             }
 
@@ -156,7 +171,7 @@ namespace IntegrationSolution.Excel.Common
                               select cell.Start).ToList();
 
 
-                if (search.Count() > 0)
+                if (search.Any())
                     SearchingCells.AddRange(search);
             }
 
@@ -299,7 +314,7 @@ namespace IntegrationSolution.Excel.Common
             Driver driver = new Driver();
 
             #region GetName
-            var headerName = rangeHeaders.Where(x => x.Key.Contains(nameof(HeaderNames.FullNameOfDriver))).FirstOrDefault();
+            var headerName = rangeHeaders.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.FullNameOfDriver)));
             if (headerName.Value != null)
             {
                 var name = GetValueByHeaderAndRow(excelFile, headerName, row).ToString().Split(' ');
@@ -313,7 +328,7 @@ namespace IntegrationSolution.Excel.Common
             #endregion
 
             #region GetNumber
-            var headerNumber = rangeHeaders.Where(x => x.Key.Contains(nameof(HeaderNames.NumberOfDriver))).FirstOrDefault();
+            var headerNumber = rangeHeaders.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.NumberOfDriver)));
             if (headerNumber.Value != null)
             {
                 driver.UnitNumber = StaticHelper.GetValueByHeaderAndRow(excelFile, headerNumber, row).ToString();
@@ -355,6 +370,7 @@ namespace IntegrationSolution.Excel.Common
         /// <param name="rangeHeaders">Headers to add and fill</param>
         public static void WriteVehicleDataAndHeaders(ExcelBase excelFile, IEnumerable<IVehicle> vehicles, params string[] rangeHeaders)
         {
+            var price = container.Resolve<FuelPrice>(); // ?? new FuelPrice() { DiselCost = 10, GasCost = 10, LPGCost = 10 };
             var existedHeaders = GetHeadersAddress(excelFile, rangeHeaders);
             foreach (var item in existedHeaders)
             {
@@ -370,6 +386,7 @@ namespace IntegrationSolution.Excel.Common
             {
                 AddOrUpdateMileageColumn(excelFile, vehicle);
                 AddOrUpdateFuelColumn(excelFile, vehicle);
+                AddOrUpdateCostColumn(excelFile, vehicle);
             }
         }
 
@@ -416,6 +433,15 @@ namespace IntegrationSolution.Excel.Common
                         case nameof(HeaderNames.ConsumptionLPGActualResult):
                             excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.LPG);
                             break;
+                        case nameof(HeaderNames.TotalCostGas):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.GasCost);
+                            break;
+                        case nameof(HeaderNames.TotalCostDisel):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.DiselCost);
+                            break;
+                        case nameof(HeaderNames.TotalCostLPG):
+                            excelFile.WorkSheet.SetValue(row.Row, header.Value.Column, data.Value.LPGCost);
+                            break;
                         default:
                             break;
                     }
@@ -426,11 +452,11 @@ namespace IntegrationSolution.Excel.Common
 
         private static void AddOrUpdateFuelColumn(ExcelBase excelFile, IVehicle vehicle)
         {
-            if (vehicle == null || vehicle.Trips == null || vehicle.Trips.Count() == 0)
+            if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;
 
             var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, HeaderNames.StateNumber);
-            if (header == null || header.Count() == 0)
+            if (header == null || !header.Any())
                 return;
 
             var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, HeaderNames.ConsumptionGasActualResult,
@@ -478,11 +504,11 @@ namespace IntegrationSolution.Excel.Common
 
         private static void AddOrUpdateMileageColumn(ExcelBase excelFile, IVehicle vehicle)
         {
-            if (vehicle == null || vehicle.Trips == null || vehicle.Trips.Count() == 0)
+            if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;
 
             var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, HeaderNames.StateNumber);
-            if (header == null || header.Count() == 0)
+            if (header == null || !header.Any())
                 return;
 
             var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, HeaderNames.TotalMileageResult,
@@ -505,6 +531,81 @@ namespace IntegrationSolution.Excel.Common
             catch (Exception)
             {
             }
+        }
+
+
+        private static void AddOrUpdateCostColumn(ExcelBase excelFile, IVehicle vehicle)
+        {
+            if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
+                return;
+
+            var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, HeaderNames.StateNumber);
+            if (header == null || !header.Any())
+                return;
+
+            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, 
+                HeaderNames.Amortization, HeaderNames.TotalCost, HeaderNames.DriversFOT, 
+                HeaderNames.TotalCostGas, HeaderNames.TotalCostDisel, HeaderNames.TotalCostLPG);
+            if (fuelHeaders.Count != 6)
+                return;
+
+            var price = container.Resolve<FuelPrice>();
+            double costForFuel = 0;
+            foreach (var item in vehicle.TripResulted?.FuelDictionary)
+            {
+                try
+                {
+                    switch (item.Key)
+                    {
+                        case FuelEnum.Disel:
+                            costForFuel += item.Value.ConsumptionActual * price.DiselCost;
+                            excelFile.WorkSheet.SetValue(
+                                header.FirstOrDefault().Row,
+                                fuelHeaders[nameof(HeaderNames.TotalCostDisel)].Column,
+                                item.Value.ConsumptionActual * price.DiselCost);
+                            break;
+
+                        case FuelEnum.Gas:
+                            costForFuel += item.Value.ConsumptionActual * price.GasCost;
+                            excelFile.WorkSheet.SetValue(
+                                header.FirstOrDefault().Row,
+                                fuelHeaders[nameof(HeaderNames.TotalCostGas)].Column,
+                                item.Value.ConsumptionActual * price.GasCost);
+                            break;
+
+                        case FuelEnum.LPG:
+                            costForFuel += item.Value.ConsumptionActual * price.LPGCost;
+                            excelFile.WorkSheet.SetValue(
+                                header.FirstOrDefault().Row,
+                                fuelHeaders[nameof(HeaderNames.TotalCostLPG)].Column,
+                                item.Value.ConsumptionActual * price.LPGCost);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception)
+                { }
+            }
+            
+            try
+            {
+                double costAmortizationAndDriver = 8470;
+                excelFile.WorkSheet.SetValue(
+                                    header.FirstOrDefault().Row,
+                                    fuelHeaders[nameof(HeaderNames.DriversFOT)].Column,
+                                    8470);
+
+
+                var costAtAll = costForFuel + costAmortizationAndDriver * 2;
+                excelFile.WorkSheet.SetValue(
+                                    header.FirstOrDefault().Row,
+                                    fuelHeaders[nameof(HeaderNames.TotalCost)].Column,
+                                    costAtAll);
+            }
+            catch (Exception)
+            { }
         }
     }
 }

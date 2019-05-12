@@ -167,16 +167,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" Height="62" Width="165" CornerRadius="5">
+                    <Border x:Name="border" Height="50" Width="140" CornerRadius="5">
                         <Border.Effect>
                             <DropShadowEffect Opacity="0.43"/>
                         </Border.Effect>
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FF21527D" Offset="0"/>
-                                <GradientStop Color="#FF0E416E" Offset="1"/>
-                                <GradientStop Color="#FF20517C" Offset="0.5"/>
-                                <GradientStop Color="#FF0E416E" Offset="0.513"/>
+                                <GradientStop Color="#FF0BA8B6" Offset="0"/>
+                                <GradientStop Color="#FF2F97A0" Offset="1"/>
+                                <GradientStop Color="#FF26ADB9" Offset="0.5"/>
+                                <GradientStop Color="#FF27929C" Offset="0.513"/>
                             </LinearGradientBrush>
                         </Border.Background>
                         <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap" TextElement.Foreground="White" TextElement.FontSize="15" 
@@ -188,10 +188,10 @@
                             <Setter Property="Background" TargetName="border">
                                 <Setter.Value>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#FF457CAD" Offset="0.004"/>
-                                        <GradientStop Color="#FF0E416E" Offset="1"/>
-                                        <GradientStop Color="#FF20517C" Offset="0.5"/>
-                                        <GradientStop Color="#FF0E416E" Offset="0.513"/>
+                                        <GradientStop Color="#FF19A0AD" Offset="0.004"/>
+                                        <GradientStop Color="#FF238B94" Offset="1"/>
+                                        <GradientStop Color="#FF26ADB9" Offset="0.5"/>
+                                        <GradientStop Color="#FF27929C" Offset="0.513"/>
                                     </LinearGradientBrush>
                                 </Setter.Value>
                             </Setter>
@@ -200,10 +200,10 @@
                             <Setter Property="Background" TargetName="border">
                                 <Setter.Value>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#FF21527D" Offset="1"/>
-                                        <GradientStop Color="#FF0E416E" Offset="0"/>
-                                        <GradientStop Color="#FF20517C" Offset="0.5"/>
-                                        <GradientStop Color="#FF0E416E" Offset="0.487"/>
+                                        <GradientStop Color="#FF1B9CA8" Offset="1"/>
+                                        <GradientStop Color="#FF057983" Offset="0"/>
+                                        <GradientStop Color="#FF30959D" Offset="0.5"/>
+                                        <GradientStop Color="#FF117B85" Offset="0.487"/>
                                     </LinearGradientBrush>
                                 </Setter.Value>
                             </Setter>
@@ -682,8 +682,8 @@
                             </Border.Effect>
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#FF1D5585" Offset="0"/>
-                                    <GradientStop Color="#FF0B3467" Offset="1"/>
+                                    <GradientStop Color="#FF2EADB7" Offset="0"/>
+                                    <GradientStop Color="#FF057983" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                             <ContentPresenter TextElement.Foreground="White" TextElement.FontSize="14" TextElement.FontFamily="MyriadPro" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>

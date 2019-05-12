@@ -150,6 +150,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DialogConstruction\DialogConstruction.csproj">
+      <Project>{417D2DE2-22D4-4B0D-8CA2-984202507C67}</Project>
+      <Name>DialogConstruction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Integration.Resources\Integration.Resources.csproj">
       <Project>{dfa26885-87b2-457a-ba04-ae4222649462}</Project>
       <Name>Integration.Resources</Name>
@@ -158,6 +162,10 @@
       <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IntegrationSolution.Dialogs\IntegrationSolution.Dialogs.csproj">
+      <Project>{73924EE8-8F52-40D2-B7A2-E49C76642E66}</Project>
+      <Name>IntegrationSolution.Dialogs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
       <Project>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</Project>
       <Name>IntegrationSolution.Entities</Name>
@@ -165,6 +173,10 @@
     <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
       <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
       <Name>IntegrationSolution.Excel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WialonBase\WialonBase.csproj">
+      <Project>{8019A8FB-BE45-4773-9D8B-19315197C451}</Project>
+      <Name>WialonBase</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

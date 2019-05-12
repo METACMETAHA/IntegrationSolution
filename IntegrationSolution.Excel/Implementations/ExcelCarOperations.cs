@@ -1,5 +1,6 @@
 ﻿using IntegrationSolution.Common.Converters;
 using IntegrationSolution.Common.Enums;
+using IntegrationSolution.Common.Models;
 using IntegrationSolution.Entities.Helpers;
 using IntegrationSolution.Entities.Implementations;
 using IntegrationSolution.Entities.Interfaces;
@@ -12,16 +13,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace IntegrationSolution.Excel.Implementations
 {
     public class ExcelCarOperations : ExcelBase, ICarOperations
     {
         private Dictionary<string, ExcelCellAddress> _tripsAddress;
-
+        
 
         #region Constructors
-        public ExcelCarOperations(ExcelPackage excelPackage) : base(excelPackage)
+        public ExcelCarOperations(ExcelPackage excelPackage, IUnityContainer unityContainer) : base(excelPackage, unityContainer)
         {
             _tripsAddress = new Dictionary<string, ExcelCellAddress>();
             TryInitializeAll();
@@ -120,6 +122,7 @@ namespace IntegrationSolution.Excel.Implementations
         #endregion
 
 
+        #region Implementation
         public IEnumerable<IVehicle> GetVehicles()
         {
             ICollection<IVehicle> cars = new List<IVehicle>();
@@ -201,7 +204,7 @@ namespace IntegrationSolution.Excel.Implementations
         public IEnumerable<Trip> GetTripsByStateNumber(string StateNumber)
         {
             var rows = StaticHelper.GetRowsWithValue(this, StateNumber, HeaderNames.StateNumber);
-            if (rows.Count() == 0)
+            if (!rows.Any())
                 return null;
 
             List<Trip> result = new List<Trip>();
@@ -217,19 +220,19 @@ namespace IntegrationSolution.Excel.Implementations
 
                     #region GetHeaders of indicators
                     // Indicators: odometr, mileage...
-                    var headerDepartureOdometerValue = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.DepartureOdometerValue))).FirstOrDefault();
-                    var headerReturnOdometerValue = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.ReturnOdometerValue))).FirstOrDefault();
-                    var headerTotalMileage = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.TotalMileage))).FirstOrDefault();
-                    var headerDepartureMotoHoursIndications = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.DepartureMotoHoursIndications))).FirstOrDefault();
-                    var headerReturnMotoHoursIndications = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.ReturnMotoHoursIndications))).FirstOrDefault();
-                    var headerMotoHoursIndicationsAtAll = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.MotoHoursIndicationsAtAll))).FirstOrDefault();
+                    var headerDepartureOdometerValue = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureOdometerValue)));
+                    var headerReturnOdometerValue = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnOdometerValue)));
+                    var headerTotalMileage = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.TotalMileage)));
+                    var headerDepartureMotoHoursIndications = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureMotoHoursIndications)));
+                    var headerReturnMotoHoursIndications = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnMotoHoursIndications)));
+                    var headerMotoHoursIndicationsAtAll = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.MotoHoursIndicationsAtAll)));
 
                     // Inidicators: date, time
-                    var headerDepartureFromGarageDate = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.DepartureFromGarageDate))).FirstOrDefault();
-                    var headerDepartureFromGarageTime = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.DepartureFromGarageTime))).FirstOrDefault();
-                    var headerReturnToGarageDate = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.ReturnToGarageDate))).FirstOrDefault();
-                    var headerReturnToGarageTime = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.ReturnToGarageTime))).FirstOrDefault();
-                    var headerTimeOnDutyAtAll = _tripsAddress.Where(x => x.Key.Contains(nameof(HeaderNames.TimeOnDutyAtAll))).FirstOrDefault();
+                    var headerDepartureFromGarageDate = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureFromGarageDate)));
+                    var headerDepartureFromGarageTime = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureFromGarageTime)));
+                    var headerReturnToGarageDate = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnToGarageDate)));
+                    var headerReturnToGarageTime = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnToGarageTime)));
+                    var headerTimeOnDutyAtAll = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.TimeOnDutyAtAll)));
                     #endregion
 
                     #region SetValues of car
@@ -280,12 +283,18 @@ namespace IntegrationSolution.Excel.Implementations
 
         public void WriteInHeadersAndDataForTotalResult(ICollection<IVehicle> vehicles)
         {
-            StaticHelper.WriteVehicleDataAndHeaders(this, vehicles, 
+            StaticHelper.WriteVehicleDataAndHeaders(this, vehicles,
                 HeaderNames.TotalMileageResult, 
                 HeaderNames.TotalJobDoneResult,
                 HeaderNames.ConsumptionGasActualResult,
                 HeaderNames.ConsumptionDieselActualResult, 
-                HeaderNames.ConsumptionLPGActualResult);
+                HeaderNames.ConsumptionLPGActualResult,
+                HeaderNames.TotalCostGas,
+                HeaderNames.TotalCostDisel,
+                HeaderNames.TotalCostLPG,
+                HeaderNames.Amortization,
+                HeaderNames.DriversFOT,
+                HeaderNames.TotalCost);
         }
 
 
@@ -301,11 +310,19 @@ namespace IntegrationSolution.Excel.Implementations
                 HeaderNames.TotalJobDoneResult,
                 HeaderNames.ConsumptionGasActualResult,
                 HeaderNames.ConsumptionDieselActualResult,
-                HeaderNames.ConsumptionLPGActualResult);
+                HeaderNames.ConsumptionLPGActualResult,
+                HeaderNames.TotalCostGas,
+                HeaderNames.TotalCostDisel,
+                HeaderNames.TotalCostLPG,
+                HeaderNames.Amortization,
+                HeaderNames.DriversFOT,
+                HeaderNames.TotalCost);
 
         }
+        #endregion
 
 
+        #region Helpers
         /// <summary>
         /// Get total values of each Structure (Структурные подразделения)
         /// </summary>
@@ -315,11 +332,11 @@ namespace IntegrationSolution.Excel.Implementations
         {
             var structures = vehicles.ToLookup(x => x.StructureName);
             Dictionary<string, TotalIndicators> summary = new Dictionary<string, TotalIndicators>();
-
+            
             foreach (var structure in structures)
             {
                 TotalIndicators total = new TotalIndicators();
-
+                
                 foreach (var auto in structure)
                 {
                     if (auto.TripResulted == null)
@@ -331,10 +348,17 @@ namespace IntegrationSolution.Excel.Implementations
                     total.LPG += auto.TripResulted.FuelDictionary[FuelEnum.LPG].ConsumptionActual;
                     total.Disel += auto.TripResulted.FuelDictionary[FuelEnum.Disel].ConsumptionActual;
                 }
+
+                var prices = container.Resolve<FuelPrice>();
+                total.GasCost = total.Gas * prices.GasCost;
+                total.LPGCost = total.LPG * prices.LPGCost;
+                total.DiselCost = total.Disel * prices.DiselCost;
+
                 summary.Add(structure.Key, total);
             }
 
             return summary;
         }
+        #endregion
     }
 }

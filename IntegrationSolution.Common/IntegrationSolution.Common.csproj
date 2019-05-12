@@ -37,6 +37,7 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
@@ -70,15 +71,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonModule.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\StateNumberConverter.cs" />
     <Compile Include="Converters\StringToDoubleConverter.cs" />
     <Compile Include="Entities\Error.cs" />
+    <Compile Include="Enums\DialogNamesEnum.cs" />
     <Compile Include="Enums\FuelEnum.cs" />
     <Compile Include="Enums\PathListStatusEnum.cs" />
     <Compile Include="Events\CanGoNextUpdateEvent.cs" />
     <Compile Include="Events\StatusUpdateEvent.cs" />
     <Compile Include="Events\SubmitFinishedEvent.cs" />
+    <Compile Include="Events\WialonConnectionEvent.cs" />
+    <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Implementations\PropertyChangedBase.cs" />
+    <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />
+    <Compile Include="Models\DatesFromToContext.cs" />
+    <Compile Include="Models\FuelPrice.cs" />
     <Compile Include="ModulesExtension\Implementations\ViewModelBase.cs" />
     <Compile Include="ModulesExtension\Interfaces\IActiveState.cs" />
     <Compile Include="ModulesExtension\Interfaces\IModuleViewModelNavigation.cs" />

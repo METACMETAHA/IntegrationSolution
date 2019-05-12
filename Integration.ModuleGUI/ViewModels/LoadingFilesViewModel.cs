@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using WialonBase.Implementation;
+using WialonBase.Interfaces;
 
 namespace Integration.ModuleGUI.ViewModels
 {

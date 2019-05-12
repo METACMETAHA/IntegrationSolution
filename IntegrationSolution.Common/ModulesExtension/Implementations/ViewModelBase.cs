@@ -19,8 +19,8 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
     /// </summary>
     public abstract class ViewModelBase : BindableBase, IModuleViewModelNavigation, IActiveState, INotifyEvents
     {
-        protected IUnityContainer _container;
-        protected IEventAggregator _eventAggregator;
+        protected readonly IUnityContainer _container;
+        protected readonly IEventAggregator _eventAggregator;
         protected readonly ILog _logger;
 
         #region Properties
@@ -91,7 +91,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
         public abstract bool MoveBack();
 
 
-        public void OnEnter()
+        public virtual void OnEnter()
         {
             IsActive = true;
 
@@ -102,7 +102,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
         }
 
 
-        public void OnExit()
+        public virtual void OnExit()
         {
             IsActive = false;
 
@@ -112,7 +112,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
         }
 
 
-        public void NotifyOnUpdateEvents()
+        public virtual void NotifyOnUpdateEvents()
         {
             _eventAggregator.GetEvent<StatusUpdateEvent>().Publish(Error);
             _eventAggregator.GetEvent<SubmitFinishedEvent>().Publish(IsFinished);
