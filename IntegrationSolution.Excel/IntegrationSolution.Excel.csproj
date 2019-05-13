@@ -79,13 +79,17 @@
     <Compile Include="Common\PathListData.cs" />
     <Compile Include="Common\StaticHelper.cs" />
     <Compile Include="Common\HeaderNames.cs" />
-    <Compile Include="Common\StyleExcel.cs" />
+    <Compile Include="Common\CssExcelStorage.cs" />
     <Compile Include="Implementations\ExcelBase.cs" />
     <Compile Include="Implementations\ExcelCarOperations.cs" />
+    <Compile Include="Implementations\ExcelReportWriter.cs" />
+    <Compile Include="Implementations\ExcelStyle.cs" />
     <Compile Include="IntegrationSolutionExcelModule.cs" />
     <Compile Include="Interfaces\ICarOperations.cs" />
     <Compile Include="Interfaces\IExcel.cs" />
     <Compile Include="Interfaces\IExcelBorders.cs" />
+    <Compile Include="Interfaces\IExcelStyle.cs" />
+    <Compile Include="Interfaces\IExcelWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -94,7 +94,7 @@ namespace IntegrationSolution.Dialogs.ViewModels
         public DatesFromToDialogVM(IUnityContainer unity) : base(unity)
         {
             Dates = new DatesFromToContext();
-            PerMonth = true;
+            Custom = true;
             OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
         }

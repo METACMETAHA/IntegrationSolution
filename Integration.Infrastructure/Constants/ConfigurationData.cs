@@ -57,7 +57,7 @@ namespace Integration.Infrastructure.Constants
             {
                 { new Data(_container.Resolve<LoadingFilesViewModel>(), _container.Resolve<LoadingFilesView>()) },
                 { new Data(_container.Resolve<OperationsViewModel>(), _container.Resolve<OperationsView>()) },
-                { new Data(_container.Resolve<OperationResultsViewModel>(), _container.Resolve<OperationsView>()) },
+                { new Data(_container.Resolve<OperationResultsViewModel>(), _container.Resolve<OperationResultsView>()) },
                 { new Data(_container.Resolve<FinalViewModel>(), _container.Resolve<FinalView>()) }
             };
 

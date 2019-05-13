@@ -50,7 +50,7 @@ namespace Integration.Infrastructure.ViewModels
         #endregion Properties
 
 
-        public BodyViewModel(IUnityContainer container, IEventAggregator ea)
+        public BodyViewModel(IUnityContainer container)
         {
             _container = container;
 

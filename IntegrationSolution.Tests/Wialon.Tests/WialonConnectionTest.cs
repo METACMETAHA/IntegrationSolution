@@ -15,11 +15,7 @@ namespace IntegrationSolution.Tests.Wialon.Tests
     public class WialonConnectionTest
     {
         protected IUnityContainer _container;
-
-
-        public WialonConnectionTest()
-        {
-        }
+        
 
 
         [DataTestMethod]
@@ -60,7 +56,7 @@ namespace IntegrationSolution.Tests.Wialon.Tests
 
             WialonWrapper con = new WialonWrapper(container);
             var connection = con.TryConnect();
-            var cars = con.GetCarInfo(1023, new DateTime(2019, 5, 3), DateTime.Now);
+            var cars = con.GetCarInfo(ID, new DateTime(2019, 5, 3), DateTime.Now);
             var close = con.TryClose();
 
             Assert.IsTrue(connection);

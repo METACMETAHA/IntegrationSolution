@@ -118,6 +118,12 @@
     <Compile Include="Views\OperationResultsView.xaml.cs">
       <DependentUpon>OperationResultsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OperationResultsViews\CompareSapWialonMileageView.xaml.cs">
+      <DependentUpon>CompareSapWialonMileageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OperationResultsViews\TransportView.xaml.cs">
+      <DependentUpon>TransportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OperationsView.xaml.cs">
       <DependentUpon>OperationsView.xaml</DependentUpon>
     </Compile>
@@ -149,6 +155,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OperationResultsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OperationResultsViews\CompareSapWialonMileageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OperationResultsViews\TransportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,9 +201,6 @@
       <Name>WialonBase</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\OperationResultsViewModels\" />
-    <Folder Include="Views\OperationResultsViews\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,6 +3,7 @@ using DialogConstruction.Interfaces;
 using Integration.ModuleGUI.Models;
 using Integration.ModuleGUI.ViewModels;
 using Integration.ModuleGUI.Views;
+using Integration.ModuleGUI.Views.OperationResultsViews;
 using IntegrationSolution.Dialogs;
 using IntegrationSolution.Dialogs.ViewModels;
 using IntegrationSolution.Dialogs.Views;
@@ -37,8 +38,10 @@ namespace Integration.ModuleGUI
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<CommonModuleData>();
-        }
 
+
+            
+        }
         
     }
 }

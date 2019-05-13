@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Excel.Common
 {
-    public class StyleExcel
+    public class CssExcelStorage
     {
         #region Variables
         public Font HeadersFont { get; private set; }
@@ -16,7 +16,7 @@ namespace IntegrationSolution.Excel.Common
         #endregion
 
 
-        public StyleExcel()
+        public CssExcelStorage()
         { Initialize(); }
 
 

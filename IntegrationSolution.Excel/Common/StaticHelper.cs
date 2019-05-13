@@ -357,7 +357,7 @@ namespace IntegrationSolution.Excel.Common
 
             foreach (var item in rangeHeaders)
             {
-                excelFile.AddHeader(headerRow, currentCol++, item);
+                excelFile.ExcelDecorator.AddHeader(excelFile.WorkSheet, headerRow, currentCol++, item);
             }
         }
 

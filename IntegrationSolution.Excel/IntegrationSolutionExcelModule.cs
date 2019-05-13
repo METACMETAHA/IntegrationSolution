@@ -30,11 +30,13 @@ namespace IntegrationSolution.Excel
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            _container.RegisterSingleton<StyleExcel>();
+            containerRegistry.RegisterSingleton<IExcelStyle, ExcelStyle>();
 
             containerRegistry.Register<ExcelPackage>();
             containerRegistry.Register<IExcel, ExcelBase>();
-            containerRegistry.Register<ICarOperations, ExcelCarOperations>();
+            containerRegistry.Register<ICarOperations, ExcelCarOperations>(); 
+            containerRegistry.Register<IExcelWriter, ExcelReportWriter>();
+            
         }
     }
 }

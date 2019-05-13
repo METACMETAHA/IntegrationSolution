@@ -15,7 +15,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
+        
         <Controls:MetroAnimatedSingleRowTabControl Grid.ColumnSpan="2">
             <TabItem Header="Операции">
                 <StackPanel>

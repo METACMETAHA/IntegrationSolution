@@ -9,6 +9,7 @@ using MahApps.Metro.Controls;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Windows;
@@ -49,7 +50,6 @@ namespace IntegrationSolution.ShellGUI
             base.OnInitialized();
             LogManager.GetLogger(this.GetType()).Info("Запуск программы!");
         }
-
 
         /// <summary>
         /// Adding modules which are should be integrated in Installer.Shell

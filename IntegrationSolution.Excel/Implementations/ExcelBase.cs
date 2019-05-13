@@ -19,16 +19,17 @@ namespace IntegrationSolution.Excel.Implementations
         public ExcelWorksheet WorkSheet { get; private set; }
         public ExcelCellAddress StartCell { get; private set; }
         public ExcelCellAddress EndCell { get; private set; }
+        public IExcelStyle ExcelDecorator { get; private set; }
         #endregion
 
-        private StyleExcel _styleExcel;
+        
         protected IUnityContainer container;
 
         public ExcelBase(ExcelPackage excelPackage, IUnityContainer unityContainer)
         {
             Excel = excelPackage;
             container = unityContainer;
-            _styleExcel = new StyleExcel();
+            ExcelDecorator = container.Resolve<IExcelStyle>();
             TryClearFromPathList();
             new StaticHelper(unityContainer);
         }
@@ -97,35 +98,6 @@ namespace IntegrationSolution.Excel.Implementations
         public void Dispose()
         {
             Excel?.Dispose();
-        }
-
-
-        public void AddHeader(int row, int column, string Title)
-        {
-            try
-            {
-                WorkSheet.SetValue(row, column, Title);
-            
-                WorkSheet.Column(column).Width = 22;
-                WorkSheet.Cells[row, column].Style.Font.SetFromFont(_styleExcel.HeadersFont);
-
-                WorkSheet.Cells[row, column].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
-                WorkSheet.Cells[row, column].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
-
-                WorkSheet.Cells[row, column].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-                WorkSheet.Cells[row, column].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-
-                WorkSheet.Cells[row, column].Style.WrapText = true;
-
-                WorkSheet.Cells[row, column].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Gray125;
-                WorkSheet.Cells[row, column].Style.Fill.PatternColor.SetColor(_styleExcel.HeadersBackgroundColor);
-                WorkSheet.Cells[row, column].Style.Fill.BackgroundColor.SetColor(_styleExcel.HeadersBackgroundColor);
-                this.SetBorders();
-            }
-            catch (Exception)
-            {
-                
-            }
         }
     }
 }
