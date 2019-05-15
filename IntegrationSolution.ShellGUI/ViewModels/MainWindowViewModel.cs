@@ -1,6 +1,8 @@
-﻿using IntegrationSolution.Common.Events;
+﻿using Integration.Flyouts.ViewModels;
+using IntegrationSolution.Common.Events;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -9,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Unity;
 using WialonBase.Interfaces;
 
@@ -59,6 +62,17 @@ namespace IntegrationSolution.ShellGUI.ViewModels
         {
             _container = container;
             _eventAggregator = ea;
+            ToggleFlyoutSettingsCommand = new DelegateCommand(ToggleSettings);
         }
+
+
+        #region Commands
+        public ICommand ToggleFlyoutSettingsCommand { get; private set; }
+        private void ToggleSettings()
+        {
+            var settings = _container.Resolve<SettingsViewModel>();
+            settings.IsOpen = !settings.IsOpen;
+        }
+        #endregion
     }
 }

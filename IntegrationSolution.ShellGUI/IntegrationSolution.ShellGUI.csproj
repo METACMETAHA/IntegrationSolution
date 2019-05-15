@@ -114,6 +114,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ControlRegionAdapter\FlyoutsControlRegionAdapter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -149,6 +150,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Integration.Flyouts\Integration.Flyouts.csproj">
+      <Project>{578407B1-5223-4045-A366-6AD810464327}</Project>
+      <Name>Integration.Flyouts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Integration.Infrastructure\Integration.Infrastructure.csproj">
       <Project>{6a424b96-e8cd-4bb1-a611-7bc16edaf826}</Project>
       <Name>Integration.Infrastructure</Name>

@@ -16,8 +16,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -43,14 +43,14 @@
                          IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"/>
 
         <Button Grid.Column="2" Grid.Row="0" x:Name="loadMainFile"
-                Margin="10 0" BorderThickness="1" 
+                Margin="20 0" BorderThickness="1" 
                 VerticalAlignment="Center" 
                 Content="Загрузить файл..." Style="{StaticResource GrayButton}"
                 Command="{Binding LoadFileCommand, IsAsync=True}" 
                 CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Name}"/>
 
         <Button Grid.Column="2" Grid.Row="1" x:Name="loadPathListFile" 
-                Margin="10 0" BorderThickness="1" 
+                Margin="20 0" BorderThickness="1" 
                 VerticalAlignment="Center" 
                 Content="Загрузить файл..." Style="{StaticResource GrayButton}"
                 Command="{Binding LoadFileCommand}" 

@@ -32,7 +32,32 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
 
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands ShowSeparators="True">
+            <Button Content="Настройки"
+                    VerticalAlignment="Center" FontSize="14"
+                    Command="{Binding ToggleFlyoutSettingsCommand}"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
 
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl prism:RegionManager.RegionName="FlyoutRegion">
+            <Controls:FlyoutsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type Controls:Flyout}">
+                    <Setter Property="Header" Value="{Binding Header}" />
+                    <Setter Property="IsOpen" Value="{Binding IsOpen}" />
+                    <Setter Property="Position" Value="{Binding Position}" />
+                    <Setter Property="IsModal" Value="{Binding IsModal}" />
+                    <Setter Property="AreAnimationsEnabled" Value="True"/>
+                    <Setter Property="Theme" Value="{Binding Theme}"/>
+                    <Setter Property="CloseButtonVisibility" Value="{Binding CloseButtonVisibility}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+                </Style>
+            </Controls:FlyoutsControl.ItemContainerStyle>            
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
     
 
     <!--<Grid>

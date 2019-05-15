@@ -1,8 +1,10 @@
-﻿using Integration.Infrastructure;
+﻿using Integration.Flyouts;
+using Integration.Infrastructure;
 using Integration.ModuleGUI;
 using IntegrationSolution.Common;
 using IntegrationSolution.Dialogs;
 using IntegrationSolution.Excel;
+using IntegrationSolution.ShellGUI.ControlRegionAdapter;
 using IntegrationSolution.ShellGUI.ViewModels;
 using log4net;
 using MahApps.Metro.Controls;
@@ -42,6 +44,14 @@ namespace IntegrationSolution.ShellGUI
             log4net.Config.XmlConfigurator.Configure();
 
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
+            containerRegistry.RegisterSingleton<IRegionAdapter, FlyoutsControlRegionAdapter>();            
+        }
+
+
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
+        {
+            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
+            regionAdapterMappings.RegisterMapping(typeof(FlyoutsControl), Container.Resolve<IRegionAdapter>());
         }
 
 
@@ -58,6 +68,7 @@ namespace IntegrationSolution.ShellGUI
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<InfrastructureModule>(); // required module
+            moduleCatalog.AddModule<FlyoutsModule>(); // required module
             moduleCatalog.AddModule<DialogsModule>();
             moduleCatalog.AddModule<CommonModule>();
             moduleCatalog.AddModule<ModuleGUIModule>(); // module for views
