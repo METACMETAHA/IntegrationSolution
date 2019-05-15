@@ -167,7 +167,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" Height="50" Width="140" CornerRadius="5">
+                    <Border x:Name="border" Height="60" Width="180" CornerRadius="5">
                         <Border.Effect>
                             <DropShadowEffect Opacity="0.43"/>
                         </Border.Effect>

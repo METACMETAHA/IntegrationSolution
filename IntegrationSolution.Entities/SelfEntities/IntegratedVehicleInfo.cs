@@ -13,6 +13,7 @@ namespace IntegrationSolution.Entities.SelfEntities
         public int CountTrips { get; set; }
         public double? SAP_Mileage { get; set; }
         public double? Wialon_Mileage { get; set; }
+        public double? TotalWialon_Mileage { get; set; }
         public double DifferenceMileage { get => (SAP_Mileage - Wialon_Mileage) ?? 0; }
         public double? PercentDifference
         {

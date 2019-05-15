@@ -49,11 +49,16 @@ namespace IntegrationSolution.Excel.Common
                 {
                     try
                     {
+                        var ss = excelFile.WorkSheet.Cells[
+                            excelFile.StartCell.Row,
+                            excelFile.StartCell.Column,
+                            excelFile.StartCell.Row + 1,
+                            excelFile.WorkSheet.Dimension.Columns];
                         var address = (from cell in excelFile.WorkSheet.Cells[
                             excelFile.StartCell.Row,
                             excelFile.StartCell.Column,
                             excelFile.StartCell.Row + 1,
-                            excelFile.EndCell.Column]
+                            excelFile.WorkSheet.Dimension.Columns]
                                        where cell.Text.ToLower() == header.ToLower()
                                        select cell.Start).First();
                         var propName = HeaderNames.PropertiesData.First(x => x.Value == header).Key;

@@ -17,7 +17,7 @@
         NonActiveBorderBrush="Black"
         MinHeight="480" MinWidth="900"
         TitleAlignment="Center"
-        Title="DTEK" Height="590" Width="1000">
+        Title="DTEK" Height="610" Width="1020">
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands ShowSeparators="True">
@@ -31,8 +31,11 @@
                                    OnLabel="Подключено"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
+
+
     
-    <Grid>
+
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" MinHeight="60"/>
             <RowDefinition Height="7*" MinHeight="200"/>
@@ -40,16 +43,43 @@
             <RowDefinition Height="Auto" MaxHeight="200" MinHeight="70"/>
         </Grid.RowDefinitions>
 
-        <!--Header-->
+        --><!--Header--><!--
         <views:HeaderView Grid.Row="0"/>
 
-        <!--Wizard progress bar control-->
+        --><!--Wizard progress bar control--><!--
         <views:BodyView Grid.Row="1"/>
 
         <GridSplitter Grid.Row="2" ShowsPreview="False" Height="1" Background="{StaticResource HeaderBackground}"
                       HorizontalAlignment="Stretch" ToolTip="Разделитель"/>
 
         <views:FooterView Grid.Row="3" Padding="0 5 0 0"/>
+
+    </Grid>-->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*" MinHeight="260"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MaxHeight="200" MinHeight="70"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" MinHeight="60"/>
+                <RowDefinition Height="7*" MinHeight="200"/>
+            </Grid.RowDefinitions>
+        
+        <!--Header-->
+        <views:HeaderView Grid.Row="0"/>
+
+        <!--Wizard progress bar control-->
+        <views:BodyView Grid.Row="1"/>
+        </Grid>
+        
+        <GridSplitter Grid.Row="1" ShowsPreview="False" Height="1" Background="{StaticResource HeaderBackground}"
+                      HorizontalAlignment="Stretch" ToolTip="Разделитель"/>
+
+        <views:FooterView Grid.Row="2" Padding="0 5 0 0"/>
 
     </Grid>
 

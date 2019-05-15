@@ -109,22 +109,7 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (this.Error == null || !this.Error.IsError)
             {
-                var userDesicion = wnd.ShowModalMessageExternal("Успех!",
-                    "Результаты успешно сохранены.\nЖелаете ли просмотреть результаты?",
-                    MessageDialogStyle.AffirmativeAndNegative);
-                try
-                {
-                    if (userDesicion == MessageDialogResult.Affirmative)
-                        System.Diagnostics.Process.Start(ModuleData.PathToMainFile);
-                }
-                catch (Exception ex)
-                {
-                    this.Error = new IntegrationSolution.Common.Entities.Error()
-                    {
-                        IsError = true,
-                        ErrorDescription = ex.Message
-                    };
-                }
+                NotifySuccessAndOpenFile(ModuleData.PathToMainFile);
             }
         }
 
@@ -247,7 +232,8 @@ namespace Integration.ModuleGUI.ViewModels
                             Model = vehicle.UnitModel,
                             CountTrips = vehicle.Trips?.Count ?? 0,
                             SAP_Mileage = vehicle.TripResulted?.TotalMileage ?? 0,
-                            Wialon_Mileage = tripWialon.Mileage
+                            Wialon_Mileage = tripWialon.Mileage,
+                            TotalWialon_Mileage = tripWialon.TotalMileage
                         });
                     }
 
@@ -256,8 +242,10 @@ namespace Integration.ModuleGUI.ViewModels
 
                     this.CanGoNext = true;
                     progress.SetProgress(1);
-                    
 
+
+                    if (forReport.Count == 0)
+                        throw new Exception("Попробуйте выбрать другой период или повторите попытку позже.");
                     _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName, forReport, avaliablePercent);
 
                 }
@@ -279,7 +267,7 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (this.Error == null || !this.Error.IsError)
             {
-                wnd.ShowModalMessageExternal("Успех!", "Результаты готовы.");
+                NotifySuccessAndOpenFile(fileDialog.FileName);
             }
         }
         #endregion
@@ -334,6 +322,27 @@ namespace Integration.ModuleGUI.ViewModels
             });
 
             return progress;
+        }
+
+        private void NotifySuccessAndOpenFile(string path)
+        {
+            var wnd = (MetroWindow)Application.Current.MainWindow;
+            var userDesicion = wnd.ShowModalMessageExternal("Успех!",
+                    "Результаты успешно сохранены.\nЖелаете ли просмотреть результаты?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+            try
+            {
+                if (userDesicion == MessageDialogResult.Affirmative)
+                    System.Diagnostics.Process.Start(path);
+            }
+            catch (Exception ex)
+            {
+                this.Error = new IntegrationSolution.Common.Entities.Error()
+                {
+                    IsError = true,
+                    ErrorDescription = ex.Message
+                };
+            }
         }
         #endregion
     }

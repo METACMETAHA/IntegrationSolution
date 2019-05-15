@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Column="0" Grid.Row="0" Padding="10" Margin="30 12" Text="Общий список машин" Style="{StaticResource MedHeaderBold}" TextAlignment="Center"/>
-        <TextBlock Grid.Column="0" Grid.Row="1" Padding="10" Margin="30 12" Text="Отчёт по путевым листам" Style="{StaticResource MedHeaderBold}" TextAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Padding="10" Margin="30 12" Text="Экспорт" Style="{StaticResource MedHeaderBold}" TextAlignment="Center"/>
 
         <TextBox Grid.Column="1" Grid.Row="0" Padding="4" Margin="20 10" IsReadOnly="True"
                  metro:TextBoxHelper.Watermark="Путь к файлу"

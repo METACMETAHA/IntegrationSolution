@@ -29,7 +29,7 @@ namespace IntegrationSolution.Excel.Implementations
                 var worksheet = excel.Workbook.Worksheets.Add("Разница показаний одометров");
                 var headerRow = new List<string[]>()
                 {
-                    new string[] { "Гос.номер", "Модель", "Кол-во поездок", "Показания одометра (SAP)", "Показания одометра (Wialon)",
+                    new string[] { "Гос.номер", "Модель", "Пробег всего по Wialon", "Кол-во поездок", "Показания одометра (SAP)", "Показания одометра (Wialon)",
                         "Разница показателей одометра", "Процент расхождения" }
                 };
 
@@ -38,29 +38,42 @@ namespace IntegrationSolution.Excel.Implementations
 
                 foreach (var item in valuePairs)
                 {
-                    var data = new List<string[]>()
+                    var data = new List<object[]>()
                     {
-                        new string[] { item.StateNumber, item.Model, item.CountTrips.ToString(), item.SAP_Mileage.ToString(), item.Wialon_Mileage.ToString(),
-                            item.DifferenceMileage.ToString(), item.PercentDifference.ToString() }
+                        new object[] 
+                        {
+                            item.StateNumber,
+                            item.Model,
+                            item.TotalWialon_Mileage,
+                            item.CountTrips,
+                            item.SAP_Mileage,
+                            item.Wialon_Mileage,
+                            item.DifferenceMileage,
+                            item.PercentDifference
+                        }
                     };
                     string headerRange = $"A{row}:" + Char.ConvertFromUtf32(data[0].Length + 64) + row;
 
                     worksheet.Column(3).Style.Numberformat.Format = "0.00";
-                    worksheet.Column(4).Style.Numberformat.Format = "0.00";
+                    worksheet.Column(4).Style.Numberformat.Format = "0";
                     worksheet.Column(5).Style.Numberformat.Format = "0.00";
                     worksheet.Column(6).Style.Numberformat.Format = "0.00";
-                    worksheet.Column(7).Style.Numberformat.Format = "#0.00%";
+                    worksheet.Column(7).Style.Numberformat.Format = "0.00";
+                    worksheet.Column(8).Style.Numberformat.Format = "#0.00%";
+
+                    if (item.SAP_Mileage > item.Wialon_Mileage)
+                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 7], ExcelDecorator.ExcelCssResources.GreenColor);
+
                     if (item.PercentDifference >= BadPercent)
-                    {
-                        worksheet.Cells[row, 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Gray125;
-                        worksheet.Cells[row, 7].Style.Fill.PatternColor.SetColor(Color.FromArgb(255, 89, 89));
-                        worksheet.Cells[row, 7].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 89, 89));
-                    }
+                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.RedColor);
+
                     worksheet.Cells[headerRange].LoadFromArrays(data);
-                                            
+                    
                     row++;
                 }
 
+                if (File.Exists(path))
+                    File.Delete(path);
                 var excelFile = new System.IO.FileInfo(path);
                 excel.SaveAs(excelFile);
             }

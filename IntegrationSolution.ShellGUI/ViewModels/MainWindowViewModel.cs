@@ -45,6 +45,8 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 {
                     var wnd = (MetroWindow)Application.Current.MainWindow;
                     wnd.ShowMessageAsync("Ошибка!", "Проблема в подключении, обратитесь в поддержку.");
+
+                    SetProperty(ref _isConnectedNavigation, false);
                 }
                 
                 _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(IsConnectedNavigation);
