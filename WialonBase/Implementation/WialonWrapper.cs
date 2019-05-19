@@ -1,17 +1,10 @@
-﻿using IntegrationSolution.Entities.Interfaces;
+﻿using IntegrationSolution.Entities.Implementations.Wialon;
 using log4net;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
 using WialonBase.Configuration;
-using WialonBase.Entities;
-using WialonBase.Entities.Interfaces;
 using WialonBase.Helpers;
 using WialonBase.Interfaces;
 
@@ -92,6 +85,17 @@ namespace WialonBase.Implementation
                 var MainTrip = applyReport.ToTripWialon();
                 #endregion
 
+                #region Check for speed violation and send request for getting related data
+                var speedIndex = applyReport.SpeedViolationIndex();
+                if (speedIndex != -1)
+                {
+                    var speedDetails = _wialonConnection.SendRequest("report/select_result_rows",
+                    "{\"tableIndex\":" + speedIndex + ",\"config\":{\"type\":\"range\",\"data\":{\"from\":0,\"to\":999,\"level\":0}}}");
+
+                    MainTrip.SpeedViolation = speedDetails.ToSpeedViolationEnumerable();
+                }                
+                #endregion
+
                 return MainTrip;
             }
             catch (Exception ex)
@@ -99,6 +103,23 @@ namespace WialonBase.Implementation
                 _logger.Error(ex.Message);
                 return null;
             }
+        }
+
+
+        public TripWialon GetCarInfoDetails(int ID, DateTime from, DateTime to)
+        {
+            var mainTrip = GetCarInfo(ID, from, to);
+            if (mainTrip == null)
+                return null;
+
+            #region Send request for trips details
+            var details = _wialonConnection.SendRequest("report/select_result_rows",
+                "{\"tableIndex\":0,\"config\":{\"type\":\"range\",\"data\":{\"from\":0,\"to\":" + mainTrip.CountTrips + ",\"level\":0}}}");
+
+            mainTrip.Trips = details.ToTripsCollectionWialon();
+            #endregion
+
+            return mainTrip;
         }
 
 

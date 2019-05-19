@@ -66,6 +66,26 @@ namespace IntegrationSolution.Tests.Wialon.Tests
 
 
         [DataTestMethod]
+        [DataRow(924)]
+        [DataRow(954)]
+        public void TestGetCarInfoDetails(int ID)
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterSingleton<WialonConnection>();
+
+            WialonWrapper con = new WialonWrapper(container);
+            var connection = con.TryConnect();
+            var cars = con.GetCarInfoDetails(ID, new DateTime(2019, 5, 1), DateTime.Now);
+            var close = con.TryClose();
+
+            Assert.IsTrue(connection);
+            Assert.IsNotNull(cars);
+            Assert.IsNotNull(cars.Trips);
+            Assert.IsTrue(close);
+        }
+
+
+        [DataTestMethod]
         public void TestClean()
         {
             IUnityContainer container = new UnityContainer();

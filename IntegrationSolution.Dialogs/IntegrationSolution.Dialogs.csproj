@@ -95,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DialogsModule.cs" />
+    <Compile Include="PartialViews\DatesFromToPartialView.xaml.cs">
+      <DependentUpon>DatesFromToPartialView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PartialViews\OkCancelPartialView.xaml.cs">
+      <DependentUpon>OkCancelPartialView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DatesFromToDialogVM.cs" />
     <Compile Include="ViewModels\FuelPriceInputDialogVM.cs" />
@@ -106,6 +112,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PartialViews\DatesFromToPartialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PartialViews\OkCancelPartialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DatesFromToDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

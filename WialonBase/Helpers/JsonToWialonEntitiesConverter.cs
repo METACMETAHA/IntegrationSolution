@@ -1,11 +1,9 @@
 ﻿using IntegrationSolution.Common.Converters;
+using IntegrationSolution.Entities.Implementations.Wialon;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WialonBase.Entities;
 
 namespace WialonBase.Helpers
 {
@@ -45,45 +43,96 @@ namespace WialonBase.Helpers
             }
 
             var tables = obj["reportResult"]["tables"];
-
-            byte[] bytes = Encoding.Default.GetBytes(tables.ToString());
-            var encodedString = Encoding.UTF8.GetString(bytes);
-            tables = JToken.Parse(encodedString);
+            
+            tables = JToken.Parse(tables.ToString());
 
             var trips = tables.FirstOrDefault(x => x["label"].Value<string>() == "Поездки");
 
             if (trips != null)
             {
-                tripWialon.LocationBegin = trips.ElementAt(9).First.ElementAt(3).Value<string>();
-                tripWialon.LocationFinish = trips.ElementAt(9).First.ElementAt(5).Value<string>();
+                tripWialon.CountTrips = trips["rows"].Value<int>();
                 tripWialon.Mileage = double.Parse(trips.ElementAt(9).First.ElementAt(7).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim());
                 tripWialon.AvgSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
                 tripWialon.MaxSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(9).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+                tripWialon.LocationBegin = trips.ElementAt(9).First.ElementAt(3).Value<string>();
+                tripWialon.LocationFinish = trips.ElementAt(9).First.ElementAt(5).Value<string>();
             }
+            
+            return tripWialon;
+        }
 
-            var speedTrips = tables.FirstOrDefault(x => x["label"].Value<string>() == "Превышение скорости");
-            if (speedTrips != null)
+        
+        /// <summary>
+        /// If no speed violation - it returns -1
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static int SpeedViolationIndex(this JToken obj)
+        {
+            var list = obj["reportResult"]["tables"].ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i]["label"].Value<string>() == "Превышение скорости")
+                    return i;
+            }
+            return -1;
+        }
+
+
+        public static IEnumerable<SpeedViolationWialon> ToSpeedViolationEnumerable(this JToken obj)
+        {
+            List<SpeedViolationWialon> speedCollection = new List<SpeedViolationWialon>();
+
+            foreach (var item in obj.ToArray())
             {
                 try
                 {
-                    SpeedViolationWialon speed = new SpeedViolationWialon
+                    SpeedViolationWialon speedViolation = new SpeedViolationWialon()
                     {
-                        Begin = DateTime.Parse(speedTrips.ElementAt(9).First.ElementAt(1).Value<string>()),
-                        LocationBegin = speedTrips.ElementAt(9).First.ElementAt(2).Value<string>(),
-                        Duration = TimeSpan.Parse(speedTrips.ElementAt(9).First.ElementAt(3).Value<string>()),
-                        MaxSpeed = int.Parse(speedTrips.ElementAt(9).First.ElementAt(5).Value<string>().Replace("km/h", "").Replace("km", "").Trim()),
-                        SpeedLimit = int.Parse(speedTrips.ElementAt(9).First.ElementAt(6).Value<string>().Replace("km/h", "").Replace("km", "").Trim()),
-                        Mileage = double.Parse(speedTrips.ElementAt(9).First.ElementAt(7).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim())
+                        Begin = DateTime.Parse(item.First["c"].ToArray()[1]["t"].Value<string>()),
+                        LocationBegin = item.First["c"].ToArray()[2]["t"].Value<string>(),
+                        Duration = TimeSpan.Parse(item.First["c"].ToArray()[3].Value<string>()),
+                        MaxSpeed = int.Parse(item.First["c"].ToArray()[5]["t"].Value<string>().Replace("km/h", "").Trim()),
+                        SpeedLimit = int.Parse(item.First["c"].ToArray()[6].Value<string>().Replace("km/h", "").Trim()),
+                        Mileage = double.Parse(item.First["c"].ToArray()[7].Value<string>().Replace("km", "").Replace('.', ',').Trim())
                     };
-                    tripWialon.SpeedViolation = speed;
+                    speedCollection.Add(speedViolation);
                 }
-                catch (Exception ex)
-                {
-                    log4net.LogManager.GetLogger(nameof(JsonToWialonEntitiesConverter)).Debug($"{ex.Message} while processing entity (Speed violation)");
-                }
+                catch
+                { }                
             }
 
-            return tripWialon;
+            return (speedCollection.Any())? speedCollection : null;
+        }
+
+
+        public static IEnumerable<TripWialon> ToTripsCollectionWialon(this JToken obj)
+        {
+            List<TripWialon> trips = new List<TripWialon>();
+
+            foreach (var item in obj.ToArray())
+            {
+                try
+                {
+                    TripWialon trip = new TripWialon
+                    {
+                        Begin = ((Int32)item.First["t1"].Value<long>()).ToDateTime(),
+                        Finish = ((Int32)item.First["t2"].Value<long>()).ToDateTime(),
+
+                        LocationBegin = item.First["c"].ElementAt(3)["t"].Value<string>(),
+                        LocationFinish = item.First["c"].ElementAt(5)["t"].Value<string>(),
+
+                        Mileage = double.Parse(item.First["c"].ElementAt(7).Value<string>().Replace("km", "").Replace(".", ",").Trim()),
+                        AvgSpeed = int.Parse(item.First["c"].ElementAt(8).Value<string>().Replace("km/h", "").Trim()),
+                        MaxSpeed = int.Parse(item.First["c"].ElementAt(9)["t"].Value<string>().Replace("km/h", "").Trim())
+                    };
+
+                    trips.Add(trip);
+                }
+                catch
+                { }
+            }
+            return (trips.Any())? trips : null;
         }
     }
 }

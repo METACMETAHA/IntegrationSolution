@@ -1,8 +1,8 @@
 ﻿using DialogConstruction.Interfaces;
 using Integration.ModuleGUI.Models;
-using Integration.ModuleGUI.Views.OperationResultsViews;
 using IntegrationSolution.Common.Enums;
 using IntegrationSolution.Common.Models;
+using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
@@ -10,16 +10,13 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
-using WialonBase.Entities;
 
 namespace Integration.ModuleGUI.ViewModels
 {
@@ -118,6 +115,7 @@ namespace Integration.ModuleGUI.ViewModels
         protected async void CheckDifference()
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
+            string nameReport = "";
 
             var desicion = await wnd.ShowMessageAsync("Вы хотите продолжить?", "Данная процедура может занять некоторое время.", MessageDialogStyle.AffirmativeAndNegative);
             if (desicion != MessageDialogResult.Affirmative)
@@ -134,10 +132,11 @@ namespace Integration.ModuleGUI.ViewModels
                 ModuleData.VehiclesNavigate = wialonCars;
 
 
-            var datesFromTo = await _dialogManager.ShowDialogAsync<DatesFromToContext>(DialogNamesEnum.DatesFromTo);
-            if (datesFromTo == null)
+            var datesFromToContext = await _dialogManager.ShowDialogAsync<DatesFromToContext>(DialogNamesEnum.DatesFromTo);
+            if (datesFromToContext == null)
                 return;
 
+            #region Get BadPercent
             double avaliablePercent = 0;
             do
             {
@@ -148,106 +147,79 @@ namespace Integration.ModuleGUI.ViewModels
                         return;
                     avaliablePercent = Double.Parse(percInput.Replace('.', ',').Trim());
                     if (avaliablePercent <= 0)
-                        throw new Exception("Внимательней, число должно быь больше от 0.");
+                        throw new Exception("Внимательней, число должно быть больше от 0.");
                 }
                 catch (Exception ex)
                 {
                     wnd.ShowModalMessageExternal("Ошибка. Повторите ввод.", ex.Message);
                 }
             } while (avaliablePercent <= 0);
-
-            Microsoft.Win32.SaveFileDialog fileDialog = new Microsoft.Win32.SaveFileDialog
-            {
-                Title = "Созранение отчёта...",
-                CheckPathExists = true,
-                DefaultExt = ".xlsx | .xls",
-                Filter = "Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*"
-            };
-            if (fileDialog.ShowDialog() != true)
-                return;
-
-
+            #endregion          
+            
             var progress = await InitializeCars();
 
+            #region Filling Vehicles Collections
             await Task.Run(() =>
              {
-                 ModuleData.VehiclesExcelDistinctWialon = new ObservableCollection<IVehicle>(
-                     ModuleData.Vehicles.Where(x => ModuleData.VehiclesNavigate.FirstOrDefault(wialon => wialon.StateNumber == x.StateNumber) == null));
+                 ModuleData.VehiclesExcelDistinctWialon = new ObservableCollection<IVehicleSAP>(
+                     ModuleData.Vehicles.Where(
+                         x => ModuleData.VehiclesNavigate
+                         .FirstOrDefault(
+                             wialon => wialon.StateNumber.ToLower().Contains(x.StateNumber.ToLower())) == null));
                  ModuleData.VehiclesWialonDistinctExcel = new ObservableCollection<CarWialon>(
-                     ModuleData.VehiclesNavigate.Where(x => ModuleData.Vehicles.FirstOrDefault(veh => veh.StateNumber == x.StateNumber) == null));
+                     ModuleData.VehiclesNavigate.Where(
+                         wialon => ModuleData.Vehicles.FirstOrDefault(
+                             veh => wialon.StateNumber.ToLower().Contains(veh.StateNumber.ToLower())) == null));
              });
+            #endregion
 
-            await Task.Run(() =>
+            await Task.Run(async () => 
             {
                 try
                 {
-                    var percentage = 60;
+                    IEnumerable<IntegratedVehicleInfo> forReport = null;
+                    IEnumerable<IntegratedVehicleInfoDetails> forReportDetails = null;
 
-                    progress.SetTitle($"Выборка транспортных средств из системы Wialon");
-                    if (percentage < 90)
-                        percentage += 3;
-                    progress.SetProgress(percentage / 100);
-
-                    int intervalForWialonUnload = 100 - percentage;
-                    if (intervalForWialonUnload >= 25)
-                        intervalForWialonUnload -= 5;
-                    int stepForInterval = (ModuleData.VehiclesNavigate.Count / intervalForWialonUnload) + 1;
-                    int index = 0;
-                    int indexCurrent = 0;
-
-                    List<IntegratedVehicleInfo> forReport = new List<IntegratedVehicleInfo>();
-
-                    foreach (var item in ModuleData.VehiclesNavigate)
+                    if (!datesFromToContext.IsWithDetails)
                     {
-                        if (index++ > stepForInterval)
-                        {
-                            progress.SetProgress(++percentage / 100);
-                            index = 0;
-                        }
-
-                        indexCurrent++;
-                        var vehicle = ModuleData.Vehicles.FirstOrDefault(x => x.StateNumber == item.StateNumber);
-                        if (vehicle == null)
-                            continue;
-
-                        var tripWialon = _wialonContext.GetCarInfo(item.ID,
-                            datesFromTo.FromDate, datesFromTo.ToDate);
-
-                        if (tripWialon == null)
-                        {
-                            _logger.Info($"Trip null! Item - {item.ID} ({item.StateNumber}) / From:{datesFromTo.FromDate} / To {datesFromTo.ToDate}");
-                            continue;
-                        }
-
-                        progress.SetMessage($"Осталось проверить: {ModuleData.VehiclesNavigate.Count - indexCurrent} транспортных средств\n" +
-                            $"Проверка {vehicle.UnitModel}  ({vehicle.StateNumber})\n" +
-                            $"Количество поездок за период: {vehicle.Trips?.Count} (SAP)\n" +
-                            $"Показания одометра за период по системе SAP: {vehicle.TripResulted?.TotalMileage} км\n" +
-                            $"Показания одометра за период по системе Wialon: {tripWialon.Mileage} км\n\n" +
-                            $"{((tripWialon.SpeedViolation != null) ? $"Превышения скорости: {tripWialon.SpeedViolation.LocationBegin}\nСкорость фактическая/допустимая: {tripWialon.SpeedViolation.MaxSpeed}/{tripWialon.SpeedViolation.SpeedLimit}\nРасстояние: {tripWialon.SpeedViolation.Mileage} км)" : $"")}");
-                        
-                        forReport.Add(new IntegratedVehicleInfo()
-                        {
-                            StateNumber = item.StateNumber,
-                            Model = vehicle.UnitModel,
-                            CountTrips = vehicle.Trips?.Count ?? 0,
-                            SAP_Mileage = vehicle.TripResulted?.TotalMileage ?? 0,
-                            Wialon_Mileage = tripWialon.Mileage,
-                            TotalWialon_Mileage = tripWialon.TotalMileage
-                        });
+                        forReport = await this.GetVehicleInfos<IntegratedVehicleInfo>(progress, datesFromToContext);
+                        if(forReport == null || !forReport.Any())
+                            throw new Exception("Данные отсутствуют.\nПопробуйте выбрать другой период или повторите попытку позже.");
+                    }
+                    else
+                    {
+                        forReportDetails = await this.GetVehicleInfos<IntegratedVehicleInfoDetails>(progress, datesFromToContext);
+                        if (forReportDetails == null || !forReportDetails.Any())
+                            throw new Exception("Данные отсутствуют.\nПопробуйте выбрать другой период или повторите попытку позже.");
                     }
 
-                    percentage = 99;
+                    var percentage = 95;
+                    progress.SetTitle("Сохранение");
                     progress.SetProgress(percentage / 100);
 
                     this.CanGoNext = true;
+
+                    Microsoft.Win32.SaveFileDialog fileDialog = new Microsoft.Win32.SaveFileDialog
+                    {
+                        Title = "Создание отчёта...",
+                        ValidateNames = true,
+                        CheckPathExists = true,
+                        DefaultExt = ".xlsx | .xls",
+                        Filter = "Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*"
+                    };
+                    if (fileDialog.ShowDialog() != true)
+                        return;
+                    else
+                        nameReport = fileDialog.FileName;
+                    
+                    if (!datesFromToContext.IsWithDetails)
+                        _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName,
+                            forReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent);
+                    else
+                        _container.Resolve<IExcelWriter>().CreateReportDiffMileageWithDetails(fileDialog.FileName,
+                            forReportDetails.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent);
+
                     progress.SetProgress(1);
-
-
-                    if (forReport.Count == 0)
-                        throw new Exception("Попробуйте выбрать другой период или повторите попытку позже.");
-                    _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName, forReport, avaliablePercent);
-
                 }
                 catch (Exception ex)
                 {
@@ -267,7 +239,7 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (this.Error == null || !this.Error.IsError)
             {
-                NotifySuccessAndOpenFile(fileDialog.FileName);
+                NotifySuccessAndOpenFile(nameReport);
             }
         }
         #endregion
@@ -343,6 +315,104 @@ namespace Integration.ModuleGUI.ViewModels
                     ErrorDescription = ex.Message
                 };
             }
+        }
+
+        private async Task<IEnumerable<T>> GetVehicleInfos<T>(
+            ProgressDialogController progress, DatesFromToContext context) where T : IntegratedVehicleInfo
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    var percentage = 60;
+
+                    progress.SetTitle($"Выборка транспортных средств из системы Wialon");
+                    if (percentage < 90)
+                        percentage += 3;
+                    progress.SetProgress(percentage / 100);
+
+                    int intervalForWialonUnload = 100 - percentage;
+                    if (intervalForWialonUnload >= 25)
+                        intervalForWialonUnload -= 5;
+                    int stepForInterval = (ModuleData.VehiclesNavigate.Count / intervalForWialonUnload) + 1;
+                    int index = 0;
+                    int indexCurrent = 0;
+
+                    List<T> forReport = new List<T>();
+
+                    foreach (var item in ModuleData.VehiclesNavigate)
+                    {
+                        if (index++ > stepForInterval)
+                        {
+                            progress.SetProgress(++percentage / 100);
+                            index = 0;
+                        }
+
+                        indexCurrent++;
+                        var vehicle = ModuleData.Vehicles.FirstOrDefault(x => item.StateNumber.ToLower().Contains(x.StateNumber.ToLower()));
+                        if (vehicle == null)
+                            continue;
+
+                        TripWialon tripWialon = null;
+                        if (!context.IsWithDetails)
+                            tripWialon = _wialonContext.GetCarInfo(item.ID,
+                                context.FromDate, context.ToDate);
+                        else
+                            tripWialon = _wialonContext.GetCarInfoDetails(item.ID,
+                                context.FromDate, context.ToDate);
+
+
+                        if (tripWialon == null)
+                        {
+                            _logger.Info($"TripSAP null! Item - {item.ID} ({item.StateNumber}) / From:{context.FromDate} / To {context.ToDate}");
+                            continue;
+                        }
+
+                        progress.SetMessage($"Осталось проверить: {ModuleData.VehiclesNavigate.Count - indexCurrent} транспортных средств\n" +
+                            $"Проверка {vehicle.UnitModel}  ({vehicle.StateNumber})\n" +
+                            $"Количество поездок за период: {vehicle.Trips?.Count} (SAP)\n" +
+                            $"Количество поездок за период: {tripWialon.CountTrips} (Wialon)\n" +
+                            $"Показания одометра за период по системе SAP: {vehicle.TripResulted?.TotalMileage} км\n" +
+                            $"Показания одометра за период по системе Wialon: {tripWialon.Mileage} км\n\n" +
+                            $"{((tripWialon.SpeedViolation != null) ? $"Количество превышений скорости: {tripWialon.SpeedViolation.Count()}" : $"")}");
+
+                        var integratedVehicle = _container.Resolve<T>();
+
+                        integratedVehicle.StateNumber = vehicle.StateNumber;
+                        integratedVehicle.UnitModel = vehicle.UnitModel;
+                        integratedVehicle.StructureName = vehicle.StructureName;
+                        integratedVehicle.Type = vehicle.Type;
+
+                        integratedVehicle.CountTrips.SAP = vehicle.Trips?.Count ?? 0;
+                        integratedVehicle.CountTrips.Wialon = tripWialon.CountTrips;
+                        integratedVehicle.IndicatorMileage.SAP = vehicle.TripResulted?.TotalMileage ?? 0;
+                        integratedVehicle.IndicatorMileage.Wialon = tripWialon.Mileage;
+
+                        integratedVehicle.WialonMileageTotal = tripWialon.TotalMileage;
+                        integratedVehicle.CountSpeedViolations = tripWialon.SpeedViolation?.Count() ?? 0;
+
+                        if (context.IsWithDetails)
+                        {
+                            (integratedVehicle as IntegratedVehicleInfoDetails).TripsSAP = vehicle.Trips;
+                            (integratedVehicle as IntegratedVehicleInfoDetails).TripsWialon = tripWialon.Trips;
+                        }
+
+                        forReport.Add(integratedVehicle);
+                    }
+
+                    return forReport;
+
+                }
+                catch (Exception ex)
+                {
+                    this.Error = new IntegrationSolution.Common.Entities.Error()
+                    {
+                        IsError = true,
+                        ErrorDescription = ex.Message
+                    };
+                }
+                return null;
+            });
         }
         #endregion
     }

@@ -1,13 +1,8 @@
-﻿using Prism.Ioc;
+﻿using IntegrationSolution.Entities.Implementations.Wialon;
+using IntegrationSolution.Entities.Interfaces.Wialon;
+using Prism.Ioc;
 using Prism.Modularity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WialonBase.Configuration;
-using WialonBase.Entities;
-using WialonBase.Entities.Interfaces;
 using WialonBase.Implementation;
 using WialonBase.Interfaces;
 

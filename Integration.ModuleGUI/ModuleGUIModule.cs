@@ -7,6 +7,9 @@ using Integration.ModuleGUI.Views.OperationResultsViews;
 using IntegrationSolution.Dialogs;
 using IntegrationSolution.Dialogs.ViewModels;
 using IntegrationSolution.Dialogs.Views;
+using IntegrationSolution.Entities.Implementations;
+using IntegrationSolution.Entities.Interfaces;
+using IntegrationSolution.Entities.SelfEntities;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -39,8 +42,10 @@ namespace Integration.ModuleGUI
         {
             containerRegistry.RegisterSingleton<CommonModuleData>();
 
-
-            
+            _container.RegisterType(typeof(ICommonCompareIndicator<>), typeof(CompareIndicator<>));
+            _container.RegisterType<IntegratedVehicleInfo>();
+            _container.RegisterType<IntegratedVehicleInfoDetails>();
+            _container.RegisterType<TripSAP>();
         }
         
     }

@@ -5,57 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"  
+             xmlns:PartialViews="clr-namespace:IntegrationSolution.Dialogs.PartialViews"
              xmlns:local="clr-namespace:IntegrationSolution.Dialogs.Views"
              mc:Ignorable="d" Title="Выберите даты для корректного анализа данных из системы Wialon.">
 
+    <StackPanel>
+        <PartialViews:DatesFromToPartialView/>
+
+        <CheckBox IsChecked="{Binding Dates.IsWithDetails}" Content="Подробный отчёт" Margin="10"
+                  FontStyle="Italic" FontStretch="SemiExpanded" HorizontalAlignment="Left"/>
+
+        <PartialViews:OkCancelPartialView/>
+    </StackPanel>
     
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid.Resources>
-            <ResourceDictionary>
-                <Style TargetType="{x:Type Calendar}">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=customSelection, Path=IsChecked}" Value="True">
-                            <Setter Property="IsEnabled" Value="True"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ResourceDictionary>
-        </Grid.Resources>
-        
-            <StackPanel Grid.ColumnSpan="3" Margin="10 25 10 10" Orientation="Horizontal" HorizontalAlignment="Center">
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerMonth}" Content="За месяц" Padding="5" Margin="7"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerWeek}" Content="За неделю" Padding="5" Margin="7"/>
-            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerDay}" Content="Сегодня" Padding="5" Margin="7"/>
-            <RadioButton x:Name="customSelection" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Custom}" Content="Выборочно" Padding="5" Margin="7"/>
-        </StackPanel>
-
-        <Calendar Grid.Column="0" Grid.Row="1" Margin="10" SelectedDate="{Binding Dates.FromDate}" IsTodayHighlighted="False"
-                  SelectionMode="SingleDate"/>
-        <Calendar Grid.Column="1" Grid.Row="1" Margin="10" SelectedDate="{Binding Dates.ToDate}" IsTodayHighlighted="False"
-                  SelectionMode="SingleDate"/>
-
-        <StackPanel
-      Grid.Row="3" Grid.ColumnSpan="2"
-      Orientation="Horizontal" HorizontalAlignment="Right"
-      Margin="10">
-            <Button Command="{Binding OkCommand}" Content="OK" IsDefault="True"
-                        HorizontalAlignment="Right"
-                        Width="100" Margin="10" Style="{DynamicResource AccentedSquareButtonStyle}"/>
-            <Button Command="{Binding CancelCommand}" Content="Cancel" IsCancel="True"
-                        HorizontalAlignment="Right"
-                        Width="100" Margin="10" Style="{DynamicResource SquareButtonStyle}"/>
-        </StackPanel>
-    </Grid>
 </Dialogs:BaseMetroDialog>

@@ -373,7 +373,7 @@ namespace IntegrationSolution.Excel.Common
         /// <param name="excelFile">File to write</param>
         /// <param name="vehicles">Collection of cars and their data</param>
         /// <param name="rangeHeaders">Headers to add and fill</param>
-        public static void WriteVehicleDataAndHeaders(ExcelBase excelFile, IEnumerable<IVehicle> vehicles, params string[] rangeHeaders)
+        public static void WriteVehicleDataAndHeaders(ExcelBase excelFile, IEnumerable<IVehicleSAP> vehicles, params string[] rangeHeaders)
         {
             var price = container.Resolve<FuelPrice>(); // ?? new FuelPrice() { DiselCost = 10, GasCost = 10, LPGCost = 10 };
             var existedHeaders = GetHeadersAddress(excelFile, rangeHeaders);
@@ -455,7 +455,7 @@ namespace IntegrationSolution.Excel.Common
         }
 
 
-        private static void AddOrUpdateFuelColumn(ExcelBase excelFile, IVehicle vehicle)
+        private static void AddOrUpdateFuelColumn(ExcelBase excelFile, IVehicleSAP vehicle)
         {
             if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;
@@ -507,7 +507,7 @@ namespace IntegrationSolution.Excel.Common
         }
 
 
-        private static void AddOrUpdateMileageColumn(ExcelBase excelFile, IVehicle vehicle)
+        private static void AddOrUpdateMileageColumn(ExcelBase excelFile, IVehicleSAP vehicle)
         {
             if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;
@@ -539,7 +539,7 @@ namespace IntegrationSolution.Excel.Common
         }
 
 
-        private static void AddOrUpdateCostColumn(ExcelBase excelFile, IVehicle vehicle)
+        private static void AddOrUpdateCostColumn(ExcelBase excelFile, IVehicleSAP vehicle)
         {
             if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;

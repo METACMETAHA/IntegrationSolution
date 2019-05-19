@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity;
-using WialonBase.Entities.Interfaces;
 
-namespace WialonBase.Entities
+namespace IntegrationSolution.Entities.Implementations.Wialon
 {
     public class TripWialon : TripBaseWialon
     {
@@ -16,7 +11,11 @@ namespace WialonBase.Entities
         public double TotalMileage { get; set; }
         public int AvgSpeed { get; set; }
         public int TotalMaxSpeed { get; set; }
-        public SpeedViolationWialon SpeedViolation { get; set; }
+        
+        public int CountTrips { get; set; }
+        public IEnumerable<TripWialon> Trips { get; set; }
+        public IEnumerable<SpeedViolationWialon> SpeedViolation { get; set; }
+
 
         public TripWialon()
         {

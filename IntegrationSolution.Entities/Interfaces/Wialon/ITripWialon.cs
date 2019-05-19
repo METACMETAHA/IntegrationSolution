@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WialonBase.Entities.Interfaces
+namespace IntegrationSolution.Entities.Interfaces.Wialon
 {
     public interface ITripWialon
     {

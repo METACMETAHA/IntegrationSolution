@@ -12,28 +12,31 @@ namespace IntegrationSolution.Entities.SelfEntities
     /// <summary>
     /// Description of current properties is in HeaderNames file
     /// </summary>
-    public class Trip : ICarIndicator, ICommonIndicator, IMoveDateTimeCheck, ITractorIndicators
+    public class TripSAP : IMoveDateTimeCheck, ICarIndicator, ICommonIndicator, ITractorIndicators
     {
         public double DepartureOdometerValue { get; set; }
         public double ReturnOdometerValue { get; set; }
         public double TotalMileage { get; set; }
+
         public double DepartureMotoHoursIndications { get; set; }
         public double ReturnMotoHoursIndications { get; set; }
         public double MotoHoursIndicationsAtAll { get; set; }
 
-        public string DepartureFromGarageDate { get; set; }
-        public string DepartureFromGarageTime { get; set; }
-        public string ReturnToGarageDate { get; set; }
-        public string ReturnToGarageTime { get; set; }
-        public string TimeOnDutyAtAll { get; set; }
+        public DateTime DepartureFromGarageDate { get; set; }
+        public DateTime ReturnToGarageDate { get; set; }
+        public TimeSpan TimeOnDutyAtAll { get => ReturnToGarageDate - DepartureFromGarageDate; }
 
-        public Dictionary<FuelEnum, IFuel> FuelDictionary { get; set; }
+        ICommonCompareIndicator<double> IndicatorMileage { get; set; }
+
         public Driver Driver { get; set; }
 
-        public Trip()
+        public Dictionary<FuelEnum, IFuel> FuelDictionary { get; set; }
+        
+        public TripSAP(ICommonCompareIndicator<double> indicatorMileage)
         {
-            Driver = new Driver();
             FuelDictionary = new Dictionary<FuelEnum, IFuel>();
+            IndicatorMileage = indicatorMileage;
+            Driver = new Driver();
         }
     }
 }

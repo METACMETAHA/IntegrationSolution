@@ -56,12 +56,19 @@ namespace IntegrationSolution.Common.Converters
         {
             StringBuilder stateNum = new StringBuilder();
 
+            StateNumber = StateNumber.Trim('(', ')', ' ', '.', ',', '-', '[', ']');
+            
+            return StateNumber.ToStateNumber();
+        }
+
+
+        public static string ToStateNumberWialonOld(this string StateNumber)
+        {
+            StringBuilder stateNum = new StringBuilder();
+
             StateNumber = StateNumber.Replace('(', ' ').Replace(')', ' ');
 
-            byte[] bytes = Encoding.Default.GetBytes(StateNumber);
-            var encodedState = Encoding.UTF8.GetString(bytes);
-
-            var collection = encodedState?.Trim().Split(' ');
+            var collection = StateNumber?.Trim().Split(' ');
             
             switch (collection.Length)
             {

@@ -9,6 +9,18 @@ namespace IntegrationSolution.Common.Models
 {
     public class DatesFromToContext : PropertyChangedBase
     {
+        private bool _isWithDetails;
+        public bool IsWithDetails
+        {
+            get { return _isWithDetails; }
+            set
+            {
+                _isWithDetails = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+
         private DateTime _fromDate;
         public DateTime FromDate
         {

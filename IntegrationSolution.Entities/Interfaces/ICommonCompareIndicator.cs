@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Entities.Interfaces
 {
-    public interface IVehicle
+    public interface ICommonCompareIndicator<T>
     {
-        string UnitModel { get; set; }
+        T SAP { get; set; }
 
-        string StateNumber { get; set; }
+        T Wialon { get; set; }
 
-        string Type { get; set; }
-
-        string StructureName { get; set; }
+        T Difference { get; }
     }
 }

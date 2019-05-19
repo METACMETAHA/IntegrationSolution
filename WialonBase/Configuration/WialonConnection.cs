@@ -1,5 +1,6 @@
 ﻿using IntegrationSolution.Common.Implementations;
 using log4net;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,8 @@ namespace WialonBase.Configuration
         
 
         public JObject SendRequest(string path, params KeyValuePair<string,string> [] parameters)
-        { 
+        {
+            string responseString = null;
             try
             {
                 JObject obj;
@@ -138,9 +140,23 @@ namespace WialonBase.Configuration
 
                     var response = client.UploadValues(APIUrl, values);
 
-                    var responseString = Encoding.Default.GetString(response);
-                    obj = JObject.Parse(responseString);
+                    responseString = Encoding.Default.GetString(response);
+                    obj = this.ConvertToUTF8AndParseJObject(responseString);
                 }
+
+                return obj;
+            }
+            catch (JsonReaderException ex)
+            {
+                var arr = ConvertToUTF8AndParseArray(responseString);
+                if (arr == null)
+                {
+                    _logger.Error($"{ex.Message}\nCan`t parse. Method: SendRequest({path})");
+                    return null;
+                }
+                JObject obj = new JObject();
+                for (int i = 0; i < arr.Count; i++)
+                    obj.Add(i.ToString(), arr[i]);
 
                 return obj;
             }
@@ -154,6 +170,7 @@ namespace WialonBase.Configuration
 
         public JObject SendRequest(string path, string param)
         {
+            string responseString = null;
             try
             {
                 JObject obj;
@@ -166,25 +183,48 @@ namespace WialonBase.Configuration
                         ["params"] = param
                     };
                     client.Headers[HttpRequestHeader.ContentType] = _contentType;
-                    client.Headers[HttpRequestHeader.ContentEncoding] = Encoding.UTF8.BodyName;
                     var response = client.UploadValues(APIUrl, values);
 
-                    var responseString = Encoding.Default.GetString(response);
-                    obj = JObject.Parse(responseString);
+                    responseString = Encoding.Default.GetString(response);                    
+                    obj = this.ConvertToUTF8AndParseJObject(responseString);
                 }
 
                 return obj;
             }
-            //catch (NullReferenceException ex)
-            //{
-            //    _logger.Info("Обновление сессии.");
-            //    return null;
-            //}
+            catch (JsonReaderException ex)
+            {
+                var arr = ConvertToUTF8AndParseArray(responseString);
+                if (arr == null)
+                {
+                    _logger.Error($"{ex.Message}\nCan`t parse. Method: SendRequest({path}, {param})");
+                    return null;
+                }
+                JObject obj = new JObject();
+                for (int i = 0; i < arr.Count; i++)
+                    obj.Add(i.ToString(), arr[i]);
+
+                return obj;
+            }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
+                _logger.Error($"{ex.Message}\nMethod: SendRequest({path}, {param})");
                 return null;
             }
+        }
+
+
+        private JObject ConvertToUTF8AndParseJObject(string obj)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(obj.ToString());
+            var encodedString = Encoding.UTF8.GetString(bytes);
+            return JObject.Parse(encodedString);
+        }
+
+        private JArray ConvertToUTF8AndParseArray(string obj)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(obj.ToString());
+            var encodedString = Encoding.UTF8.GetString(bytes);
+            return JArray.Parse(encodedString);
         }
 
 

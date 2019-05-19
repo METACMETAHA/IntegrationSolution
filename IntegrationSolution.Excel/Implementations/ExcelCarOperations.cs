@@ -7,6 +7,7 @@ using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Common;
 using IntegrationSolution.Excel.Interfaces;
+using log4net;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,14 @@ namespace IntegrationSolution.Excel.Implementations
     public class ExcelCarOperations : ExcelBase, ICarOperations
     {
         private Dictionary<string, ExcelCellAddress> _tripsAddress;
-        
+        private readonly ILog _logger;
+
 
         #region Constructors
         public ExcelCarOperations(ExcelPackage excelPackage, IUnityContainer unityContainer) : base(excelPackage, unityContainer)
         {
             _tripsAddress = new Dictionary<string, ExcelCellAddress>();
+            _logger = LogManager.GetLogger(this.GetType());
             TryInitializeAll();
         }
         #endregion
@@ -123,9 +126,9 @@ namespace IntegrationSolution.Excel.Implementations
 
 
         #region Implementation
-        public IEnumerable<IVehicle> GetVehicles()
+        public IEnumerable<IVehicleSAP> GetVehicles()
         {
-            ICollection<IVehicle> cars = new List<IVehicle>();
+            ICollection<IVehicleSAP> cars = new List<IVehicleSAP>();
             try
             {
                 IDictionary<string, ExcelCellAddress> headers = StaticHelper.GetHeadersAddress(
@@ -139,7 +142,7 @@ namespace IntegrationSolution.Excel.Implementations
 
                 for (int row = headers.First().Value.Row + 1; row < this.EndCell.Row; row++)
                 {
-                    IVehicle vehicle = new Car();
+                    IVehicleSAP vehicle = new Car();
                     foreach (var item in headers)
                     {
                         try
@@ -186,7 +189,7 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public bool SetFieldsOfVehicleByAvaliableData(ref IVehicle vehicle)
+        public bool SetFieldsOfVehicleByAvaliableData(ref IVehicleSAP vehicle)
         {
             if (StaticHelper.GetHeadersAddress(this,
                 HeaderNames.UnitNumber,
@@ -201,22 +204,21 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public IEnumerable<Trip> GetTripsByStateNumber(string StateNumber)
+        public IEnumerable<TripSAP> GetTripsByStateNumber(string StateNumber)
         {
             var rows = StaticHelper.GetRowsWithValue(this, StateNumber, HeaderNames.StateNumber);
             if (!rows.Any())
                 return null;
 
-            List<Trip> result = new List<Trip>();
+            List<TripSAP> result = new List<TripSAP>();
             foreach (var row in rows)
             {
                 try
                 {
-                    Trip trip = new Trip
-                    {
-                        FuelDictionary = StaticHelper.GetFuelDataByRow(this, row.Row, _tripsAddress).ToDictionary(x => x.Key, y => y.Value),
-                        Driver = StaticHelper.GetDriverFromRow(this, row.Row, _tripsAddress)
-                    };
+                    TripSAP trip = container.Resolve<TripSAP>();
+
+                    trip.FuelDictionary = StaticHelper.GetFuelDataByRow(this, row.Row, _tripsAddress).ToDictionary(x => x.Key, y => y.Value);
+                    trip.Driver = StaticHelper.GetDriverFromRow(this, row.Row, _tripsAddress);                    
 
                     #region GetHeaders of indicators
                     // Indicators: odometr, mileage...
@@ -256,22 +258,43 @@ namespace IntegrationSolution.Excel.Implementations
                         trip.MotoHoursIndicationsAtAll = WorkSheet.Cells[row.Row, headerMotoHoursIndicationsAtAll.Value.Column].Text.ToDouble();
 
                     // Start set values for date and time
-                    if (headerDepartureFromGarageDate.Value != null)
-                        trip.DepartureFromGarageDate = WorkSheet.Cells[row.Row, headerDepartureFromGarageDate.Value.Column].Text;
+                    try
+                    {
+                        if (headerDepartureFromGarageDate.Value != null)
+                            trip.DepartureFromGarageDate = WorkSheet.Cells[row.Row, headerDepartureFromGarageDate.Value.Column].GetValue<DateTime>();
 
-                    if (headerDepartureFromGarageTime.Value != null)
-                        trip.DepartureFromGarageTime = WorkSheet.Cells[row.Row, headerDepartureFromGarageTime.Value.Column].Text;
+                        if (headerDepartureFromGarageTime.Value != null)
+                        {
+                            var time = WorkSheet.Cells[row.Row, headerDepartureFromGarageTime.Value.Column].GetValue<TimeSpan>();
+                            trip.DepartureFromGarageDate = trip.DepartureFromGarageDate.Date
+                                .AddHours(time.Hours).AddMinutes(time.Minutes).AddSeconds(time.Seconds);
+                        }
+                    }
+                    catch
+                    {
+                        _logger.Info("Невозможно преобразовать в дату выезда:" + WorkSheet.Cells[row.Row, headerDepartureFromGarageDate.Value.Column].Value);
+                    }
 
-                    if (headerReturnToGarageDate.Value != null)
-                        trip.ReturnToGarageDate = WorkSheet.Cells[row.Row, headerReturnToGarageDate.Value.Column].Text;
+                    try
+                    {
+                        if (headerReturnToGarageDate.Value != null)
+                            trip.ReturnToGarageDate = WorkSheet.Cells[row.Row, headerReturnToGarageDate.Value.Column].GetValue<DateTime>();
 
-                    if (headerReturnToGarageTime.Value != null)
-                        trip.ReturnToGarageTime = WorkSheet.Cells[row.Row, headerReturnToGarageTime.Value.Column].Text;
 
-                    if (headerTimeOnDutyAtAll.Value != null)
-                        trip.TimeOnDutyAtAll = WorkSheet.Cells[row.Row, headerTimeOnDutyAtAll.Value.Column].Text;
+
+                        if (headerReturnToGarageTime.Value != null)
+                        {
+                            var time = WorkSheet.Cells[row.Row, headerReturnToGarageTime.Value.Column].GetValue<TimeSpan>();
+                            trip.ReturnToGarageDate = trip.ReturnToGarageDate.Date
+                                .AddHours(time.Hours).AddMinutes(time.Minutes).AddSeconds(time.Seconds);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        _logger.Info("Невозможно преобразовать в дату возвращения:" + WorkSheet.Cells[row.Row, headerReturnToGarageDate.Value.Column].Value);
+                    }
+                    
                     #endregion
-
                     result.Add(trip);
                 }
                 catch (Exception ex)
@@ -281,13 +304,13 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public void WriteInHeadersAndDataForTotalResult(ICollection<IVehicle> vehicles)
+        public void WriteInHeadersAndDataForTotalResult(ICollection<IVehicleSAP> vehicles)
         {
             StaticHelper.WriteVehicleDataAndHeaders(this, vehicles,
-                HeaderNames.TotalMileageResult, 
+                HeaderNames.TotalMileageResult,
                 HeaderNames.TotalJobDoneResult,
                 HeaderNames.ConsumptionGasActualResult,
-                HeaderNames.ConsumptionDieselActualResult, 
+                HeaderNames.ConsumptionDieselActualResult,
                 HeaderNames.ConsumptionLPGActualResult,
                 HeaderNames.TotalCostGas,
                 HeaderNames.TotalCostDisel,
@@ -298,7 +321,7 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public void WriteInTotalResultOfEachStructure(ICollection<IVehicle> vehicles)
+        public void WriteInTotalResultOfEachStructure(ICollection<IVehicleSAP> vehicles)
         {
             var total = GetTotal(vehicles);
 
@@ -328,15 +351,15 @@ namespace IntegrationSolution.Excel.Implementations
         /// </summary>
         /// <param name="vehicles"></param>
         /// <returns>Dictionary, where key is Structure, value is TotalIndicators</returns>
-        private IDictionary<string, TotalIndicators> GetTotal(ICollection<IVehicle> vehicles)
+        private IDictionary<string, TotalIndicators> GetTotal(ICollection<IVehicleSAP> vehicles)
         {
             var structures = vehicles.ToLookup(x => x.StructureName);
             Dictionary<string, TotalIndicators> summary = new Dictionary<string, TotalIndicators>();
-            
+
             foreach (var structure in structures)
             {
                 TotalIndicators total = new TotalIndicators();
-                
+
                 foreach (var auto in structure)
                 {
                     if (auto.TripResulted == null)

@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>space.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
@@ -47,6 +50,9 @@
     </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.2.0.0-alpha0262\lib\net46\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FontAwesome, Version=2.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.FontAwesome.2.3.0\lib\net46\MahApps.Metro.IconPacks.FontAwesome.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.0.1\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
@@ -196,6 +202,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="space.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Resources\startup.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

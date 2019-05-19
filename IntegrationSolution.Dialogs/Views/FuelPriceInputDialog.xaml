@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"  
+             xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" 
+             xmlns:PartialViews="clr-namespace:IntegrationSolution.Dialogs.PartialViews"
              xmlns:local="clr-namespace:IntegrationSolution.Dialogs.Views"
              mc:Ignorable="d" Title="Цены на топливо">
     <Grid>
@@ -50,17 +51,7 @@
                 Value="{Binding FuelPrice.DiselCost, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 
-            <StackPanel
-      Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-      Orientation="Horizontal" HorizontalAlignment="Right"
-      Margin="10">
-                <Button Command="{Binding OkCommand}" Content="OK" IsDefault="True"
-                        HorizontalAlignment="Right"
-                        Width="100" Margin="10" Style="{DynamicResource AccentedSquareButtonStyle}"/>
-                <Button Command="{Binding CancelCommand}" Content="Cancel" IsCancel="True"
-                        HorizontalAlignment="Right"
-                        Width="100" Margin="10" Style="{DynamicResource SquareButtonStyle}"/>
-            </StackPanel>
+            <PartialViews:OkCancelPartialView Grid.Row="1" Grid.ColumnSpan="3"/>
 
         </Grid>
     </Grid>

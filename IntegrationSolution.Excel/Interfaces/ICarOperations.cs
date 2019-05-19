@@ -7,12 +7,12 @@ namespace IntegrationSolution.Excel.Interfaces
     public interface ICarOperations : IDisposable
     {
         /// <summary>
-        /// This function gets all IVehicle-objects from excel file which is storage of cars.
+        /// This function gets all IVehicleSAP-objects from excel file which is storage of cars.
         /// Fill next properties of object: Тип, Гос.знак единицы оборудования, Марка
         /// </summary>
         /// <exception cref=""></exception>
-        /// <returns>IEnumerable of IVehicle</returns>
-        IEnumerable<IVehicle> GetVehicles();
+        /// <returns>IEnumerable of IVehicleSAP</returns>
+        IEnumerable<IVehicleSAP> GetVehicles();
 
 
         /// <summary>
@@ -20,16 +20,16 @@ namespace IntegrationSolution.Excel.Interfaces
         /// </summary>
         /// <param name="vehicle"></param>
         /// <returns></returns>
-        bool SetFieldsOfVehicleByAvaliableData(ref IVehicle vehicle);
+        bool SetFieldsOfVehicleByAvaliableData(ref IVehicleSAP vehicle);
 
 
         /// <summary>
         /// Add Headers and write data of each car
         /// </summary>
         /// <param name="vehicles"></param>
-        void WriteInHeadersAndDataForTotalResult(ICollection<IVehicle> vehicles);
+        void WriteInHeadersAndDataForTotalResult(ICollection<IVehicleSAP> vehicles);
 
 
-        void WriteInTotalResultOfEachStructure(ICollection<IVehicle> vehicles);
+        void WriteInTotalResultOfEachStructure(ICollection<IVehicleSAP> vehicles);
     }
 }

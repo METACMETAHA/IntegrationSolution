@@ -1,4 +1,5 @@
-﻿using IntegrationSolution.Entities.Interfaces;
+﻿using IntegrationSolution.Entities.Implementations.Wialon;
+using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Excel;
 using IntegrationSolution.Excel.Implementations;
 using IntegrationSolution.Excel.Interfaces;
@@ -7,12 +8,8 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
 using Unity.Resolution;
-using WialonBase.Entities;
 
 namespace Integration.ModuleGUI.Models
 {
@@ -56,11 +53,11 @@ namespace Integration.ModuleGUI.Models
         }
 
         #region Vehicles
-        public ICollection<IVehicle> Vehicles { get; set; }
+        public ICollection<IVehicleSAP> Vehicles { get; set; }
         public ICollection<CarWialon> VehiclesNavigate { get; set; }
 
         // Vehicles from excel which are not found in Wialon
-        public ObservableCollection<IVehicle> VehiclesExcelDistinctWialon { get; set; }
+        public ObservableCollection<IVehicleSAP> VehiclesExcelDistinctWialon { get; set; }
 
         // Vehicles from Wialon which are not found in excel
         public ObservableCollection<CarWialon> VehiclesWialonDistinctExcel { get; set; }

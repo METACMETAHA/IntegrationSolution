@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity;
-using WialonBase.Entities.Interfaces;
+﻿using IntegrationSolution.Entities.Interfaces.Wialon;
+using System;
 
-namespace WialonBase.Entities
+namespace IntegrationSolution.Entities.Implementations.Wialon
 {
     public class TripBaseWialon : ITripWialon
     {

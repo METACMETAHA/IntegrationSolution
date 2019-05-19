@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,25 +46,37 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\AttributeProvider.cs" />
+    <Compile Include="Helpers\DoubleExtensions.cs" />
     <Compile Include="Helpers\FilterData.cs" />
     <Compile Include="Helpers\HeaderAttribute.cs" />
+    <Compile Include="Implementations\CompareIndicator.cs" />
     <Compile Include="Implementations\Driver.cs" />
     <Compile Include="Implementations\Fuel\Disel.cs" />
     <Compile Include="Implementations\Fuel\FuelBase.cs" />
     <Compile Include="Implementations\Car.cs" />
     <Compile Include="Implementations\Fuel\Gas.cs" />
     <Compile Include="Implementations\Fuel\LPG.cs" />
+    <Compile Include="Implementations\VehicleInfoBase.cs" />
+    <Compile Include="Implementations\Wialon\CarDetails.cs" />
+    <Compile Include="Implementations\Wialon\CarWialon.cs" />
+    <Compile Include="Implementations\Wialon\SpeedViolationWialon.cs" />
+    <Compile Include="Implementations\Wialon\TripBaseWialon.cs" />
+    <Compile Include="Implementations\Wialon\TripWialon.cs" />
     <Compile Include="Interfaces\ICarIndicator.cs" />
+    <Compile Include="Interfaces\ICommonCompareIndicator.cs" />
     <Compile Include="Interfaces\ICommonIndicator.cs" />
     <Compile Include="Interfaces\IFuel.cs" />
     <Compile Include="Interfaces\IMoveDateTimeCheck.cs" />
     <Compile Include="Interfaces\IPerson.cs" />
     <Compile Include="Interfaces\ITractorIndicators.cs" />
     <Compile Include="Interfaces\IVehicle.cs" />
+    <Compile Include="Interfaces\IVehicleSAP.cs" />
+    <Compile Include="Interfaces\Wialon\ITripWialon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelfEntities\IntegratedVehicleInfo.cs" />
+    <Compile Include="SelfEntities\IntegratedVehicleInfoDetails.cs" />
     <Compile Include="SelfEntities\TotalIndicators.cs" />
-    <Compile Include="SelfEntities\Trip.cs" />
+    <Compile Include="SelfEntities\TripSAP.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
@@ -71,6 +86,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

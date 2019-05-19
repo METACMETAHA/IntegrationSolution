@@ -8,10 +8,8 @@ namespace IntegrationSolution.Entities.Interfaces
 {
     public interface IMoveDateTimeCheck
     {
-        string DepartureFromGarageDate { get; set; }
-        string DepartureFromGarageTime { get; set; }
-        string ReturnToGarageDate { get; set; }
-        string ReturnToGarageTime { get; set; }
-        string TimeOnDutyAtAll { get; set; }
+        DateTime DepartureFromGarageDate { get; set; }
+        DateTime ReturnToGarageDate { get; set; }
+        TimeSpan TimeOnDutyAtAll { get; }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace IntegrationSolution.Entities.Implementations
 {
-    public class Car : IVehicle
+    public class Car : IVehicleSAP
     {
         public string UnitModel { get; set; }
         public string UnitNumber { get; set; }
@@ -17,21 +17,21 @@ namespace IntegrationSolution.Entities.Implementations
         private string _stateNumber;
         public string StateNumber { get => _stateNumber; set => _stateNumber = StateNumberConverter.ToStateNumber(value); }
 
-        public Trip TripResulted { get => GetTripResulted(); }
-        public ICollection<Trip> Trips { get; set; }
+        public TripSAP TripResulted { get => GetTripResulted(); }
+        public ICollection<TripSAP> Trips { get; set; }
 
         public Car()
         {
-            Trips = new Collection<Trip>();
+            Trips = new Collection<TripSAP>();
         }
 
 
-        private Trip GetTripResulted()
+        private TripSAP GetTripResulted()
         {
             if (Trips == null || Trips.Count == 0)
                 return null;
 
-            Trip trip = new Trip();
+            TripSAP trip = new TripSAP(new CompareIndicator<double>());
 
             foreach (var item in Trips)
             {

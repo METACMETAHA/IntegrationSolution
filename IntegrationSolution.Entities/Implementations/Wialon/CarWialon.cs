@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WialonBase.Entities
+namespace IntegrationSolution.Entities.Implementations.Wialon
 {
     public class CarWialon
     {
