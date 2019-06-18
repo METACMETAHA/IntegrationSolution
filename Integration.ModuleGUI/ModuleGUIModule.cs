@@ -1,26 +1,10 @@
-﻿using DialogConstruction.Implementations;
-using DialogConstruction.Interfaces;
-using Integration.ModuleGUI.Models;
-using Integration.ModuleGUI.ViewModels;
-using Integration.ModuleGUI.Views;
-using Integration.ModuleGUI.Views.OperationResultsViews;
-using IntegrationSolution.Dialogs;
-using IntegrationSolution.Dialogs.ViewModels;
-using IntegrationSolution.Dialogs.Views;
+﻿using Integration.ModuleGUI.Models;
 using IntegrationSolution.Entities.Implementations;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
-using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
-using Unity.Injection;
 
 namespace Integration.ModuleGUI
 {
@@ -41,7 +25,7 @@ namespace Integration.ModuleGUI
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<CommonModuleData>();
-
+            
             _container.RegisterType(typeof(ICommonCompareIndicator<>), typeof(CompareIndicator<>));
             _container.RegisterType<IntegratedVehicleInfo>();
             _container.RegisterType<IntegratedVehicleInfoDetails>();

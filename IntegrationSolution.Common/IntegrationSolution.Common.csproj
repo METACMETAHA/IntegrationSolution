@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="CommonModule.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\SelectedItemToContentConverter.cs" />
     <Compile Include="Converters\StateNumberConverter.cs" />
     <Compile Include="Converters\StringToDoubleConverter.cs" />
     <Compile Include="Entities\Error.cs" />

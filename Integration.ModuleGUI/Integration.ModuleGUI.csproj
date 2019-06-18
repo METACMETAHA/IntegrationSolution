@@ -44,7 +44,7 @@
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.4.0.0-alpha0232\lib\net45\ControlzEx.dll</HintPath>
+      <HintPath>..\packages\ControlzEx.4.0.0-alpha0286\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\Console\bin\Debug\EPPlus.dll</HintPath>
@@ -76,12 +76,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -105,17 +107,17 @@
     <Compile Include="Models\VMLocalBase.cs" />
     <Compile Include="ModuleGUIModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\FinalViewModel.cs" />
-    <Compile Include="ViewModels\LoadingFilesViewModel.cs" />
-    <Compile Include="ViewModels\OperationResultsViewModel.cs" />
-    <Compile Include="ViewModels\OperationsViewModel.cs" />
-    <Compile Include="Views\FinalView.xaml.cs">
+    <Compile Include="ViewModels\Logistic\Steps\FinalViewModel.cs" />
+    <Compile Include="ViewModels\Logistic\Steps\LoadingFilesViewModel.cs" />
+    <Compile Include="ViewModels\Logistic\Steps\OperationResultsViewModel.cs" />
+    <Compile Include="ViewModels\Logistic\Steps\OperationsViewModel.cs" />
+    <Compile Include="Views\Logistic\Steps\FinalView.xaml.cs">
       <DependentUpon>FinalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoadingFilesView.xaml.cs">
+    <Compile Include="Views\Logistic\Steps\LoadingFilesView.xaml.cs">
       <DependentUpon>LoadingFilesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OperationResultsView.xaml.cs">
+    <Compile Include="Views\Logistic\Steps\OperationResultsView.xaml.cs">
       <DependentUpon>OperationResultsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OperationResultsViews\CompareSapWialonMileageView.xaml.cs">
@@ -124,7 +126,7 @@
     <Compile Include="Views\OperationResultsViews\TransportView.xaml.cs">
       <DependentUpon>TransportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OperationsView.xaml.cs">
+    <Compile Include="Views\Logistic\Steps\OperationsView.xaml.cs">
       <DependentUpon>OperationsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -146,15 +148,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\FinalView.xaml">
+    <Page Include="Views\Logistic\Steps\FinalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoadingFilesView.xaml">
+    <Page Include="Views\Logistic\Steps\LoadingFilesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OperationResultsView.xaml">
+    <Page Include="Views\Logistic\Steps\OperationResultsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OperationsView.xaml">
+    <Page Include="Views\Logistic\Steps\OperationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

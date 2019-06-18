@@ -1,5 +1,6 @@
 ﻿using Integration.Flyouts;
 using Integration.Infrastructure;
+using Integration.Infrastructure.Views.Account;
 using Integration.ModuleGUI;
 using IntegrationSolution.Common;
 using IntegrationSolution.Dialogs;
@@ -11,12 +12,16 @@ using MahApps.Metro.Controls;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
 using WialonBase;
 
 namespace IntegrationSolution.ShellGUI
@@ -44,14 +49,14 @@ namespace IntegrationSolution.ShellGUI
             log4net.Config.XmlConfigurator.Configure();
 
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
-            containerRegistry.RegisterSingleton<IRegionAdapter, FlyoutsControlRegionAdapter>();            
+
         }
 
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
         {
             base.ConfigureRegionAdapterMappings(regionAdapterMappings);
-            regionAdapterMappings.RegisterMapping(typeof(FlyoutsControl), Container.Resolve<IRegionAdapter>());
+            regionAdapterMappings.RegisterMapping(typeof(FlyoutsControl), Container.Resolve<FlyoutsControlRegionAdapter>());
         }
 
 
@@ -60,6 +65,7 @@ namespace IntegrationSolution.ShellGUI
             base.OnInitialized();
             LogManager.GetLogger(this.GetType()).Info("Запуск программы!");
         }
+
 
         /// <summary>
         /// Adding modules which are should be integrated in Installer.Shell

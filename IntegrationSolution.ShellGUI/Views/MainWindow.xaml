@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:views="clr-namespace:Integration.Infrastructure.Views;assembly=Integration.Infrastructure"
-        xmlns:VM="clr-namespace:IntegrationSolution.ShellGUI.ViewModels"
+        xmlns:viewsChild="clr-namespace:Integration.ModuleGUI.Views;assembly=Integration.ModuleGUI"
+        xmlns:VM="clr-namespace:Integration.ModuleGUI.ViewModels;assembly=Integration.ModuleGUI"
+        xmlns:converters="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
         xmlns:prism="http://www.codeplex.com/prism"
         prism:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
-        TryToBeFlickerFree="True" TitleBarHeight="35"
+        TitleBarHeight="35" TryToBeFlickerFree="True"
         BorderThickness="0" GlowBrush="Black" 
         NonActiveWindowTitleBrush="LightGray"
         TitleCharacterCasing="Upper" 
@@ -17,8 +19,8 @@
         NonActiveBorderBrush="Black"
         MinHeight="480" MinWidth="900"
         TitleAlignment="Center"
-        Title="DTEK" Height="610" Width="1020">
-
+        Title="DTEK" Height="610" Width="1120">
+    
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands ShowSeparators="True">
             <Controls:ToggleSwitch Width="160" VerticalAlignment="Center"
@@ -60,51 +62,65 @@
     </Controls:MetroWindow.Flyouts>
     
 
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*" MinHeight="60"/>
-            <RowDefinition Height="7*" MinHeight="200"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" MaxHeight="200" MinHeight="70"/>
-        </Grid.RowDefinitions>
-
-        --><!--Header--><!--
-        <views:HeaderView Grid.Row="0"/>
-
-        --><!--Wizard progress bar control--><!--
-        <views:BodyView Grid.Row="1"/>
-
-        <GridSplitter Grid.Row="2" ShowsPreview="False" Height="1" Background="{StaticResource HeaderBackground}"
-                      HorizontalAlignment="Stretch" ToolTip="Разделитель"/>
-
-        <views:FooterView Grid.Row="3" Padding="0 5 0 0"/>
-
-    </Grid>-->
-
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="9*" MinHeight="260"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" MaxHeight="200" MinHeight="70"/>
-        </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*" MinHeight="60"/>
-                <RowDefinition Height="7*" MinHeight="200"/>
-            </Grid.RowDefinitions>
+        <Grid.Resources>
+            
+            <converters:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter"/>
+
+            <!--  this is the template for the items (options too)  -->
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type Controls:HamburgerMenuIconItem}">
+                <Grid x:Name="RootGrid"
+                      Height="50"
+                      Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Column="0"
+                                    
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Icon}"
+                                    Focusable="False" Height="50" Width="50"/>
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Text="{Binding Label}" />
+                </Grid>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:HamburgerMenu}}, Path=IsPaneOpen}" Value="False">
+                        <Setter TargetName="RootGrid" Property="ToolTip" Value="{Binding ToolTip, Mode=OneWay}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+            
+        </Grid.Resources>
         
-        <!--Header-->
-        <views:HeaderView Grid.Row="0"/>
+        <Controls:HamburgerMenu
+                           DisplayMode="CompactInline"
+                           IsPaneOpen="False"
+                           ItemTemplate="{StaticResource MenuItemTemplate}"
+                           ItemsSource="{Binding MenuItems}"
+                           OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                           OptionsItemsSource="{Binding MenuOptionItems}"
+                           SelectedIndex="1">
 
-        <!--Wizard progress bar control-->
-        <views:BodyView Grid.Row="1"/>
-        </Grid>
-        
-        <GridSplitter Grid.Row="1" ShowsPreview="False" Height="1" Background="{StaticResource HeaderBackground}"
-                      HorizontalAlignment="Stretch" ToolTip="Разделитель"/>
+            <!--  select the tag (ViewModel) of the selected item (options item)  -->
+            <Controls:HamburgerMenu.Content>
+                <MultiBinding Converter="{StaticResource SelectedItemToContentConverter}">
+                    <Binding FallbackValue="{x:Null}"
+                             Mode="OneWay"
+                             Path="SelectedItem.Tag"
+                             RelativeSource="{RelativeSource Self}" />
+                    <Binding FallbackValue="{x:Null}"
+                             Mode="OneWay"
+                             Path="SelectedOptionsItem.Tag"
+                             RelativeSource="{RelativeSource Self}" />
+                </MultiBinding>
+            </Controls:HamburgerMenu.Content>
 
-        <views:FooterView Grid.Row="2" Padding="0 5 0 0"/>
+        </Controls:HamburgerMenu>
 
     </Grid>
 
