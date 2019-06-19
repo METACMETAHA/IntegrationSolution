@@ -130,7 +130,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             {
                 new HamburgerMenuIconItem()
                 {
-                    //Icon = new PackIconMaterial() {Kind = PackIconMaterialKind.Help},
+                    Icon = Application.Current.TryFindResource("appbar_information"),
                     Label = "About",
                     ToolTip = "Some help.",
                     //Tag = new AboutViewModel(this)
