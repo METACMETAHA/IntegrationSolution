@@ -248,6 +248,7 @@ namespace Integration.ModuleGUI.ViewModels
         #region Helpers
         private async Task<ProgressDialogController> InitializeCars()
         {
+            Error = null;
             var wnd = (MetroWindow)Application.Current.MainWindow;
             var progress = await wnd.ShowProgressAsync("Подождите...", "Инициализация файлов");
 
@@ -340,7 +341,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                     List<T> forReport = new List<T>();
 
-                    foreach (var item in ModuleData.VehiclesNavigate)
+                    foreach (var item in ModuleData.Vehicles)
                     {
                         if (index++ > stepForInterval)
                         {
@@ -349,52 +350,53 @@ namespace Integration.ModuleGUI.ViewModels
                         }
 
                         indexCurrent++;
-                        var vehicle = ModuleData.Vehicles.FirstOrDefault(x => item.StateNumber.ToLower().Contains(x.StateNumber.ToLower()));
-                        if (vehicle == null)
-                            continue;
+                        var vehicle = ModuleData.VehiclesNavigate
+                            .FirstOrDefault(x => x.StateNumber.ToLower().Contains(item.StateNumber.ToLower()));
 
                         TripWialon tripWialon = null;
-                        if (!context.IsWithDetails)
-                            tripWialon = _wialonContext.GetCarInfo(item.ID,
-                                context.FromDate, context.ToDate);
-                        else
-                            tripWialon = _wialonContext.GetCarInfoDetails(item.ID,
-                                context.FromDate, context.ToDate);
-
-
-                        if (tripWialon == null)
+                        if (vehicle != null)
                         {
-                            _logger.Info($"TripSAP null! Item - {item.ID} ({item.StateNumber}) / From:{context.FromDate} / To {context.ToDate}");
-                            continue;
+                            if (!context.IsWithDetails)
+                                tripWialon = _wialonContext.GetCarInfo(vehicle.ID,
+                                    context.FromDate, context.ToDate);
+                            else
+                                tripWialon = _wialonContext.GetCarInfoDetails(vehicle.ID,
+                                    context.FromDate, context.ToDate);
                         }
 
-                        progress.SetMessage($"Осталось проверить: {ModuleData.VehiclesNavigate.Count - indexCurrent} транспортных средств\n" +
-                            $"Проверка {vehicle.UnitModel}  ({vehicle.StateNumber})\n" +
-                            $"Количество поездок за период: {vehicle.Trips?.Count} (SAP)\n" +
-                            $"Количество поездок за период: {tripWialon.CountTrips} (Wialon)\n" +
-                            $"Показания одометра за период по системе SAP: {vehicle.TripResulted?.TotalMileage} км\n" +
-                            $"Показания одометра за период по системе Wialon: {tripWialon.Mileage} км\n\n" +
-                            $"{((tripWialon.SpeedViolation != null) ? $"Количество превышений скорости: {tripWialon.SpeedViolation.Count()}" : $"")}");
+                        //if (tripWialon == null)
+                        //{
+                        //    _logger.Info($"TripSAP null! Item - {item.ID} ({item.StateNumber}) / From:{context.FromDate} / To {context.ToDate}");
+                        //    continue;
+                        //}
+
+                        progress.SetMessage($"Осталось проверить: {ModuleData.Vehicles.Count - indexCurrent} транспортных средств\n" +
+                            $"Проверка {item.UnitModel}  ({item.StateNumber})\n" +
+                            $"Количество поездок за период: {item.Trips?.Count} (SAP)\n" +
+                            $"Количество поездок за период: {tripWialon?.CountTrips} (Wialon)\n" +
+                            $"Показания одометра за период по системе SAP: {item.TripResulted?.TotalMileage} км\n" +
+                            $"Показания одометра за период по системе Wialon: {tripWialon?.Mileage} км\n\n" +
+                            $"{((tripWialon?.SpeedViolation != null) ? $"Количество превышений скорости: {tripWialon?.SpeedViolation.Count()}" : $"")}");
 
                         var integratedVehicle = _container.Resolve<T>();
 
-                        integratedVehicle.StateNumber = vehicle.StateNumber;
-                        integratedVehicle.UnitModel = vehicle.UnitModel;
-                        integratedVehicle.StructureName = vehicle.StructureName;
-                        integratedVehicle.Type = vehicle.Type;
+                        integratedVehicle.StateNumber = item.StateNumber;
+                        integratedVehicle.UnitModel = item.UnitModel;
+                        integratedVehicle.StructureName = item.StructureName;
+                        integratedVehicle.Type = item.Type;
 
-                        integratedVehicle.CountTrips.SAP = vehicle.Trips?.Count ?? 0;
-                        integratedVehicle.CountTrips.Wialon = tripWialon.CountTrips;
-                        integratedVehicle.IndicatorMileage.SAP = vehicle.TripResulted?.TotalMileage ?? 0;
-                        integratedVehicle.IndicatorMileage.Wialon = tripWialon.Mileage;
+                        integratedVehicle.CountTrips.SAP = item.Trips?.Count ?? 0;
+                        integratedVehicle.CountTrips.Wialon = tripWialon?.CountTrips ?? 0;
+                        integratedVehicle.IndicatorMileage.SAP = item.TripResulted?.TotalMileage ?? 0;
+                        integratedVehicle.IndicatorMileage.Wialon = tripWialon?.Mileage;
 
-                        integratedVehicle.WialonMileageTotal = tripWialon.TotalMileage;
-                        integratedVehicle.CountSpeedViolations = tripWialon.SpeedViolation?.Count() ?? 0;
+                        integratedVehicle.WialonMileageTotal = tripWialon?.TotalMileage;
+                        integratedVehicle.CountSpeedViolations = tripWialon?.SpeedViolation?.Count() ?? 0;
 
                         if (context.IsWithDetails)
                         {
-                            (integratedVehicle as IntegratedVehicleInfoDetails).TripsSAP = vehicle.Trips;
-                            (integratedVehicle as IntegratedVehicleInfoDetails).TripsWialon = tripWialon.Trips;
+                            (integratedVehicle as IntegratedVehicleInfoDetails).TripsSAP = item.Trips;
+                            (integratedVehicle as IntegratedVehicleInfoDetails).TripsWialon = tripWialon?.Trips;
                         }
 
                         forReport.Add(integratedVehicle);

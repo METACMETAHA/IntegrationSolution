@@ -18,7 +18,8 @@ namespace IntegrationSolution.Entities.SelfEntities
         {
             get
             {
-                if (IndicatorMileage == null || IndicatorMileage.SAP == null || IndicatorMileage.Wialon == null)
+                if (IndicatorMileage == null || IndicatorMileage.SAP == null || IndicatorMileage.Wialon == null
+                    || IndicatorMileage.SAP == 0 || IndicatorMileage.Wialon == 0)
                     return null;
                 
                 return IndicatorMileage.SAP.Value.GetPercentFrom(IndicatorMileage.Wialon.Value);

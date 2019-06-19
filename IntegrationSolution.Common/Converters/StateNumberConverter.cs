@@ -36,7 +36,10 @@ namespace IntegrationSolution.Common.Converters
         public static string ToStateNumber(this string StateNumber)
         {
             StringBuilder stateNum = new StringBuilder();
-            foreach (var it in StateNumber?.Trim().Replace(" ", string.Empty))
+            foreach (var it in StateNumber?.Trim()
+                .Replace("-", string.Empty)
+                .Replace(".", string.Empty)
+                .Replace(" ", string.Empty).ToUpper())
             {
                 if (mapTranform.ContainsKey(it))
                     stateNum.Append(mapTranform[it]);

@@ -158,7 +158,7 @@ namespace IntegrationSolution.Excel.Implementations
                                     break;
 
                                 case nameof(HeaderNames.StateNumber):
-                                    vehicle.StateNumber = this.WorkSheet.Cells[row, item.Value.Column].Text;
+                                    vehicle.StateNumber = this.WorkSheet.Cells[row, item.Value.Column].Text.ToStateNumber();
                                     break;
 
                                 case nameof(HeaderNames.Departments):

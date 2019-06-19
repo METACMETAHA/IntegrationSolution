@@ -112,7 +112,7 @@ namespace IntegrationSolution.Excel.Implementations
                 };
 
                 #region Columns` Style
-                worksheet.Column(5).Style.Numberformat.Format = "0";
+                worksheet.Column(5).Style.Numberformat.Format = "0.00";
                 worksheet.Column(5).Width = 15;
                 worksheet.Column(6).Style.Numberformat.Format = "0";
                 worksheet.Column(7).Style.Numberformat.Format = "dd-mm-yyyy"; // "Date of trip"
@@ -203,7 +203,11 @@ namespace IntegrationSolution.Excel.Implementations
                                 }
                             };
 
-                            if (sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage) * 100 > BadPercent)
+                            if (sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage) * 100 > BadPercent
+                                && sapElement.TotalMileage < wlnElement.Mileage)
+                                ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightGreenColor);
+                            else if (sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage) * 100 > BadPercent
+                                && sapElement.TotalMileage > wlnElement.Mileage)
                                 ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightRedColor);
 
                             IWln++;

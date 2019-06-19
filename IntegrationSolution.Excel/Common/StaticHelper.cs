@@ -130,7 +130,7 @@ namespace IntegrationSolution.Excel.Common
                 return null;
 
             List<ExcelCellAddress> SearchingCells = new List<ExcelCellAddress>();
-
+            
             foreach (var header in searchingHeaders)
             {
                 var address = StaticHelper.GetHeadersAddress(excelFile, header).FirstOrDefault().Value;
@@ -146,9 +146,9 @@ namespace IntegrationSolution.Excel.Common
                               where cellVal == Value.ToLower().ToStateNumber()
                               select cell.Start).ToList();
 
-
                 if (search.Any())
                     SearchingCells.AddRange(search);
+
             }
 
             return SearchingCells;
