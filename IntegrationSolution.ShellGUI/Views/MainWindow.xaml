@@ -71,17 +71,17 @@
             <!--  this is the template for the items (options too)  -->
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type Controls:HamburgerMenuIconItem}">
                 <Grid x:Name="RootGrid"
-                      Height="50"
+                      Height="60"
                       Background="Transparent">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="65" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <ContentControl Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Content="{Binding Icon}" Margin="-7 -10 0 0"
-                                    Focusable="False" Height="50" Width="50" >
+                                    Content="{Binding Icon}" Margin="-7 4 0 0"
+                                    Focusable="False" Height="65" Width="65" >
                         <ContentControl.RenderTransform>
                             <ScaleTransform ScaleY="0.8" ScaleX="0.8" />
                         </ContentControl.RenderTransform>
@@ -97,7 +97,7 @@
                     </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
-            
+
         </Grid.Resources>
         
         <Controls:HamburgerMenu
@@ -118,8 +118,9 @@
                         <GeometryDrawing Brush="Transparent">
                             <GeometryDrawing.Geometry>
                                 <GeometryGroup>
-                                    <PathGeometry Figures="M -150,230 C 130,290 400,300 400,405"/>
+                                    <PathGeometry Figures="M -350,230 C 130,290 400,300 400,405"/>
                                     <PathGeometry Figures="M 150,110 C 130,290 400,300 400,405"/>
+                                    <PathGeometry Figures="M -350,310 C 165,300 390,300 400,405"/>
                                 </GeometryGroup>
                             </GeometryDrawing.Geometry>
                             <GeometryDrawing.Pen>
@@ -144,6 +145,35 @@
                 </MultiBinding>
             </Controls:HamburgerMenu.Content>
 
+            <!--<Controls:HamburgerMenu.Style>
+                <Style TargetType="{x:Type Controls:HamburgerMenu}">
+                    <Style.Triggers>
+                        <Trigger Property="IsPaneOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation 
+                                         Storyboard.TargetProperty="Width"
+                                         To="300"
+                                         Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation 
+                                         Storyboard.TargetProperty="Width"
+                                         To="50"
+                                         Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Controls:HamburgerMenu.Style>-->
+            
         </Controls:HamburgerMenu>
 
     </Grid>
