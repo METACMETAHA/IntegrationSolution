@@ -49,11 +49,12 @@ namespace IntegrationSolution.Excel.Common
                 {
                     try
                     {
-                        var ss = excelFile.WorkSheet.Cells[
+                        var ss = (from cell in excelFile.WorkSheet.Cells[
                             excelFile.StartCell.Row,
                             excelFile.StartCell.Column,
                             excelFile.StartCell.Row + 1,
-                            excelFile.WorkSheet.Dimension.Columns];
+                            excelFile.WorkSheet.Dimension.Columns]
+                                  select cell.Start).First();
                         var address = (from cell in excelFile.WorkSheet.Cells[
                             excelFile.StartCell.Row,
                             excelFile.StartCell.Column,

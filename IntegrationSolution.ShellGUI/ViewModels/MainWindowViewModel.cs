@@ -106,15 +106,15 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 new HamburgerMenuIconItem()
                 {
                     Icon = Application.Current.TryFindResource("appbar_home_garage_open"),
-                    Label = "Home",
-                    ToolTip = "The Home view.",
+                    Label = "Главная",
+                    ToolTip = "В разработке.",
                     Tag = _container.Resolve<UserControl>(nameof(HomeView))
                 },
                 new HamburgerMenuIconItem()
                 {
                     Icon = Application.Current.TryFindResource("appbar_scale_unbalanced"),
-                    Label = "Private",
-                    ToolTip = "Private stuff.",
+                    Label = "Операции",
+                    ToolTip = "SAP + Wialon.",
                     Tag = _container.Resolve<UserControl>(nameof(LogisticsQuizView))
                 }
                 //new HamburgerMenuIconItem()
@@ -131,8 +131,8 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 new HamburgerMenuIconItem()
                 {
                     Icon = Application.Current.TryFindResource("appbar_information"),
-                    Label = "About",
-                    ToolTip = "Some help.",
+                    Label = "Справка",
+                    ToolTip = "Справка.",
                     //Tag = new AboutViewModel(this)
                 }
             };

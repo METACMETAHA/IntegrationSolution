@@ -145,35 +145,6 @@
                 </MultiBinding>
             </Controls:HamburgerMenu.Content>
 
-            <!--<Controls:HamburgerMenu.Style>
-                <Style TargetType="{x:Type Controls:HamburgerMenu}">
-                    <Style.Triggers>
-                        <Trigger Property="IsPaneOpen" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation 
-                                         Storyboard.TargetProperty="Width"
-                                         To="300"
-                                         Duration="0:0:0.2"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation 
-                                         Storyboard.TargetProperty="Width"
-                                         To="50"
-                                         Duration="0:0:0.2"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Controls:HamburgerMenu.Style>-->
-            
         </Controls:HamburgerMenu>
 
     </Grid>

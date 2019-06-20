@@ -70,7 +70,7 @@ namespace IntegrationSolution.Excel.Implementations
                 HeaderNames.ConsumptionLPGSavingsOrOverruns);
 
             // 15 - fuel columns
-            if (fuelAddress.Count == 15)
+            if (fuelAddress.Any())
             {
                 _tripsAddress = _tripsAddress.Concat(fuelAddress).ToDictionary(e => e.Key, e => e.Value);
                 return true;
