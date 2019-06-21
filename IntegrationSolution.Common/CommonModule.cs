@@ -1,4 +1,6 @@
-﻿using IntegrationSolution.Common.Models;
+﻿using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Common.Interfaces;
+using IntegrationSolution.Common.Models;
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
@@ -17,6 +19,7 @@ namespace IntegrationSolution.Common
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<FuelPrice>();
+            containerRegistry.RegisterSingleton<AppConfiguration>();
         }
     }
 }

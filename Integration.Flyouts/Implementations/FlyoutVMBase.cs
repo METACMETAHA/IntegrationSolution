@@ -1,4 +1,6 @@
 ﻿using Integration.Flyouts.Interfaces;
+using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Common.Interfaces;
 using MahApps.Metro.Controls;
 using Prism.Mvvm;
 using System;
@@ -12,6 +14,8 @@ namespace Integration.Flyouts.Implementations
 {
     public abstract class FlyoutVMBase : BindableBase, IFlyoutViewModel
     {
+        protected AppConfiguration _settings;
+
         #region Properties
         private string header;
         public string Header
@@ -64,8 +68,10 @@ namespace Integration.Flyouts.Implementations
         #endregion
 
 
-        public FlyoutVMBase()
+        public FlyoutVMBase(AppConfiguration settings)
         {
+            _settings = settings;
+
             Position = Position.Right;
             Theme = Theme.Dark;
             CloseButtonVisibility = Visibility.Visible;

@@ -168,6 +168,10 @@
       <Project>{6418561a-b51d-400c-a78e-589b8b887803}</Project>
       <Name>Integration.ModuleGUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Integration.PartialViews\Integration.PartialViews.csproj">
+      <Project>{f29f3713-47cd-4283-8e86-6396a1b6c4b3}</Project>
+      <Name>Integration.PartialViews</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Integration.Resources\Integration.Resources.csproj">
       <Project>{dfa26885-87b2-457a-ba04-ae4222649462}</Project>
       <Name>Integration.Resources</Name>

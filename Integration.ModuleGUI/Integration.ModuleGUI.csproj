@@ -107,17 +107,17 @@
     <Compile Include="Models\VMLocalBase.cs" />
     <Compile Include="ModuleGUIModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\Logistic\Steps\FinalViewModel.cs" />
-    <Compile Include="ViewModels\Logistic\Steps\LoadingFilesViewModel.cs" />
-    <Compile Include="ViewModels\Logistic\Steps\OperationResultsViewModel.cs" />
-    <Compile Include="ViewModels\Logistic\Steps\OperationsViewModel.cs" />
-    <Compile Include="Views\Logistic\Steps\FinalView.xaml.cs">
+    <Compile Include="ViewModels\Logistics\Steps\FinalViewModel.cs" />
+    <Compile Include="ViewModels\Logistics\Steps\LoadingFilesViewModel.cs" />
+    <Compile Include="ViewModels\Logistics\Steps\OperationResultsViewModel.cs" />
+    <Compile Include="ViewModels\Logistics\Steps\OperationsViewModel.cs" />
+    <Compile Include="Views\Logistics\Steps\FinalView.xaml.cs">
       <DependentUpon>FinalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Logistic\Steps\LoadingFilesView.xaml.cs">
+    <Compile Include="Views\Logistics\Steps\LoadingFilesView.xaml.cs">
       <DependentUpon>LoadingFilesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Logistic\Steps\OperationResultsView.xaml.cs">
+    <Compile Include="Views\Logistics\Steps\OperationResultsView.xaml.cs">
       <DependentUpon>OperationResultsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OperationResultsViews\CompareSapWialonMileageView.xaml.cs">
@@ -126,7 +126,7 @@
     <Compile Include="Views\OperationResultsViews\TransportView.xaml.cs">
       <DependentUpon>TransportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Logistic\Steps\OperationsView.xaml.cs">
+    <Compile Include="Views\Logistics\Steps\OperationsView.xaml.cs">
       <DependentUpon>OperationsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -148,15 +148,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Logistic\Steps\FinalView.xaml">
+    <Page Include="Views\Logistics\Steps\FinalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Logistic\Steps\LoadingFilesView.xaml">
+    <Page Include="Views\Logistics\Steps\LoadingFilesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Logistic\Steps\OperationResultsView.xaml">
+    <Page Include="Views\Logistics\Steps\OperationResultsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -168,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Logistic\Steps\OperationsView.xaml">
+    <Page Include="Views\Logistics\Steps\OperationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

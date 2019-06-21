@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WialonBase", "WialonBase\Wi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration.Flyouts", "Integration.Flyouts\Integration.Flyouts.csproj", "{578407B1-5223-4045-A366-6AD810464327}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration.PartialViews", "Integration.PartialViews\Integration.PartialViews.csproj", "{F29F3713-47CD-4283-8E86-6396A1B6C4B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{578407B1-5223-4045-A366-6AD810464327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{578407B1-5223-4045-A366-6AD810464327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{578407B1-5223-4045-A366-6AD810464327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F29F3713-47CD-4283-8E86-6396A1B6C4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F29F3713-47CD-4283-8E86-6396A1B6C4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F29F3713-47CD-4283-8E86-6396A1B6C4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F29F3713-47CD-4283-8E86-6396A1B6C4B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +132,7 @@ Global
 		{417D2DE2-22D4-4B0D-8CA2-984202507C67} = {90F64D71-383D-41BB-BC28-1AF5F633D36B}
 		{8019A8FB-BE45-4773-9D8B-19315197C451} = {E19AB630-E62F-49F4-8B2A-19CD0400580E}
 		{578407B1-5223-4045-A366-6AD810464327} = {CF6A8420-B51C-4E46-8F4A-A27C5C0687DE}
+		{F29F3713-47CD-4283-8E86-6396A1B6C4B3} = {CF6A8420-B51C-4E46-8F4A-A27C5C0687DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3350814B-D996-4A23-87E6-AC6AA3DEF67D}

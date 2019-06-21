@@ -1,4 +1,6 @@
 ﻿using Integration.Flyouts.Implementations;
+using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Integration.Flyouts.ViewModels
 {
     public class SettingsViewModel : FlyoutVMBase
     {
-        public SettingsViewModel()
+        public SettingsViewModel(AppConfiguration settings) : base(settings)
         {
             this.Header = "Настройки";
         }

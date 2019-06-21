@@ -15,16 +15,20 @@ namespace IntegrationSolution.Common.Converters
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
-            if (targetType != typeof(bool))
+            if (targetType != typeof(bool) && targetType != typeof(bool?))
                 throw new InvalidOperationException("The target must be a boolean");
 
-            return !(bool)value;
+            if (((bool?)value).HasValue)
+                return !(bool)value;
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
-            throw new NotSupportedException();
+            if (((bool?)value).HasValue)
+                return !(bool)value;
+            return false;
         }
 
         #endregion

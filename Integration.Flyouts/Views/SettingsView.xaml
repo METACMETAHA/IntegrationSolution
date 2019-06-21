@@ -5,33 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Integration.Flyouts.Views"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Partial="clr-namespace:Integration.PartialViews.GetToken;assembly=Integration.PartialViews"
              xmlns:iconPacks="clr-namespace:MahApps.Metro.IconPacks.Converter;assembly=MahApps.Metro.IconPacks.FontAwesome"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" MinWidth="500">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Controls:MetroHeader Margin="2" Header="TextBox Header">
-            <Controls:MetroHeader.HeaderTemplate>
-                <DataTemplate>
-                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                        
-                        <TextBlock Margin="2 0 0 0" FontSize="25" HorizontalAlignment="Center"
-                             VerticalAlignment="Center"
-                             Text="В разработке" />
-                    </StackPanel>
-                </DataTemplate>
-            </Controls:MetroHeader.HeaderTemplate>
-            
-        </Controls:MetroHeader>
+        <!--<Controls:MetroAnimatedTabControl>
+            <Controls:MetroTabItem>
+                tabcontrol wpf binding itemssource
+            </Controls:MetroTabItem>
+        </Controls:MetroAnimatedTabControl>-->
+        
+        <Partial:GetTokenView/>
+        
+        
     </Grid>
 </UserControl>

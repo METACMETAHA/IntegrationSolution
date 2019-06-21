@@ -70,6 +70,7 @@
     <Reference Include="Unity.Container, Version=5.8.13.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Container.5.8.13\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonModule.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Converters\SelectedItemToContentConverter.cs" />
     <Compile Include="Converters\StateNumberConverter.cs" />
     <Compile Include="Converters\StringToDoubleConverter.cs" />
+    <Compile Include="Entities\CredentialsDTO.cs" />
     <Compile Include="Entities\Error.cs" />
     <Compile Include="Enums\DialogNamesEnum.cs" />
     <Compile Include="Enums\FuelEnum.cs" />
@@ -86,8 +88,12 @@
     <Compile Include="Events\SubmitFinishedEvent.cs" />
     <Compile Include="Events\WialonConnectionEvent.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="Implementations\AppConfiguration.cs" />
     <Compile Include="Implementations\PropertyChangedBase.cs" />
     <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />
+    <Compile Include="Interfaces\ICredentials.cs" />
+    <Compile Include="Interfaces\ISettings.cs" />
     <Compile Include="Models\DatesFromToContext.cs" />
     <Compile Include="Models\FuelPrice.cs" />
     <Compile Include="ModulesExtension\Implementations\ViewModelBase.cs" />
