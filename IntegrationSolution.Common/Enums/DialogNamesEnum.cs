@@ -9,6 +9,7 @@ namespace IntegrationSolution.Common.Enums
     public enum DialogNamesEnum
     {
         DatesFromTo,
-        FuelPriceDialog
+        FuelPriceDialog,
+        InstructionsForToken
     }
 }

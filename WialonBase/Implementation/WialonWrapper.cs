@@ -153,6 +153,7 @@ namespace WialonBase.Implementation
 
         public bool TryConnect() => _wialonConnection.TryConnect();
 
+        public bool TryConnect(string token) => _wialonConnection.TryConnect(token);
 
         public bool TryClose() => _wialonConnection.TryClose();
 

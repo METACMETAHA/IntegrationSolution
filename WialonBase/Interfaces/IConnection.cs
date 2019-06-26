@@ -11,6 +11,8 @@ namespace WialonBase.Interfaces
     {
         bool TryConnect();
 
+        bool TryConnect(string token);
+        
         bool TryClose();
 
         /// <summary>

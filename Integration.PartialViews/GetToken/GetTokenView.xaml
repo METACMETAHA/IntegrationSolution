@@ -14,31 +14,27 @@
     <UserControl.Resources>
         <converter:InverseBooleanConverter x:Key="boolConvert"/>
     </UserControl.Resources>
-    
-    <Grid>
-        <Expander Margin="30" Padding="20" Width="500" FontSize="13">
-            <Expander.Header>
-                <TextBlock Text="Подключение Wialon" FontSize="15" Padding="5"/>
-            </Expander.Header>
-            
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
 
-                <!--Row 1-->
-                <RadioButton GroupName="TypeGetToken" Content="Получить токен" IsChecked="{Binding IsWithToken, Converter={StaticResource boolConvert}}"/>
-                <RadioButton Grid.Column="1" Margin="10 0 0 0" GroupName="TypeGetToken" Content="У меня уже есть токен" IsChecked="{Binding IsWithToken}"/>
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-                <!--Row 2-->
-                <TextBox Grid.Row="1" Padding="4" Margin="0 15" 
+            <!--Row 1-->
+            <RadioButton GroupName="TypeGetToken" Content="Получить токен" IsChecked="{Binding IsWithToken, Converter={StaticResource boolConvert}}"/>
+            <RadioButton Grid.Column="1" Margin="10 0 0 0" GroupName="TypeGetToken" Content="У меня уже есть токен" IsChecked="{Binding IsWithToken}"/>
+
+            <!--Row 2-->
+            <!--<TextBox x:Name="login"
+                 Grid.Row="1" Padding="4" Margin="0 7" 
                  Controls:TextBoxHelper.Watermark="Логин"
                  Controls:TextBoxHelper.IsWaitingForData="True"
                  Controls:TextBoxHelper.UseFloatingWatermark="True"
@@ -46,7 +42,8 @@
                  Text="{Binding TokenModel.Login, UpdateSourceTrigger=PropertyChanged}"
                  IsEnabled="{Binding IsWithToken, Converter={StaticResource boolConvert}}"/>
 
-                <PasswordBox Grid.Row="1" Grid.Column="1" Padding="4" Margin="10 15" 
+            <PasswordBox x:Name="pwd"
+                 Grid.Row="1" Grid.Column="1" Padding="4" Margin="10 7" 
                  Controls:TextBoxHelper.Watermark="Пароль"
                  Controls:TextBoxHelper.IsWaitingForData="True"
                  Controls:TextBoxHelper.UseFloatingWatermark="True"
@@ -54,21 +51,41 @@
                  Style="{StaticResource MetroButtonRevealedPasswordBox}"
                  Helpers:PasswordBoxHelper.BindPassword="True"
                  Helpers:PasswordBoxHelper.BoundPassword="{Binding TokenModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 IsEnabled="{Binding IsWithToken, Converter={StaticResource boolConvert}}"/>
-                
-                <!--Row 3-->
-                <TextBox Grid.Row="2" Grid.ColumnSpan="2" Padding="4" Margin="0 15" 
+                 IsEnabled="{Binding IsWithToken, Converter={StaticResource boolConvert}}"/>-->
+
+            <!--Row 3-->
+            <TextBox x:Name="token"
+                 Grid.Row="1" Grid.ColumnSpan="2" Padding="4" Margin="0 7 10 7" 
                  Controls:TextBoxHelper.Watermark="Токен"
                  Controls:TextBoxHelper.IsWaitingForData="True"
                  Controls:TextBoxHelper.UseFloatingWatermark="True"
                  Controls:TextBoxHelper.ClearTextButton="True"
-                 Text="{Binding TokenModel.Token, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding TokenModel, UpdateSourceTrigger=PropertyChanged}"
                  IsEnabled="{Binding IsWithToken}"/>
-                
 
-            </Grid>
-        </Expander>
-    </Grid>
-    
-    
+            <!--Row 4-->
+            <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="10 10" 
+                 HorizontalAlignment="Right" Padding="10 6" HorizontalContentAlignment="Center"
+                 Content="Далее"
+                 Command="{Binding UpdateTokenCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsWithToken}" Value="True"/>
+                                    <Condition Binding="{Binding ElementName=token, Path=Text}" Value=""/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+        </Grid>
+    </StackPanel>
 </UserControl>

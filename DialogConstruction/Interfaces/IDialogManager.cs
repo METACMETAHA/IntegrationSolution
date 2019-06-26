@@ -32,6 +32,8 @@ namespace DialogConstruction.Interfaces
         /// <returns>A <see cref="Task"/> object which is completed when the dialog is closed.</returns>
         Task ShowDialogAsync(DialogViewModel viewModel, MetroDialogSettings settings = null);
 
+        Task ShowDialogAsync(DialogNamesEnum View, MetroDialogSettings settings = null);
+
         /// <summary>
         /// Shows a dialog asynchronously.
         /// </summary>

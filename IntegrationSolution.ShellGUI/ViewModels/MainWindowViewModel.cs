@@ -1,4 +1,5 @@
-﻿using Integration.Flyouts.ViewModels;
+﻿using Integration.Flyouts;
+using Integration.Flyouts.ViewModels;
 using Integration.Infrastructure.Views.Account;
 using Integration.Infrastructure.Views.Logistics;
 using IntegrationSolution.Common.Events;
@@ -7,6 +8,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.IconPacks;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Modularity;
 using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Controls;
@@ -93,6 +95,8 @@ namespace IntegrationSolution.ShellGUI.ViewModels
         public ICommand ToggleFlyoutSettingsCommand { get; private set; }
         private void ToggleSettings()
         {
+            _container.Resolve<IModuleManager>().LoadModule(nameof(FlyoutsModule));            
+
             var settings = _container.Resolve<SettingsViewModel>();
             settings.IsOpen = !settings.IsOpen;
         }

@@ -3,22 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Integration.Flyouts.Views"
+             xmlns:local="clr-namespace:Integration.Flyouts.ViewModels"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Partial="clr-namespace:Integration.PartialViews.GetToken;assembly=Integration.PartialViews"
              xmlns:iconPacks="clr-namespace:MahApps.Metro.IconPacks.Converter;assembly=MahApps.Metro.IconPacks.FontAwesome"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" MinWidth="500">
+             mc:Ignorable="d" MinWidth="500" Padding="10 0">
     <Grid>
 
-        <!--<Controls:MetroAnimatedTabControl>
-            <Controls:MetroTabItem>
-                tabcontrol wpf binding itemssource
+        <Controls:MetroAnimatedTabControl>
+            <Controls:MetroTabItem Header="Wialon">
+                <Partial:GetTokenView Padding="30 10"/>
             </Controls:MetroTabItem>
-        </Controls:MetroAnimatedTabControl>-->
+        </Controls:MetroAnimatedTabControl>
         
-        <Partial:GetTokenView/>
+        
         
         
     </Grid>

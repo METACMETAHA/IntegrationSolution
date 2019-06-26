@@ -24,7 +24,9 @@ namespace Integration.ModuleGUI.Models
         #endregion Properties
 
 
-        public VMLocalBase(IUnityContainer container, IEventAggregator ea) : base(container, ea)
+        public VMLocalBase(
+            IUnityContainer container, 
+            IEventAggregator ea) : base(container, ea)
         {
             ModuleData = container.Resolve<CommonModuleData>();
             _wialonContext = _container.Resolve<INavigationOperations>();

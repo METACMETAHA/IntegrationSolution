@@ -101,14 +101,21 @@
     <Compile Include="PartialViews\OkCancelPartialView.xaml.cs">
       <DependentUpon>OkCancelPartialView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PartialViews\OkPartialView.xaml.cs">
+      <DependentUpon>OkPartialView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DatesFromToDialogVM.cs" />
     <Compile Include="ViewModels\FuelPriceInputDialogVM.cs" />
+    <Compile Include="ViewModels\InstructionsForTokenVM.cs" />
     <Compile Include="Views\DatesFromToDialog.xaml.cs">
       <DependentUpon>DatesFromToDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FuelPriceInputDialog.xaml.cs">
       <DependentUpon>FuelPriceInputDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstructionsForToken.xaml.cs">
+      <DependentUpon>InstructionsForToken.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +127,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PartialViews\OkPartialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DatesFromToDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,11 +139,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\InstructionsForToken.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DialogConstruction\DialogConstruction.csproj">
       <Project>{417D2DE2-22D4-4B0D-8CA2-984202507C67}</Project>
       <Name>DialogConstruction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Integration.Resources\Integration.Resources.csproj">
+      <Project>{dfa26885-87b2-457a-ba04-ae4222649462}</Project>
+      <Name>Integration.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
       <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>

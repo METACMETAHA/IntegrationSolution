@@ -5,6 +5,9 @@ using Integration.Infrastructure.ViewModels.Logistics;
 using Integration.Infrastructure.Views;
 using Integration.Infrastructure.Views.Account;
 using Integration.Infrastructure.Views.Logistics;
+using IntegrationSolution.Common.Helpers;
+using NotificationConstructor.Implementations;
+using NotificationConstructor.Interfaces;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -44,27 +47,13 @@ namespace Integration.Infrastructure
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            RegisterView<HomeView, HomeViewModel>(nameof(HomeView), new SingletonLifetimeManager());
-            RegisterView<LogisticsQuizView, LogisticsQuizViewModel>(nameof(LogisticsQuizView));
+            // Extension method
+            _container.RegisterView<HomeView, HomeViewModel>(nameof(HomeView), new SingletonLifetimeManager());
+            _container.RegisterView<LogisticsQuizView, LogisticsQuizViewModel>(nameof(LogisticsQuizView));
 
             containerRegistry.RegisterSingleton<ConfigurationData>();
+            containerRegistry.RegisterSingleton<INotificationManager, NotificationManager>();
         }
-
-
-        public void RegisterView<TView, TViewModel>(string viewName, LifetimeManager lifetime = null)
-            where TView : UserControl
-            where TViewModel : BindableBase
-        {
-            if (string.IsNullOrEmpty(viewName)) throw new ArgumentNullException(nameof(viewName));
-            if (!_container.IsRegistered<TViewModel>())
-                _container.RegisterType<TViewModel>();
-
-            if (lifetime == null)
-                lifetime = new TransientLifetimeManager();
-
-            _container.RegisterType<UserControl, TView>(viewName,
-                lifetime,
-                new InjectionProperty("DataContext", new ResolvedParameter<TViewModel>()));
-        }
+        
     }
 }

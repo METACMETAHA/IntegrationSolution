@@ -49,7 +49,6 @@ namespace IntegrationSolution.ShellGUI
             log4net.Config.XmlConfigurator.Configure();
 
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
-
         }
 
 
@@ -74,7 +73,7 @@ namespace IntegrationSolution.ShellGUI
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<InfrastructureModule>(); // required module
-            moduleCatalog.AddModule<FlyoutsModule>(); // required module
+            moduleCatalog.AddModule<FlyoutsModule>(InitializationMode.OnDemand); // required module
             moduleCatalog.AddModule<DialogsModule>();
             moduleCatalog.AddModule<CommonModule>();
             moduleCatalog.AddModule<ModuleGUIModule>(); // module for views

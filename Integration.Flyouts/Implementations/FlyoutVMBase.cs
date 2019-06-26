@@ -2,6 +2,7 @@
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.Interfaces;
 using MahApps.Metro.Controls;
+using NotificationConstructor.Interfaces;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace Integration.Flyouts.Implementations
 {
     public abstract class FlyoutVMBase : BindableBase, IFlyoutViewModel
     {
-        protected AppConfiguration _settings;
+        protected readonly AppConfiguration _settings;
+        protected readonly INotificationManager _notificationManager;
 
         #region Properties
         private string header;
@@ -68,9 +70,12 @@ namespace Integration.Flyouts.Implementations
         #endregion
 
 
-        public FlyoutVMBase(AppConfiguration settings)
+        public FlyoutVMBase(
+            AppConfiguration settings,
+            INotificationManager notificationManager)
         {
             _settings = settings;
+            _notificationManager = notificationManager;
 
             Position = Position.Right;
             Theme = Theme.Dark;

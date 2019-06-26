@@ -72,4 +72,7 @@
         </Canvas>
     </Canvas>
 
+
+    <BitmapImage x:Key="GetTokenSample" UriSource="../Images/GetTokenSample.jpg"/>
+
 </ResourceDictionary>

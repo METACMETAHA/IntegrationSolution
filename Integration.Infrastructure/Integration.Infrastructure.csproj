@@ -156,6 +156,10 @@
       <Project>{B4F847FE-667C-4189-92AE-9CCCAF77E341}</Project>
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NotificationConstructor\NotificationConstructor.csproj">
+      <Project>{E91C928C-E71D-478A-A1A9-55C3E1E5A533}</Project>
+      <Name>NotificationConstructor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProgressRing\ProgressRing.csproj">
       <Project>{5b3f58b4-e66b-47af-b4d2-20aa8d0f73fc}</Project>
       <Name>ProgressRing</Name>

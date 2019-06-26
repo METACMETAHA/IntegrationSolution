@@ -29,6 +29,8 @@ namespace WialonBase.Configuration
         public string Token { get; private set; }
         
         public string APIUrl { get; private set; }
+        public string TokenUrl { get; private set; }
+        public string OAuth { get; private set; }
 
         public string Host => _jsonConnectionInfo["host"].Value<string>();
         public string SessionID => _jsonConnectionInfo["eid"].Value<string>();
@@ -40,10 +42,18 @@ namespace WialonBase.Configuration
             _logger = LogManager.GetLogger(this.GetType());
             Token = ConfigurationManager.AppSettings[nameof(Token)];
             APIUrl = ConfigurationManager.AppSettings[nameof(APIUrl)];
+            TokenUrl = ConfigurationManager.AppSettings[nameof(TokenUrl)];
+            OAuth = ConfigurationManager.AppSettings[nameof(OAuth)];
         }
 
 
         public bool TryConnect()
+        {
+            return TryConnect(Token);
+        }
+
+
+        public bool TryConnect(string token)
         {
             try
             {
@@ -52,7 +62,7 @@ namespace WialonBase.Configuration
                     var values = new NameValueCollection
                     {
                         ["svc"] = "token/login",
-                        ["params"] = "{\"token\":\"" + Token + "\"}"
+                        ["params"] = "{\"token\":\"" + token + "\"}"
                     };
                     client.Headers[HttpRequestHeader.ContentType] = _contentType;
 
@@ -65,7 +75,7 @@ namespace WialonBase.Configuration
                     if (error != null)
                         throw new Exception(error);
 
-                    if(_jsonConnectionInfo["reason"] != null)
+                    if (_jsonConnectionInfo["reason"] != null)
                         if (!string.IsNullOrWhiteSpace(_jsonConnectionInfo["reason"].Value<string>()))
                             throw new Exception($"Подключение установлено, но получена следующая ошибка от сервера: {_jsonConnectionInfo["reason"].Value<string>()}");
                 }

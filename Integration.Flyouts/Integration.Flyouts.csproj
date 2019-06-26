@@ -123,6 +123,10 @@
       <Project>{B4F847FE-667C-4189-92AE-9CCCAF77E341}</Project>
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NotificationConstructor\NotificationConstructor.csproj">
+      <Project>{E91C928C-E71D-478A-A1A9-55C3E1E5A533}</Project>
+      <Name>NotificationConstructor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

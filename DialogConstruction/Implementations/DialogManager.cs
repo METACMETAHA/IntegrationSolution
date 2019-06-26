@@ -40,6 +40,27 @@ namespace DialogConstruction.Implementations
             await firstMetroWindow.HideMetroDialogAsync(dialog, settings);
         }
 
+        public async Task ShowDialogAsync(DialogNamesEnum View, MetroDialogSettings settings = null)
+        {
+            var view = _container.Resolve<BaseMetroDialog>(View.ToString());
+            var dialog = view as BaseMetroDialog;
+            if (dialog == null)
+            {
+                throw new InvalidOperationException($"The view {view.GetType()} belonging to view model {dialog.DataContext.GetType()} does not inherit from {typeof(BaseMetroDialog)}");
+            }
+
+            dialog.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml")
+            });
+
+            var firstMetroWindow = Application.Current.Windows.OfType<MetroWindow>().First();
+
+            await firstMetroWindow.ShowMetroDialogAsync(dialog, settings);
+            await (dialog.DataContext as DialogViewModel).Task;
+            await firstMetroWindow.HideMetroDialogAsync(dialog, settings);
+        }
+
         public Task ShowDialogAsync<TViewModel>(MetroDialogSettings settings = null) where TViewModel : DialogViewModel
         {
             var viewModel = _container.Resolve<TViewModel>();

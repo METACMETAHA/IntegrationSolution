@@ -87,8 +87,10 @@
     <Compile Include="Events\StatusUpdateEvent.cs" />
     <Compile Include="Events\SubmitFinishedEvent.cs" />
     <Compile Include="Events\WialonConnectionEvent.cs" />
+    <Compile Include="Helpers\ConfigureContainerHelper.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="Helpers\WebBrowserHelper.cs" />
     <Compile Include="Implementations\AppConfiguration.cs" />
     <Compile Include="Implementations\PropertyChangedBase.cs" />
     <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />
