@@ -85,7 +85,7 @@ namespace WialonBase.Configuration
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                throw ex;
             }
         }
 
@@ -118,7 +118,7 @@ namespace WialonBase.Configuration
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                throw ex;
             }
         }
         

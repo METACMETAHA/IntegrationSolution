@@ -96,7 +96,6 @@ namespace Integration.ModuleGUI.ViewModels
                         ErrorDescription = ex.Message
                     };
                 }
-
             });
 
             if (progress.IsOpen)

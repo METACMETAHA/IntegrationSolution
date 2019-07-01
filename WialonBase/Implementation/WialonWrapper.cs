@@ -1,8 +1,10 @@
 ﻿using IntegrationSolution.Entities.Implementations.Wialon;
 using log4net;
 using Newtonsoft.Json.Linq;
+using NotificationConstructor.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using Unity;
 using WialonBase.Configuration;
 using WialonBase.Helpers;
@@ -14,7 +16,8 @@ namespace WialonBase.Implementation
     {
         private readonly IUnityContainer _container;
         private readonly ILog _logger;
-        private WialonConnection _wialonConnection;
+        private readonly WialonConnection _wialonConnection;
+        private readonly INotificationManager _notificationManager;
 
 
         public WialonWrapper(IUnityContainer unityContainer)
@@ -22,6 +25,7 @@ namespace WialonBase.Implementation
             _container = unityContainer;
             _logger = LogManager.GetLogger(this.GetType());
             _wialonConnection = _container.Resolve<WialonConnection>();
+            _notificationManager = _container.Resolve<INotificationManager>();
         }        
 
 
@@ -151,11 +155,47 @@ namespace WialonBase.Implementation
         }
 
 
-        public bool TryConnect() => _wialonConnection.TryConnect();
+        public bool TryConnect()
+        {
+            try
+            {
+                return _wialonConnection.TryConnect();
+            }
+            catch (Exception ex)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                });                
+                return false;
+            }
+        }
 
-        public bool TryConnect(string token) => _wialonConnection.TryConnect(token);
+        public bool TryConnect(string token)
+        {
+            try
+            {
+                return _wialonConnection.TryConnect(token);
+            }
+            catch (Exception ex)
+            {
+                _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                return false;
+            }
+        }
 
-        public bool TryClose() => _wialonConnection.TryClose();
+        public bool TryClose()
+        {
+            try
+            {
+                return _wialonConnection.TryClose();
+            }
+            catch (Exception ex)
+            {
+                _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                return false;
+            }
+        }
 
 
         public string CheckError(JObject jObject) => _wialonConnection.CheckError(jObject);

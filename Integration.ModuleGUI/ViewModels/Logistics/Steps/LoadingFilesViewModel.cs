@@ -70,11 +70,9 @@ namespace Integration.ModuleGUI.ViewModels
 
         #region Commands
         public DelegateCommand<string> LoadFileCommand { get; private set; }
+
         protected void Load(string NameControl)
         {
-            if (string.IsNullOrWhiteSpace(NameControl))
-                return;
-
             bool IsWithoutExceptions = true;
             OpenFileDialog fileDialog = new OpenFileDialog
             {

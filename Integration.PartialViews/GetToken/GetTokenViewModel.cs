@@ -58,17 +58,20 @@ namespace Integration.PartialViews.GetToken
 
 
             var credentials = settings.GetCredentials();
-
-            if (_wialonContext.TryConnect(settings["Token"]?.ToString()))
-            {
-                TokenModel = settings["Token"]?.ToString();
-                IsWithToken = true;
-            }
-            else
-            {
-                settings["Token"] = string.Empty;
-                IsWithToken = false;
-            }
+            TokenModel = settings["Token"]?.ToString();
+                       
+            IsWithToken |= !string.IsNullOrWhiteSpace(TokenModel);
+            
+            //if (_wialonContext.TryConnect(settings["Token"]?.ToString()))
+            //{
+            //    TokenModel = settings["Token"]?.ToString();
+            //    IsWithToken = true;
+            //}
+            //else
+            //{
+            //    settings["Token"] = string.Empty;
+            //    IsWithToken = false;
+            //}
         }
 
 
@@ -93,7 +96,6 @@ namespace Integration.PartialViews.GetToken
                 }
                 else
                 {
-                    _notificationManager.NotifyErrorAsync("Неверный токен");
                     _notificationManager.NotifyWarningAsync("Восстановлен предыдущий токен");
                 }
             }

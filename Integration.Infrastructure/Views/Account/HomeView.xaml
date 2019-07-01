@@ -7,6 +7,9 @@
              mc:Ignorable="d">
 
     <TextBlock FontSize="42" Text="В разработке" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    
+    <!--Add region for login and register-->
 
+    <!--Add mechanism for quiet notify of secter data-->
 
 </UserControl>

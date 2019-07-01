@@ -18,10 +18,6 @@ namespace NotificationConstructor.Implementations
         private readonly Notifier _notifier;
 
         public NotificationManager()
-            //int offsetX = 10,
-            //int offsetY = 10,
-            //int secondsToLife = 4,
-            //int maximumNotificationsCount = 5)
         {
             _notifier = new Notifier(config =>
             {
@@ -38,7 +34,7 @@ namespace NotificationConstructor.Implementations
                     maximumNotificationCount: MaximumNotificationCount.FromCount(4));
             });
         }
-
+        
         public void NotifyErrorAsync(string message, MessageOptions options = null)
         {
             if (options == null)

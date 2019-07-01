@@ -10,6 +10,8 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Modularity;
 using Prism.Mvvm;
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -31,29 +33,43 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             get { return _isConnectedNavigation; }
             set
             {
-                var res = false;
-                if (value)
-                    res = _container.Resolve<INavigationOperations>().TryConnect();
-                else
-                    res = _container.Resolve<INavigationOperations>().TryClose();
-                if (res == true)
-                {
-                    if (value == false)
-                        _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(false);
-                    else
-                        _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(true);
+                IsEnabledNavigation = false;
+                Connect(value).Wait();
+                IsEnabledNavigation = true;
+                //var res = false;
+                //if (value)
+                //    res = _container.Resolve<INavigationOperations>().TryConnect();
+                //else
+                //    res = _container.Resolve<INavigationOperations>().TryClose();
+                //if (res == true)
+                //{
+                //    if (value == false)
+                //        _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(false);
+                //    else
+                //        _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(true);
 
-                    SetProperty(ref _isConnectedNavigation, value);
-                }
-                else
-                {
-                    var wnd = (MetroWindow)Application.Current.MainWindow;
-                    wnd.ShowMessageAsync("Ошибка!", "Проблема в подключении, обратитесь в поддержку.");
+                //    SetProperty(ref _isConnectedNavigation, value);
+                //}
+                //else
+                //{
+                //    var wnd = (MetroWindow)Application.Current.MainWindow;
+                //    wnd.ShowMessageAsync("Ошибка!", "Проблема в подключении, обратитесь в поддержку.");
 
-                    SetProperty(ref _isConnectedNavigation, false);
-                }
-                
-                _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(IsConnectedNavigation);
+                //    SetProperty(ref _isConnectedNavigation, false);
+                //}
+
+                //_eventAggregator.GetEvent<WialonConnectionEvent>().Publish(IsConnectedNavigation);
+            }
+        }
+
+
+        private bool _isEnabledNavigation;
+        public bool IsEnabledNavigation
+        {
+            get { return _isEnabledNavigation; }
+            set
+            {
+                SetProperty(ref _isEnabledNavigation, value);
             }
         }
 
@@ -85,8 +101,10 @@ namespace IntegrationSolution.ShellGUI.ViewModels
         {
             _container = container;
             _eventAggregator = ea;
+            
             ToggleFlyoutSettingsCommand = new DelegateCommand(ToggleSettings);
 
+            IsEnabledNavigation = true;
             this.CreateMenuItems();
         }
 
@@ -140,6 +158,38 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                     //Tag = new AboutViewModel(this)
                 }
             };
+        }
+
+        public async Task Connect(bool value)
+        {
+            await Task.Run(() => {
+                var res = false;
+                if (value)
+                    res = _container.Resolve<INavigationOperations>().TryConnect();
+                else
+                    res = _container.Resolve<INavigationOperations>().TryClose();
+                if (res == true)
+                {
+                    if (value == false)
+                        _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(false);
+                    else
+                        _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(true);
+
+                    SetProperty(ref _isConnectedNavigation, value);
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        var wnd = (MetroWindow)Application.Current.MainWindow;
+                        wnd.ShowMessageAsync("Ошибка!", "Проблема в подключении, обратитесь в поддержку.");
+                    });
+                    
+                    SetProperty(ref _isConnectedNavigation, false);
+                }
+
+                _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(IsConnectedNavigation);
+            });
         }
         #endregion
     }

@@ -25,7 +25,9 @@
         <Controls:WindowCommands ShowSeparators="True">
             <Controls:ToggleSwitch Width="160" VerticalAlignment="Center"
                                    Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
-                                   Margin="5" IsChecked="{Binding IsConnectedNavigation}"
+                                   Margin="5" 
+                                   IsEnabled="{Binding IsEnabledNavigation}"
+                                   IsChecked="{Binding IsConnectedNavigation, IsAsync=True}"
                                    FontSize="15" FontFamily="Candara Light"
                                    OffLabel="Нету связи" ThumbIndicatorWidth="20"
                                    OffSwitchBrush="#FFE8C9C9"
