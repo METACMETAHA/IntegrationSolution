@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntegrationSolution.Common.Implementations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,8 @@ namespace IntegrationSolution.Common.Entities
         public string Login
         {
             get { return login; }
-            set { login = value; }
+            set
+            { login = value; }
         }
 
 
@@ -21,7 +23,8 @@ namespace IntegrationSolution.Common.Entities
         public string Password
         {
             get { return password; }
-            set { password = value; }
+            set
+            { password = value; }
         }
     }
 }

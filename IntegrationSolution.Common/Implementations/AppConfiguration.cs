@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Common.Implementations
 {
-    public class AppConfiguration : ISettings, ICredentials
+    public class AppConfiguration : PropertyChangedBase, ISettings, ICredentials
     {
         private BinaryFormatter formatter;
         private string binaryFileName;
