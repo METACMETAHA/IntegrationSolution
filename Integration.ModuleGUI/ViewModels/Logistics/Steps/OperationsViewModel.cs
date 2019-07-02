@@ -213,10 +213,14 @@ namespace Integration.ModuleGUI.ViewModels
                     
                     if (!datesFromToContext.IsWithDetails)
                         _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName,
-                            forReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent);
+                            forReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
+                            ModuleData.VehiclesExcelDistinctWialon.ToList(),
+                            ModuleData.VehiclesWialonDistinctExcel.ToList());
                     else
                         _container.Resolve<IExcelWriter>().CreateReportDiffMileageWithDetails(fileDialog.FileName,
-                            forReportDetails.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent);
+                            forReportDetails.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
+                            ModuleData.VehiclesExcelDistinctWialon.ToList(),
+                            ModuleData.VehiclesWialonDistinctExcel.ToList());
 
                     progress.SetProgress(1);
                 }

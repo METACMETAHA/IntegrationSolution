@@ -150,23 +150,23 @@ namespace IntegrationSolution.Excel.Implementations
                             switch (item.Key)
                             {
                                 case nameof(HeaderNames.TypeOfVehicle):
-                                    vehicle.Type = this.WorkSheet.Cells[row, item.Value.Column].Text;
+                                    vehicle.Type = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
                                 case nameof(HeaderNames.ModelOfVehicle):
-                                    vehicle.UnitModel = this.WorkSheet.Cells[row, item.Value.Column].Text;
+                                    vehicle.UnitModel = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
                                 case nameof(HeaderNames.StateNumber):
-                                    vehicle.StateNumber = this.WorkSheet.Cells[row, item.Value.Column].Text.ToStateNumber();
+                                    vehicle.StateNumber = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text.ToStateNumber();
                                     break;
 
                                 case nameof(HeaderNames.Departments):
-                                    vehicle.Department = this.WorkSheet.Cells[row, item.Value.Column].Text;
+                                    vehicle.Department = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
                                 case nameof(HeaderNames.PartOfStructureNameForResult):
-                                    vehicle.StructureName = this.WorkSheet.Cells[row, item.Value.Column].Text;
+                                    vehicle.StructureName = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
                                 default:
@@ -240,58 +240,58 @@ namespace IntegrationSolution.Excel.Implementations
                     #region SetValues of car
                     // Set values for odometr
                     if (headerDepartureOdometerValue.Value != null)
-                        trip.DepartureOdometerValue = WorkSheet.Cells[row.Row, headerDepartureOdometerValue.Value.Column].Text.ToDouble();
+                        trip.DepartureOdometerValue = CurrentWorkSheet.Cells[row.Row, headerDepartureOdometerValue.Value.Column].Text.ToDouble();
 
                     if (headerReturnOdometerValue.Value != null)
-                        trip.ReturnOdometerValue = WorkSheet.Cells[row.Row, headerReturnOdometerValue.Value.Column].Text.ToDouble();
+                        trip.ReturnOdometerValue = CurrentWorkSheet.Cells[row.Row, headerReturnOdometerValue.Value.Column].Text.ToDouble();
 
                     if (headerTotalMileage.Value != null)
-                        trip.TotalMileage = WorkSheet.Cells[row.Row, headerTotalMileage.Value.Column].Text.ToDouble();
+                        trip.TotalMileage = CurrentWorkSheet.Cells[row.Row, headerTotalMileage.Value.Column].Text.ToDouble();
 
                     if (headerDepartureMotoHoursIndications.Value != null)
-                        trip.DepartureMotoHoursIndications = WorkSheet.Cells[row.Row, headerDepartureMotoHoursIndications.Value.Column].Text.ToDouble();
+                        trip.DepartureMotoHoursIndications = CurrentWorkSheet.Cells[row.Row, headerDepartureMotoHoursIndications.Value.Column].Text.ToDouble();
 
                     if (headerReturnMotoHoursIndications.Value != null)
-                        trip.ReturnMotoHoursIndications = WorkSheet.Cells[row.Row, headerReturnMotoHoursIndications.Value.Column].Text.ToDouble();
+                        trip.ReturnMotoHoursIndications = CurrentWorkSheet.Cells[row.Row, headerReturnMotoHoursIndications.Value.Column].Text.ToDouble();
 
                     if (headerMotoHoursIndicationsAtAll.Value != null)
-                        trip.MotoHoursIndicationsAtAll = WorkSheet.Cells[row.Row, headerMotoHoursIndicationsAtAll.Value.Column].Text.ToDouble();
+                        trip.MotoHoursIndicationsAtAll = CurrentWorkSheet.Cells[row.Row, headerMotoHoursIndicationsAtAll.Value.Column].Text.ToDouble();
 
                     // Start set values for date and time
                     try
                     {
                         if (headerDepartureFromGarageDate.Value != null)
-                            trip.DepartureFromGarageDate = WorkSheet.Cells[row.Row, headerDepartureFromGarageDate.Value.Column].GetValue<DateTime>();
+                            trip.DepartureFromGarageDate = CurrentWorkSheet.Cells[row.Row, headerDepartureFromGarageDate.Value.Column].GetValue<DateTime>();
 
                         if (headerDepartureFromGarageTime.Value != null)
                         {
-                            var time = WorkSheet.Cells[row.Row, headerDepartureFromGarageTime.Value.Column].GetValue<TimeSpan>();
+                            var time = CurrentWorkSheet.Cells[row.Row, headerDepartureFromGarageTime.Value.Column].GetValue<TimeSpan>();
                             trip.DepartureFromGarageDate = trip.DepartureFromGarageDate.Date
                                 .AddHours(time.Hours).AddMinutes(time.Minutes).AddSeconds(time.Seconds);
                         }
                     }
                     catch
                     {
-                        _logger.Info("Невозможно преобразовать в дату выезда:" + WorkSheet.Cells[row.Row, headerDepartureFromGarageDate.Value.Column].Value);
+                        _logger.Info("Невозможно преобразовать в дату выезда:" + CurrentWorkSheet.Cells[row.Row, headerDepartureFromGarageDate.Value.Column].Value);
                     }
 
                     try
                     {
                         if (headerReturnToGarageDate.Value != null)
-                            trip.ReturnToGarageDate = WorkSheet.Cells[row.Row, headerReturnToGarageDate.Value.Column].GetValue<DateTime>();
+                            trip.ReturnToGarageDate = CurrentWorkSheet.Cells[row.Row, headerReturnToGarageDate.Value.Column].GetValue<DateTime>();
 
 
 
                         if (headerReturnToGarageTime.Value != null)
                         {
-                            var time = WorkSheet.Cells[row.Row, headerReturnToGarageTime.Value.Column].GetValue<TimeSpan>();
+                            var time = CurrentWorkSheet.Cells[row.Row, headerReturnToGarageTime.Value.Column].GetValue<TimeSpan>();
                             trip.ReturnToGarageDate = trip.ReturnToGarageDate.Date
                                 .AddHours(time.Hours).AddMinutes(time.Minutes).AddSeconds(time.Seconds);
                         }
                     }
                     catch (Exception)
                     {
-                        _logger.Info("Невозможно преобразовать в дату возвращения:" + WorkSheet.Cells[row.Row, headerReturnToGarageDate.Value.Column].Value);
+                        _logger.Info("Невозможно преобразовать в дату возвращения:" + CurrentWorkSheet.Cells[row.Row, headerReturnToGarageDate.Value.Column].Value);
                     }
                     
                     #endregion

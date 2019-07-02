@@ -10,6 +10,8 @@ using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using ToastNotifications.Messages;
 using ToastNotifications.Core;
+using Unity;
+using System.Threading;
 
 namespace NotificationConstructor.Implementations
 {

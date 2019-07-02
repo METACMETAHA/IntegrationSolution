@@ -11,7 +11,11 @@ namespace IntegrationSolution.Excel.Interfaces
     {
         ExcelPackage Excel { get; }
         ExcelWorkbook Workbook { get; }
-        ExcelWorksheet WorkSheet { get; }
+        ExcelWorksheet CurrentWorkSheet { get; }
+
+        ExcelWorksheet this[string name] { get; }
+        ExcelWorksheet AddWorksheet(string name);
+        ExcelWorksheet MoveToWorkSheet(string name);
 
         void TryOpen();
         void Save();

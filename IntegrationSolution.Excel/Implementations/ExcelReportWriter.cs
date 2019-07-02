@@ -1,4 +1,6 @@
 ﻿using IntegrationSolution.Entities.Helpers;
+using IntegrationSolution.Entities.Implementations.Wialon;
+using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
 using OfficeOpenXml;
@@ -22,8 +24,13 @@ namespace IntegrationSolution.Excel.Implementations
             ExcelDecorator = excelStyle;
         }
 
-
-        public void CreateReportDiffMileage(string path, List<IntegratedVehicleInfo> valuePairs, double BadPercent = 5)
+        // Report about difference between SAP and Wialon 
+        public void CreateReportDiffMileage(
+            string path,
+            List<IntegratedVehicleInfo> valuePairs,
+            double BadPercent = 5,
+            List<IVehicleSAP> sapCars = null,
+            List<CarWialon> wialonCars = null)
         {
             using (ExcelPackage excel = new ExcelPackage())
             {
@@ -53,7 +60,7 @@ namespace IntegrationSolution.Excel.Implementations
                 {
                     var data = new List<object[]>()
                     {
-                        new object[] 
+                        new object[]
                         {
                             item.StructureName,
                             item.StateNumber,
@@ -70,7 +77,7 @@ namespace IntegrationSolution.Excel.Implementations
                         }
                     };
                     string headerRange = $"A{row}:" + Char.ConvertFromUtf32(data[0].Length + 64) + row;
-                    
+
                     if (item.CountSpeedViolations > 0)
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 6], ExcelDecorator.ExcelCssResources.LightRedColor);
 
@@ -80,13 +87,16 @@ namespace IntegrationSolution.Excel.Implementations
                     if (item.IndicatorMileage.SAP > item.IndicatorMileage.Wialon)
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 11], ExcelDecorator.ExcelCssResources.GreenColor);
 
-                    if (item.PercentDifference*100 >= BadPercent)
+                    if (item.PercentDifference * 100 >= BadPercent)
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 12], ExcelDecorator.ExcelCssResources.RedColor);
 
                     worksheet.Cells[headerRange].LoadFromArrays(data);
-                    
+
                     row++;
                 }
+
+                AddSAPCarsWorksheet(excel, sapCars);
+                AddWialonCarsWorksheet(excel, wialonCars);
 
                 if (File.Exists(path))
                     File.Delete(path);
@@ -96,7 +106,13 @@ namespace IntegrationSolution.Excel.Implementations
         }
 
 
-        public void CreateReportDiffMileageWithDetails(string path, List<IntegratedVehicleInfoDetails> valuePairs, double BadPercent = 5)
+        // Report WITH details about difference between SAP and Wialon
+        public void CreateReportDiffMileageWithDetails(
+            string path,
+            List<IntegratedVehicleInfoDetails> valuePairs,
+            double BadPercent = 5,
+            List<IVehicleSAP> sapCars = null,
+            List<CarWialon> wialonCars = null)
         {
             using (ExcelPackage excel = new ExcelPackage())
             {
@@ -162,7 +178,7 @@ namespace IntegrationSolution.Excel.Implementations
 
                     if (item.PercentDifference * 100 >= BadPercent)
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.RedColor);
-                    
+
                     worksheet.Cells[row, 8, row, 10].Style.Numberformat.Format = "0";
                     worksheet.Cells[row, 11, row, 13].Style.Numberformat.Format = "0";
                     worksheet.Cells[row, 18].Style.Numberformat.Format = "0";
@@ -213,7 +229,7 @@ namespace IntegrationSolution.Excel.Implementations
                             IWln++;
                             ISap++;
                         }
-                        else if ( (sapElement != null &&
+                        else if ((sapElement != null &&
                             sapElement.DepartureFromGarageDate.Date < wlnElement?.Begin.Date) ||
                             (sapElement != null && wlnElement == null))
                         {
@@ -232,10 +248,10 @@ namespace IntegrationSolution.Excel.Implementations
                                     sapElement.Driver.UnitNumber
                                 }
                             };
-                            
+
                             ISap++;
                         }
-                        else if ( (wlnElement != null &&
+                        else if ((wlnElement != null &&
                             sapElement?.DepartureFromGarageDate.Date > wlnElement.Begin.Date) ||
                             (wlnElement != null && sapElement == null))
                         {
@@ -265,11 +281,128 @@ namespace IntegrationSolution.Excel.Implementations
                     }
                 }
 
+                AddSAPCarsWorksheet(excel, sapCars);
+                AddWialonCarsWorksheet(excel, wialonCars);
+
                 if (File.Exists(path))
                     File.Delete(path);
                 var excelFile = new System.IO.FileInfo(path);
                 excel.SaveAs(excelFile);
             }
+        }
+
+
+        private void AddSAPCarsWorksheet(ExcelPackage excel, List<IVehicleSAP> sapCars)
+        {
+            #region Filling distinct cars
+            if (sapCars != null)
+            {
+                var worksheet = excel.Workbook.Worksheets.Add("SAP");
+                var headerRow = new List<string[]>()
+                    {
+                        new string[] {
+                            "Подразделение",
+                            "Гос.номер", "Модель", "Тип",
+                            "Дата выезда", "Начало (время SAP)", "Конец (время SAP)",
+                            "Показания одометра (SAP)",
+                            "Водитель", "Табельный номер водителя" }
+                    };
+
+
+                #region Columns` Style
+                worksheet.Column(5).Style.Numberformat.Format = "dd-mm-yyyy"; // "Date of trip"
+                worksheet.Column(5).Width = 15;
+                worksheet.Column(6).Style.Numberformat.Format = "hh:mm"; // Begin trip 
+                worksheet.Column(7).Style.Numberformat.Format = "hh:mm"; // End trip 
+                worksheet.Column(8).Style.Numberformat.Format = "0.00";
+                #endregion
+
+                var row = 1;
+                ExcelDecorator.SetHeaders(worksheet, headerRow, row++);
+
+                for (int index = 0; index < sapCars.Count; index++)
+                {
+                    var data = new List<object[]>()
+                        {
+                            new object[]
+                            {
+                                sapCars[index].StructureName,
+                                sapCars[index].StateNumber, sapCars[index].UnitModel, sapCars[index].Type,
+                                sapCars[index].Trips?.Count, null, null,
+                                sapCars[index].TripResulted?.TotalMileage,
+                                sapCars[index].Trips?.ToLookup(x => x.Driver.UnitNumber)?.Count, null
+                            }
+                        };
+
+                    worksheet.Cells[row, 5].Style.Numberformat.Format = "0"; // Total trips 
+
+                    string headerRange = $"A{row}:" + Char.ConvertFromUtf32(data[0].Length + 64) + row;
+                    ExcelDecorator.SetCellsColor(worksheet.Cells[headerRange], ExcelDecorator.ExcelCssResources.LightYellowColor);
+
+                    worksheet.Row(row).Style.Font.SetFromFont(new Font("Times New Roman", 12, FontStyle.Bold));
+                    worksheet.Cells[headerRange].LoadFromArrays(data);
+
+                    row++;
+                    if(sapCars[index].Trips != null)
+                        foreach (var item in sapCars[index].Trips)
+                        {
+                            var dataDetails = new List<object[]>()
+                            {
+                                new object[]
+                                {
+                                    null,
+                                    null, null, null,
+                                    item.DepartureFromGarageDate.Date, item.DepartureFromGarageDate.TimeOfDay, item.ReturnToGarageDate.TimeOfDay,
+                                    item.TotalMileage,
+                                    item.Driver, item.Driver?.UnitNumber
+                                }
+                            };
+
+                            if (!dataDetails.Any())
+                                continue;
+
+                            string headerRangelocal = $"A{row}:" + Char.ConvertFromUtf32(dataDetails[0].Length + 64) + row;
+                            worksheet.Cells[headerRangelocal].LoadFromArrays(dataDetails);
+                            worksheet.Row(row++).OutlineLevel = 1;
+                        }
+                }
+
+            }
+            #endregion
+        }
+
+        private void AddWialonCarsWorksheet(ExcelPackage excel, List<CarWialon> wialonCars)
+        {
+            #region Filling distinct cars
+            if (wialonCars != null)
+            {
+                var worksheet = excel.Workbook.Worksheets.Add("Wialon");
+                var headerRow = new List<string[]>()
+                    {
+                        new string[] { "ID", "Гос.номер" }
+                    };
+
+                var row = 1;
+                ExcelDecorator.SetHeaders(worksheet, headerRow, row++);
+
+                for (int index = 0; index < wialonCars.Count; index++)
+                {
+                    var data = new List<object[]>()
+                        {
+                            new object[] { wialonCars[index].ID.ToString(), wialonCars[index].StateNumber }
+                        };
+                    
+                    string headerRange = $"A{row}:" + Char.ConvertFromUtf32(data[0].Length + 64) + row;
+                    ExcelDecorator.SetCellsColor(worksheet.Cells[headerRange], ExcelDecorator.ExcelCssResources.LightYellowColor);
+
+                    worksheet.Row(row).Style.Font.SetFromFont(new Font("Times New Roman", 12, FontStyle.Bold));
+                    worksheet.Cells[headerRange].LoadFromArrays(data);
+                    row++;
+                    
+                }
+
+            }
+            #endregion
         }
     }
 }

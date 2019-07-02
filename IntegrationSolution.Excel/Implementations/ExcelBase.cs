@@ -16,13 +16,18 @@ namespace IntegrationSolution.Excel.Implementations
         #region Properties
         public ExcelPackage Excel { get; protected set; }
         public ExcelWorkbook Workbook { get; private set; }
-        public ExcelWorksheet WorkSheet { get; private set; }
+        public ExcelWorksheet CurrentWorkSheet { get; private set; }
         public ExcelCellAddress StartCell { get; private set; }
         public ExcelCellAddress EndCell { get; private set; }
         public IExcelStyle ExcelDecorator { get; private set; }
+
+        public ExcelWorksheet this[string name]
+        {
+            get { return Workbook.Worksheets[name]; }
+        }
         #endregion
 
-        
+
         protected IUnityContainer container;
 
         public ExcelBase(ExcelPackage excelPackage, IUnityContainer unityContainer)
@@ -48,7 +53,7 @@ namespace IntegrationSolution.Excel.Implementations
             {
                 try
                 {
-                    WorkSheet.DeleteRow(item.Row);
+                    CurrentWorkSheet.DeleteRow(item.Row);
                 }
                 catch (Exception)
                 { }
@@ -64,14 +69,13 @@ namespace IntegrationSolution.Excel.Implementations
             try
             {
                 Workbook = Excel?.Workbook;
-                WorkSheet = Workbook?.Worksheets.First();
+                CurrentWorkSheet = Workbook?.Worksheets.First();
 
                 SetBorders();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 
@@ -81,17 +85,35 @@ namespace IntegrationSolution.Excel.Implementations
         /// </summary>
         public void SetBorders()
         {
-            if (WorkSheet == null)
+            if (CurrentWorkSheet == null)
                 TryOpen();
 
-            StartCell = WorkSheet.Dimension.Start;
-            EndCell = WorkSheet.Dimension.End;
+            StartCell = CurrentWorkSheet.Dimension.Start;
+            EndCell = CurrentWorkSheet.Dimension.End;
         }
 
 
         public void Save()
         {
             this.Excel.Save();
+        }
+
+
+        public ExcelWorksheet AddWorksheet(string name)
+        {
+            return Workbook.Worksheets.Add(name);
+        }
+
+
+        public ExcelWorksheet MoveToWorkSheet(string name)
+        {
+            var worksheet = this[name];
+            if (worksheet != null)
+            {
+                CurrentWorkSheet = worksheet;
+                return CurrentWorkSheet;
+            }
+            return null;
         }
 
 
