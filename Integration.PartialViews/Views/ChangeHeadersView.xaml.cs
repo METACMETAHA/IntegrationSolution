@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Integration.PartialViews.GetToken
+namespace Integration.PartialViews.Views
 {
     /// <summary>
-    /// Interaction logic for GetTokenView.xaml
+    /// Interaction logic for ChangeHeadersView.xaml
     /// </summary>
-    public partial class GetTokenView : UserControl
+    public partial class ChangeHeadersView : UserControl
     {
-        public GetTokenView()
+        public ChangeHeadersView()
         {
             InitializeComponent();
         }

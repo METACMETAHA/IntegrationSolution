@@ -31,6 +31,7 @@ namespace IntegrationSolution.Excel
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IExcelStyle, ExcelStyle>();
+            containerRegistry.RegisterSingleton<HeaderNames>();
 
             containerRegistry.Register<ExcelPackage>();
             containerRegistry.Register<IExcel, ExcelBase>();

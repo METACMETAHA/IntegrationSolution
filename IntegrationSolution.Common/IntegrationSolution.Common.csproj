@@ -78,8 +78,8 @@
     <Compile Include="Converters\SelectedItemToContentConverter.cs" />
     <Compile Include="Converters\StateNumberConverter.cs" />
     <Compile Include="Converters\StringToDoubleConverter.cs" />
-    <Compile Include="Entities\CredentialsDTO.cs" />
     <Compile Include="Entities\Error.cs" />
+    <Compile Include="Entities\SerializeConfigDTO.cs" />
     <Compile Include="Enums\DialogNamesEnum.cs" />
     <Compile Include="Enums\FuelEnum.cs" />
     <Compile Include="Enums\PathListStatusEnum.cs" />
@@ -92,8 +92,10 @@
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Implementations\AppConfiguration.cs" />
     <Compile Include="Implementations\PropertyChangedBase.cs" />
+    <Compile Include="Implementations\Serializable.cs" />
+    <Compile Include="Implementations\SerializablePropertyChanged.cs" />
     <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />
-    <Compile Include="Interfaces\ICredentials.cs" />
+    <Compile Include="Interfaces\ISerializable.cs" />
     <Compile Include="Interfaces\ISettings.cs" />
     <Compile Include="Models\DatesFromToContext.cs" />
     <Compile Include="Models\FuelPrice.cs" />

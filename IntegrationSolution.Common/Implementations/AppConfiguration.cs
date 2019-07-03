@@ -11,14 +11,13 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Common.Implementations
 {
-    public class AppConfiguration : PropertyChangedBase, ISettings, ICredentials
+    public class AppConfiguration : PropertyChangedBase, ISettings
     {
-        private BinaryFormatter formatter;
-        private string binaryFileName;
+        public SerializeConfigDTO ConfigDTO { get; set; }
 
-        public AppConfiguration()
+        public AppConfiguration(SerializeConfigDTO configDTO)
         {
-            binaryFileName = "sys.dat";
+            ConfigDTO = configDTO;
         }
 
         public object this[string propertyName]
@@ -32,28 +31,6 @@ namespace IntegrationSolution.Common.Implementations
                 ConfigurationManager.AppSettings.Set(propertyName, value.ToString());
             }
         }
-
-        public CredentialsDTO GetCredentials()
-        {
-            formatter = new BinaryFormatter();
-            CredentialsDTO result = null;
-
-            try
-            {
-                using (FileStream fs = new FileStream(this.binaryFileName, FileMode.Open))
-                    result = (CredentialsDTO)formatter.Deserialize(fs);
-            }
-            catch (Exception)
-            { return new CredentialsDTO(); }
-            return (result == null) ? new CredentialsDTO() : result;
-        }
-
-        public void SetCredentials(CredentialsDTO credentials)
-        {
-            formatter = new BinaryFormatter();
-
-            using (FileStream fs = new FileStream(this.binaryFileName, FileMode.OpenOrCreate))
-                formatter.Serialize(fs, credentials);
-        }
+        
     }
 }

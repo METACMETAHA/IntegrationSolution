@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using WialonBase.Interfaces;
 
-namespace Integration.PartialViews.GetToken
+namespace Integration.PartialViews.ViewModels
 {
     public class GetTokenViewModel : BindableBase
     {
@@ -39,7 +39,6 @@ namespace Integration.PartialViews.GetToken
             get => _isWithToken;
             set { SetProperty(ref _isWithToken, value); }
         }
-        
         #endregion
 
 
@@ -56,8 +55,6 @@ namespace Integration.PartialViews.GetToken
 
             UpdateTokenCommand = new DelegateCommand(UpdateTokenCmd);
 
-
-            var credentials = settings.GetCredentials();
             TokenModel = settings["Token"]?.ToString();
                        
             IsWithToken |= !string.IsNullOrWhiteSpace(TokenModel);

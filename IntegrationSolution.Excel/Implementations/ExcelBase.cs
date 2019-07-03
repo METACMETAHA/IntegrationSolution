@@ -28,13 +28,16 @@ namespace IntegrationSolution.Excel.Implementations
         #endregion
 
 
-        protected IUnityContainer container;
+        protected readonly IUnityContainer _container;
+        protected readonly HeaderNames _headerNames;
 
-        public ExcelBase(ExcelPackage excelPackage, IUnityContainer unityContainer)
+        public ExcelBase(ExcelPackage excelPackage, 
+            IUnityContainer unityContainer)
         {
             Excel = excelPackage;
-            container = unityContainer;
-            ExcelDecorator = container.Resolve<IExcelStyle>();
+            _container = unityContainer;
+            _headerNames = _container.Resolve<HeaderNames>();
+            ExcelDecorator = _container.Resolve<IExcelStyle>();
             TryClearFromPathList();
             new StaticHelper(unityContainer);
         }
@@ -42,12 +45,12 @@ namespace IntegrationSolution.Excel.Implementations
 
         public void TryClearFromPathList()
         {
-            if (StaticHelper.GetHeadersAddress(this, HeaderNames.PathListStatus).Count == 0)
+            if (StaticHelper.GetHeadersAddress(this, _headerNames.PathListStatus).Count == 0)
                 return;
 
             var rows = StaticHelper.GetRowsWithValue(this,
                 PathListData.PathListStatusDictionary[IntegrationSolution.Common.Enums.PathListStatusEnum.Miv],
-                HeaderNames.PathListStatus);
+                _headerNames.PathListStatus);
 
             foreach (var item in rows)
             {

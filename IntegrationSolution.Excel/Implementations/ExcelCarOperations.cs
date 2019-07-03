@@ -29,6 +29,7 @@ namespace IntegrationSolution.Excel.Implementations
         {
             _tripsAddress = new Dictionary<string, ExcelCellAddress>();
             _logger = LogManager.GetLogger(this.GetType());
+            
             TryInitializeAll();
         }
         #endregion
@@ -46,28 +47,28 @@ namespace IntegrationSolution.Excel.Implementations
 
         private bool InitializeFuelHeaders()
         {
-            var fuelAddress = StaticHelper.GetHeadersAddress(this, HeaderNames.DepartureBalanceGas, HeaderNames.DepartureBalanceDisel, HeaderNames.DepartureBalanceLPG);
+            var fuelAddress = StaticHelper.GetHeadersAddress(this, _headerNames.DepartureBalanceGas, _headerNames.DepartureBalanceDisel, _headerNames.DepartureBalanceLPG);
             if (fuelAddress?.Count == 0)
                 return false;
 
             fuelAddress = StaticHelper.GetHeadersAddress(this,
-                HeaderNames.DepartureBalanceGas,
-                HeaderNames.ReturnBalanceGas,
-                HeaderNames.ConsumptionGasActual,
-                HeaderNames.ConsumptionGasNormative,
-                HeaderNames.ConsumptionGasSavingsOrOverruns,
+                _headerNames.DepartureBalanceGas,
+                _headerNames.ReturnBalanceGas,
+                _headerNames.ConsumptionGasActual,
+                _headerNames.ConsumptionGasNormative,
+                _headerNames.ConsumptionGasSavingsOrOverruns,
 
-                HeaderNames.DepartureBalanceDisel,
-                HeaderNames.ReturnBalanceDisel,
-                HeaderNames.ConsumptionDiselActual,
-                HeaderNames.ConsumptionDiselNormative,
-                HeaderNames.ConsumptionDiselSavingsOrOverruns,
+                _headerNames.DepartureBalanceDisel,
+                _headerNames.ReturnBalanceDisel,
+                _headerNames.ConsumptionDiselActual,
+                _headerNames.ConsumptionDiselNormative,
+                _headerNames.ConsumptionDiselSavingsOrOverruns,
 
-                HeaderNames.DepartureBalanceLPG,
-                HeaderNames.ReturnBalanceLPG,
-                HeaderNames.ConsumptionLPGActual,
-                HeaderNames.ConsumptionLPGNormative,
-                HeaderNames.ConsumptionLPGSavingsOrOverruns);
+                _headerNames.DepartureBalanceLPG,
+                _headerNames.ReturnBalanceLPG,
+                _headerNames.ConsumptionLPGActual,
+                _headerNames.ConsumptionLPGNormative,
+                _headerNames.ConsumptionLPGSavingsOrOverruns);
 
             // 15 - fuel columns
             if (fuelAddress.Any())
@@ -82,7 +83,7 @@ namespace IntegrationSolution.Excel.Implementations
 
         private bool InitializeDriverHeaders()
         {
-            var driverAddress = StaticHelper.GetHeadersAddress(this, HeaderNames.FullNameOfDriver, HeaderNames.NumberOfDriver);
+            var driverAddress = StaticHelper.GetHeadersAddress(this, _headerNames.FullNameOfDriver, _headerNames.NumberOfDriver);
             if (driverAddress?.Count == 0)
                 return false;
 
@@ -94,12 +95,12 @@ namespace IntegrationSolution.Excel.Implementations
         private bool InitializeIndicatorsHeaders()
         {
             var driverAddress = StaticHelper.GetHeadersAddress(this,
-                HeaderNames.DepartureOdometerValue,
-                HeaderNames.ReturnOdometerValue,
-                HeaderNames.TotalMileage,
-                HeaderNames.DepartureMotoHoursIndications,
-                HeaderNames.ReturnMotoHoursIndications,
-                HeaderNames.MotoHoursIndicationsAtAll);
+                _headerNames.DepartureOdometerValue,
+                _headerNames.ReturnOdometerValue,
+                _headerNames.TotalMileage,
+                _headerNames.DepartureMotoHoursIndications,
+                _headerNames.ReturnMotoHoursIndications,
+                _headerNames.MotoHoursIndicationsAtAll);
             if (driverAddress?.Count == 0)
                 return false;
 
@@ -111,11 +112,11 @@ namespace IntegrationSolution.Excel.Implementations
         private bool InitializeMoveDateTimeCheckHeaders()
         {
             var driverAddress = StaticHelper.GetHeadersAddress(this,
-                HeaderNames.DepartureFromGarageDate,
-                HeaderNames.DepartureFromGarageTime,
-                HeaderNames.ReturnToGarageDate,
-                HeaderNames.ReturnToGarageTime,
-                HeaderNames.TimeOnDutyAtAll);
+                _headerNames.DepartureFromGarageDate,
+                _headerNames.DepartureFromGarageTime,
+                _headerNames.ReturnToGarageDate,
+                _headerNames.ReturnToGarageTime,
+                _headerNames.TimeOnDutyAtAll);
             if (driverAddress?.Count == 0)
                 return false;
 
@@ -133,12 +134,12 @@ namespace IntegrationSolution.Excel.Implementations
             {
                 IDictionary<string, ExcelCellAddress> headers = StaticHelper.GetHeadersAddress(
                     this,
-                    HeaderNames.TypeOfVehicle,
-                    HeaderNames.ModelOfVehicle,
-                    HeaderNames.StateNumber,
-                    HeaderNames.Departments);
+                    _headerNames.TypeOfVehicle,
+                    _headerNames.ModelOfVehicle,
+                    _headerNames.StateNumber,
+                    _headerNames.Departments);
 
-                headers.Add(StaticHelper.GetSameHeadersAddress(this, HeaderNames.PartOfStructureNameForResult).FirstOrDefault());
+                headers.Add(StaticHelper.GetSameHeadersAddress(this, _headerNames.PartOfStructureNameForResult).FirstOrDefault());
 
                 for (int row = headers.First().Value.Row + 1; row < this.EndCell.Row; row++)
                 {
@@ -149,23 +150,23 @@ namespace IntegrationSolution.Excel.Implementations
                         {
                             switch (item.Key)
                             {
-                                case nameof(HeaderNames.TypeOfVehicle):
+                                case nameof(_headerNames.TypeOfVehicle):
                                     vehicle.Type = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
-                                case nameof(HeaderNames.ModelOfVehicle):
+                                case nameof(_headerNames.ModelOfVehicle):
                                     vehicle.UnitModel = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
-                                case nameof(HeaderNames.StateNumber):
+                                case nameof(_headerNames.StateNumber):
                                     vehicle.StateNumber = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text.ToStateNumber();
                                     break;
 
-                                case nameof(HeaderNames.Departments):
+                                case nameof(_headerNames.Departments):
                                     vehicle.Department = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
-                                case nameof(HeaderNames.PartOfStructureNameForResult):
+                                case nameof(_headerNames.PartOfStructureNameForResult):
                                     vehicle.StructureName = this.CurrentWorkSheet.Cells[row, item.Value.Column].Text;
                                     break;
 
@@ -192,9 +193,9 @@ namespace IntegrationSolution.Excel.Implementations
         public bool SetFieldsOfVehicleByAvaliableData(ref IVehicleSAP vehicle)
         {
             if (StaticHelper.GetHeadersAddress(this,
-                HeaderNames.UnitNumber,
-                HeaderNames.StateNumber,
-                HeaderNames.PathListStatus).Count == 0
+                _headerNames.UnitNumber,
+                _headerNames.StateNumber,
+                _headerNames.PathListStatus).Count == 0
                 || vehicle == null)
                 return false;
 
@@ -206,7 +207,7 @@ namespace IntegrationSolution.Excel.Implementations
 
         public IEnumerable<TripSAP> GetTripsByStateNumber(string StateNumber)
         {
-            var rows = StaticHelper.GetRowsWithValue(this, StateNumber, HeaderNames.StateNumber);
+            var rows = StaticHelper.GetRowsWithValue(this, StateNumber, _headerNames.StateNumber);
             if (!rows.Any())
                 return null;
 
@@ -215,26 +216,26 @@ namespace IntegrationSolution.Excel.Implementations
             {
                 try
                 {
-                    TripSAP trip = container.Resolve<TripSAP>();
+                    TripSAP trip = _container.Resolve<TripSAP>();
 
                     trip.FuelDictionary = StaticHelper.GetFuelDataByRow(this, row.Row, _tripsAddress).ToDictionary(x => x.Key, y => y.Value);
                     trip.Driver = StaticHelper.GetDriverFromRow(this, row.Row, _tripsAddress);                    
 
                     #region GetHeaders of indicators
                     // Indicators: odometr, mileage...
-                    var headerDepartureOdometerValue = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureOdometerValue)));
-                    var headerReturnOdometerValue = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnOdometerValue)));
-                    var headerTotalMileage = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.TotalMileage)));
-                    var headerDepartureMotoHoursIndications = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureMotoHoursIndications)));
-                    var headerReturnMotoHoursIndications = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnMotoHoursIndications)));
-                    var headerMotoHoursIndicationsAtAll = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.MotoHoursIndicationsAtAll)));
+                    var headerDepartureOdometerValue = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.DepartureOdometerValue)));
+                    var headerReturnOdometerValue = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.ReturnOdometerValue)));
+                    var headerTotalMileage = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.TotalMileage)));
+                    var headerDepartureMotoHoursIndications = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.DepartureMotoHoursIndications)));
+                    var headerReturnMotoHoursIndications = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.ReturnMotoHoursIndications)));
+                    var headerMotoHoursIndicationsAtAll = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.MotoHoursIndicationsAtAll)));
 
                     // Inidicators: date, time
-                    var headerDepartureFromGarageDate = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureFromGarageDate)));
-                    var headerDepartureFromGarageTime = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.DepartureFromGarageTime)));
-                    var headerReturnToGarageDate = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnToGarageDate)));
-                    var headerReturnToGarageTime = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.ReturnToGarageTime)));
-                    var headerTimeOnDutyAtAll = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(HeaderNames.TimeOnDutyAtAll)));
+                    var headerDepartureFromGarageDate = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.DepartureFromGarageDate)));
+                    var headerDepartureFromGarageTime = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.DepartureFromGarageTime)));
+                    var headerReturnToGarageDate = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.ReturnToGarageDate)));
+                    var headerReturnToGarageTime = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.ReturnToGarageTime)));
+                    var headerTimeOnDutyAtAll = _tripsAddress.FirstOrDefault(x => x.Key.Contains(nameof(_headerNames.TimeOnDutyAtAll)));
                     #endregion
 
                     #region SetValues of car
@@ -307,17 +308,17 @@ namespace IntegrationSolution.Excel.Implementations
         public void WriteInHeadersAndDataForTotalResult(ICollection<IVehicleSAP> vehicles)
         {
             StaticHelper.WriteVehicleDataAndHeaders(this, vehicles,
-                HeaderNames.TotalMileageResult,
-                HeaderNames.TotalJobDoneResult,
-                HeaderNames.ConsumptionGasActualResult,
-                HeaderNames.ConsumptionDieselActualResult,
-                HeaderNames.ConsumptionLPGActualResult,
-                HeaderNames.TotalCostGas,
-                HeaderNames.TotalCostDisel,
-                HeaderNames.TotalCostLPG,
-                HeaderNames.Amortization,
-                HeaderNames.DriversFOT,
-                HeaderNames.TotalCost);
+                _headerNames.TotalMileageResult,
+                _headerNames.TotalJobDoneResult,
+                _headerNames.ConsumptionGasActualResult,
+                _headerNames.ConsumptionDieselActualResult,
+                _headerNames.ConsumptionLPGActualResult,
+                _headerNames.TotalCostGas,
+                _headerNames.TotalCostDisel,
+                _headerNames.TotalCostLPG,
+                _headerNames.Amortization,
+                _headerNames.DriversFOT,
+                _headerNames.TotalCost);
         }
 
 
@@ -329,17 +330,17 @@ namespace IntegrationSolution.Excel.Implementations
                 return;
 
             StaticHelper.WriteSummaryFormula(this, total,
-                HeaderNames.TotalMileageResult,
-                HeaderNames.TotalJobDoneResult,
-                HeaderNames.ConsumptionGasActualResult,
-                HeaderNames.ConsumptionDieselActualResult,
-                HeaderNames.ConsumptionLPGActualResult,
-                HeaderNames.TotalCostGas,
-                HeaderNames.TotalCostDisel,
-                HeaderNames.TotalCostLPG,
-                HeaderNames.Amortization,
-                HeaderNames.DriversFOT,
-                HeaderNames.TotalCost);
+                _headerNames.TotalMileageResult,
+                _headerNames.TotalJobDoneResult,
+                _headerNames.ConsumptionGasActualResult,
+                _headerNames.ConsumptionDieselActualResult,
+                _headerNames.ConsumptionLPGActualResult,
+                _headerNames.TotalCostGas,
+                _headerNames.TotalCostDisel,
+                _headerNames.TotalCostLPG,
+                _headerNames.Amortization,
+                _headerNames.DriversFOT,
+                _headerNames.TotalCost);
 
         }
         #endregion
@@ -372,7 +373,7 @@ namespace IntegrationSolution.Excel.Implementations
                     total.Disel += auto.TripResulted.FuelDictionary[FuelEnum.Disel].ConsumptionActual;
                 }
 
-                var prices = container.Resolve<FuelPrice>();
+                var prices = _container.Resolve<FuelPrice>();
                 total.GasCost = total.Gas * prices.GasCost;
                 total.LPGCost = total.LPG * prices.LPGCost;
                 total.DiselCost = total.Disel * prices.DiselCost;

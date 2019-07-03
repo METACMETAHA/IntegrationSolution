@@ -3,6 +3,7 @@ using Integration.Infrastructure;
 using Integration.Infrastructure.Views.Account;
 using Integration.ModuleGUI;
 using IntegrationSolution.Common;
+using IntegrationSolution.Common.Entities;
 using IntegrationSolution.Dialogs;
 using IntegrationSolution.Excel;
 using IntegrationSolution.ShellGUI.ControlRegionAdapter;
@@ -39,9 +40,14 @@ namespace IntegrationSolution.ShellGUI
             base.InitializeModules();
             this.MainWindow = Container.Resolve<MainWindow>();
             this.MainWindow.DataContext = Container.Resolve<MainWindowViewModel>();
+            this.MainWindow.Closing += MainWindow_Closing;
             return this.MainWindow;
         }
 
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Container.Resolve<SerializeConfigDTO>().Dispose();
+        }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
