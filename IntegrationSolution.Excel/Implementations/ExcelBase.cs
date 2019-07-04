@@ -45,12 +45,13 @@ namespace IntegrationSolution.Excel.Implementations
 
         public void TryClearFromPathList()
         {
-            if (StaticHelper.GetHeadersAddress(this, _headerNames.PathListStatus).Count == 0)
+            if (StaticHelper.GetHeadersAddress(this
+                , _headerNames.PropertiesData[nameof(_headerNames.PathListStatus)]).Count == 0)
                 return;
 
             var rows = StaticHelper.GetRowsWithValue(this,
                 PathListData.PathListStatusDictionary[IntegrationSolution.Common.Enums.PathListStatusEnum.Miv],
-                _headerNames.PathListStatus);
+                _headerNames.PropertiesData[nameof(_headerNames.PathListStatus)]);
 
             foreach (var item in rows)
             {

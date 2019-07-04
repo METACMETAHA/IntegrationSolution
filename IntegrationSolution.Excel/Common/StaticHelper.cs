@@ -52,18 +52,12 @@ namespace IntegrationSolution.Excel.Common
                 {
                     try
                     {
-                        var ss = (from cell in excelFile.CurrentWorkSheet.Cells[
-                            excelFile.StartCell.Row,
-                            excelFile.StartCell.Column,
-                            excelFile.StartCell.Row + 1,
-                            excelFile.CurrentWorkSheet.Dimension.Columns]
-                                  select cell.Start).First();
                         var address = (from cell in excelFile.CurrentWorkSheet.Cells[
                             excelFile.StartCell.Row,
                             excelFile.StartCell.Column,
                             excelFile.StartCell.Row + 1,
                             excelFile.CurrentWorkSheet.Dimension.Columns]
-                                       where cell.Text.ToLower() == header.ToLower()
+                                       where cell.Text.ToLower().Trim() == header.ToLower().Trim()
                                        select cell.Start).First();
                         var propName = _headerNames.PropertiesData.First(x => x.Value == header).Key;
                         headersCells.Add(propName, address);
@@ -145,7 +139,7 @@ namespace IntegrationSolution.Excel.Common
                                [excelFile.StartCell.Row,
                                address.Column,
                                excelFile.EndCell.Row, address.Column]
-                              let cellVal = (header == _headerNames.StateNumber) ? // checking cell for StateNumber or not (need for convert string)
+                              let cellVal = (header == _headerNames.PropertiesData[nameof(_headerNames.StateNumber)]) ? // checking cell for StateNumber or not (need for convert string)
                               cell.Text.ToLower().ToStateNumber() : cell.Text.ToLower()
                               where cellVal == Value.ToLower().ToStateNumber()
                               select cell.Start).ToList();
@@ -274,41 +268,30 @@ namespace IntegrationSolution.Excel.Common
 
             foreach (var fuelType in searchList)
             {
-                switch (fuelType.Key)
-                {
-                    case nameof(_headerNames.DepartureBalanceGas):
-                    case nameof(_headerNames.DepartureBalanceDisel):
-                    case nameof(_headerNames.DepartureBalanceLPG):
-                        fuel.DepartureBalance = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
-                        break;
+                if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.DepartureBalanceGas)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.DepartureBalanceDisel)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.DepartureBalanceLPG)])
+                    fuel.DepartureBalance = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                    case nameof(_headerNames.ReturnBalanceGas):
-                    case nameof(_headerNames.ReturnBalanceDisel):
-                    case nameof(_headerNames.ReturnBalanceLPG):
-                        fuel.ReturnBalance = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
-                        break;
+                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ReturnBalanceGas)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ReturnBalanceDisel)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ReturnBalanceLPG)])
+                    fuel.ReturnBalance = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                    case nameof(_headerNames.ConsumptionGasActual):
-                    case nameof(_headerNames.ConsumptionDiselActual):
-                    case nameof(_headerNames.ConsumptionLPGActual):
-                        fuel.ConsumptionActual = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
-                        break;
+                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasActual)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDiselActual)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGActual)])
+                    fuel.ConsumptionActual = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                    case nameof(_headerNames.ConsumptionGasNormative):
-                    case nameof(_headerNames.ConsumptionDiselNormative):
-                    case nameof(_headerNames.ConsumptionLPGNormative):
-                        fuel.ConsumptionNormative = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
-                        break;
+                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasNormative)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDiselNormative)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGNormative)])
+                    fuel.ConsumptionNormative = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                    case nameof(_headerNames.ConsumptionGasSavingsOrOverruns):
-                    case nameof(_headerNames.ConsumptionDiselSavingsOrOverruns):
-                    case nameof(_headerNames.ConsumptionLPGSavingsOrOverruns):
-                        fuel.ConsumptionSavingsOrOverruns = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
-                        break;
-
-                    default:
-                        break;
-                }
+                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasSavingsOrOverruns)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDiselSavingsOrOverruns)]
+                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGSavingsOrOverruns)])
+                    fuel.ConsumptionSavingsOrOverruns = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
             }
 
             return fuel;
@@ -356,7 +339,7 @@ namespace IntegrationSolution.Excel.Common
         public static void AddHeaders(ExcelBase excelFile, params string[] rangeHeaders)
         {
             int headerRow = 0;
-            var header = GetHeadersAddress(excelFile, _headerNames.StateNumber)?.FirstOrDefault();
+            var header = GetHeadersAddress(excelFile, _headerNames.PropertiesData[nameof(_headerNames.StateNumber)])?.FirstOrDefault();
             if (header != null)
                 headerRow = header.Value.Value.Row;
 
@@ -406,11 +389,13 @@ namespace IntegrationSolution.Excel.Common
         /// <param name="excelFile"></param>
         public static void WriteSummaryFormula(ExcelBase excelFile, IDictionary<string, TotalIndicators> summary, params string[] HeadersToFill)
         {
-            var headers = GetSameHeadersAddress(excelFile, _headerNames.PartOfStructureNameForResult, _headerNames.Departments);
+            var headers = GetSameHeadersAddress(excelFile
+                , _headerNames.PropertiesData[nameof(_headerNames.PartOfStructureNameForResult)]
+                , _headerNames.PropertiesData[nameof(_headerNames.Departments)]);
             if (headers == null || headers.Count != 2)
                 return;
             
-            var rowsToWrite = GetRowsWithFormula(excelFile, _headerNames.Departments);
+            var rowsToWrite = GetRowsWithFormula(excelFile, _headerNames.PropertiesData[nameof(_headerNames.Departments)]);
 
             var headersToFillAddress = GetHeadersAddress(excelFile, HeadersToFill);
             if (headersToFillAddress.Count != HeadersToFill.Length)
@@ -425,35 +410,29 @@ namespace IntegrationSolution.Excel.Common
 
                 foreach (var header in headersToFillAddress)
                 {
-                    switch (header.Key)
-                    {
-                        case nameof(_headerNames.TotalMileageResult):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Mileage);                          
-                            break;
-                        case nameof(_headerNames.TotalJobDoneResult):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.MotoJob);
-                            break;
-                        case nameof(_headerNames.ConsumptionGasActualResult):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Gas);
-                            break;
-                        case nameof(_headerNames.ConsumptionDieselActualResult):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Disel);
-                            break;
-                        case nameof(_headerNames.ConsumptionLPGActualResult):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.LPG);
-                            break;
-                        case nameof(_headerNames.TotalCostGas):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.GasCost);
-                            break;
-                        case nameof(_headerNames.TotalCostDisel):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.DiselCost);
-                            break;
-                        case nameof(_headerNames.TotalCostLPG):
-                            excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.LPGCost);
-                            break;
-                        default:
-                            break;
-                    }
+                    if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.TotalMileageResult)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Mileage);
+
+                    else if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.TotalJobDoneResult)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.MotoJob);
+
+                    else if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasActualResult)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Gas);
+
+                    else if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDieselActualResult)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.Disel);
+
+                    else if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGActualResult)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.LPG);
+
+                    else if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.TotalCostGas)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.GasCost);
+
+                    else if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.TotalCostDisel)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.DiselCost);
+
+                    else if (header.Key == _headerNames.PropertiesData[nameof(_headerNames.TotalCostLPG)])
+                        excelFile.CurrentWorkSheet.SetValue(row.Row, header.Value.Column, data.Value.LPGCost);
                 }
             }
         }
@@ -464,12 +443,16 @@ namespace IntegrationSolution.Excel.Common
             if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;
 
-            var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, _headerNames.StateNumber);
+            var header = StaticHelper.GetRowsWithValue(excelFile
+                , vehicle.StateNumber
+                , _headerNames.PropertiesData[nameof(_headerNames.StateNumber)]);
             if (header == null || !header.Any())
                 return;
 
-            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, _headerNames.ConsumptionGasActualResult,
-                _headerNames.ConsumptionDieselActualResult, _headerNames.ConsumptionLPGActualResult);
+            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile
+                , _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasActualResult)]
+                , _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDieselActualResult)]
+                , _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGActualResult)]);
             if (fuelHeaders.Count != 3)
                 return;
 
@@ -516,12 +499,15 @@ namespace IntegrationSolution.Excel.Common
             if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;
 
-            var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, _headerNames.StateNumber);
+            var header = StaticHelper.GetRowsWithValue(excelFile
+                , vehicle.StateNumber
+                , _headerNames.PropertiesData[nameof(_headerNames.StateNumber)]);
             if (header == null || !header.Any())
                 return;
 
-            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, _headerNames.TotalMileageResult,
-                _headerNames.TotalJobDoneResult);
+            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile
+                , _headerNames.PropertiesData[nameof(_headerNames.TotalMileageResult)]
+                , _headerNames.PropertiesData[nameof(_headerNames.TotalJobDoneResult)]);
             if (fuelHeaders.Count != 2)
                 return;
 
@@ -529,17 +515,16 @@ namespace IntegrationSolution.Excel.Common
             {
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[nameof(_headerNames.TotalMileageResult)].Column,
+                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalMileageResult)]].Column,
                                     vehicle.TripResulted?.TotalMileage);
 
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[nameof(_headerNames.TotalJobDoneResult)].Column,
+                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalJobDoneResult)]].Column,
                                     vehicle.TripResulted?.MotoHoursIndicationsAtAll);
             }
             catch (Exception)
-            {
-            }
+            { }
         }
 
 
@@ -548,13 +533,19 @@ namespace IntegrationSolution.Excel.Common
             if (vehicle == null || vehicle.Trips == null || !vehicle.Trips.Any())
                 return;
 
-            var header = StaticHelper.GetRowsWithValue(excelFile, vehicle.StateNumber, _headerNames.StateNumber);
+            var header = StaticHelper.GetRowsWithValue(excelFile
+                , vehicle.StateNumber
+                , _headerNames.PropertiesData[nameof(_headerNames.StateNumber)]);
             if (header == null || !header.Any())
                 return;
 
-            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile, 
-                _headerNames.Amortization, _headerNames.TotalCost, _headerNames.DriversFOT, 
-                _headerNames.TotalCostGas, _headerNames.TotalCostDisel, _headerNames.TotalCostLPG);
+            var fuelHeaders = StaticHelper.GetHeadersAddress(excelFile
+                ,_headerNames.PropertiesData[nameof(_headerNames.Amortization)]
+                , _headerNames.PropertiesData[nameof(_headerNames.TotalCost)]
+                , _headerNames.PropertiesData[nameof(_headerNames.DriversFOT)]
+                , _headerNames.PropertiesData[nameof(_headerNames.TotalCostGas)]
+                , _headerNames.PropertiesData[nameof(_headerNames.TotalCostDisel)]
+                , _headerNames.PropertiesData[nameof(_headerNames.TotalCostLPG)]);
             if (fuelHeaders.Count != 6)
                 return;
 
@@ -570,7 +561,7 @@ namespace IntegrationSolution.Excel.Common
                             costForFuel += item.Value.ConsumptionActual * price.DiselCost;
                             excelFile.CurrentWorkSheet.SetValue(
                                 header.FirstOrDefault().Row,
-                                fuelHeaders[nameof(_headerNames.TotalCostDisel)].Column,
+                                fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCostDisel)]].Column,
                                 item.Value.ConsumptionActual * price.DiselCost);
                             break;
 
@@ -578,7 +569,7 @@ namespace IntegrationSolution.Excel.Common
                             costForFuel += item.Value.ConsumptionActual * price.GasCost;
                             excelFile.CurrentWorkSheet.SetValue(
                                 header.FirstOrDefault().Row,
-                                fuelHeaders[nameof(_headerNames.TotalCostGas)].Column,
+                                fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCostGas)]].Column,
                                 item.Value.ConsumptionActual * price.GasCost);
                             break;
 
@@ -586,7 +577,7 @@ namespace IntegrationSolution.Excel.Common
                             costForFuel += item.Value.ConsumptionActual * price.LPGCost;
                             excelFile.CurrentWorkSheet.SetValue(
                                 header.FirstOrDefault().Row,
-                                fuelHeaders[nameof(_headerNames.TotalCostLPG)].Column,
+                                fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCostLPG)]].Column,
                                 item.Value.ConsumptionActual * price.LPGCost);
                             break;
 
@@ -603,14 +594,14 @@ namespace IntegrationSolution.Excel.Common
                 double costAmortizationAndDriver = 8470;
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[nameof(_headerNames.DriversFOT)].Column,
+                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.DriversFOT)]].Column,
                                     8470);
 
 
                 var costAtAll = costForFuel + costAmortizationAndDriver * 2;
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[nameof(_headerNames.TotalCost)].Column,
+                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCost)]].Column,
                                     costAtAll);
             }
             catch (Exception)

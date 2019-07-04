@@ -87,18 +87,26 @@ namespace Integration.ModuleGUI.Models
                 ExcelPackage ePathList = new ExcelPackage(new System.IO.FileInfo(this.PathToPathListFile));
 
                 ExcelMainFile = (IExcel)_container.Resolve<ICarOperations>(new ResolverOverride[] { new ParameterOverride("excelPackage", eMain) });
-                var headers = IntegrationSolution.Excel.Common.StaticHelper.GetHeadersAddress((ExcelBase)ExcelMainFile,
-                    _headerNames.StateNumber, _headerNames.TypeOfVehicle, _headerNames.Departments, _headerNames.ModelOfVehicle);
+                var headers = IntegrationSolution.Excel.Common.StaticHelper.GetHeadersAddress((ExcelBase)ExcelMainFile
+                    , _headerNames.PropertiesData[nameof(_headerNames.StateNumber)]
+                    , _headerNames.PropertiesData[nameof(_headerNames.TypeOfVehicle)]
+                    , _headerNames.PropertiesData[nameof(_headerNames.Departments)]
+                    , _headerNames.PropertiesData[nameof(_headerNames.ModelOfVehicle)]);
                 if (headers.Count != 4)
                     throw new Exception($"Неправильная структура \"{this.PathToMainFile}\" документа.\nТребуются следующие колонки:\" " +
-                    $"{_headerNames.StateNumber}, {_headerNames.TypeOfVehicle}, {_headerNames.Departments}, {_headerNames.ModelOfVehicle}\"");
+                    $"{_headerNames.PropertiesData[nameof(_headerNames.StateNumber)]}, " +
+                    $"{_headerNames.PropertiesData[nameof(_headerNames.TypeOfVehicle)]}, " +
+                    $"{_headerNames.PropertiesData[nameof(_headerNames.Departments)]}, " +
+                    $"{_headerNames.PropertiesData[nameof(_headerNames.ModelOfVehicle)]}\"");
 
                 ExcelPathListFile = (IExcel)_container.Resolve<ICarOperations>(new ResolverOverride[] { new ParameterOverride("excelPackage", ePathList) });
-                headers = IntegrationSolution.Excel.Common.StaticHelper.GetHeadersAddress((ExcelBase)ExcelPathListFile,
-                    _headerNames.StateNumber, _headerNames.TotalMileage);
+                headers = IntegrationSolution.Excel.Common.StaticHelper.GetHeadersAddress((ExcelBase)ExcelPathListFile
+                    , _headerNames.PropertiesData[nameof(_headerNames.StateNumber)]
+                    , _headerNames.PropertiesData[nameof(_headerNames.TotalMileage)]);
                 if (headers.Count != 2)
                     throw new Exception($"Неправильная структура \"{this.PathToPathListFile}\" документа.\nТребуются следующие колонки:\" " +
-                    $"{_headerNames.StateNumber}, {_headerNames.TotalMileage}\"");
+                    $"{_headerNames.PropertiesData[nameof(_headerNames.StateNumber)]}, " +
+                    $"{_headerNames.PropertiesData[nameof(_headerNames.TotalMileage)]}\"");
             }
             catch (Exception ex)
             { return ex; }

@@ -1,6 +1,7 @@
 ﻿using IntegrationSolution.Common.Implementations;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace IntegrationSolution.Common.Entities
         private Dictionary<string, string> headerNamesChanged;
         public Dictionary<string, string> HeaderNamesChanged
         {
-            get { return headerNamesChanged; }
+            get { return headerNamesChanged ?? new Dictionary<string, string>(); }
             set
             {
                 headerNamesChanged = value;
@@ -29,7 +30,10 @@ namespace IntegrationSolution.Common.Entities
 
             if (obj != null)
             {
-                InitializeHeaders(obj.HeaderNamesChanged);
+                if (!obj.HeaderNamesChanged.Any())
+                    File.Delete("sys.dat");
+                else
+                    InitializeHeaders(obj.HeaderNamesChanged);
             }
             else
             {
@@ -39,7 +43,7 @@ namespace IntegrationSolution.Common.Entities
 
         private void InitializeHeaders(Dictionary<string, string> headers)
         {
-            if (!headers.Any())
+            if (headers == null || !headers.Any())
                 return;
 
             HeaderNamesChanged = headers;

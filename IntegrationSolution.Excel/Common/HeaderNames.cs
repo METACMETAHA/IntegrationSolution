@@ -15,86 +15,86 @@ namespace IntegrationSolution.Excel
         private readonly SerializeConfigDTO _configDTO;
 
         #region Headers from first file
-        public string PathListType = "Вид путевого листа";
-        public string PathListStatus = "Наименование статуса путевого листа";
+        public string PathListType { get; private set; } = "Вид путевого листа";
+        public string PathListStatus { get; private set; } = "Наименование статуса путевого листа";
 
-        public string UnitNumber = "Номер единицы оборудования";
+        public string UnitNumber { get; private set; } = "Номер единицы оборудования";
         /// <summary>
         /// From first file
         /// </summary>
-        public string UnitModel = "Марка единицы оборудования";
-        public string StateNumber = "Гос.знак единицы оборудования";
-        public string NumberOfDriver = "Табельный номер водителя";
-        public string FullNameOfDriver = "ФИО водителя";
-        public string NumberOfCustomer = "Табельный номер заказчика";
-        public string FullNameOfCustomer = "ФИО заказчика";
+        public string UnitModel { get; private set; } = "Марка единицы оборудования";
+        public string StateNumber { get; private set; } = "Гос.знак единицы оборудования";
+        public string NumberOfDriver { get; private set; } = "Табельный номер водителя";
+        public string FullNameOfDriver { get; private set; } = "ФИО водителя";
+        public string NumberOfCustomer { get; private set; } = "Табельный номер заказчика";
+        public string FullNameOfCustomer { get; private set; } = "ФИО заказчика";
                
-        public string DepartureFromGarageDate = "Дата выезда из гаража (факт)";
-        public string DepartureFromGarageTime = "Время выезда из гаража (факт)";
-        public string ReturnToGarageDate = "Дата возвращения в гараж (факт)";
-        public string ReturnToGarageTime = "Время возвращения в гараж (факт)";
-        public string TimeOnDutyAtAll = "Время в наряде (всего)";
+        public string DepartureFromGarageDate { get; private set; } = "Дата выезда из гаража (факт)";
+        public string DepartureFromGarageTime { get; private set; } = "Время выезда из гаража (факт)";
+        public string ReturnToGarageDate { get; private set; } = "Дата возвращения в гараж (факт)";
+        public string ReturnToGarageTime { get; private set; } = "Время возвращения в гараж (факт)";
+        public string TimeOnDutyAtAll { get; private set; } = "Время в наряде (всего)";
                
-        public string DepartureOdometerValue = "Показания одометра (выезд)";
-        public string ReturnOdometerValue = "Показания одометра (возврат)";
-        public string TotalMileage = "Общий пробег";
-        public string DepartureMotoHoursIndications = "Показания моточасов (выезд)";
-        public string ReturnMotoHoursIndications = "Показания моточасов (возврат)";
-        public string MotoHoursIndicationsAtAll = "Моточасов всего";
+        public string DepartureOdometerValue { get; private set; } = "Показания одометра (выезд)";
+        public string ReturnOdometerValue { get; private set; } = "Показания одометра (возврат)";
+        public string TotalMileage { get; private set; } = "Общий пробег";
+        public string DepartureMotoHoursIndications { get; private set; } = "Показания моточасов (выезд)";
+        public string ReturnMotoHoursIndications { get; private set; } = "Показания моточасов (возврат)";
+        public string MotoHoursIndicationsAtAll { get; private set; } = "Моточасов всего";
 
-        public string CountTrips = "Количество маршрутов в ПЛ";
-        public string DriverWorkMode = "Режим работы водителя";
-        public string DriverWorkModeDescription = "Режим работы водителя - текст";
+        public string CountTrips { get; private set; } = "Количество маршрутов в ПЛ";
+        public string DriverWorkMode { get; private set; } = "Режим работы водителя";
+        public string DriverWorkModeDescription { get; private set; } = "Режим работы водителя - текст";
                
-        public string DepartmentCode = "Служба";
-        public string DepartmentTitle = "Наименование Службы";
+        public string DepartmentCode { get; private set; } = "Служба";
+        public string DepartmentTitle { get; private set; } = "Наименование Службы";
         
         #region Fuel
-        public string DepartureBalanceGas = "Бензин Остаток при Выезде 1";
-        public string ReturnBalanceGas = "Бензин Остаток при Возвращении 1";
-        public string ConsumptionGasActual = "Бензин Фактический расход 1";
-        public string ConsumptionGasNormative = "Бензин Нормативный расход 1";
-        public string ConsumptionGasSavingsOrOverruns = "Бензин Экономия/Перерасход 1";
+        public string DepartureBalanceGas { get; private set; } = "Бензин Остаток при Выезде 1";
+        public string ReturnBalanceGas { get; private set; } = "Бензин Остаток при Возвращении 1";
+        public string ConsumptionGasActual { get; private set; } = "Бензин Фактический расход 1";
+        public string ConsumptionGasNormative { get; private set; } = "Бензин Нормативный расход 1";
+        public string ConsumptionGasSavingsOrOverruns { get; private set; } = "Бензин Экономия/Перерасход 1";
                
-        public string DepartureBalanceDisel = "ДТ Остаток при Выезде 2";
-        public string ReturnBalanceDisel = "ДТ Остаток при Возвращении 2";
-        public string ConsumptionDiselActual = "ДТ Фактический расход 2";
-        public string ConsumptionDiselNormative = "ДТ Нормативный расход 2";
-        public string ConsumptionDiselSavingsOrOverruns = "ДТ Экономия/Перерасход 2";
+        public string DepartureBalanceDisel { get; private set; } = "ДТ Остаток при Выезде 2";
+        public string ReturnBalanceDisel { get; private set; } = "ДТ Остаток при Возвращении 2";
+        public string ConsumptionDiselActual { get; private set; } = "ДТ Фактический расход 2";
+        public string ConsumptionDiselNormative { get; private set; } = "ДТ Нормативный расход 2";
+        public string ConsumptionDiselSavingsOrOverruns { get; private set; } = "ДТ Экономия/Перерасход 2";
                
-        public string DepartureBalanceLPG = "Газ Остаток при Выезде 3";
-        public string ReturnBalanceLPG = "Газ Остаток при Возвращении 3";
-        public string ConsumptionLPGActual = "Газ Фактический расход 3";
-        public string ConsumptionLPGNormative = "Газ Нормативный расход 3";
-        public string ConsumptionLPGSavingsOrOverruns = "Газ Экономия/Перерасход 3";
+        public string DepartureBalanceLPG { get; private set; } = "Газ Остаток при Выезде 3";
+        public string ReturnBalanceLPG { get; private set; } = "Газ Остаток при Возвращении 3";
+        public string ConsumptionLPGActual { get; private set; } = "Газ Фактический расход 3";
+        public string ConsumptionLPGNormative { get; private set; } = "Газ Нормативный расход 3";
+        public string ConsumptionLPGSavingsOrOverruns { get; private set; } = "Газ Экономия/Перерасход 3";
         #endregion Fuel
         #endregion
 
 
         #region Headers from second file
-        public string Departments = "Службы/отделы";
-        public string TypeOfVehicle = "Тип";
-        public string PartOfStructureNameForResult = "Структурные подразделени";
+        public string Departments { get; private set; } = "Службы/отделы";
+        public string TypeOfVehicle { get; private set; } = "Тип";
+        public string PartOfStructureNameForResult { get; private set; } = "Структурные подразделени";
         /// <summary>
         /// From second file
         /// </summary>
-        public string ModelOfVehicle = "Марка";
+        public string ModelOfVehicle { get; private set; } = "Марка";
         #endregion
 
 
         #region Headers to result first file
-        public string TotalMileageResult = "Общий пробег за период, км";
-        public string TotalJobDoneResult = "Общая наработка мото/час";
-        public string ConsumptionGasActualResult = "Бензин Фактический расход, л";
-        public string ConsumptionDieselActualResult = "ДТ Фактический расход, л.";
-        public string ConsumptionLPGActualResult = "Газ Фактический расход, л";
+        public string TotalMileageResult { get; private set; } = "Общий пробег за период, км";
+        public string TotalJobDoneResult { get; private set; } = "Общая наработка мото/час";
+        public string ConsumptionGasActualResult { get; private set; } = "Бензин Фактический расход, л";
+        public string ConsumptionDieselActualResult { get; private set; } = "ДТ Фактический расход, л.";
+        public string ConsumptionLPGActualResult { get; private set; } = "Газ Фактический расход, л";
         #region Cost Headers
-        public string Amortization = "Амортизация";
-        public string DriversFOT = "ФОТ водителя, грн.";
-        public string TotalCost = "Всего затрат, грн.";
-        public string TotalCostDisel = "Затраты на топливо (ДТ), грн без НДС";
-        public string TotalCostGas = "Затраты на топливо (бензин), грн без НДС";
-        public string TotalCostLPG = "Затраты на топливо (ГАЗ), грн без НДС";
+        public string Amortization { get; private set; } = "Амортизация";
+        public string DriversFOT { get; private set; } = "ФОТ водителя, грн.";
+        public string TotalCost { get; private set; } = "Всего затрат, грн.";
+        public string TotalCostDisel { get; private set; } = "Затраты на топливо (ДТ), грн без НДС";
+        public string TotalCostGas { get; private set; } = "Затраты на топливо (бензин), грн без НДС";
+        public string TotalCostLPG { get; private set; } = "Затраты на топливо (ГАЗ), грн без НДС";
         #endregion
         #endregion
 
@@ -112,8 +112,8 @@ namespace IntegrationSolution.Excel
         public Dictionary<string, string> GetFieldValues(object obj)
         {
             return obj.GetType()
-                      .GetFields()
-                      .Where(f => f.FieldType == typeof(string))
+                      .GetProperties()
+                      .Where(f => f.PropertyType == typeof(string))
                       .ToDictionary(f => f.Name,
                                     f => (string)f.GetValue(this));
         }
@@ -122,7 +122,7 @@ namespace IntegrationSolution.Excel
         public string GetFieldValueByPropName(object obj, string property)
         {
             return (string)obj.GetType()
-                      .GetField(property)
+                      .GetProperty(property)
                       .GetValue(this);
         }
 

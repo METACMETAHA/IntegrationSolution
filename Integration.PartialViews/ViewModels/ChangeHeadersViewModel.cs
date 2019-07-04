@@ -92,7 +92,7 @@ namespace Integration.PartialViews.ViewModels
             try
             {
                 ValueForSelectedHeader = ValueForSelectedHeader.Trim();
-                if (SelectedHeader.Value != ValueForSelectedHeader)
+                if (SelectedHeader.Value != null && SelectedHeader.Value != ValueForSelectedHeader)
                 {
                     if (string.IsNullOrWhiteSpace(ValueForSelectedHeader))
                         throw new Exception("Заголовок не может быть пустым");
