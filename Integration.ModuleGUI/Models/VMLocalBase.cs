@@ -1,10 +1,6 @@
 ﻿using IntegrationSolution.Common.Events;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
-using MahApps.Metro.Controls;
 using Prism.Events;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using System.Windows;
 using Unity;
 using WialonBase.Interfaces;
 

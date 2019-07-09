@@ -135,7 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DialogConstruction\DialogConstruction.csproj">
-      <Project>{417D2DE2-22D4-4B0D-8CA2-984202507C67}</Project>
+      <Project>{417d2de2-22d4-4b0d-8ca2-984202507c67}</Project>
       <Name>DialogConstruction</Name>
     </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
@@ -147,7 +147,7 @@
       <Name>IntegrationSolution.Excel</Name>
     </ProjectReference>
     <ProjectReference Include="..\NotificationConstructor\NotificationConstructor.csproj">
-      <Project>{E91C928C-E71D-478A-A1A9-55C3E1E5A533}</Project>
+      <Project>{e91c928c-e71d-478a-a1a9-55c3e1e5a533}</Project>
       <Name>NotificationConstructor</Name>
     </ProjectReference>
     <ProjectReference Include="..\WialonBase\WialonBase.csproj">

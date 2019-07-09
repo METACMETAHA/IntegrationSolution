@@ -12,15 +12,20 @@ using ToastNotifications.Messages;
 using ToastNotifications.Core;
 using Unity;
 using System.Threading;
+using Unity.Attributes;
 
 namespace NotificationConstructor.Implementations
 {
     public class NotificationManager : INotificationManager
     {
+        //[Dependency]
+        //public IUnityContainer container { get; set; }
+
         private readonly Notifier _notifier;
 
         public NotificationManager()
         {
+
             _notifier = new Notifier(config =>
             {
                 config.Dispatcher = Application.Current.Dispatcher;
@@ -36,7 +41,7 @@ namespace NotificationConstructor.Implementations
                     maximumNotificationCount: MaximumNotificationCount.FromCount(4));
             });
         }
-        
+
         public void NotifyErrorAsync(string message, MessageOptions options = null)
         {
             if (options == null)
