@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<SolidColorBrush x:Key="white_bg" Color="White"/>
 	<SolidColorBrush x:Key="blue_bd" Color="#FF6A8EB0"/>
     <LinearGradientBrush x:Key="light_gray_fade_gradient" EndPoint="0.5,1.638" StartPoint="0.5,-0.108">
@@ -168,7 +168,7 @@
         </Setter>
     </Style>
 
-    <Style  TargetType="{x:Type ListBox}" x:Key="ListBoxStyle_NOStyle">
+    <Style TargetType="{x:Type ListBox}" x:Key="ListBoxStyle_NOStyle">
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListItemStyle}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -201,17 +201,6 @@
         </Setter>
     </Style>
 
-    <Style TargetType="ListBox"
-               x:Key="listBoxMultiSiteStyle"
-                           BasedOn="{StaticResource ListBoxStyle_NOStyle}">
-        <Setter Property="Visibility" Value="Collapsed"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsInMultiSiteMode, Mode=OneWay}"
-                                         Value="True">
-                <Setter Property="Visibility" Value="Visible"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
 
     <Style TargetType="{x:Type ListBoxItem}" x:Key="Reports_ListItemStyle">
         <Setter Property="Background" Value="Transparent"/>
@@ -261,4 +250,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+
 </ResourceDictionary>

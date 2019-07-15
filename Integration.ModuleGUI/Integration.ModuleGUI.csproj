@@ -121,11 +121,8 @@
     <Compile Include="Views\Logistics\Steps\OperationResultsView.xaml.cs">
       <DependentUpon>OperationResultsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OperationResultsViews\CompareSapWialonMileageView.xaml.cs">
-      <DependentUpon>CompareSapWialonMileageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OperationResultsViews\TransportView.xaml.cs">
-      <DependentUpon>TransportView.xaml</DependentUpon>
+    <Compile Include="Views\Logistics\Steps\OperationResultsViews\ReportDetailsView.xaml.cs">
+      <DependentUpon>ReportDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Logistics\Steps\OperationsView.xaml.cs">
       <DependentUpon>OperationsView.xaml</DependentUpon>
@@ -161,11 +158,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OperationResultsViews\CompareSapWialonMileageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OperationResultsViews\TransportView.xaml">
+    <Page Include="Views\Logistics\Steps\OperationResultsViews\ReportDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

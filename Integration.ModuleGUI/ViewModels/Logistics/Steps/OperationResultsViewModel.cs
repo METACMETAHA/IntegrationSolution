@@ -1,10 +1,12 @@
 ﻿using Integration.ModuleGUI.Models;
 using Integration.ModuleGUI.Views;
-using Integration.ModuleGUI.Views.OperationResultsViews;
+using IntegrationSolution.Entities.Interfaces;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,21 @@ namespace Integration.ModuleGUI.ViewModels
 {
     public class OperationResultsViewModel : VMLocalBase
     {
+        #region Filters
+        public Func<object, string, bool> StateNumberVehiclesFilter
+        {
+            get
+            {
+                return (item, text) =>
+                {
+                    var car = item as IVehicleSAP;
+                    return car.StateNumber.Contains(text);
+                         //|| car..Contains(text);
+                };
+            }
+        }
+        #endregion
+
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
             CanGoBack = true;
@@ -24,7 +41,7 @@ namespace Integration.ModuleGUI.ViewModels
 
         public override bool MoveBack()
         {
-            //ModuleData.Vehicles.First().
+            //ModuleData.Vehicles
             return true;
         }
 

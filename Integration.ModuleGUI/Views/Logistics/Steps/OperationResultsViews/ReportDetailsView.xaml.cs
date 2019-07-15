@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Integration.ModuleGUI.Views.OperationResultsViews
+namespace Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews
 {
     /// <summary>
-    /// Interaction logic for CompareSapWialonMileageView.xaml
+    /// Interaction logic for ReportDetailsView.xaml
     /// </summary>
-    public partial class CompareSapWialonMileageView : UserControl
+    public partial class ReportDetailsView : UserControl
     {
-        public CompareSapWialonMileageView()
+        public ReportDetailsView()
         {
             InitializeComponent();
         }

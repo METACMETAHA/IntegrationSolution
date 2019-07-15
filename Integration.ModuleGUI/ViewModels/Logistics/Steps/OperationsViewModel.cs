@@ -34,6 +34,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             this.Title = "Операции";
             this.CanGoBack = true;
+            this.CanGoNext = true;
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
 
@@ -46,6 +47,11 @@ namespace Integration.ModuleGUI.ViewModels
 
         public override async Task<bool> MoveNext()
         {
+            if (ModuleData.Vehicles == null)
+            {
+                var progress = await InitializeCars();
+                await progress.CloseAsync();
+            }
             this.IsFinished = true;
             return CanGoNext;
         }
@@ -115,7 +121,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
             string nameReport = "";
-
+            
             var desicion = await wnd.ShowMessageAsync("Вы хотите продолжить?", "Данная процедура может занять некоторое время.", MessageDialogStyle.AffirmativeAndNegative);
             if (desicion != MessageDialogResult.Affirmative)
                 return;
