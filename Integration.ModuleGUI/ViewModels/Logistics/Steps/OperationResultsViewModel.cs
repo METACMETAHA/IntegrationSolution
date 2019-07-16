@@ -1,9 +1,11 @@
 ﻿using Integration.ModuleGUI.Models;
 using Integration.ModuleGUI.Views;
+using IntegrationSolution.Common.Helpers;
 using IntegrationSolution.Entities.Interfaces;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,34 +19,37 @@ namespace Integration.ModuleGUI.ViewModels
 {
     public class OperationResultsViewModel : VMLocalBase
     {
-        #region Filters
-        public Func<object, string, bool> StateNumberVehiclesFilter
+        private IEnumerable filter;
+        public IEnumerable FilterDepartment
         {
-            get
-            {
-                return (item, text) =>
-                {
-                    var car = item as IVehicleSAP;
-                    return car.StateNumber.Contains(text);
-                         //|| car..Contains(text);
-                };
-            }
+            get { return filter; }
+            set { SetProperty(ref filter, value); }
         }
-        #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
+            FilterDepartment = new List<string>()
+            {
+                "ss", "dsd"
+            };
+
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
         }
 
-        public override bool MoveBack()
+        public override void OnEnter()
         {
-            //ModuleData.Vehicles
-            return true;
+            base.OnEnter();
+            //FilterDepartment = new ObservableCollection<string>(ModuleData.Vehicles?.ToLookup(x => x.Department).Select(x => x.Key).ToList());
         }
 
+        public override bool MoveBack()
+        {
+            //ModuleData.Vehicles.First().Trips.Count
+            return true;
+        }
+        
         public override async Task<bool> MoveNext()
         {
             return true;

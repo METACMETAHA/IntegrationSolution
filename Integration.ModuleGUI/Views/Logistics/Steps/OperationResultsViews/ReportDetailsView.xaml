@@ -1,31 +1,95 @@
 ﻿<UserControl x:Class="Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews.ReportDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:common="clr-namespace:IntegrationSolution.Common.Helpers;assembly=IntegrationSolution.Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
-    <StackPanel Margin="10">
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             x:Name="UsCtrl">
 
-        <Border Padding="0 5">
-            <Grid>
-                <TextBox Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged, 
-                 RelativeSource={RelativeSource TemplatedParent}}"/>
-                <!--<TextBlock
+    <Grid>
 
-                Text="&#xf002;" FontSize="14" Margin="0 0" 
+        <dsx:DsxDataGrid x:Name="dataGrid1"
+                                         Grid.Row="1"  
+                                         ItemsSource="{Binding ModuleData.Vehicles}"
+                                         Margin="5"
+                                         AllowCheckAnyTime="True"
+                                         SortField="StateNumber" 
+                                         HorizontalGridLinesIsVisible="True"
+                                         HorizontalScrollbarVisibility="Auto"
+                                         VerticalScrollbarVisibility="Auto"
+                                         VerticalGridLinesIsVisible="True"
+                                         CellAdornerIsVisible="True"
+                                         CellEditingIsEnabled="False"
+                                         HeaderVisibility="Visible"
+                                         FilterVisibility="Auto"
+                                         FooterVisibility="Auto"
+                                         ItemFixHeight="20"
+                                         FilterHeight="40" MaxHeight="330"
+                                         IsVirtualizing="True">
 
-				VerticalAlignment="Center"
+            <dsx:DsxDataGrid.Columns>
+               
+                <dsx:DsxColumn FieldName="StateNumber" 
+                                               DisplayMemberBinding="{Binding Path=StateNumber}"
+                                               Header="Гос.номер" Width="95"
+                                               IsSizable="False" IsSortable="True"
+                                               ViewType="Text" FilterType="TextBox" 
+                                               FooterType="None" EditType="None"
+                                               FilterCriteria="Contains"
+                                               CellFontWeight="DemiBold"
+                                               CellForeground="DarkBlue"
+                                               CellHAlign="Center"/>
 
-				HorizontalAlignment="Right"/>-->
-            </Grid>
-        </Border>
+                <dsx:DsxColumn FieldName="UnitModel" 
+                                               DisplayMemberBinding="{Binding Path=UnitModel}"
+                                               Header="Модель" Width="180" 
+                                               IsSizable="True" ViewType="Text" 
+                                               FilterType="TextBox"  EditType="None" 
+                                               CellHAlign="Left"/>
 
-        <common:FilteredListView ItemsSource="{Binding SAPs}" FilterPredicate="{Binding StateNumberVehiclesFilter}"/>
+                <dsx:DsxColumn FieldName="Type" 
+                                               DisplayMemberBinding="{Binding Path=Type}"
+                                               Header="Тип" Width="180" 
+                                               IsSizable="True" ViewType="Text" 
+                                               FilterType="TextBox" EditType="None" 
+                                               CellHAlign="Left"/>
 
-        <TextBlock Text="Next"/>
-        <TextBlock Text="{Binding Test}"/>
-        <ListBox ItemsSource="{Binding SAPs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <dsx:DsxColumn FieldName="Department" 
+                                               DisplayMemberBinding="{Binding Path=Department}"
+                                               Header="Службы/отделы" Width="180"
+                                               IsSizable="True" IsSortable="True"
+                                               ViewType="Text" FilterType="TextBox" 
+                                               EditType="None"
+                                               CellHAlign="Left"/>
 
-    </StackPanel>
+                <dsx:DsxColumn FieldName="StructureName" 
+                                               DisplayMemberBinding="{Binding Path=StructureName}"
+                                               Header="Структурные подразделения" Width="105" 
+                                               IsSizable="True" ViewType="Text" 
+                                               FilterType="TextBox" EditType="TextBox" 
+                                               CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="Trips.Count" 
+                                       DisplayMemberBinding="{Binding Trips.Count}"
+                                       Header="К-во поездок" Width="70" 
+                                       IsSizable="True" ViewType="Integer"
+                                       FilterType="TextBox"  EditType="TextBox"  
+                                       FilterCriteria="GreaterOrEqual"
+                                       CellHAlign="Left"/>
+                <dsx:DsxColumn FieldName="Department"
+DisplayMemberBinding="{Binding Path=Department}"
+                     Header="Department" Width="120" 
+                     ViewType="Text" FilterType="ComboBox" 
+
+                     FooterType="None" EditType="ComboBox"
+
+                     CellHAlign="Left">
+                    
+                </dsx:DsxColumn>
+            </dsx:DsxDataGrid.Columns>
+        </dsx:DsxDataGrid>
+
+    </Grid>
+    
 </UserControl>

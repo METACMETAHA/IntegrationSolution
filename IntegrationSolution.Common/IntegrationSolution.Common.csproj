@@ -99,7 +99,6 @@
     <Compile Include="Events\WialonConnectionEvent.cs" />
     <Compile Include="Helpers\ConfigureContainerHelper.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
-    <Compile Include="Helpers\FilteredList\FilteredListView.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Implementations\AppConfiguration.cs" />
     <Compile Include="Implementations\PropertyChangedBase.cs" />
@@ -119,12 +118,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Helpers\FilteredList\FilteredListRD.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

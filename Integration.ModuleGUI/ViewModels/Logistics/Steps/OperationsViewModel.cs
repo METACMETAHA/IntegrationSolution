@@ -34,7 +34,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             this.Title = "Операции";
             this.CanGoBack = true;
-            this.CanGoNext = true;
+            this.CanGoNext = true; // set false
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
 
@@ -134,7 +134,7 @@ namespace Integration.ModuleGUI.ViewModels
                 return;
             }
             else
-                ModuleData.VehiclesNavigate = wialonCars;
+                ModuleData.VehiclesNavigate = new ObservableCollection<CarWialon>(wialonCars);
 
 
             var datesFromToContext = await _dialogManager.ShowDialogAsync<DatesFromToContext>(DialogNamesEnum.DatesFromTo);
@@ -291,7 +291,7 @@ namespace Integration.ModuleGUI.ViewModels
                         }
                     }
 
-                    ModuleData.Vehicles = cars;
+                    ModuleData.Vehicles = new ObservableCollection<IVehicleSAP>(cars);
                 }
                 catch (Exception ex)
                 {

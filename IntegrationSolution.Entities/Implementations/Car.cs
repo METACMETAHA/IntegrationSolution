@@ -54,5 +54,10 @@ namespace IntegrationSolution.Entities.Implementations
 
             return trip;
         }
+
+        public override string ToString()
+        {
+            return this.StateNumber;
+        }
     }
 }

@@ -25,5 +25,9 @@ namespace IntegrationSolution.Entities.Implementations
             CountTrips = indicatorCountTrips;
         }
 
+        public override string ToString()
+        {
+            return this.StateNumber;
+        }
     }
 }

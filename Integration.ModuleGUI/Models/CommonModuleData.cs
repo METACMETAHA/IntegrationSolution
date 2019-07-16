@@ -54,14 +54,35 @@ namespace Integration.ModuleGUI.Models
         }
 
         #region Vehicles
-        public ICollection<IVehicleSAP> Vehicles { get; set; }
-        public ICollection<CarWialon> VehiclesNavigate { get; set; }
+        private ObservableCollection<IVehicleSAP> vehicles;
+        public ObservableCollection<IVehicleSAP> Vehicles
+        {
+            get { return vehicles; }
+            set { SetProperty(ref vehicles, value); }
+        }
+
+        private ObservableCollection<CarWialon> vehiclesNavigate;
+        public ObservableCollection<CarWialon> VehiclesNavigate
+        {
+            get { return vehiclesNavigate; }
+            set { SetProperty(ref vehiclesNavigate, value); }
+        }
 
         // Vehicles from excel which are not found in Wialon
-        public ObservableCollection<IVehicleSAP> VehiclesExcelDistinctWialon { get; set; }
+        private ObservableCollection<IVehicleSAP> vehiclesExcelDistinctWialon;
+        public ObservableCollection<IVehicleSAP> VehiclesExcelDistinctWialon
+        {
+            get { return vehiclesExcelDistinctWialon; }
+            set { SetProperty(ref vehiclesExcelDistinctWialon, value); }
+        }
 
         // Vehicles from Wialon which are not found in excel
-        public ObservableCollection<CarWialon> VehiclesWialonDistinctExcel { get; set; }
+        private ObservableCollection<CarWialon> vehiclesWialonDistinctExcel;
+        public ObservableCollection<CarWialon> VehiclesWialonDistinctExcel
+        {
+            get { return vehiclesWialonDistinctExcel; }
+            set { SetProperty(ref vehiclesWialonDistinctExcel, value); }
+        }
         #endregion
 
         #endregion Properties

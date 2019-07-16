@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
              xmlns:views="clr-namespace:Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews"
-             xmlns:common="clr-namespace:IntegrationSolution.Common.Helpers;assembly=IntegrationSolution.Common"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -14,32 +13,11 @@
 
         <Controls:MetroAnimatedSingleRowTabControl>
             <Controls:MetroTabItem Header="Сводка">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <!--<views:ReportDetailsView ScrollViewer.CanContentScroll="True"/>-->
-                    <StackPanel Margin="10">
+                <!--<ScrollViewer VerticalScrollBarVisibility="Auto">-->
 
-                        <Border Padding="0 5">
-                            <Grid>
-                                <TextBox Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged, 
-                 RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <!--<TextBlock
+                <views:ReportDetailsView Height="auto" ScrollViewer.CanContentScroll="False"/>
 
-                Text="&#xf002;" FontSize="14" Margin="0 0" 
-
-				VerticalAlignment="Center"
-
-				HorizontalAlignment="Right"/>-->
-                            </Grid>
-                        </Border>
-
-                        <common:FilteredListView ItemsSource="{Binding SAPs}" FilterPredicate="{Binding StateNumberVehiclesFilter}"/>
-
-                        <TextBlock Text="Next"/>
-                        <TextBlock Text="{Binding Test}"/>
-                        <ListBox ItemsSource="{Binding SAPs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-
-                    </StackPanel>
-                </ScrollViewer>
+                <!--</ScrollViewer>-->
             </Controls:MetroTabItem>
             
             <!--<Controls:MetroTabItem Header="Сравнение">
