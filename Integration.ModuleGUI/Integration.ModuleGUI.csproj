@@ -168,10 +168,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Downloads\DataGridCtrl\DsxGridCtrl\DsxGridCtrl.csproj">
-      <Project>{39dc30da-b60b-426b-8c81-437fe661849b}</Project>
-      <Name>DsxGridCtrl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DialogConstruction\DialogConstruction.csproj">
       <Project>{417D2DE2-22D4-4B0D-8CA2-984202507C67}</Project>
       <Name>DialogConstruction</Name>

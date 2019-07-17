@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationConstructor", "
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{FEED7E01-4086-4335-9C19-B2E0D3476E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsxGridCtrl", "..\..\Downloads\DataGridCtrl\DsxGridCtrl\DsxGridCtrl.csproj", "{39DC30DA-B60B-426B-8C81-437FE661849B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsxGridCtrl", "DsxGridCtrl\DsxGridCtrl.csproj", "{39DC30DA-B60B-426B-8C81-437FE661849B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
