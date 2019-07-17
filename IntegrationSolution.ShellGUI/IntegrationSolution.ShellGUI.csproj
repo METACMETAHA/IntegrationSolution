@@ -211,6 +211,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Downloads\DataGridCtrl\DsxGridCtrl\DsxGridCtrl.csproj">
+      <Project>{39dc30da-b60b-426b-8c81-437fe661849b}</Project>
+      <Name>DsxGridCtrl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Integration.Flyouts\Integration.Flyouts.csproj">
       <Project>{578407B1-5223-4045-A366-6AD810464327}</Project>
       <Name>Integration.Flyouts</Name>

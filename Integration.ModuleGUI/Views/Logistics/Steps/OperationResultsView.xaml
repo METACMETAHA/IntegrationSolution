@@ -10,14 +10,19 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
 
         <Controls:MetroAnimatedSingleRowTabControl>
             <Controls:MetroTabItem Header="Сводка">
-                <!--<ScrollViewer VerticalScrollBarVisibility="Auto">-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-                <views:ReportDetailsView Height="auto" ScrollViewer.CanContentScroll="False"/>
+                <views:ReportDetailsView Height="auto" ScrollViewer.CanContentScroll="True"/>
 
-                <!--</ScrollViewer>-->
+
+                </ScrollViewer>
             </Controls:MetroTabItem>
             
             <!--<Controls:MetroTabItem Header="Сравнение">
@@ -26,6 +31,36 @@
                 </ScrollViewer>
             </Controls:MetroTabItem>-->
         </Controls:MetroAnimatedSingleRowTabControl>
-        
+
+        <StackPanel Grid.Column="1" Margin="0 60 0 0">
+            <ToggleButton Width="50" Height="50"
+                          Margin="15" ToolTip="Отобразить/скрыть сетку"
+                          IsChecked="{Binding VerticalGridLinesIsVisible}"
+                          Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
+                <Rectangle Width="35"
+               Height="35"
+               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                         Visual="{DynamicResource appbar_centerline}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </ToggleButton>
+
+            <ToggleButton Width="50" Height="50"
+                          Margin="15" ToolTip="Отобразить/скрыть заголовки"
+                          IsChecked="{Binding HeaderIsVisible}"
+                          Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
+                <Rectangle Width="25"
+               Height="25"
+               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                         Visual="{DynamicResource appbar_text_serif}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </ToggleButton>
+        </StackPanel>
+
     </Grid>
 </UserControl>

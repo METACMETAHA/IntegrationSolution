@@ -19,31 +19,31 @@ namespace Integration.ModuleGUI.ViewModels
 {
     public class OperationResultsViewModel : VMLocalBase
     {
-        private IEnumerable filter;
-        public IEnumerable FilterDepartment
+        #region Variables
+        private bool _verticalGridLinesIsVisible;
+        public bool VerticalGridLinesIsVisible
         {
-            get { return filter; }
-            set { SetProperty(ref filter, value); }
+            get { return _verticalGridLinesIsVisible; }
+            set { SetProperty(ref _verticalGridLinesIsVisible, value); }
         }
+
+        private bool _headerIsVisible;
+        public bool HeaderIsVisible
+        {
+            get { return _headerIsVisible; }
+            set { SetProperty(ref _headerIsVisible, value); }
+        }
+
+        #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
-            FilterDepartment = new List<string>()
-            {
-                "ss", "dsd"
-            };
-
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
+            HeaderIsVisible = true;
         }
-
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            //FilterDepartment = new ObservableCollection<string>(ModuleData.Vehicles?.ToLookup(x => x.Department).Select(x => x.Key).ToList());
-        }
-
+        
         public override bool MoveBack()
         {
             //ModuleData.Vehicles.First().Trips.Count

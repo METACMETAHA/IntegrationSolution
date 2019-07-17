@@ -16,6 +16,8 @@ namespace IntegrationSolution.Entities.Interfaces
 
         ICollection<TripSAP> Trips { get; set; }
 
+        int? CountTrips { get; }
+
         string UnitNumber { get; set; }
         
         string Department { get; set; }

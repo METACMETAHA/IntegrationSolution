@@ -20,6 +20,8 @@ namespace IntegrationSolution.Entities.Implementations
         public TripSAP TripResulted { get => GetTripResulted(); }
         public ICollection<TripSAP> Trips { get; set; }
 
+        public int? CountTrips => Trips != null ? Trips.Count : (int?)null;
+
         public Car()
         {
             Trips = new Collection<TripSAP>();

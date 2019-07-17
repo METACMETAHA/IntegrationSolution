@@ -4,33 +4,40 @@
              xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-             x:Name="UsCtrl">
+             x:Name="us"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
 
-    <Grid>
+    <StackPanel>
 
-        <dsx:DsxDataGrid x:Name="dataGrid1"
-                                         Grid.Row="1"  
-                                         ItemsSource="{Binding ModuleData.Vehicles}"
+        <dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}" Name="sss"
                                          Margin="5"
                                          AllowCheckAnyTime="True"
-                                         SortField="StateNumber" 
+                                         SortField="StateNumber"
                                          HorizontalGridLinesIsVisible="True"
                                          HorizontalScrollbarVisibility="Auto"
                                          VerticalScrollbarVisibility="Auto"
-                                         VerticalGridLinesIsVisible="True"
+                                         VerticalGridLinesIsVisible="{Binding VerticalGridLinesIsVisible}"
                                          CellAdornerIsVisible="True"
                                          CellEditingIsEnabled="False"
-                                         HeaderVisibility="Visible"
                                          FilterVisibility="Auto"
                                          FooterVisibility="Auto"
                                          ItemFixHeight="20"
-                                         FilterHeight="40" MaxHeight="330"
+                                         FilterHeight="40" MaxHeight="460"
                                          IsVirtualizing="True">
 
+            <dsx:DsxDataGrid.Style>
+                <Style TargetType="dsx:DsxDataGrid">
+                    <Setter Property="HeaderVisibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HeaderIsVisible}" Value="False">
+                            <Setter Property="HeaderVisibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </dsx:DsxDataGrid.Style>
+
             <dsx:DsxDataGrid.Columns>
-               
-                <dsx:DsxColumn FieldName="StateNumber" 
+                <dsx:DsxColumn FieldName="StateNumber"
                                                DisplayMemberBinding="{Binding Path=StateNumber}"
                                                Header="Гос.номер" Width="95"
                                                IsSizable="False" IsSortable="True"
@@ -65,31 +72,22 @@
 
                 <dsx:DsxColumn FieldName="StructureName" 
                                                DisplayMemberBinding="{Binding Path=StructureName}"
-                                               Header="Структурные подразделения" Width="105" 
+                                               Header="Структурные подразделения" Width="115" 
                                                IsSizable="True" ViewType="Text" 
                                                FilterType="TextBox" EditType="TextBox" 
                                                CellHAlign="Left"/>
 
-                <dsx:DsxColumn FieldName="Trips.Count" 
-                                       DisplayMemberBinding="{Binding Trips.Count}"
-                                       Header="К-во поездок" Width="70" 
+                <dsx:DsxColumn FieldName="CountTrips" 
+                                       DisplayMemberBinding="{Binding Path=CountTrips}"
+                                       Header="К-во поездок" Width="100" 
                                        IsSizable="True" ViewType="Integer"
                                        FilterType="TextBox"  EditType="TextBox"  
                                        FilterCriteria="GreaterOrEqual"
                                        CellHAlign="Left"/>
-                <dsx:DsxColumn FieldName="Department"
-DisplayMemberBinding="{Binding Path=Department}"
-                     Header="Department" Width="120" 
-                     ViewType="Text" FilterType="ComboBox" 
-
-                     FooterType="None" EditType="ComboBox"
-
-                     CellHAlign="Left">
-                    
-                </dsx:DsxColumn>
             </dsx:DsxDataGrid.Columns>
+
         </dsx:DsxDataGrid>
 
-    </Grid>
+    </StackPanel>
     
 </UserControl>

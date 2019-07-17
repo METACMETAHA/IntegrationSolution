@@ -34,7 +34,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             this.Title = "Операции";
             this.CanGoBack = true;
-            this.CanGoNext = true; // set false
+            this.CanGoNext = false; 
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
 

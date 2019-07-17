@@ -47,9 +47,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fonts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="ResourceDictionaries\ButtonsRD.xaml">
       <Generator>MSBuild:Compile</Generator>
