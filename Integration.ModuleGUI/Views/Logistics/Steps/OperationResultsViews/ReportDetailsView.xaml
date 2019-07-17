@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             x:Name="us"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
 
     <StackPanel>
 
-        <dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}" Name="sss"
+        <dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
                                          Margin="5"
                                          AllowCheckAnyTime="True"
                                          SortField="StateNumber"
@@ -19,8 +18,8 @@
                                          VerticalGridLinesIsVisible="{Binding VerticalGridLinesIsVisible}"
                                          CellAdornerIsVisible="True"
                                          CellEditingIsEnabled="False"
-                                         FilterVisibility="Auto"
                                          FooterVisibility="Auto"
+                                         FilterVisibility="Auto"
                                          ItemFixHeight="20"
                                          FilterHeight="40" MaxHeight="460"
                                          IsVirtualizing="True">
@@ -48,12 +47,12 @@
                                                CellForeground="DarkBlue"
                                                CellHAlign="Center"/>
 
-                <dsx:DsxColumn FieldName="UnitModel" 
-                                               DisplayMemberBinding="{Binding Path=UnitModel}"
-                                               Header="Модель" Width="180" 
-                                               IsSizable="True" ViewType="Text" 
-                                               FilterType="TextBox"  EditType="None" 
-                                               CellHAlign="Left"/>
+                <dsx:DsxColumn FieldName="UnitModel"
+                               DisplayMemberBinding="{Binding Path=UnitModel}"
+                               Header="Модель" Width="180" 
+                               IsSizable="True" ViewType="Text" 
+                               FilterType="TextBox"  EditType="None" 
+                               CellHAlign="Left"/>
 
                 <dsx:DsxColumn FieldName="Type" 
                                                DisplayMemberBinding="{Binding Path=Type}"
@@ -84,6 +83,14 @@
                                        FilterType="TextBox"  EditType="TextBox"  
                                        FilterCriteria="GreaterOrEqual"
                                        CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="TripResulted" 
+                                       DisplayMemberBinding="{Binding TripResulted.TotalMileage}"
+                                       Header="Всего км." Width="70" 
+                                       IsSizable="True" ViewType="Text"
+                                       FilterType="None"  EditType="TextBox"
+                                       CellHAlign="Left"/>
+
             </dsx:DsxDataGrid.Columns>
 
         </dsx:DsxDataGrid>

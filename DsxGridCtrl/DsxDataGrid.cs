@@ -17,28 +17,25 @@ using System.Windows.Threading;
 using System.Linq;
 using Microsoft.Windows.Themes;
 
-//  Christoph Brändle (dialogik.ch)
-//  Article published: 
-
 namespace DsxGridCtrl
 {
     #region TemplateParts
 
-    [TemplatePart(Name = cPART_ListViewLeft,        Type = typeof(ListView))]
-    [TemplatePart(Name = cPART_ListViewCenter,      Type = typeof(ListView))]
-    [TemplatePart(Name = cPART_ListViewRight,       Type = typeof(ListView))]
+    [TemplatePart(Name = cPART_ListViewLeft, Type = typeof(ListView))]
+    [TemplatePart(Name = cPART_ListViewCenter, Type = typeof(ListView))]
+    [TemplatePart(Name = cPART_ListViewRight, Type = typeof(ListView))]
 
-    [TemplatePart(Name = cPART_GridViewLeft,        Type = typeof(DsxGridView))]
-    [TemplatePart(Name = cPART_GridViewCenter,      Type = typeof(DsxGridView))]
-    [TemplatePart(Name = cPART_GridViewRight,       Type = typeof(DsxGridView))]
+    [TemplatePart(Name = cPART_GridViewLeft, Type = typeof(DsxGridView))]
+    [TemplatePart(Name = cPART_GridViewCenter, Type = typeof(DsxGridView))]
+    [TemplatePart(Name = cPART_GridViewRight, Type = typeof(DsxGridView))]
 
     #endregion
 
     #region StyleParts
-    [StyleTypedProperty(Property = "HeaderStyle",   StyleTargetType = typeof(DsxHeaderStyle ))]
-    [StyleTypedProperty(Property = "FilterStyle",   StyleTargetType = typeof(DsxFilterStyle ))]
-    [StyleTypedProperty(Property = "FooterStyle",   StyleTargetType = typeof(DsxFooterStyle ))]
-    [StyleTypedProperty(Property = "RowCellStyle",  StyleTargetType = typeof(DsxRowCellStyle))]
+    [StyleTypedProperty(Property = "HeaderStyle", StyleTargetType = typeof(DsxHeaderStyle))]
+    [StyleTypedProperty(Property = "FilterStyle", StyleTargetType = typeof(DsxFilterStyle))]
+    [StyleTypedProperty(Property = "FooterStyle", StyleTargetType = typeof(DsxFooterStyle))]
+    [StyleTypedProperty(Property = "RowCellStyle", StyleTargetType = typeof(DsxRowCellStyle))]
 
     #endregion
 
@@ -46,16 +43,16 @@ namespace DsxGridCtrl
     {
         #region Consts
 
-        internal const string   cPART_ListViewLeft      = "PART_ListViewLeft";
-        internal const string   cPART_ListViewCenter    = "PART_ListViewCenter";
-        internal const string   cPART_ListViewRight     = "PART_ListViewRight";
+        internal const string cPART_ListViewLeft = "PART_ListViewLeft";
+        internal const string cPART_ListViewCenter = "PART_ListViewCenter";
+        internal const string cPART_ListViewRight = "PART_ListViewRight";
 
-        internal const string   cPART_GridViewLeft      = "PART_GridViewLeft";
-        internal const string   cPART_GridViewCenter    = "PART_GridViewCenter";
-        internal const string   cPART_GridViewRight     = "PART_GridViewRight";
+        internal const string cPART_GridViewLeft = "PART_GridViewLeft";
+        internal const string cPART_GridViewCenter = "PART_GridViewCenter";
+        internal const string cPART_GridViewRight = "PART_GridViewRight";
 
-        internal const string   cPART_FilterCheck       = "PART_FilterCheck";
-        internal const string   cPART_FilterText        = "PART_FilterText";
+        internal const string cPART_FilterCheck = "PART_FilterCheck";
+        internal const string cPART_FilterText = "PART_FilterText";
 
         #endregion
 
@@ -68,60 +65,60 @@ namespace DsxGridCtrl
 
         public DsxDataGrid()
         {
-            this.Columns            = new GridViewColumnCollection();
-            this.InnerColumns       = new List<DsxColumn>();
-            this.FilterColumns      = new List<DsxColumn>();
-            this.FooterColumns      = new List<DsxColumn>();
-            this.HeightTracker      = new DsxHeightTracker(this);
+            this.Columns = new GridViewColumnCollection();
+            this.InnerColumns = new List<DsxColumn>();
+            this.FilterColumns = new List<DsxColumn>();
+            this.FooterColumns = new List<DsxColumn>();
+            this.HeightTracker = new DsxHeightTracker(this);
 
-            this.Loaded             += OnLoaded;
-            this.SelectionChanged   += OnSelectionChanged;
-            this.SizeChanged        += OnSizeChanged;
+            this.Loaded += OnLoaded;
+            this.SelectionChanged += OnSelectionChanged;
+            this.SizeChanged += OnSizeChanged;
 
             this.IsSynchronizedWithCurrentItem = true;
         }
-      
+
         #endregion
 
         #region members / properties
 
-        internal ListView               PART_ListViewLeft       { get; set; }
-        internal ListView               PART_ListViewCenter     { get; set; }
-        internal ListView               PART_ListViewRight      { get; set; }
+        internal ListView PART_ListViewLeft { get; set; }
+        internal ListView PART_ListViewCenter { get; set; }
+        internal ListView PART_ListViewRight { get; set; }
 
-        internal DsxGridView            PART_GridViewLeft       { get; set; }
-        internal DsxGridView            PART_GridViewCenter     { get; set; }
-        internal DsxGridView            PART_GridViewRight      { get; set; }
+        internal DsxGridView PART_GridViewLeft { get; set; }
+        internal DsxGridView PART_GridViewCenter { get; set; }
+        internal DsxGridView PART_GridViewRight { get; set; }
 
-        private ScrollViewer            ScrollViewerLeft        { get; set; }
-        private ScrollViewer            ScrollViewerRight       { get; set; }
-        private ScrollViewer            ScrollViewerCenter      { get; set; }
+        private ScrollViewer ScrollViewerLeft { get; set; }
+        private ScrollViewer ScrollViewerRight { get; set; }
+        private ScrollViewer ScrollViewerCenter { get; set; }
 
-        private List<DsxColumn>         InnerColumns            { get; set; }
-        private List<DsxColumn>         FilterColumns           { get; set; }
-        private List<DsxColumn>         FooterColumns           { get; set; }
+        private List<DsxColumn> InnerColumns { get; set; }
+        private List<DsxColumn> FilterColumns { get; set; }
+        private List<DsxColumn> FooterColumns { get; set; }
 
-        private Timer                   FilterWaitTimer         { get; set; }
+        private Timer FilterWaitTimer { get; set; }
 
-        private GridViewColumnHeader    SortHeader              { get; set; }
-        private SortAdorner             SortAdorner             { get; set; }
-        private DsxColumn               SortColumn              { get; set; }
+        private GridViewColumnHeader SortHeader { get; set; }
+        private SortAdorner SortAdorner { get; set; }
+        private DsxColumn SortColumn { get; set; }
 
-        internal ICollectionView        DisplaySource           { get; set; }
+        internal ICollectionView DisplaySource { get; set; }
 
-        private DsxColumn               LastFocusColumn         { get; set; }
-        private DsxCellBase             LastFocusCell           { get; set; }
-        private DsxCellBase             LastEditCell            { get; set; }
-        private object                  LastFocusRow            { get; set; }
-        private Adorner                 LastAdorner             { get; set; }
+        private DsxColumn LastFocusColumn { get; set; }
+        private DsxCellBase LastFocusCell { get; set; }
+        private DsxCellBase LastEditCell { get; set; }
+        private object LastFocusRow { get; set; }
+        private Adorner LastAdorner { get; set; }
 
-        internal bool                   IsGridAreaLeft          { get; set; }
-        internal bool                   IsGridAreaCenter        { get; set; }
-        internal bool                   IsGridAreaRight         { get; set; }
+        internal bool IsGridAreaLeft { get; set; }
+        internal bool IsGridAreaCenter { get; set; }
+        internal bool IsGridAreaRight { get; set; }
 
-        internal int                    AreaLeftColCount        { get; set; }
-        internal int                    AreaCenterColCount      { get; set; }
-        internal int                    AreaRightColCount       { get; set; }
+        internal int AreaLeftColCount { get; set; }
+        internal int AreaCenterColCount { get; set; }
+        internal int AreaRightColCount { get; set; }
 
         #endregion
 
@@ -132,17 +129,17 @@ namespace DsxGridCtrl
         {
             base.OnApplyTemplate();
 
-            this.PART_ListViewLeft      = GetTemplateChild(cPART_ListViewLeft)      as ListView;
-            this.PART_ListViewCenter    = GetTemplateChild(cPART_ListViewCenter)    as ListView;
-            this.PART_ListViewRight     = GetTemplateChild(cPART_ListViewRight)     as ListView;
+            this.PART_ListViewLeft = GetTemplateChild(cPART_ListViewLeft) as ListView;
+            this.PART_ListViewCenter = GetTemplateChild(cPART_ListViewCenter) as ListView;
+            this.PART_ListViewRight = GetTemplateChild(cPART_ListViewRight) as ListView;
 
-            this.PART_GridViewLeft      = GetTemplateChild(cPART_GridViewLeft)      as DsxGridView;
-            this.PART_GridViewCenter    = GetTemplateChild(cPART_GridViewCenter)    as DsxGridView;
-            this.PART_GridViewRight     = GetTemplateChild(cPART_GridViewRight)     as DsxGridView;
+            this.PART_GridViewLeft = GetTemplateChild(cPART_GridViewLeft) as DsxGridView;
+            this.PART_GridViewCenter = GetTemplateChild(cPART_GridViewCenter) as DsxGridView;
+            this.PART_GridViewRight = GetTemplateChild(cPART_GridViewRight) as DsxGridView;
 
-            this.PART_ListViewLeft      .AlternationCount = this.AlternatingRowBrushes.Count;
-            this.PART_ListViewCenter    .AlternationCount = this.AlternatingRowBrushes.Count;
-            this.PART_ListViewRight     .AlternationCount = this.AlternatingRowBrushes.Count;
+            this.PART_ListViewLeft.AlternationCount = this.AlternatingRowBrushes.Count;
+            this.PART_ListViewCenter.AlternationCount = this.AlternatingRowBrushes.Count;
+            this.PART_ListViewRight.AlternationCount = this.AlternatingRowBrushes.Count;
 
             CreateColumnLayout();
         }
@@ -152,8 +149,8 @@ namespace DsxGridCtrl
 
         private void CreateColumnLayout()
         {
-            DsxColumn   _gridViewColumn;
-            int         _gridColCount = 0;
+            DsxColumn _gridViewColumn;
+            int _gridColCount = 0;
 
             if (!this.IsInitialized)
             {
@@ -164,7 +161,7 @@ namespace DsxGridCtrl
             {
                 if (this.IsGridAreaLeft)
                 {
-                    this.PART_ListViewLeft .RemoveHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(OnGridViewColumnHeaderClicked));
+                    this.PART_ListViewLeft.RemoveHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(OnGridViewColumnHeaderClicked));
                 }
                 if (this.IsGridAreaCenter)
                 {
@@ -172,23 +169,23 @@ namespace DsxGridCtrl
                 }
                 if (this.IsGridAreaRight)
                 {
-                    this.PART_ListViewRight .RemoveHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(OnGridViewColumnHeaderClicked));
+                    this.PART_ListViewRight.RemoveHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(OnGridViewColumnHeaderClicked));
                 }
 
-                this.PART_GridViewLeft  .Columns.Clear();
+                this.PART_GridViewLeft.Columns.Clear();
                 this.PART_GridViewCenter.Columns.Clear();
-                this.PART_GridViewRight .Columns.Clear();
+                this.PART_GridViewRight.Columns.Clear();
 
-                this.InnerColumns .Clear();
+                this.InnerColumns.Clear();
                 this.FilterColumns.Clear();
                 this.FooterColumns.Clear();
             }
 
             //  map the columns (we need DsxColumns)
-            foreach(GridViewColumn _column in this.Columns)
+            foreach (GridViewColumn _column in this.Columns)
             {
                 _gridViewColumn = new DsxColumn(_column, this);
-                
+
                 //  filtering
                 if (_gridViewColumn.IsFilterActive)
                 {
@@ -205,22 +202,22 @@ namespace DsxGridCtrl
                 //  columns
                 DsxGridView _gridView = GetGridView(_gridViewColumn.ColumnArea);
 
-                            _gridViewColumn.ColAreaIndex = _gridView.Columns.Count;
-                            _gridViewColumn.ColIndex     = _gridColCount;
-                            _gridColCount++;
+                _gridViewColumn.ColAreaIndex = _gridView.Columns.Count;
+                _gridViewColumn.ColIndex = _gridColCount;
+                _gridColCount++;
 
-                            _gridView.Columns.Add(_gridViewColumn);     
+                _gridView.Columns.Add(_gridViewColumn);
 
                 this.InnerColumns.Add(_gridViewColumn);
             }
 
-            this.AreaLeftColCount   = this.PART_GridViewLeft  .Columns.Count;
+            this.AreaLeftColCount = this.PART_GridViewLeft.Columns.Count;
             this.AreaCenterColCount = this.PART_GridViewCenter.Columns.Count;
-            this.AreaRightColCount  = this.PART_GridViewRight .Columns.Count;
+            this.AreaRightColCount = this.PART_GridViewRight.Columns.Count;
 
-            this.IsGridAreaLeft     = this.AreaLeftColCount   > 0;
-            this.IsGridAreaCenter   = this.AreaCenterColCount > 0;
-            this.IsGridAreaRight    = this.AreaRightColCount  > 0;
+            this.IsGridAreaLeft = this.AreaLeftColCount > 0;
+            this.IsGridAreaCenter = this.AreaCenterColCount > 0;
+            this.IsGridAreaRight = this.AreaRightColCount > 0;
 
             if (this.IsGridAreaLeft)
             {
@@ -228,9 +225,9 @@ namespace DsxGridCtrl
             }
             else
             {
-                this.AreaLeftWidth          = new GridLength(0.0);
-                this.SplitterLeftIsSizing   = false;
-                this.SplitterLeftWidth      = new GridLength(0.0);
+                this.AreaLeftWidth = new GridLength(0.0);
+                this.SplitterLeftIsSizing = false;
+                this.SplitterLeftWidth = new GridLength(0.0);
             }
 
             if (this.IsGridAreaCenter)
@@ -239,17 +236,17 @@ namespace DsxGridCtrl
             }
             else
             {
-                this.AreaCenterWidth        = new GridLength(0.0);
-                this.SplitterRightIsSizing  = false;
-                this.SplitterRightWidth     = new GridLength(0.0);
-                this.AreaRightWidth         = new GridLength(this.AreaRightWidth.Value, GridUnitType.Star);
+                this.AreaCenterWidth = new GridLength(0.0);
+                this.SplitterRightIsSizing = false;
+                this.SplitterRightWidth = new GridLength(0.0);
+                this.AreaRightWidth = new GridLength(this.AreaRightWidth.Value, GridUnitType.Star);
             }
 
             if (this.IsGridAreaRight)
             {
                 this.PART_ListViewRight.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(OnGridViewColumnHeaderClicked));
             }
-            else if (this.Columns.Count>0)
+            else if (this.Columns.Count > 0)
             {
                 throw new NotSupportedException("at least one column must be in the right area");
             }
@@ -275,37 +272,45 @@ namespace DsxGridCtrl
 
         void OnLoaded(object sender, RoutedEventArgs e)
         {
+            DsxDataGrid obj = sender as DsxDataGrid;
+            if (obj == null || obj.Items.Count == 0)
+                return;
             //  usually don't check for TemplatePart
-            this.ScrollViewerLeft       = (VisualTreeHelper.GetChild(this.PART_ListViewLeft,   0) as Decorator).Child as ScrollViewer;
-            this.ScrollViewerCenter     = (VisualTreeHelper.GetChild(this.PART_ListViewCenter, 0) as Decorator).Child as ScrollViewer;
-            this.ScrollViewerRight      = (VisualTreeHelper.GetChild(this.PART_ListViewRight,  0) as Decorator).Child as ScrollViewer;
-
-            DsxFilterClear  _clearBtn = ElementHelper.FindVisualChild<DsxFilterClear>(this.ScrollViewerRight, "PART_dsxFilterBtn");
-            
-            if (_clearBtn != null)
+            try
             {
-                _clearBtn.Click += delegate { ResetFilters(); };
+                this.ScrollViewerLeft = (VisualTreeHelper.GetChild(this.PART_ListViewLeft, 0) as Decorator).Child as ScrollViewer;
+                this.ScrollViewerCenter = (VisualTreeHelper.GetChild(this.PART_ListViewCenter, 0) as Decorator).Child as ScrollViewer;
+                this.ScrollViewerRight = (VisualTreeHelper.GetChild(this.PART_ListViewRight, 0) as Decorator).Child as ScrollViewer;
+
+                DsxFilterClear _clearBtn = ElementHelper.FindVisualChild<DsxFilterClear>(this.ScrollViewerRight, "PART_dsxFilterBtn");
+
+                if (_clearBtn != null)
+                {
+                    _clearBtn.Click += delegate { ResetFilters(); };
+                }
+
+
+                this.ScrollViewerLeft.SetValue(ScrollSynchronizer.VScrollGroupProperty, "listFull");
+                this.ScrollViewerCenter.SetValue(ScrollSynchronizer.VScrollGroupProperty, "listFull");
+                this.ScrollViewerRight.SetValue(ScrollSynchronizer.VScrollGroupProperty, "listFull");
+
+                this.PART_ListViewLeft.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
+                this.PART_ListViewCenter.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
+                this.PART_ListViewRight.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
+
+                this.PART_ListViewLeft.PreviewGotKeyboardFocus += OnPreviewGotKeyboardFocus;
+                this.PART_ListViewCenter.PreviewGotKeyboardFocus += OnPreviewGotKeyboardFocus;
+                this.PART_ListViewRight.PreviewGotKeyboardFocus += OnPreviewGotKeyboardFocus;
+
+                this.PART_ListViewLeft.PreviewKeyDown += OnPreviewKeyDown;
+                this.PART_ListViewCenter.PreviewKeyDown += OnPreviewKeyDown;
+                this.PART_ListViewRight.PreviewKeyDown += OnPreviewKeyDown;
+
+                //  force calculate initial display
+                this.HasData = false;
             }
-
-
-            this.ScrollViewerLeft  .SetValue(ScrollSynchronizer.VScrollGroupProperty, "listFull");
-            this.ScrollViewerCenter.SetValue(ScrollSynchronizer.VScrollGroupProperty, "listFull");
-            this.ScrollViewerRight .SetValue(ScrollSynchronizer.VScrollGroupProperty, "listFull");
-
-            this.PART_ListViewLeft  .PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
-            this.PART_ListViewCenter.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
-            this.PART_ListViewRight .PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
-
-            this.PART_ListViewLeft  .PreviewGotKeyboardFocus    += OnPreviewGotKeyboardFocus;
-            this.PART_ListViewCenter.PreviewGotKeyboardFocus    += OnPreviewGotKeyboardFocus;
-            this.PART_ListViewRight .PreviewGotKeyboardFocus    += OnPreviewGotKeyboardFocus;
-
-            this.PART_ListViewLeft  .PreviewKeyDown             += OnPreviewKeyDown;
-            this.PART_ListViewCenter.PreviewKeyDown             += OnPreviewKeyDown;
-            this.PART_ListViewRight .PreviewKeyDown             += OnPreviewKeyDown;
-
-            //  force calculate initial display
-            this.HasData = false;
+            catch (Exception)
+            { }
         }
         #endregion
 
@@ -333,7 +338,7 @@ namespace DsxGridCtrl
 
         private bool CheckColumnFilters(object listItem)
         {
-            foreach(DsxColumn _column in this.FilterColumns)
+            foreach (DsxColumn _column in this.FilterColumns)
             {
                 if (!_column.FilterCheckValue(listItem))
                 {
@@ -364,7 +369,7 @@ namespace DsxGridCtrl
                     return;
                 }
 
-                DsxColumn    _gridViewColumn = _gridViewHeader.Column as DsxColumn;
+                DsxColumn _gridViewColumn = _gridViewHeader.Column as DsxColumn;
 
                 SetSortColumn(_gridViewColumn, _gridViewHeader);
             }
@@ -380,7 +385,7 @@ namespace DsxGridCtrl
                 return;
             }
 
-            object  _rowItem = e.AddedItems[0];
+            object _rowItem = e.AddedItems[0];
 
             if (this.LastFocusRow != _rowItem && this.LastFocusColumn != null)
             {
@@ -411,13 +416,13 @@ namespace DsxGridCtrl
                 if (this.AllowCheckAnyTime)
                 {
                     DsxCellBase _parentCell = _hitElement as DsxCellBase;
-                    
+
                     if (_parentCell == null)
                     {
                         _parentCell = ElementHelper.FindLogicalParent<DsxCellBase>(_hitElement);
                     }
 
-                    if (_parentCell != null && _parentCell.Column != null && _parentCell.Column.ViewType==EViewType.CheckBox)
+                    if (_parentCell != null && _parentCell.Column != null && _parentCell.Column.ViewType == EViewType.CheckBox)
                     {
                         _parentCell.Column.ToggleCheck(_parentCell);
                         e.Handled = true;
@@ -430,10 +435,10 @@ namespace DsxGridCtrl
             {
                 //  try to find which cell we did hit
                 //  because all cells should be top aligned, try to find dirty
-                Point            _point      = e.GetPosition((UIElement)sender);
-                                 _point.Y    = 10;
-                HitTestResult    _hitResult  = VisualTreeHelper.HitTest(_hitElement, _point);
-               
+                Point _point = e.GetPosition((UIElement)sender);
+                _point.Y = 10;
+                HitTestResult _hitResult = VisualTreeHelper.HitTest(_hitElement, _point);
+
                 if (_hitResult != null && _hitResult.VisualHit is FrameworkElement)
                 {
                     _hitElement = (FrameworkElement)_hitResult.VisualHit;
@@ -450,9 +455,9 @@ namespace DsxGridCtrl
             }
 
             FrameworkElement _element = UpdateAdorner(_hitElement as FrameworkElement);
-            
-            SetCellFocus (_element);
-        }   
+
+            SetCellFocus(_element);
+        }
         #endregion
 
         #region EventConsumer - OnPreviewGotKeyboardFocus
@@ -496,8 +501,8 @@ namespace DsxGridCtrl
             {
                 if (e.Key == Key.Space && this.AllowCheckAnyTime)
                 {
-                    if (    this.LastFocusCell != null 
-                         && this.LastFocusColumn != null 
+                    if (this.LastFocusCell != null
+                         && this.LastFocusColumn != null
                          && this.LastFocusColumn.ViewType == EViewType.CheckBox)
                     {
                         e.Handled = true;
@@ -508,8 +513,8 @@ namespace DsxGridCtrl
 
                 if (e.Key == Key.F2 && this.CellEditingIsEnabled)
                 {
-                    if (    this.LastFocusCell != null 
-                         && this.LastFocusColumn != null 
+                    if (this.LastFocusCell != null
+                         && this.LastFocusColumn != null
                          && this.LastFocusColumn.IsEditable)
                     {
                         e.Handled = true;
@@ -533,16 +538,16 @@ namespace DsxGridCtrl
                 {
                     e.Handled = true;
                 }
-                
-                if (    e.Key == Key.Enter  ||  e.Key == Key.Escape
-                    ||  e.Key == Key.Up     ||  e.Key == Key.Down
-                    ||  e.Key == Key.PageUp ||  e.Key == Key.PageDown)
+
+                if (e.Key == Key.Enter || e.Key == Key.Escape
+                    || e.Key == Key.Up || e.Key == Key.Down
+                    || e.Key == Key.PageUp || e.Key == Key.PageDown)
                 {
-                    this.LastEditCell.Dispatcher.BeginInvoke( new Action(delegate 
-                                                            {   
-                                                                this.LastEditCell.Focus();
-                                                                RemoveAdorner(this.LastEditCell, this.LastAdorner);
-                                                            }), 
+                    this.LastEditCell.Dispatcher.BeginInvoke(new Action(delegate
+                                                           {
+                                                               this.LastEditCell.Focus();
+                                                               RemoveAdorner(this.LastEditCell, this.LastAdorner);
+                                                           }),
                                                             DispatcherPriority.Input);
                 }
                 return;
@@ -563,7 +568,7 @@ namespace DsxGridCtrl
                     {
                         return;
                     }
-                    else if (this.LastFocusColumn.ColumnArea == EArea.Right &&  !this.IsGridAreaCenter && !this.IsGridAreaLeft)
+                    else if (this.LastFocusColumn.ColumnArea == EArea.Right && !this.IsGridAreaCenter && !this.IsGridAreaLeft)
                     {
                         return;
                     }
@@ -572,19 +577,19 @@ namespace DsxGridCtrl
                 GridView _curArea = GetGridView(this.LastFocusColumn.ColumnArea);
 
                 //  Ctrl-Left
-                if ( (Keyboard.Modifiers & ModifierKeys.Control) > 0 )
+                if ((Keyboard.Modifiers & ModifierKeys.Control) > 0)
                 {
                     if (this.LastFocusColumn.ColumnArea == EArea.Right)
                     {
                         if (this.IsGridAreaCenter)
                         {
                             UpdateAdorner(null);
-                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Center).Columns[this.AreaCenterColCount-1];
+                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Center).Columns[this.AreaCenterColCount - 1];
                         }
                         else if (this.IsGridAreaLeft)
                         {
                             UpdateAdorner(null);
-                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount-1];
+                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount - 1];
                         }
                     }
                     else if (this.LastFocusColumn.ColumnArea == EArea.Center)
@@ -592,7 +597,7 @@ namespace DsxGridCtrl
                         if (this.IsGridAreaLeft)
                         {
                             UpdateAdorner(null);
-                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount-1];
+                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount - 1];
                         }
                     }
                     else
@@ -605,19 +610,19 @@ namespace DsxGridCtrl
                     if (this.LastFocusColumn.ColAreaIndex > 0)
                     {
                         UpdateAdorner(null);
-                        this.LastFocusColumn = (DsxColumn)_curArea.Columns[this.LastFocusColumn.ColAreaIndex-1];
+                        this.LastFocusColumn = (DsxColumn)_curArea.Columns[this.LastFocusColumn.ColAreaIndex - 1];
                     }
                     else if (this.LastFocusColumn.ColumnArea == EArea.Right)
                     {
                         if (this.IsGridAreaCenter)
                         {
                             UpdateAdorner(null);
-                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Center).Columns[this.AreaCenterColCount-1];
+                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Center).Columns[this.AreaCenterColCount - 1];
                         }
                         else if (this.IsGridAreaLeft)
                         {
                             UpdateAdorner(null);
-                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount-1];
+                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount - 1];
                         }
                     }
                     else if (this.LastFocusColumn.ColumnArea == EArea.Center)
@@ -625,7 +630,7 @@ namespace DsxGridCtrl
                         if (this.IsGridAreaLeft)
                         {
                             UpdateAdorner(null);
-                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount-1];
+                            this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[this.AreaLeftColCount - 1];
                         }
                     }
                     else
@@ -639,14 +644,14 @@ namespace DsxGridCtrl
             {
                 e.Handled = true;
 
-                if (this.LastFocusColumn.ColumnArea == EArea.Right && this.LastFocusColumn.ColAreaIndex == (this.AreaRightColCount-1))
+                if (this.LastFocusColumn.ColumnArea == EArea.Right && this.LastFocusColumn.ColAreaIndex == (this.AreaRightColCount - 1))
                 {
                     return;
                 }
                 GridView _curArea = GetGridView(this.LastFocusColumn.ColumnArea);
 
                 //  Ctrl-Right
-                if ( (Keyboard.Modifiers & ModifierKeys.Control) > 0 )
+                if ((Keyboard.Modifiers & ModifierKeys.Control) > 0)
                 {
                     if (this.LastFocusColumn.ColumnArea == EArea.Left)
                     {
@@ -676,10 +681,10 @@ namespace DsxGridCtrl
                 }
                 else
                 {
-                    if (this.LastFocusColumn.ColAreaIndex < (_curArea.Columns.Count-1))
+                    if (this.LastFocusColumn.ColAreaIndex < (_curArea.Columns.Count - 1))
                     {
                         UpdateAdorner(null);
-                        this.LastFocusColumn = (DsxColumn)_curArea.Columns[this.LastFocusColumn.ColAreaIndex+1];
+                        this.LastFocusColumn = (DsxColumn)_curArea.Columns[this.LastFocusColumn.ColAreaIndex + 1];
                     }
                     else if (this.LastFocusColumn.ColumnArea == EArea.Left)
                     {
@@ -716,11 +721,11 @@ namespace DsxGridCtrl
                 this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Left).Columns[0];
                 SelectCellViewElement(this.SelectedItem);
             }
-            else if (e.Key == Key.End && this.LastFocusColumn.ColIndex < this.InnerColumns.Count-1 )
+            else if (e.Key == Key.End && this.LastFocusColumn.ColIndex < this.InnerColumns.Count - 1)
             {
                 e.Handled = true;
                 UpdateAdorner(null);
-                this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Right).Columns[ ( GetGridView(EArea.Right).Columns.Count-1) ];
+                this.LastFocusColumn = (DsxColumn)GetGridView(EArea.Right).Columns[(GetGridView(EArea.Right).Columns.Count - 1)];
                 SelectCellViewElement(this.SelectedItem);
             }
         }
@@ -737,9 +742,9 @@ namespace DsxGridCtrl
         #endregion
 
         #region Method - RebuildLayout
-		
-		private void RebuildLayout()
-		{
+
+        private void RebuildLayout()
+        {
             IEnumerable _itemsSource = this.ItemsSource;
 
             if (_itemsSource != null)
@@ -759,59 +764,59 @@ namespace DsxGridCtrl
             }
 
             SetSortColumn(this.SortField);
-		}
+        }
         #endregion
-		
+
 
         #region Method - SelectCellViewElement
 
         private void SelectCellViewElement(object rowItem)
         {
-            ListView        _listView = GetListView(this.LastFocusColumn.ColumnArea);
-            DsxGridView     _gridView = GetGridView(this.LastFocusColumn.ColumnArea);
-            ListViewItem    _listItem = _listView.ItemContainerGenerator.ContainerFromItem(rowItem) as ListViewItem; 
-            if (_listItem != null) 
-            { 
-                if (!_listItem.IsLoaded) 
-                { 
-                    _listItem.ApplyTemplate(); 
-                } 
-                GridViewRowPresenter _rowPresenter = ElementHelper.FindVisualChild<GridViewRowPresenter>(_listItem); 
+            ListView _listView = GetListView(this.LastFocusColumn.ColumnArea);
+            DsxGridView _gridView = GetGridView(this.LastFocusColumn.ColumnArea);
+            ListViewItem _listItem = _listView.ItemContainerGenerator.ContainerFromItem(rowItem) as ListViewItem;
+            if (_listItem != null)
+            {
+                if (!_listItem.IsLoaded)
+                {
+                    _listItem.ApplyTemplate();
+                }
+                GridViewRowPresenter _rowPresenter = ElementHelper.FindVisualChild<GridViewRowPresenter>(_listItem);
 
-                if(_rowPresenter != null) 
-                { 
-                    if (VisualTreeHelper.GetChildrenCount(_rowPresenter)>0)
+                if (_rowPresenter != null)
+                {
+                    if (VisualTreeHelper.GetChildrenCount(_rowPresenter) > 0)
                     {
-                        ContentPresenter    _templatedParent = VisualTreeHelper.GetChild(_rowPresenter, this.LastFocusColumn.ColAreaIndex) as ContentPresenter; 
-                        DataTemplate        _dataTemplate    = this.LastFocusColumn.CellTemplate; 
+                        ContentPresenter _templatedParent = VisualTreeHelper.GetChild(_rowPresenter, this.LastFocusColumn.ColAreaIndex) as ContentPresenter;
+                        DataTemplate _dataTemplate = this.LastFocusColumn.CellTemplate;
 
-                        if(_dataTemplate != null && _templatedParent != null) 
-                        { 
+                        if (_dataTemplate != null && _templatedParent != null)
+                        {
                             if (_dataTemplate.VisualTree != null)
                             {
-                                FrameworkElement _element  = _dataTemplate.FindName(this.LastFocusColumn.CellPartFrameName, _templatedParent) as FrameworkElement; 
+                                FrameworkElement _element = _dataTemplate.FindName(this.LastFocusColumn.CellPartFrameName, _templatedParent) as FrameworkElement;
                                 SetCellFocus(_element);
                             }
                             else if (!String.IsNullOrEmpty(this.LastFocusColumn.CellPartFrameName))
                             {
-                                FrameworkElement _element  = ElementHelper.FindVisualChild<FrameworkElement>(_templatedParent, this.LastFocusColumn.CellPartFrameName);
+                                FrameworkElement _element = ElementHelper.FindVisualChild<FrameworkElement>(_templatedParent, this.LastFocusColumn.CellPartFrameName);
                                 SetCellFocus(_element);
                             }
                             else
                             {
                                 try
                                 {
-                                    FrameworkElement _element  = ElementHelper.FindVisualChild<FrameworkElement>(_templatedParent);
+                                    FrameworkElement _element = ElementHelper.FindVisualChild<FrameworkElement>(_templatedParent);
                                     SetCellFocus(_element);
                                 }
                                 catch (Exception)
                                 {
                                 }
                             }
-                        } 
+                        }
                     }
-                } 
-            } 
+                }
+            }
         }
         #endregion
 
@@ -846,13 +851,13 @@ namespace DsxGridCtrl
             {
                 RemoveAdorner(this.LastFocusCell, this.LastAdorner);
             }
-            
-            this.LastEditCell            = this.LastFocusCell;
+
+            this.LastEditCell = this.LastFocusCell;
             this.LastEditCell.IsEditMode = true;
 
             if (this.LastFocusColumn != null && (this.LastFocusColumn.EditType != EEditType.CellTemplate || this.LastEditCell is DsxFilterCheckCell || this.LastEditCell is DsxFilterTextCell))
             {
-                this.LastAdorner = new EditAdorner(this, this.LastFocusColumn, this.LastEditCell, (this.LastFocusCell.Name == DsxDataGrid.cPART_FilterText || this.LastFocusCell.Name == cPART_FilterCheck ));
+                this.LastAdorner = new EditAdorner(this, this.LastFocusColumn, this.LastEditCell, (this.LastFocusCell.Name == DsxDataGrid.cPART_FilterText || this.LastFocusCell.Name == cPART_FilterCheck));
                 if (this.LastEditCell != null)
                 {
                     AdornerLayer.GetAdornerLayer(this.LastEditCell).Add(this.LastAdorner);
@@ -861,10 +866,10 @@ namespace DsxGridCtrl
             else
             {
                 //  let the celltemplate trigger do its work
-                LastEditCell.Dispatcher.BeginInvoke( new Action(delegate 
-                                                        {   
-                                                            this.LastEditCell.SetCellEditFocus(this.LastEditCell.Child); 
-                                                        }), 
+                LastEditCell.Dispatcher.BeginInvoke(new Action(delegate
+                                                       {
+                                                           this.LastEditCell.SetCellEditFocus(this.LastEditCell.Child);
+                                                       }),
                                                         DispatcherPriority.Input);
             }
         }
@@ -908,10 +913,10 @@ namespace DsxGridCtrl
                         return;
                     }
                 }
-                _focusElement.Dispatcher.BeginInvoke( new Action(delegate 
-                                                        {   
-                                                            _focusElement.Focus(); 
-                                                        }), 
+                _focusElement.Dispatcher.BeginInvoke(new Action(delegate
+                                                       {
+                                                           _focusElement.Focus();
+                                                       }),
                                                         DispatcherPriority.Input);
             }
         }
@@ -926,8 +931,8 @@ namespace DsxGridCtrl
                 return this.LastFocusCell;
             }
 
-            FrameworkElement    _focusElement = focusElement;
-            DsxCellBase         _focusCell    = focusElement as DsxCellBase;
+            FrameworkElement _focusElement = focusElement;
+            DsxCellBase _focusCell = focusElement as DsxCellBase;
 
             //  1st test
             if (this.LastFocusCell != null && this.LastFocusCell == _focusCell)
@@ -942,13 +947,13 @@ namespace DsxGridCtrl
                 {
                     if (_focusElement.Parent != null)
                     {
-                        _focusElement   = _focusElement.Parent as FrameworkElement;
-                        _focusCell      = _focusElement as DsxCellBase;
+                        _focusElement = _focusElement.Parent as FrameworkElement;
+                        _focusCell = _focusElement as DsxCellBase;
                     }
                     else if (_focusElement.TemplatedParent != null)
                     {
-                        _focusElement   = _focusElement.TemplatedParent as FrameworkElement;
-                        _focusCell      = _focusElement as DsxCellBase;
+                        _focusElement = _focusElement.TemplatedParent as FrameworkElement;
+                        _focusCell = _focusElement as DsxCellBase;
                     }
                 }
                 if (_focusCell == null)
@@ -964,7 +969,7 @@ namespace DsxGridCtrl
             }
 
             //  filter
-            if (_focusCell != null && _focusCell != this.LastFocusCell && (_focusCell.Name==cPART_FilterText || _focusCell.Name==cPART_FilterCheck) )
+            if (_focusCell != null && _focusCell != this.LastFocusCell && (_focusCell.Name == cPART_FilterText || _focusCell.Name == cPART_FilterCheck))
             {
                 if (this.LastFocusCell != null)
                 {
@@ -972,9 +977,9 @@ namespace DsxGridCtrl
                     this.LastFocusCell = null;
                 }
 
-                this.LastFocusRow    = null;
+                this.LastFocusRow = null;
                 this.LastFocusColumn = (_focusElement.TemplatedParent as GridViewColumnHeader).Column as DsxColumn;
-                this.LastFocusCell   = _focusCell;
+                this.LastFocusCell = _focusCell;
                 if (this.LastFocusCell.Column == null)
                 {
                     this.LastFocusCell.Column = this.LastFocusColumn;
@@ -998,9 +1003,9 @@ namespace DsxGridCtrl
                     if (_rowPresenter != null)
                     {
                         int _colCount = _rowPresenter.Columns.Count;
-                        for (int i=0; i < _colCount; i++)
+                        for (int i = 0; i < _colCount; i++)
                         {
-                            _columnPresenter = VisualTreeHelper.GetChild(_rowPresenter, i) as ContentPresenter; 
+                            _columnPresenter = VisualTreeHelper.GetChild(_rowPresenter, i) as ContentPresenter;
                             if (_columnPresenter == _contentPresenter)
                             {
                                 _focusCell.Column = _rowPresenter.Columns[i] as DsxColumn;
@@ -1024,7 +1029,7 @@ namespace DsxGridCtrl
 
                 if (focusElement == null || (focusElement is ListViewItem))
                 {
-                    this.LastFocusRow  = null;
+                    this.LastFocusRow = null;
                     this.LastFocusCell = null;
                 }
             }
@@ -1039,9 +1044,9 @@ namespace DsxGridCtrl
                 }
 
                 //  timer
-                this.LastFocusRow    = this.SelectedItem;
+                this.LastFocusRow = this.SelectedItem;
                 this.LastFocusColumn = _focusCell.Column;
-                this.LastFocusCell   = _focusCell;
+                this.LastFocusCell = _focusCell;
             }
             return this.LastFocusCell;
         }
@@ -1059,7 +1064,7 @@ namespace DsxGridCtrl
 
             DsxColumn _sortColumn = null;
 
-            foreach(DsxColumn _column in this.InnerColumns)
+            foreach (DsxColumn _column in this.InnerColumns)
             {
                 if (_column.FieldName.Equals(SortField))
                 {
@@ -1067,17 +1072,17 @@ namespace DsxGridCtrl
                     break;
                 }
             }
-            
+
             if (_sortColumn != null && _sortColumn != this.SortColumn)
             {
-                ListView                    _listView        = GetListView(_sortColumn.ColumnArea);
-                GridViewHeaderRowPresenter  _headerPresenter = ElementHelper.FindVisualChild<GridViewHeaderRowPresenter>(_listView, "PART_HeaderRow");
-                GridViewColumnHeader        _gridViewHeader  = null;
-                int                         _childrenCount   = VisualTreeHelper.GetChildrenCount(_headerPresenter);  
+                ListView _listView = GetListView(_sortColumn.ColumnArea);
+                GridViewHeaderRowPresenter _headerPresenter = ElementHelper.FindVisualChild<GridViewHeaderRowPresenter>(_listView, "PART_HeaderRow");
+                GridViewColumnHeader _gridViewHeader = null;
+                int _childrenCount = VisualTreeHelper.GetChildrenCount(_headerPresenter);
 
                 //  enumeration through the children is needed, since the colAreaIndex is not matching the Children Position
-                for (int i = 0; i < _childrenCount; i++)  
-                {    
+                for (int i = 0; i < _childrenCount; i++)
+                {
                     DependencyObject _child = VisualTreeHelper.GetChild(_headerPresenter, i);
 
                     _gridViewHeader = _child as GridViewColumnHeader;
@@ -1112,14 +1117,14 @@ namespace DsxGridCtrl
                 }
                 else
                 {
-                    sortColumn.SortDirection = sortColumn.SortDirection == ListSortDirection.Ascending 
+                    sortColumn.SortDirection = sortColumn.SortDirection == ListSortDirection.Ascending
                                                                             ? ListSortDirection.Descending
                                                                             : ListSortDirection.Ascending;
                 }
 
-                this.SortHeader   = sortHeader;
-                this.SortColumn   = sortColumn;
-                this.SortField    = SortColumn.FieldName;
+                this.SortHeader = sortHeader;
+                this.SortColumn = sortColumn;
+                this.SortField = SortColumn.FieldName;
 
                 //  create adorner
                 if (this.SortHeader != null)
@@ -1127,7 +1132,7 @@ namespace DsxGridCtrl
                     this.SortAdorner = new SortAdorner(this.SortHeader, sortColumn.SortDirection);
                     AdornerLayer.GetAdornerLayer(this.SortHeader).Add(this.SortAdorner);
                 }
-                
+
                 RecalcDisplaySource();
             }
         }
@@ -1142,9 +1147,9 @@ namespace DsxGridCtrl
             {
                 this.FilterWaitTimer = new Timer(200);
                 this.FilterWaitTimer.AutoReset = false;
-                this.FilterWaitTimer.Elapsed += delegate 
-                { 
-                    this.Dispatcher.BeginInvoke( new Action(delegate{ RecalcDisplaySource(); }), DispatcherPriority.Normal);
+                this.FilterWaitTimer.Elapsed += delegate
+                {
+                    this.Dispatcher.BeginInvoke(new Action(delegate { RecalcDisplaySource(); }), DispatcherPriority.Normal);
                 };
             }
             else
@@ -1166,29 +1171,29 @@ namespace DsxGridCtrl
 
             UpdateAdorner(null);
 
-            this.DisplaySource = CollectionViewSource.GetDefaultView( this.ItemsSource );
+            this.DisplaySource = CollectionViewSource.GetDefaultView(this.ItemsSource);
 
             this.IsEnabled = false;
 
             //  this enforces the ListViewLayoutManager to resize properly
-            if(PART_ListViewLeft != null)
-                this.PART_ListViewLeft   .IsEnabled = false;
+            if (PART_ListViewLeft != null)
+                this.PART_ListViewLeft.IsEnabled = false;
 
-            if(PART_ListViewCenter != null)
-                this.PART_ListViewCenter .IsEnabled = false;
+            if (PART_ListViewCenter != null)
+                this.PART_ListViewCenter.IsEnabled = false;
 
-            if(PART_ListViewRight != null)
-                this.PART_ListViewRight  .IsEnabled = false;
+            if (PART_ListViewRight != null)
+                this.PART_ListViewRight.IsEnabled = false;
 
             if (this.DisplaySource != null)
             {
                 //  filter, sorting
-                using(this.DisplaySource.DeferRefresh())
+                using (this.DisplaySource.DeferRefresh())
                 {
-                    if (this.FilterColumns.Count>0)
+                    if (this.FilterColumns.Count > 0)
                     {
                         bool _filterActive = false;
-                        foreach(DsxColumn _filterColumn in this.FilterColumns)
+                        foreach (DsxColumn _filterColumn in this.FilterColumns)
                         {
                             if (!String.IsNullOrEmpty(_filterColumn.FilterTextValue))
                             {
@@ -1197,11 +1202,11 @@ namespace DsxGridCtrl
                             }
                         }
                         this.ComputedFilterClearVisibility = _filterActive ? Visibility.Visible : Visibility.Hidden;
-                        this.DisplaySource.Filter                = this.CheckColumnFilters;
+                        this.DisplaySource.Filter = this.CheckColumnFilters;
                     }
-                
+
                     this.DisplaySource.SortDescriptions.Clear();
-                
+
                     if (this.SortColumn != null)
                     {
                         this.DisplaySource.SortDescriptions.Add(new SortDescription(this.SortColumn.FieldName, this.SortColumn.SortDirection));
@@ -1210,29 +1215,29 @@ namespace DsxGridCtrl
             }
 
             //  summarize
-            if (this.FooterColumns.Count>0)
+            if (this.FooterColumns.Count > 0)
             {
-                foreach(DsxColumn _column in this.FooterColumns)
+                foreach (DsxColumn _column in this.FooterColumns)
                 {
                     _column.FooterComputedValue = 0.0M;
                 }
 
                 if (this.DisplaySource != null)
                 {
-                    decimal _itemValue  = 0.0M;
-                    int     _count      = 0;
-                    
-                    foreach(object _item in this.DisplaySource)
+                    decimal _itemValue = 0.0M;
+                    int _count = 0;
+
+                    foreach (object _item in this.DisplaySource)
                     {
                         _count++;
 
-                        foreach(DsxColumn _column in this.FooterColumns)
+                        foreach (DsxColumn _column in this.FooterColumns)
                         {
-                            switch(_column.FooterType)
+                            switch (_column.FooterType)
                             {
                                 case EFooterType.Sum:
                                 case EFooterType.Avg:
-                                     _column.FooterComputedValue += _column.GetFieldValue<decimal>(_item);
+                                    _column.FooterComputedValue += _column.GetFieldValue<decimal>(_item);
                                     break;
                                 case EFooterType.Min:
                                     _itemValue = _column.GetFieldValue<decimal>(_item);
@@ -1247,9 +1252,9 @@ namespace DsxGridCtrl
                             }
                         }
                     }
-                    foreach(DsxColumn _column in this.FooterColumns)
+                    foreach (DsxColumn _column in this.FooterColumns)
                     {
-                        if (_column.FooterType == EFooterType.Avg && _column.FooterComputedValue!=0)
+                        if (_column.FooterType == EFooterType.Avg && _column.FooterComputedValue != 0)
                         {
                             _column.FooterComputedValue /= _count;
                             _column.FooterComputedDisplay = string.Format("{0:F2}", _column.FooterComputedValue);
@@ -1286,7 +1291,7 @@ namespace DsxGridCtrl
                 this.PART_ListViewRight.IsEnabled = true;
             }
 
-            this.HasData   = this.ItemsSource != null;
+            this.HasData = this.ItemsSource != null;
             this.IsEnabled = true;
 
             this.HeightTracker.UpdateLayout();
@@ -1298,7 +1303,7 @@ namespace DsxGridCtrl
 
         private void ResetFilters()
         {
-            foreach(DsxColumn _column in this.FilterColumns)
+            foreach (DsxColumn _column in this.FilterColumns)
             {
                 _column.FilterTextValue = String.Empty;
             }
@@ -1310,11 +1315,11 @@ namespace DsxGridCtrl
 
         private ListView GetListView(EArea columnArea)
         {
-            switch(columnArea)
+            switch (columnArea)
             {
-                case EArea.Left:       return this.PART_ListViewLeft;
-                case EArea.Center:     return this.PART_ListViewCenter;
-                case EArea.Right:      return this.PART_ListViewRight;
+                case EArea.Left: return this.PART_ListViewLeft;
+                case EArea.Center: return this.PART_ListViewCenter;
+                case EArea.Right: return this.PART_ListViewRight;
             }
             return null;
         }
@@ -1324,11 +1329,11 @@ namespace DsxGridCtrl
 
         private DsxGridView GetGridView(EArea columnArea)
         {
-            switch(columnArea)
+            switch (columnArea)
             {
-                case EArea.Left:       return this.PART_GridViewLeft;
-                case EArea.Center:     return this.PART_GridViewCenter;
-                case EArea.Right:      return this.PART_GridViewRight;
+                case EArea.Left: return this.PART_GridViewLeft;
+                case EArea.Center: return this.PART_GridViewCenter;
+                case EArea.Right: return this.PART_GridViewRight;
             }
             return null;
         }
@@ -1339,13 +1344,13 @@ namespace DsxGridCtrl
 
         public void SetTheme(string themeColor)
         {
-            this.Style       = (Style)this.TryFindResource("dsxDataGridStyle"+themeColor);
+            this.Style = (Style)this.TryFindResource("dsxDataGridStyle" + themeColor);
 
-            this.HeaderStyle = (Style)this.TryFindResource("dsxHeaderStyle"  +themeColor);
-            this.FilterStyle = (Style)this.TryFindResource("dsxFilterStyle"  +themeColor);
-            this.FooterStyle = (Style)this.TryFindResource("dsxFooterStyle"  +themeColor);
-			
-			RebuildLayout();
+            this.HeaderStyle = (Style)this.TryFindResource("dsxHeaderStyle" + themeColor);
+            this.FilterStyle = (Style)this.TryFindResource("dsxFilterStyle" + themeColor);
+            this.FooterStyle = (Style)this.TryFindResource("dsxFooterStyle" + themeColor);
+
+            RebuildLayout();
         }
         #endregion
 
@@ -1354,7 +1359,7 @@ namespace DsxGridCtrl
         #region DP - CornerRadius
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(DsxDataGrid), new PropertyMetadata(new CornerRadius(2)) );
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(DsxDataGrid), new PropertyMetadata(new CornerRadius(2)));
 
         public GridLength CornerRadius
         {
@@ -1367,7 +1372,7 @@ namespace DsxGridCtrl
         #region DP - AreaLeftWidth
 
         public static readonly DependencyProperty AreaLeftWidthProperty =
-            DependencyProperty.Register("AreaLeftWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(100, GridUnitType.Pixel)) );
+            DependencyProperty.Register("AreaLeftWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(100, GridUnitType.Pixel)));
 
         /// <summary>
         /// Typically the sum of all columns in the left area + 2
@@ -1382,7 +1387,7 @@ namespace DsxGridCtrl
         #region DP - AreaCenterWidth
 
         public static readonly DependencyProperty AreaCenterWidthProperty =
-            DependencyProperty.Register("AreaCenterWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(100, GridUnitType.Star)) );
+            DependencyProperty.Register("AreaCenterWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(100, GridUnitType.Star)));
 
         /// <summary>
         /// Typically not set (=100*)
@@ -1397,7 +1402,7 @@ namespace DsxGridCtrl
         #region DP - AreaRightWidth
 
         public static readonly DependencyProperty AreaRightWidthProperty =
-            DependencyProperty.Register("AreaRightWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(100, GridUnitType.Pixel)) );
+            DependencyProperty.Register("AreaRightWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(100, GridUnitType.Pixel)));
 
         /// <summary>
         /// Typically the sum of all columns in the right area + 22
@@ -1413,7 +1418,7 @@ namespace DsxGridCtrl
         #region DP - SplitterLeftWidth
 
         public static readonly DependencyProperty SplitterLeftWidthProperty =
-            DependencyProperty.Register("SplitterLeftWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(3.0)) );
+            DependencyProperty.Register("SplitterLeftWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(3.0)));
 
         public GridLength SplitterLeftWidth
         {
@@ -1425,7 +1430,7 @@ namespace DsxGridCtrl
         #region DP - SplitterRightWidth
 
         public static readonly DependencyProperty SplitterRightWidthProperty =
-            DependencyProperty.Register("SplitterRightWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(3.0)) );
+            DependencyProperty.Register("SplitterRightWidth", typeof(GridLength), typeof(DsxDataGrid), new PropertyMetadata(new GridLength(3.0)));
 
         public GridLength SplitterRightWidth
         {
@@ -1437,7 +1442,7 @@ namespace DsxGridCtrl
         #region DP - SplitterLeftBackground
 
         public static readonly DependencyProperty SplitterLeftBackgroundProperty =
-            DependencyProperty.Register("SplitterLeftBackground", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DarkGray) );
+            DependencyProperty.Register("SplitterLeftBackground", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DarkGray));
 
         public Brush SplitterLeftBackground
         {
@@ -1449,7 +1454,7 @@ namespace DsxGridCtrl
         #region DP - SplitterRightBackground
 
         public static readonly DependencyProperty SplitterRightBackgroundProperty =
-            DependencyProperty.Register("SplitterRightBackground", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DarkGray) );
+            DependencyProperty.Register("SplitterRightBackground", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DarkGray));
 
         public Brush SplitterRightBackground
         {
@@ -1461,7 +1466,7 @@ namespace DsxGridCtrl
         #region DP - SplitterLeftIsSizing
 
         public static readonly DependencyProperty SplitterLeftIsSizingProperty =
-            DependencyProperty.Register("SplitterLeftIsSizing", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false) );
+            DependencyProperty.Register("SplitterLeftIsSizing", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false));
 
         public bool SplitterLeftIsSizing
         {
@@ -1473,7 +1478,7 @@ namespace DsxGridCtrl
         #region DP - SplitterRightIsSizing
 
         public static readonly DependencyProperty SplitterRightIsSizingProperty =
-            DependencyProperty.Register("SplitterRightIsSizing", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false) );
+            DependencyProperty.Register("SplitterRightIsSizing", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false));
 
         public bool SplitterRightIsSizing
         {
@@ -1486,7 +1491,7 @@ namespace DsxGridCtrl
         #region DP - CellEditingIsEnabled
 
         public static readonly DependencyProperty CellEditingIsEnabledProperty =
-            DependencyProperty.Register("CellEditingIsEnabled", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false) );
+            DependencyProperty.Register("CellEditingIsEnabled", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false));
 
         public bool CellEditingIsEnabled
         {
@@ -1499,7 +1504,7 @@ namespace DsxGridCtrl
         #region DP - CellAdornerIsVisible
 
         public static readonly DependencyProperty CellAdornerIsVisibleProperty =
-            DependencyProperty.Register("CellAdornerIsVisible", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false) );
+            DependencyProperty.Register("CellAdornerIsVisible", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false));
 
         public bool CellAdornerIsVisible
         {
@@ -1511,7 +1516,7 @@ namespace DsxGridCtrl
         #region DP - CellAdornerViewBorderBrush
 
         public static readonly DependencyProperty CellAdornerViewBorderBrushProperty =
-            DependencyProperty.Register("CellAdornerViewBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( Brushes.DimGray) );
+            DependencyProperty.Register("CellAdornerViewBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DimGray));
 
         public Brush CellAdornerViewBorderBrush
         {
@@ -1523,7 +1528,7 @@ namespace DsxGridCtrl
         #region DP - CellAdornerEditableBorderBrush
 
         public static readonly DependencyProperty CellAdornerEditableBorderBrushProperty =
-            DependencyProperty.Register("CellAdornerEditableBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( Brushes.DarkGray) );
+            DependencyProperty.Register("CellAdornerEditableBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DarkGray));
 
         public Brush CellAdornerEditableBorderBrush
         {
@@ -1535,7 +1540,7 @@ namespace DsxGridCtrl
         #region DP - CellAdornerEditingBorderBrush
 
         public static readonly DependencyProperty CellAdornerEditingBorderBrushProperty =
-            DependencyProperty.Register("CellAdornerEditingBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF404040"))) );
+            DependencyProperty.Register("CellAdornerEditingBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF404040"))));
 
         public Brush CellAdornerEditingBorderBrush
         {
@@ -1547,7 +1552,7 @@ namespace DsxGridCtrl
         #region DP - CellAdornerFilterBorderBrush
 
         public static readonly DependencyProperty CellAdornerFilterBorderBrushProperty =
-            DependencyProperty.Register("CellAdornerFilterBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( Brushes.DimGray) );
+            DependencyProperty.Register("CellAdornerFilterBorderBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DimGray));
 
         public Brush CellAdornerFilterBorderBrush
         {
@@ -1559,7 +1564,7 @@ namespace DsxGridCtrl
         #region DP - SortAdornerIndicatorBrush
 
         public static readonly DependencyProperty SortAdornerIndicatorBrushProperty =
-            DependencyProperty.Register("SortAdornerIndicatorBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( Brushes.DimGray) );
+            DependencyProperty.Register("SortAdornerIndicatorBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DimGray));
 
         public Brush SortAdornerIndicatorBrush
         {
@@ -1573,7 +1578,7 @@ namespace DsxGridCtrl
         #region DP - AllowCheckAnyTime
 
         public static readonly DependencyProperty AllowCheckAnyTimeProperty =
-            DependencyProperty.Register("AllowCheckAnyTime", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false) );
+            DependencyProperty.Register("AllowCheckAnyTime", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false));
 
         public bool AllowCheckAnyTime
         {
@@ -1586,7 +1591,7 @@ namespace DsxGridCtrl
         #region DP - SortField
 
         public static readonly DependencyProperty SortFieldProperty =
-            DependencyProperty.Register("SortField", typeof(string), typeof(DsxDataGrid), new PropertyMetadata(null, OnSortFieldChanged) );
+            DependencyProperty.Register("SortField", typeof(string), typeof(DsxDataGrid), new PropertyMetadata(null, OnSortFieldChanged));
 
         public string SortField
         {
@@ -1594,16 +1599,16 @@ namespace DsxGridCtrl
             set { SetValue(SortFieldProperty, value); }
         }
 
-        private static void OnSortFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnSortFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d == null)
             {
                 return;
             }
 
-            DsxDataGrid  _context    = (DsxDataGrid)d;
-            string       _newValue   = (string)e.NewValue;
-            string       _oldValue   = (string)e.OldValue;
+            DsxDataGrid _context = (DsxDataGrid)d;
+            string _newValue = (string)e.NewValue;
+            string _oldValue = (string)e.OldValue;
 
             if (_newValue != _oldValue && _context.IsInitialized)
             {
@@ -1617,7 +1622,7 @@ namespace DsxGridCtrl
         #region DP - HeaderHeight
 
         public static readonly DependencyProperty HeaderHeightProperty =
-            DependencyProperty.Register("HeaderHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(22.0) );
+            DependencyProperty.Register("HeaderHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(22.0));
 
         public double HeaderHeight
         {
@@ -1629,7 +1634,7 @@ namespace DsxGridCtrl
         #region DP - FilterHeight
 
         public static readonly DependencyProperty FilterHeightProperty =
-            DependencyProperty.Register("FilterHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(22.0) );
+            DependencyProperty.Register("FilterHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(22.0));
 
         public double FilterHeight
         {
@@ -1641,7 +1646,7 @@ namespace DsxGridCtrl
         #region DP - ItemFixHeight
 
         public static readonly DependencyProperty ItemFixHeightProperty =
-            DependencyProperty.Register("ItemFixHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(20.0) );
+            DependencyProperty.Register("ItemFixHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(20.0));
 
         public double ItemFixHeight
         {
@@ -1653,7 +1658,7 @@ namespace DsxGridCtrl
         #region DP - ItemMinHeight
 
         public static readonly DependencyProperty ItemMinHeightProperty =
-            DependencyProperty.Register("ItemMinHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(0.0) );
+            DependencyProperty.Register("ItemMinHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(0.0));
 
         public double ItemMinHeight
         {
@@ -1665,7 +1670,7 @@ namespace DsxGridCtrl
         #region DP - ItemMaxHeight
 
         public static readonly DependencyProperty ItemMaxHeightProperty =
-            DependencyProperty.Register("ItemMaxHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(0.0) );
+            DependencyProperty.Register("ItemMaxHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(0.0));
 
         public double ItemMaxHeight
         {
@@ -1677,7 +1682,7 @@ namespace DsxGridCtrl
         #region DP - FooterHeight
 
         public static readonly DependencyProperty FooterHeightProperty =
-            DependencyProperty.Register("FooterHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(21.0) );
+            DependencyProperty.Register("FooterHeight", typeof(double), typeof(DsxDataGrid), new PropertyMetadata(21.0));
 
         public double FooterHeight
         {
@@ -1702,11 +1707,11 @@ namespace DsxGridCtrl
         #region DP - HeightTracker
 
         public static readonly DependencyProperty HeightTrackerProperty =
-            DependencyProperty.Register("HeightTracker", typeof(DsxHeightTracker), typeof(DsxDataGrid), new PropertyMetadata(null) );
+            DependencyProperty.Register("HeightTracker", typeof(DsxHeightTracker), typeof(DsxDataGrid), new PropertyMetadata(null));
 
         public DsxHeightTracker HeightTracker
         {
-            get         { return (DsxHeightTracker)GetValue(HeightTrackerProperty); }
+            get { return (DsxHeightTracker)GetValue(HeightTrackerProperty); }
             private set { SetValue(HeightTrackerProperty, value); }
         }
         #endregion
@@ -1719,7 +1724,7 @@ namespace DsxGridCtrl
 
         public Visibility ComputedHeaderVisibility
         {
-            get         { return (Visibility)GetValue(ComputedHeaderVisibilityProperty); }
+            get { return (Visibility)GetValue(ComputedHeaderVisibilityProperty); }
             private set { SetValue(ComputedHeaderVisibilityProperty, value); }
         }
         #endregion
@@ -1731,7 +1736,7 @@ namespace DsxGridCtrl
 
         public Visibility ComputedFilterVisibility
         {
-            get         { return (Visibility)GetValue(ComputedFilterVisibilityProperty); }
+            get { return (Visibility)GetValue(ComputedFilterVisibilityProperty); }
             private set { SetValue(ComputedFilterVisibilityProperty, value); }
         }
         #endregion
@@ -1743,7 +1748,7 @@ namespace DsxGridCtrl
 
         public Visibility ComputedFilterClearVisibility
         {
-            get         { return (Visibility)GetValue(ComputedFilterClearVisibilityProperty); }
+            get { return (Visibility)GetValue(ComputedFilterClearVisibilityProperty); }
             private set { SetValue(ComputedFilterClearVisibilityProperty, value); }
         }
         #endregion
@@ -1755,7 +1760,7 @@ namespace DsxGridCtrl
 
         public Visibility ComputedFooterVisibility
         {
-            get         { return (Visibility)GetValue(ComputedFooterVisibilityProperty); }
+            get { return (Visibility)GetValue(ComputedFooterVisibilityProperty); }
             private set { SetValue(ComputedFooterVisibilityProperty, value); }
         }
         #endregion
@@ -1822,12 +1827,12 @@ namespace DsxGridCtrl
         }
         #endregion
 
-       
+
 
         #region DP - HorizontalGridLinesIsVisible
 
         public static readonly DependencyProperty HorizontalGridLinesIsVisibleProperty =
-            DependencyProperty.Register("HorizontalGridLinesIsVisible", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false, OnGridLayoutPartChanged) );
+            DependencyProperty.Register("HorizontalGridLinesIsVisible", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false, OnGridLayoutPartChanged));
 
         public bool HorizontalGridLinesIsVisible
         {
@@ -1839,7 +1844,7 @@ namespace DsxGridCtrl
         #region DP - VerticalGridLinesIsVisible
 
         public static readonly DependencyProperty VerticalGridLinesIsVisibleProperty =
-            DependencyProperty.Register("VerticalGridLinesIsVisible", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false, OnGridLayoutPartChanged) );
+            DependencyProperty.Register("VerticalGridLinesIsVisible", typeof(bool), typeof(DsxDataGrid), new PropertyMetadata(false, OnGridLayoutPartChanged));
 
         public bool VerticalGridLinesIsVisible
         {
@@ -1851,7 +1856,7 @@ namespace DsxGridCtrl
         #region DP - HorizontalGridLinesBrush
 
         public static readonly DependencyProperty HorizontalGridLinesBrushProperty =
-            DependencyProperty.Register("HorizontalGridLinesBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( Brushes.DimGray) );
+            DependencyProperty.Register("HorizontalGridLinesBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DimGray));
 
         public Brush HorizontalGridLinesBrush
         {
@@ -1863,7 +1868,7 @@ namespace DsxGridCtrl
         #region DP - VerticalGridLinesBrush
 
         public static readonly DependencyProperty VerticalGridLinesBrushProperty =
-            DependencyProperty.Register("VerticalGridLinesBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( Brushes.DimGray) );
+            DependencyProperty.Register("VerticalGridLinesBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(Brushes.DimGray));
 
         public Brush VerticalGridLinesBrush
         {
@@ -1875,7 +1880,7 @@ namespace DsxGridCtrl
         #region DP - SelectedRowBrush
 
         public static readonly DependencyProperty SelectedRowBrushProperty =
-            DependencyProperty.Register("SelectedRowBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata( new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE8E8E8"))) );
+            DependencyProperty.Register("SelectedRowBrush", typeof(Brush), typeof(DsxDataGrid), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE8E8E8"))));
 
         public Brush SelectedRowBrush
         {
@@ -1887,7 +1892,7 @@ namespace DsxGridCtrl
         #region DP - AlternatingRowBrushes
 
         public static readonly DependencyProperty AlternatingRowBrushesProperty =
-            DependencyProperty.Register("AlternatingRowBrushes", typeof(List<Brush>), typeof(DsxDataGrid), new PropertyMetadata(new List<Brush>() ) );
+            DependencyProperty.Register("AlternatingRowBrushes", typeof(List<Brush>), typeof(DsxDataGrid), new PropertyMetadata(new List<Brush>()));
 
         public List<Brush> AlternatingRowBrushes
         {
@@ -1916,43 +1921,43 @@ namespace DsxGridCtrl
 
         public bool? HasData
         {
-            get         { return (bool?)GetValue(HasDataProperty); }
+            get { return (bool?)GetValue(HasDataProperty); }
             private set { SetValue(HasDataProperty, value); }
         }
 
-        private static void OnHasDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnHasDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d == null || e.NewValue == null)
             {
                 return;
             }
 
-            DsxDataGrid     _context    = (DsxDataGrid)d;
-            bool?           _newValue   = (bool?)e.NewValue;
-            bool?           _oldValue   = (bool?)e.OldValue;
+            DsxDataGrid _context = (DsxDataGrid)d;
+            bool? _newValue = (bool?)e.NewValue;
+            bool? _oldValue = (bool?)e.OldValue;
 
-            switch(_context.HeaderVisibility)
+            switch (_context.HeaderVisibility)
             {
-                case EVisibility.Auto:       _context.ComputedHeaderVisibility = (bool)_newValue ? Visibility.Visible : Visibility.Hidden;   break;
-                case EVisibility.Visible:    _context.ComputedHeaderVisibility = Visibility.Visible;                                   break;
-                case EVisibility.Hidden:     _context.ComputedHeaderVisibility = Visibility.Hidden;                                    break;
-                case EVisibility.Collapsed:  _context.ComputedHeaderVisibility = Visibility.Collapsed;                                 break;
+                case EVisibility.Auto: _context.ComputedHeaderVisibility = (bool)_newValue ? Visibility.Visible : Visibility.Hidden; break;
+                case EVisibility.Visible: _context.ComputedHeaderVisibility = Visibility.Visible; break;
+                case EVisibility.Hidden: _context.ComputedHeaderVisibility = Visibility.Hidden; break;
+                case EVisibility.Collapsed: _context.ComputedHeaderVisibility = Visibility.Collapsed; break;
             }
 
-            switch(_context.FilterVisibility)
+            switch (_context.FilterVisibility)
             {
-                case EVisibility.Auto:       _context.ComputedFilterVisibility = (bool)_newValue ? Visibility.Visible : Visibility.Hidden;   break;
-                case EVisibility.Visible:    _context.ComputedFilterVisibility = Visibility.Visible;                                   break;
-                case EVisibility.Hidden:     _context.ComputedFilterVisibility = Visibility.Hidden;                                    break;
-                case EVisibility.Collapsed:  _context.ComputedFilterVisibility = Visibility.Collapsed;                                 break;
+                case EVisibility.Auto: _context.ComputedFilterVisibility = (bool)_newValue ? Visibility.Visible : Visibility.Hidden; break;
+                case EVisibility.Visible: _context.ComputedFilterVisibility = Visibility.Visible; break;
+                case EVisibility.Hidden: _context.ComputedFilterVisibility = Visibility.Hidden; break;
+                case EVisibility.Collapsed: _context.ComputedFilterVisibility = Visibility.Collapsed; break;
             }
 
-            switch(_context.FooterVisibility)
+            switch (_context.FooterVisibility)
             {
-                case EVisibility.Auto:       _context.ComputedFooterVisibility = (bool)_newValue ? Visibility.Visible : Visibility.Hidden;   break;
-                case EVisibility.Visible:    _context.ComputedFooterVisibility = Visibility.Visible;                                   break;
-                case EVisibility.Hidden:     _context.ComputedFooterVisibility = Visibility.Hidden;                                    break;
-                case EVisibility.Collapsed:  _context.ComputedFooterVisibility = Visibility.Collapsed;                                 break;
+                case EVisibility.Auto: _context.ComputedFooterVisibility = (bool)_newValue ? Visibility.Visible : Visibility.Hidden; break;
+                case EVisibility.Visible: _context.ComputedFooterVisibility = Visibility.Visible; break;
+                case EVisibility.Hidden: _context.ComputedFooterVisibility = Visibility.Hidden; break;
+                case EVisibility.Collapsed: _context.ComputedFooterVisibility = Visibility.Collapsed; break;
             }
 
             if (!String.IsNullOrEmpty(_context.SortField))
@@ -1966,7 +1971,7 @@ namespace DsxGridCtrl
         #region DP - HeaderStyle
 
         public static readonly DependencyProperty HeaderStyleProperty =
-            DependencyProperty.Register("HeaderStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null, OnHeaderStyleChanged) );
+            DependencyProperty.Register("HeaderStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null, OnHeaderStyleChanged));
 
         public Style HeaderStyle
         {
@@ -1974,16 +1979,16 @@ namespace DsxGridCtrl
             set { SetValue(HeaderStyleProperty, value); }
         }
 
-        private static void OnHeaderStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnHeaderStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d == null)
             {
                 return;
             }
 
-            DsxDataGrid _context    = (DsxDataGrid)d;
-            Style       _newValue   = (Style)e.NewValue;
-            Style       _oldValue   = (Style)e.OldValue;
+            DsxDataGrid _context = (DsxDataGrid)d;
+            Style _newValue = (Style)e.NewValue;
+            Style _oldValue = (Style)e.OldValue;
 
             if (_newValue != _oldValue)
             {
@@ -1991,25 +1996,25 @@ namespace DsxGridCtrl
                 //  we have to make sure the style is re-evaluted
                 Style _style;
 
-                _style = _context.PART_GridViewLeft  .ColumnHeaderContainerStyle;
-                         _context.PART_GridViewLeft  .ColumnHeaderContainerStyle = null;
-                         _context.PART_GridViewLeft  .ColumnHeaderContainerStyle = _style;
+                _style = _context.PART_GridViewLeft.ColumnHeaderContainerStyle;
+                _context.PART_GridViewLeft.ColumnHeaderContainerStyle = null;
+                _context.PART_GridViewLeft.ColumnHeaderContainerStyle = _style;
 
                 _style = _context.PART_GridViewCenter.ColumnHeaderContainerStyle;
-                         _context.PART_GridViewCenter.ColumnHeaderContainerStyle = null;
-                         _context.PART_GridViewCenter.ColumnHeaderContainerStyle = _style;
-                
-                _style = _context.PART_GridViewRight .ColumnHeaderContainerStyle;
-                         _context.PART_GridViewRight .ColumnHeaderContainerStyle = null;
-                         _context.PART_GridViewRight .ColumnHeaderContainerStyle = _style;
+                _context.PART_GridViewCenter.ColumnHeaderContainerStyle = null;
+                _context.PART_GridViewCenter.ColumnHeaderContainerStyle = _style;
 
-                Border   _fillThumb = ElementHelper.FindVisualChild<Border>(_context.ScrollViewerRight, "PART_HeaderThumb");
-                         
-                         _fillThumb.GetBindingExpression(Border.CornerRadiusProperty   ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.BackgroundProperty     ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.BorderBrushProperty    ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.PaddingProperty        ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.BorderThicknessProperty).UpdateTarget();
+                _style = _context.PART_GridViewRight.ColumnHeaderContainerStyle;
+                _context.PART_GridViewRight.ColumnHeaderContainerStyle = null;
+                _context.PART_GridViewRight.ColumnHeaderContainerStyle = _style;
+
+                Border _fillThumb = ElementHelper.FindVisualChild<Border>(_context.ScrollViewerRight, "PART_HeaderThumb");
+
+                _fillThumb.GetBindingExpression(Border.CornerRadiusProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.BackgroundProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.BorderBrushProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.PaddingProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.BorderThicknessProperty).UpdateTarget();
 
             }
         }
@@ -2018,7 +2023,7 @@ namespace DsxGridCtrl
         #region DP - FilterStyle
 
         public static readonly DependencyProperty FilterStyleProperty =
-            DependencyProperty.Register("FilterStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null, OnFilterStyleChanged) );
+            DependencyProperty.Register("FilterStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null, OnFilterStyleChanged));
 
         public Style FilterStyle
         {
@@ -2026,16 +2031,16 @@ namespace DsxGridCtrl
             set { SetValue(FilterStyleProperty, value); }
         }
 
-        private static void OnFilterStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnFilterStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d == null)
             {
                 return;
             }
 
-            DsxDataGrid _context    = (DsxDataGrid)d;
-            Style       _newValue   = (Style)e.NewValue;
-            Style       _oldValue   = (Style)e.OldValue;
+            DsxDataGrid _context = (DsxDataGrid)d;
+            Style _newValue = (Style)e.NewValue;
+            Style _oldValue = (Style)e.OldValue;
 
             if (_newValue != _oldValue)
             {
@@ -2043,17 +2048,17 @@ namespace DsxGridCtrl
                 //  we have to make sure the style is re-evaluted
                 Style _style;
 
-                _style = _context.PART_GridViewLeft  .ColumnFilterContainerStyle;
-                         _context.PART_GridViewLeft  .ColumnFilterContainerStyle = null;
-                         _context.PART_GridViewLeft  .ColumnFilterContainerStyle = _style;
+                _style = _context.PART_GridViewLeft.ColumnFilterContainerStyle;
+                _context.PART_GridViewLeft.ColumnFilterContainerStyle = null;
+                _context.PART_GridViewLeft.ColumnFilterContainerStyle = _style;
 
                 _style = _context.PART_GridViewCenter.ColumnFilterContainerStyle;
-                         _context.PART_GridViewCenter.ColumnFilterContainerStyle = null;
-                         _context.PART_GridViewCenter.ColumnFilterContainerStyle = _style;
-                
-                _style = _context.PART_GridViewRight .ColumnFilterContainerStyle;
-                         _context.PART_GridViewRight .ColumnFilterContainerStyle = null;
-                         _context.PART_GridViewRight .ColumnFilterContainerStyle = _style;
+                _context.PART_GridViewCenter.ColumnFilterContainerStyle = null;
+                _context.PART_GridViewCenter.ColumnFilterContainerStyle = _style;
+
+                _style = _context.PART_GridViewRight.ColumnFilterContainerStyle;
+                _context.PART_GridViewRight.ColumnFilterContainerStyle = null;
+                _context.PART_GridViewRight.ColumnFilterContainerStyle = _style;
 
             }
         }
@@ -2063,7 +2068,7 @@ namespace DsxGridCtrl
         #region DP - FooterStyle
 
         public static readonly DependencyProperty FooterStyleProperty =
-            DependencyProperty.Register("FooterStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null, OnFooterStyleChanged) );
+            DependencyProperty.Register("FooterStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null, OnFooterStyleChanged));
 
         public Style FooterStyle
         {
@@ -2071,16 +2076,16 @@ namespace DsxGridCtrl
             set { SetValue(FooterStyleProperty, value); }
         }
 
-        private static void OnFooterStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnFooterStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d == null)
             {
                 return;
             }
 
-            DsxDataGrid _context    = (DsxDataGrid)d;
-            Style       _newValue   = (Style)e.NewValue;
-            Style       _oldValue   = (Style)e.OldValue;
+            DsxDataGrid _context = (DsxDataGrid)d;
+            Style _newValue = (Style)e.NewValue;
+            Style _oldValue = (Style)e.OldValue;
 
             if (_newValue != _oldValue)
             {
@@ -2088,25 +2093,25 @@ namespace DsxGridCtrl
                 //  we have to make sure the style is re-evaluted
                 Style _style;
 
-                _style = _context.PART_GridViewLeft  .ColumnFooterContainerStyle;
-                         _context.PART_GridViewLeft  .ColumnFooterContainerStyle = null;
-                         _context.PART_GridViewLeft  .ColumnFooterContainerStyle = _style;
+                _style = _context.PART_GridViewLeft.ColumnFooterContainerStyle;
+                _context.PART_GridViewLeft.ColumnFooterContainerStyle = null;
+                _context.PART_GridViewLeft.ColumnFooterContainerStyle = _style;
 
                 _style = _context.PART_GridViewCenter.ColumnFooterContainerStyle;
-                         _context.PART_GridViewCenter.ColumnFooterContainerStyle = null;
-                         _context.PART_GridViewCenter.ColumnFooterContainerStyle = _style;
-                
-                _style = _context.PART_GridViewRight .ColumnFooterContainerStyle;
-                         _context.PART_GridViewRight .ColumnFooterContainerStyle = null;
-                         _context.PART_GridViewRight .ColumnFooterContainerStyle = _style;
+                _context.PART_GridViewCenter.ColumnFooterContainerStyle = null;
+                _context.PART_GridViewCenter.ColumnFooterContainerStyle = _style;
 
-                Border   _fillThumb = ElementHelper.FindVisualChild<Border>(_context.ScrollViewerRight, "PART_FooterThumb");
+                _style = _context.PART_GridViewRight.ColumnFooterContainerStyle;
+                _context.PART_GridViewRight.ColumnFooterContainerStyle = null;
+                _context.PART_GridViewRight.ColumnFooterContainerStyle = _style;
 
-                         _fillThumb.GetBindingExpression(Border.CornerRadiusProperty   ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.BackgroundProperty     ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.BorderBrushProperty    ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.PaddingProperty        ).UpdateTarget();
-                         _fillThumb.GetBindingExpression(Border.BorderThicknessProperty).UpdateTarget();
+                Border _fillThumb = ElementHelper.FindVisualChild<Border>(_context.ScrollViewerRight, "PART_FooterThumb");
+
+                _fillThumb.GetBindingExpression(Border.CornerRadiusProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.BackgroundProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.BorderBrushProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.PaddingProperty).UpdateTarget();
+                _fillThumb.GetBindingExpression(Border.BorderThicknessProperty).UpdateTarget();
             }
         }
         #endregion
@@ -2114,7 +2119,7 @@ namespace DsxGridCtrl
         #region DP - RowCellStyle
 
         public static readonly DependencyProperty RowCellStyleProperty =
-            DependencyProperty.Register("RowCellStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null) );
+            DependencyProperty.Register("RowCellStyle", typeof(Style), typeof(DsxDataGrid), new PropertyMetadata(null));
 
         public Style RowCellStyle
         {
@@ -2126,17 +2131,17 @@ namespace DsxGridCtrl
 
         #region DP Callback - OnGridLayoutPartChanged
 
-        private static void OnGridLayoutPartChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnGridLayoutPartChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d == null || e.NewValue == null)
             {
                 return;
             }
 
-            DsxDataGrid _context        = (DsxDataGrid)d;
-			
-			_context.RebuildLayout();
+            DsxDataGrid _context = (DsxDataGrid)d;
+
+            _context.RebuildLayout();
         }
         #endregion
-	}
+    }
 }

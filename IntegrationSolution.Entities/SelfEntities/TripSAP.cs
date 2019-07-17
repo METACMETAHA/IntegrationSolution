@@ -12,7 +12,12 @@ namespace IntegrationSolution.Entities.SelfEntities
     /// <summary>
     /// Description of current properties is in HeaderNames file
     /// </summary>
-    public class TripSAP : IMoveDateTimeCheck, ICarIndicator, ICommonIndicator, ITractorIndicators
+    public class TripSAP : 
+        IMoveDateTimeCheck, 
+        ICarIndicator, 
+        ICommonIndicator, 
+        ITractorIndicators,
+        IComparable
     {
         public double DepartureOdometerValue { get; set; }
         public double ReturnOdometerValue { get; set; }
@@ -37,6 +42,15 @@ namespace IntegrationSolution.Entities.SelfEntities
             FuelDictionary = new Dictionary<FuelEnum, IFuel>();
             IndicatorMileage = indicatorMileage;
             Driver = new Driver();
+        }
+
+        public int CompareTo(object obj)
+        {
+            var trip = obj as TripSAP;
+            if(trip == null)
+                throw new Exception("Невозможно сравнить два объекта");
+
+            return this.TotalMileage.CompareTo(trip.TotalMileage);
         }
     }
 }

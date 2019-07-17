@@ -1,6 +1,7 @@
 ﻿using DialogConstruction.Interfaces;
 using Integration.ModuleGUI.Models;
 using IntegrationSolution.Common.Enums;
+using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.Models;
 using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
@@ -16,6 +17,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 using Unity;
 
 namespace Integration.ModuleGUI.ViewModels
@@ -23,24 +26,30 @@ namespace Integration.ModuleGUI.ViewModels
     public class OperationsViewModel : VMLocalBase
     {
         #region Variables
+        private GridConfiguration gridConfiguration;
+        public GridConfiguration GridConfiguration
+        {
+            get { return gridConfiguration; }
+            set { SetProperty(ref gridConfiguration, value); }
+        }
+        #endregion
+
+        #region Ctor
         private readonly IDialogManager _dialogManager;
-        #endregion
-
-        #region Properties
-
-        #endregion
 
         public OperationsViewModel(IDialogManager dialogManager, IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
             this.Title = "Операции";
             this.CanGoBack = true;
-            this.CanGoNext = false; 
+            this.CanGoNext = true; // set to false 
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
+            ShowDetailsOnSAPCommand = new DelegateCommand(ShowSAPDetailsWndCmd);
+            GridConfiguration = new GridConfiguration();
 
             _dialogManager = dialogManager;
         }
-
+        #endregion
 
         #region Moves next/back
         public override bool MoveBack() => this.CanGoBack;
@@ -249,6 +258,32 @@ namespace Integration.ModuleGUI.ViewModels
             if (this.Error == null || !this.Error.IsError)
             {
                 NotifySuccessAndOpenFile(nameReport);
+            }
+        }
+
+
+        public DelegateCommand ShowDetailsOnSAPCommand { get; private set; }
+        protected async void ShowSAPDetailsWndCmd()
+        {
+            try
+            {
+                var progress = await InitializeCars();
+                await progress.CloseAsync();
+
+                ModuleData.Vehicles = new ObservableCollection<IVehicleSAP>(ModuleData.Vehicles);
+                Error = new IntegrationSolution.Common.Entities.Error()
+                {
+                    IsError = false,
+                    ErrorDescription = "Обновлено"
+                };
+            }
+            catch (Exception ex)
+            {
+                Error = new IntegrationSolution.Common.Entities.Error()
+                {
+                    IsError = true,
+                    ErrorDescription = ex.Message
+                };
             }
         }
         #endregion

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Entities.Interfaces
 {   
-    public interface IVehicleSAP : IVehicle
+    public interface IVehicleSAP : IVehicle, IComparable
     {
         TripSAP TripResulted { get; }
 

@@ -5,7 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
+             xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+             xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -15,7 +18,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <Controls:MetroAnimatedSingleRowTabControl Grid.ColumnSpan="2">
             <TabItem Header="Операции">
                 <StackPanel>
@@ -27,6 +30,136 @@
                             Command="{Binding CheckDifferenceOfTotalSpeedCommand}"
                             Style="{StaticResource LargeBlueBtn}"
                             ToolTip="Сравнение данных по пробегу из системы SAP и Wialon"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Сводка по SAP">
+                <StackPanel>
+                    <Button Margin="10" Padding="10"
+                            Command="{Binding ShowDetailsOnSAPCommand}"
+                            ToolTip="Быстрая сводка по путевым листам из системы SAP">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource LargeBlueBtn}" TargetType="Button">
+                                <Setter Property="Content" Value="Обновить данные"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
+                                        <Setter Property="Content" Value="Инициализация"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
+                                         Margin="5"
+                                         AllowCheckAnyTime="True"
+                                         SortField="StateNumber"
+                                         HorizontalGridLinesIsVisible="True"
+                                         HorizontalScrollbarVisibility="Auto"
+                                         VerticalScrollbarVisibility="Auto"
+                                         VerticalGridLinesIsVisible="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
+                                         CellAdornerIsVisible="True"
+                                         CellEditingIsEnabled="False"
+                                         FooterVisibility="Auto"
+                                         FilterVisibility="Auto"
+                                         ItemFixHeight="20"
+                                         FilterHeight="40" MaxHeight="460"
+                                         IsVirtualizing="True">
+
+                            <dsx:DsxDataGrid.Style>
+                                <Style TargetType="dsx:DsxDataGrid">
+                                    <Setter Property="HeaderVisibility" Value="Visible"/>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding GridConfiguration.HeaderIsVisible}" Value="False">
+                                            <Setter Property="HeaderVisibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </dsx:DsxDataGrid.Style>
+
+                            <dsx:DsxDataGrid.Columns>
+                                <dsx:DsxColumn FieldName="StateNumber"
+                                               DisplayMemberBinding="{Binding Path=StateNumber}"
+                                               Header="Гос.номер" Width="95"
+                                               IsSizable="False" IsSortable="True"
+                                               ViewType="Text" FilterType="TextBox" 
+                                               FooterType="None" EditType="None"
+                                               FilterCriteria="Contains"
+                                               CellFontWeight="DemiBold"
+                                               CellForeground="DarkBlue"
+                                               CellHAlign="Center"/>
+
+                                <dsx:DsxColumn FieldName="UnitModel"
+                                               DisplayMemberBinding="{Binding Path=UnitModel}"
+                                               Header="Модель" Width="180" 
+                                               IsSizable="True" ViewType="Text" 
+                                               FilterType="TextBox"  EditType="None" 
+                                               CellHAlign="Left"/>
+
+                                <dsx:DsxColumn FieldName="Type" 
+                                               DisplayMemberBinding="{Binding Path=Type}"
+                                               Header="Тип" Width="180" 
+                                               IsSizable="True" ViewType="Text" 
+                                               FilterType="TextBox" EditType="None" 
+                                               CellHAlign="Left"/>
+
+                                <dsx:DsxColumn FieldName="Department" 
+                                               DisplayMemberBinding="{Binding Path=Department}"
+                                               Header="Службы/отделы" Width="180"
+                                               IsSizable="True" IsSortable="True"
+                                               ViewType="Text" FilterType="TextBox" 
+                                               EditType="None"
+                                               CellHAlign="Left"/>
+
+                                <dsx:DsxColumn FieldName="StructureName" 
+                                               DisplayMemberBinding="{Binding Path=StructureName}"
+                                               Header="Структурные подразделения" Width="115" 
+                                               IsSizable="True" ViewType="Text" 
+                                               FilterType="TextBox" EditType="TextBox" 
+                                               CellHAlign="Left"/>
+
+                                <dsx:DsxColumn FieldName="CountTrips" 
+                                               DisplayMemberBinding="{Binding Path=CountTrips}"
+                                               Header="К-во поездок" Width="100" 
+                                               IsSizable="True" ViewType="Integer"
+                                               FilterType="TextBox"  EditType="TextBox"  
+                                               FilterCriteria="GreaterOrEqual"
+                                               CellHAlign="Left"/>
+
+                                <dsx:DsxColumn FieldName="TripResulted" 
+                                               DisplayMemberBinding="{Binding TripResulted.TotalMileage}"
+                                               Header="Всего км." Width="70" 
+                                               IsSizable="True" ViewType="Text"
+                                               FilterType="None"  EditType="TextBox"
+                                               CellHAlign="Left"/>
+
+                            </dsx:DsxDataGrid.Columns>
+
+                        </dsx:DsxDataGrid>
+
+                        <partialViews:GridConfigurationView Grid.Column="1">
+                            <partialViews:GridConfigurationView.Style>
+                                <Style TargetType="{x:Type UserControl}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </partialViews:GridConfigurationView.Style>
+                        </partialViews:GridConfigurationView>
+                    </Grid>
                 </StackPanel>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>

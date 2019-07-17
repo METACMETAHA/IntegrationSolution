@@ -1,11 +1,13 @@
 ﻿using Integration.ModuleGUI.Models;
 using Integration.ModuleGUI.Views;
 using IntegrationSolution.Common.Helpers;
+using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Entities.Interfaces;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,20 +22,19 @@ namespace Integration.ModuleGUI.ViewModels
     public class OperationResultsViewModel : VMLocalBase
     {
         #region Variables
-        private bool _verticalGridLinesIsVisible;
-        public bool VerticalGridLinesIsVisible
+        private GridConfiguration gridConfiguration;
+        public GridConfiguration GridConfiguration
         {
-            get { return _verticalGridLinesIsVisible; }
-            set { SetProperty(ref _verticalGridLinesIsVisible, value); }
+            get { return gridConfiguration; }
+            set { SetProperty(ref gridConfiguration, value); }
         }
 
-        private bool _headerIsVisible;
-        public bool HeaderIsVisible
+        private bool _isOpenChildPopup;
+        public bool IsOpenChildPopup
         {
-            get { return _headerIsVisible; }
-            set { SetProperty(ref _headerIsVisible, value); }
+            get { return _isOpenChildPopup; }
+            set { SetProperty(ref _isOpenChildPopup, value); }
         }
-
         #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
@@ -41,7 +42,8 @@ namespace Integration.ModuleGUI.ViewModels
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
-            HeaderIsVisible = true;
+
+            GridConfiguration = new GridConfiguration();
         }
         
         public override bool MoveBack()

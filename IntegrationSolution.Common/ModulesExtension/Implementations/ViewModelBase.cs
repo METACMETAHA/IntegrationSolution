@@ -2,6 +2,7 @@
 using IntegrationSolution.Common.Events;
 using IntegrationSolution.Common.ModulesExtension.Interfaces;
 using log4net;
+using NotificationConstructor.Interfaces;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -22,6 +23,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
         protected readonly IUnityContainer _container;
         protected readonly IEventAggregator _eventAggregator;
         protected readonly ILog _logger;
+        protected readonly INotificationManager _notificationManager;
 
         #region Properties
         // TODO: in future, name of each node should be loaded from dictionary by nameof class
@@ -75,6 +77,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
             _container = container;
             _eventAggregator = ea;
             _logger = LogManager.GetLogger(this.GetType());
+            _notificationManager = _container.Resolve<INotificationManager>();
 
             // TODO: in future, name of each node should be loaded from dictionary by nameof class
             this.Title = this.GetType().Name;

@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
              xmlns:views="clr-namespace:Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews"
+             xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
@@ -15,13 +17,22 @@
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
 
+        <!--<wnd:ChildWindow 
+            Grid.ColumnSpan="2" Title="Подробно"
+            IsOpen="{Binding IsOpenChildPopup}"
+            IsModal="False" ShowTitleBar="True" 
+            CloseByEscape="True"
+            ShowCloseButton="True" Padding="30"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center">
+           
+
+        </wnd:ChildWindow>-->
+
         <Controls:MetroAnimatedSingleRowTabControl>
             <Controls:MetroTabItem Header="Сводка">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-
-                <views:ReportDetailsView Height="auto" ScrollViewer.CanContentScroll="True"/>
-
-
+                    <views:ReportDetailsView Height="Auto"/>
                 </ScrollViewer>
             </Controls:MetroTabItem>
             
@@ -33,33 +44,19 @@
         </Controls:MetroAnimatedSingleRowTabControl>
 
         <StackPanel Grid.Column="1" Margin="0 60 0 0">
-            <ToggleButton Width="50" Height="50"
-                          Margin="15" ToolTip="Отобразить/скрыть сетку"
-                          IsChecked="{Binding VerticalGridLinesIsVisible}"
-                          Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
-                <Rectangle Width="35"
-               Height="35"
-               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+            <partialViews:GridConfigurationView/>
+            
+            <!--<ToggleButton Width="50" Height="50" IsChecked="{Binding IsOpenChildPopup}"
+                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
+                    Margin="15" ToolTip="Выбрать заголовки для отображения">
+                <Rectangle Width="25" Height="25"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill"
-                         Visual="{DynamicResource appbar_centerline}"/>
+                         Visual="{DynamicResource appbar_layer_arrange_sendbackward}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
-            </ToggleButton>
-
-            <ToggleButton Width="50" Height="50"
-                          Margin="15" ToolTip="Отобразить/скрыть заголовки"
-                          IsChecked="{Binding HeaderIsVisible}"
-                          Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
-                <Rectangle Width="25"
-               Height="25"
-               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill"
-                         Visual="{DynamicResource appbar_text_serif}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </ToggleButton>
+            </ToggleButton>-->
         </StackPanel>
 
     </Grid>

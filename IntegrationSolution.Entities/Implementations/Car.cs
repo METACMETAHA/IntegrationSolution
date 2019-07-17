@@ -1,6 +1,7 @@
 ﻿using IntegrationSolution.Common.Converters;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -60,6 +61,20 @@ namespace IntegrationSolution.Entities.Implementations
         public override string ToString()
         {
             return this.StateNumber;
+        }
+
+        public int CompareTo(object obj)
+        {
+            IVehicleSAP vehicle = obj as IVehicleSAP;
+            if(vehicle == null)
+                throw new Exception("Невозможно сравнить два объекта");
+
+            if (vehicle.TripResulted == null)
+                return -1;
+            else if (this.TripResulted == null)
+                return 1;
+
+            return this.TripResulted.TotalMileage.CompareTo(vehicle.TripResulted.TotalMileage);
         }
     }
 }
