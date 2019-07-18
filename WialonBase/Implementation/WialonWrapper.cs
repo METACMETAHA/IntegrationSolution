@@ -179,7 +179,7 @@ namespace WialonBase.Implementation
             }
             catch (Exception ex)
             {
-                _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+               // _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
                 return false;
             }
         }
@@ -192,7 +192,7 @@ namespace WialonBase.Implementation
             }
             catch (Exception ex)
             {
-                _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                //_notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
                 return false;
             }
         }

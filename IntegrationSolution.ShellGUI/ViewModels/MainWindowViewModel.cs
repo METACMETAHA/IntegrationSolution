@@ -34,28 +34,23 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             set
             {
                 IsEnabledNavigation = false;
-                //Connect(value).Wait(); // second variant
-                //Task.Delay(2000);
                 var res = false;
                 if (value)
                     res = _container.Resolve<INavigationOperations>().TryConnect();
                 else
                     res = _container.Resolve<INavigationOperations>().TryClose();
-                if (res == true)
+                if (res)
                 {
-                    if (value == false)
+                    if (!value)
                         _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(false);
                     else
                         _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(true);
-
-                    SetProperty(ref _isConnectedNavigation, value);
+                    var ss = value;
+                        SetProperty(ref _isConnectedNavigation, value);
                 }
                 else
                 {
-                    var wnd = (MetroWindow)Application.Current.MainWindow;
-                    wnd.ShowMessageAsync("Ошибка!", "Проблема в подключении, обратитесь в поддержку.");
-
-                    SetProperty(ref _isConnectedNavigation, false);
+                   // SetProperty(ref _isConnectedNavigation, false);
                 }
 
                 _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(IsConnectedNavigation);
