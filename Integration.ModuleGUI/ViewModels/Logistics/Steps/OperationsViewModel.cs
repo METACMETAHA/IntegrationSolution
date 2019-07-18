@@ -66,7 +66,6 @@ namespace Integration.ModuleGUI.ViewModels
         }
         #endregion
 
-
         #region Commands
         public DelegateCommand WriteTotalStatisticsInFileCommand { get; private set; }
         protected async void WriteTotalStatisticsJob()
@@ -191,19 +190,19 @@ namespace Integration.ModuleGUI.ViewModels
             {
                 try
                 {
-                    forReport = null;
-                    forReportDetails = null;
+                    ModuleData.SimpleDataForReport = null;
+                    ModuleData.DetailsDataForReport = null;
 
                     if (!datesFromToContext.IsWithDetails)
                     {
-                        forReport = await this.GetVehicleInfos<IntegratedVehicleInfo>(progress, datesFromToContext);
-                        if(forReport == null || !forReport.Any())
+                        ModuleData.SimpleDataForReport = new ObservableCollection<IntegratedVehicleInfo>(await this.GetVehicleInfos<IntegratedVehicleInfo>(progress, datesFromToContext));
+                        if(ModuleData.SimpleDataForReport == null || !ModuleData.SimpleDataForReport.Any())
                             throw new Exception("Данные отсутствуют.\nПопробуйте выбрать другой период или повторите попытку позже.");
                     }
                     else
                     {
-                        forReportDetails = await this.GetVehicleInfos<IntegratedVehicleInfoDetails>(progress, datesFromToContext);
-                        if (forReportDetails == null || !forReportDetails.Any())
+                        ModuleData.DetailsDataForReport = new ObservableCollection<IntegratedVehicleInfoDetails>(await this.GetVehicleInfos<IntegratedVehicleInfoDetails>(progress, datesFromToContext));
+                        if (ModuleData.DetailsDataForReport == null || !ModuleData.DetailsDataForReport.Any())
                             throw new Exception("Данные отсутствуют.\nПопробуйте выбрать другой период или повторите попытку позже.");
                     }
 
@@ -228,12 +227,12 @@ namespace Integration.ModuleGUI.ViewModels
                     
                     if (!datesFromToContext.IsWithDetails)
                         _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName,
-                            forReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
+                            ModuleData.SimpleDataForReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
                             ModuleData.VehiclesExcelDistinctWialon.ToList(),
                             ModuleData.VehiclesWialonDistinctExcel.ToList());
                     else
                         _container.Resolve<IExcelWriter>().CreateReportDiffMileageWithDetails(fileDialog.FileName,
-                            forReportDetails.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
+                            ModuleData.DetailsDataForReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
                             ModuleData.VehiclesExcelDistinctWialon.ToList(),
                             ModuleData.VehiclesWialonDistinctExcel.ToList());
 
@@ -287,8 +286,7 @@ namespace Integration.ModuleGUI.ViewModels
             }
         }
         #endregion
-
-
+        
         #region Helpers
         private async Task<ProgressDialogController> InitializeCars()
         {
@@ -383,7 +381,7 @@ namespace Integration.ModuleGUI.ViewModels
                     int index = 0;
                     int indexCurrent = 0;
 
-                    List<T> forReport = new List<T>();
+                    List<T> SimpleDataForReport = new List<T>();
 
                     foreach (var item in ModuleData.Vehicles)
                     {
@@ -443,10 +441,10 @@ namespace Integration.ModuleGUI.ViewModels
                             (integratedVehicle as IntegratedVehicleInfoDetails).TripsWialon = tripWialon?.Trips;
                         }
 
-                        forReport.Add(integratedVehicle);
+                        SimpleDataForReport.Add(integratedVehicle);
                     }
 
-                    return forReport;
+                    return SimpleDataForReport;
 
                 }
                 catch (Exception ex)

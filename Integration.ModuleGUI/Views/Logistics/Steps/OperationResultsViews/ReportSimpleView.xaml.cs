@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews
 {
     /// <summary>
-    /// Interaction logic for ReportDetailsView.xaml
+    /// Interaction logic for ReportSimpleView.xaml
     /// </summary>
-    public partial class ReportDetailsView : UserControl
+    public partial class ReportSimpleView : UserControl
     {
-        public ReportDetailsView()
+        public ReportSimpleView()
         {
             InitializeComponent();
         }

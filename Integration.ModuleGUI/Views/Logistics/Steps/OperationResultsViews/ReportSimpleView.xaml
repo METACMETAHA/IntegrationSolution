@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews.ReportSimpleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+
+    <StackPanel>
+        <dsx:DsxDataGrid ItemsSource="{Binding ModuleData.SimpleDataForReport}"
+                         Margin="5"
+                         AllowCheckAnyTime="True"
+                         SortField="StateNumber"
+                         HorizontalGridLinesIsVisible="True"
+                         HorizontalScrollbarVisibility="Auto"
+                         VerticalScrollbarVisibility="Auto"
+                         VerticalGridLinesIsVisible="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
+                         CellAdornerIsVisible="True"
+                         CellEditingIsEnabled="False"
+                         FooterVisibility="Auto"
+                         FilterVisibility="Auto"
+                         ItemFixHeight="20"
+                         FilterHeight="40" MaxHeight="460"
+                         IsVirtualizing="True">
+
+            <dsx:DsxDataGrid.Style>
+                <Style TargetType="dsx:DsxDataGrid">
+                    <Setter Property="HeaderVisibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding GridConfiguration.HeaderIsVisible}" Value="False">
+                            <Setter Property="HeaderVisibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </dsx:DsxDataGrid.Style>
+
+            <dsx:DsxDataGrid.Columns>
+                <dsx:DsxColumn FieldName="StateNumber"
+                               DisplayMemberBinding="{Binding Path=StateNumber}"
+                               Header="Гос.номер" Width="95"
+                               IsSizable="False" IsSortable="True"
+                               ViewType="Text" FilterType="TextBox" 
+                               FooterType="None" EditType="None"
+                               FilterCriteria="Contains"
+                               CellFontWeight="DemiBold"
+                               CellForeground="DarkBlue"
+                               CellHAlign="Center"/>
+
+                <dsx:DsxColumn FieldName="UnitModel"
+                               DisplayMemberBinding="{Binding Path=UnitModel}"
+                               Header="Модель" Width="180" 
+                               IsSizable="True" ViewType="Text" 
+                               FilterType="TextBox"  EditType="None" 
+                               CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="Type" 
+                               DisplayMemberBinding="{Binding Path=Type}"
+                               Header="Тип" Width="180" 
+                               IsSizable="True" ViewType="Text" 
+                               FilterType="TextBox" EditType="None" 
+                               CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="StructureName" 
+                               DisplayMemberBinding="{Binding Path=StructureName}"
+                               Header="Структурные подразделения" Width="115" 
+                               IsSizable="True" ViewType="Text" 
+                               FilterType="TextBox" EditType="TextBox" 
+                               CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="CountTrips" 
+                               DisplayMemberBinding="{Binding Path=CountTrips.Difference}"
+                               Header="К-во поездок" Width="100" 
+                               IsSizable="True" ViewType="Integer" IsSortable="False"
+                               FilterType="TextBox"  EditType="TextBox"  
+                               FilterCriteria="GreaterOrEqual"
+                               CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="IndicatorMileage" 
+                               DisplayMemberBinding="{Binding Path=IndicatorMileage.Difference}"
+                               Header="Разница километража" Width="180"
+                               IsSizable="True" IsSortable="False"
+                               ViewType="Text" FilterType="TextBox"
+                               EditType="None"
+                               CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="CountSpeedViolations" 
+                               DisplayMemberBinding="{Binding Path=CountSpeedViolations}"
+                               Header="К-во нарушений скор. режима" Width="100" 
+                               IsSizable="True" ViewType="Integer" IsSortable="False"
+                               FilterType="TextBox" EditType="TextBox"  
+                               FilterCriteria="GreaterOrEqual"
+                               CellHAlign="Left"/>
+
+                <dsx:DsxColumn FieldName="PercentDifference" 
+                               DisplayMemberBinding="{Binding Path=PercentDifference}"
+                               Header="Расхождение" Width="70" IsSortable="True"
+                               IsSizable="True" ViewType="Text"
+                               FilterType="TextBox"  EditType="TextBox"
+                               CellHAlign="Left"/>
+
+            </dsx:DsxDataGrid.Columns>
+
+        </dsx:DsxDataGrid>
+
+    </StackPanel>
+
+</UserControl>

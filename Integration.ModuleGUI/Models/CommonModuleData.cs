@@ -1,5 +1,6 @@
 ﻿using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
+using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel;
 using IntegrationSolution.Excel.Implementations;
 using IntegrationSolution.Excel.Interfaces;
@@ -82,6 +83,20 @@ namespace Integration.ModuleGUI.Models
         {
             get { return vehiclesWialonDistinctExcel; }
             set { SetProperty(ref vehiclesWialonDistinctExcel, value); }
+        }
+
+        private ObservableCollection<IntegratedVehicleInfo> simpleDataForReport;
+        public ObservableCollection<IntegratedVehicleInfo> SimpleDataForReport
+        {
+            get { return simpleDataForReport; }
+            set { SetProperty(ref simpleDataForReport, value); }
+        }
+
+        private ObservableCollection<IntegratedVehicleInfoDetails> detailsDataForReport;
+        public ObservableCollection<IntegratedVehicleInfoDetails> DetailsDataForReport
+        {
+            get { return detailsDataForReport; }
+            set { SetProperty(ref detailsDataForReport, value); }
         }
         #endregion
 

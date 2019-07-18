@@ -36,8 +36,6 @@ namespace Integration.ModuleGUI.ViewModels
             get { return _isOpenChildPopup; }
             set { SetProperty(ref _isOpenChildPopup, value); }
         }
-
-        public IEnumerable<IntegratedVehicleInfo> SimpleReportData => forReport;
         #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
@@ -48,11 +46,16 @@ namespace Integration.ModuleGUI.ViewModels
 
             GridConfiguration = new GridConfiguration();
         }
-        
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (ModuleData.SimpleDataForReport == null)
+                ModuleData.SimpleDataForReport = new ObservableCollection<IntegratedVehicleInfo>(ModuleData.DetailsDataForReport);
+        }
+
         public override bool MoveBack()
         {
-            //base.forReport
-            //ModuleData.Vehicles.First().Trips.Count
             return true;
         }
         

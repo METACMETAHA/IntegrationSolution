@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Entities.Interfaces
 {
-    public interface ICommonCompareIndicator<T>
+    public interface ICommonCompareIndicator<T> 
     {
         T SAP { get; set; }
 

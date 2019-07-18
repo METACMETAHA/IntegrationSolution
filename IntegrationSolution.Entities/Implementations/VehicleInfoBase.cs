@@ -18,7 +18,8 @@ namespace IntegrationSolution.Entities.Implementations
         public ICommonCompareIndicator<int> CountTrips { get; set; }
 
 
-        public VehicleInfoBase(ICommonCompareIndicator<double?> indicatorMileage,
+        public VehicleInfoBase(
+            ICommonCompareIndicator<double?> indicatorMileage,
             ICommonCompareIndicator<int> indicatorCountTrips)
         {
             IndicatorMileage = indicatorMileage;

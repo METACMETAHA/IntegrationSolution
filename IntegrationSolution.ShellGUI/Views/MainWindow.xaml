@@ -19,7 +19,7 @@
         NonActiveBorderBrush="Black"
         MinHeight="480" MinWidth="900"
         TitleAlignment="Center"
-        Title="DTEK" Height="610" Width="1120">
+        Title="DTEK" Height="690" Width="1120">
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands ShowSeparators="True">

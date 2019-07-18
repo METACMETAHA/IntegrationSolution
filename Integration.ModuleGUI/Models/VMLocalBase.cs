@@ -3,6 +3,7 @@ using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.SelfEntities;
 using Prism.Events;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Unity;
 using WialonBase.Interfaces;
 
@@ -11,9 +12,7 @@ namespace Integration.ModuleGUI.Models
     public abstract class VMLocalBase : ViewModelBase
     {
         protected INavigationOperations _wialonContext;
-        protected IEnumerable<IntegratedVehicleInfo> forReport;
-        protected IEnumerable<IntegratedVehicleInfoDetails> forReportDetails;
-
+        
         #region Properties
         private CommonModuleData _moduleData;
         public CommonModuleData ModuleData
@@ -21,6 +20,8 @@ namespace Integration.ModuleGUI.Models
             get { return _moduleData; }
             set { SetProperty(ref _moduleData, value); }
         }
+
+        
         #endregion Properties
 
 

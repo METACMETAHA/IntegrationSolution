@@ -147,7 +147,7 @@
 
                         </dsx:DsxDataGrid>
 
-                        <partialViews:GridConfigurationView Grid.Column="1" DataContext="{Binding GridConfiguration}">
+                        <partialViews:GridConfigurationView Grid.Column="1">
                             <partialViews:GridConfigurationView.Style>
                                 <Style TargetType="{x:Type UserControl}">
                                     <Setter Property="Visibility" Value="Visible"/>

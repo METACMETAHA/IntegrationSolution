@@ -32,6 +32,6 @@ namespace IntegrationSolution.Entities.Implementations
         public CompareIndicator()
         {
             _logger = LogManager.GetLogger(this.GetType());
-        }        
+        }
     }
 }

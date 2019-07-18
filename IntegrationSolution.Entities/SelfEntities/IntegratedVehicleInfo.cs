@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Entities.SelfEntities
 {
-    public class IntegratedVehicleInfo : VehicleInfoBase
+    public class IntegratedVehicleInfo : VehicleInfoBase, IComparable
     {
         public double? WialonMileageTotal { get; set; }
         public int CountSpeedViolations { get; set; }
@@ -29,5 +29,19 @@ namespace IntegrationSolution.Entities.SelfEntities
         public IntegratedVehicleInfo(ICommonCompareIndicator<double?> indicatorMileage,
             ICommonCompareIndicator<int> indicatorCountTrips) : base(indicatorMileage, indicatorCountTrips)
         { }
+
+        public int CompareTo(object obj)
+        {
+            var vehicle = obj as IntegratedVehicleInfo;
+            if (vehicle == null)
+                throw new Exception("Невозможно сравнить два объекта");
+
+            if (vehicle.PercentDifference == null)
+                return -1;
+            else if (this.PercentDifference == null)
+                return 1;
+
+            return this.PercentDifference.Value.CompareTo(vehicle.PercentDifference.Value);
+        }
     }
 }

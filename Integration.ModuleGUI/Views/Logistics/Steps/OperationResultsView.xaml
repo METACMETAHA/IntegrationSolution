@@ -29,28 +29,11 @@
 
         </wnd:ChildWindow>-->
 
+        <!--Tab with Simple Data-->
         <Controls:MetroAnimatedSingleRowTabControl>
             <Controls:MetroTabItem Header="Сводка">
-
-                <Controls:MetroTabItem.Style>
-                    <Style TargetType="Controls:MetroTabItem">
-                        <Setter Property="Visibility" Value="Visible"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding SimpleReportData}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Controls:MetroTabItem.Style>
-                
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <views:ReportDetailsView Height="Auto"/>
-                </ScrollViewer>
-            </Controls:MetroTabItem>
-
-            <Controls:MetroTabItem Header="Сводка">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <views:ReportDetailsView Height="Auto"/>
+                    <views:ReportSimpleView Height="Auto"/>
                 </ScrollViewer>
             </Controls:MetroTabItem>
 
@@ -61,21 +44,6 @@
             </Controls:MetroTabItem>-->
         </Controls:MetroAnimatedSingleRowTabControl>
 
-        <StackPanel Grid.Column="1" Margin="0 60 0 0">
-            <partialViews:GridConfigurationView/>
-            
-            <!--<ToggleButton Width="50" Height="50" IsChecked="{Binding IsOpenChildPopup}"
-                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
-                    Margin="15" ToolTip="Выбрать заголовки для отображения">
-                <Rectangle Width="25" Height="25"
-                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill"
-                         Visual="{DynamicResource appbar_layer_arrange_sendbackward}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </ToggleButton>-->
-        </StackPanel>
-
+        <partialViews:GridConfigurationView Grid.Column="1"/>
     </Grid>
 </UserControl>
