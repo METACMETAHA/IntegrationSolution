@@ -41,7 +41,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             this.Title = "Операции";
             this.CanGoBack = true;
-            this.CanGoNext = true; // set to false 
+            this.CanGoNext = false;
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
             ShowDetailsOnSAPCommand = new DelegateCommand(ShowSAPDetailsWndCmd);
@@ -191,8 +191,8 @@ namespace Integration.ModuleGUI.ViewModels
             {
                 try
                 {
-                    IEnumerable<IntegratedVehicleInfo> forReport = null;
-                    IEnumerable<IntegratedVehicleInfoDetails> forReportDetails = null;
+                    forReport = null;
+                    forReportDetails = null;
 
                     if (!datesFromToContext.IsWithDetails)
                     {

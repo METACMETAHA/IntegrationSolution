@@ -3,6 +3,7 @@ using Integration.ModuleGUI.Views;
 using IntegrationSolution.Common.Helpers;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Entities.Interfaces;
+using IntegrationSolution.Entities.SelfEntities;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -35,6 +36,8 @@ namespace Integration.ModuleGUI.ViewModels
             get { return _isOpenChildPopup; }
             set { SetProperty(ref _isOpenChildPopup, value); }
         }
+
+        public IEnumerable<IntegratedVehicleInfo> SimpleReportData => forReport;
         #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
@@ -48,6 +51,7 @@ namespace Integration.ModuleGUI.ViewModels
         
         public override bool MoveBack()
         {
+            //base.forReport
             //ModuleData.Vehicles.First().Trips.Count
             return true;
         }

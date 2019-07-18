@@ -31,11 +31,29 @@
 
         <Controls:MetroAnimatedSingleRowTabControl>
             <Controls:MetroTabItem Header="Сводка">
+
+                <Controls:MetroTabItem.Style>
+                    <Style TargetType="Controls:MetroTabItem">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SimpleReportData}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Controls:MetroTabItem.Style>
+                
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <views:ReportDetailsView Height="Auto"/>
                 </ScrollViewer>
             </Controls:MetroTabItem>
-            
+
+            <Controls:MetroTabItem Header="Сводка">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <views:ReportDetailsView Height="Auto"/>
+                </ScrollViewer>
+            </Controls:MetroTabItem>
+
             <!--<Controls:MetroTabItem Header="Сравнение">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <views:CompareSapWialonMileageView ScrollViewer.CanContentScroll="True"/>

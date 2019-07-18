@@ -8,6 +8,7 @@
 
     <StackPanel>
 
+        
         <dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
                                          Margin="5"
                                          AllowCheckAnyTime="True"
