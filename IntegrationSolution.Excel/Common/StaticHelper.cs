@@ -268,29 +268,29 @@ namespace IntegrationSolution.Excel.Common
 
             foreach (var fuelType in searchList)
             {
-                if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.DepartureBalanceGas)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.DepartureBalanceDisel)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.DepartureBalanceLPG)])
+                if (fuelType.Key == nameof(_headerNames.DepartureBalanceGas)
+                    || fuelType.Key == nameof(_headerNames.DepartureBalanceDisel)
+                    || fuelType.Key == nameof(_headerNames.DepartureBalanceLPG))
                     fuel.DepartureBalance = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ReturnBalanceGas)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ReturnBalanceDisel)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ReturnBalanceLPG)])
+                else if (fuelType.Key == nameof(_headerNames.ReturnBalanceGas)
+                    || fuelType.Key == nameof(_headerNames.ReturnBalanceDisel)
+                    || fuelType.Key == nameof(_headerNames.ReturnBalanceLPG))
                     fuel.ReturnBalance = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasActual)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDiselActual)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGActual)])
+                else if (fuelType.Key == nameof(_headerNames.ConsumptionGasActual)
+                    || fuelType.Key == nameof(_headerNames.ConsumptionDiselActual)
+                    || fuelType.Key == nameof(_headerNames.ConsumptionLPGActual))
                     fuel.ConsumptionActual = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasNormative)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDiselNormative)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGNormative)])
+                else if (fuelType.Key == nameof(_headerNames.ConsumptionGasNormative)
+                    || fuelType.Key == nameof(_headerNames.ConsumptionDiselNormative)
+                    || fuelType.Key == nameof(_headerNames.ConsumptionLPGNormative))
                     fuel.ConsumptionNormative = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
 
-                else if (fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasSavingsOrOverruns)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDiselSavingsOrOverruns)]
-                    || fuelType.Key == _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGSavingsOrOverruns)])
+                else if (fuelType.Key == nameof(_headerNames.ConsumptionGasSavingsOrOverruns)
+                    || fuelType.Key == nameof(_headerNames.ConsumptionDiselSavingsOrOverruns)
+                    || fuelType.Key == nameof(_headerNames.ConsumptionLPGSavingsOrOverruns))
                     fuel.ConsumptionSavingsOrOverruns = excelFile.CurrentWorkSheet.Cells[row, fuelType.Value.Column].Text.ToDouble();
             }
 
