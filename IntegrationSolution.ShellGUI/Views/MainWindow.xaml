@@ -23,8 +23,8 @@
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands ShowSeparators="True">
-            <Controls:ToggleSwitch Width="160" VerticalAlignment="Center"
-                                   Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+            <Controls:ToggleSwitch
+                                   Width="160" VerticalAlignment="Center"
                                    Margin="5" 
                                    IsEnabled="{Binding IsEnabledNavigation}"
                                    IsChecked="{Binding IsConnectedNavigation, IsAsync=True}"
@@ -32,7 +32,19 @@
                                    OffLabel="Нету связи" ThumbIndicatorWidth="20"
                                    OffSwitchBrush="#FFE8C9C9"
                                    OnSwitchBrush="#FF65BF65"
-                                   OnLabel="Подключено"/>
+                                   OnLabel="Подключено">
+                <Controls:ToggleSwitch.Style>
+                    <Style BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+                           TargetType="{x:Type Controls:ToggleSwitch}">
+                        <Setter Property="ToolTip" Value="Подключение к Wialon"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEnabledNavigation}" Value="False">
+                                <Setter Property="ToolTip" Value="Подождите..."/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Controls:ToggleSwitch.Style>
+            </Controls:ToggleSwitch>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
 

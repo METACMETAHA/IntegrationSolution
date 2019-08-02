@@ -5,6 +5,7 @@ using NotificationConstructor.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Threading;
 using Unity;
 using WialonBase.Configuration;
 using WialonBase.Helpers;
@@ -171,6 +172,7 @@ namespace WialonBase.Implementation
             }
         }
 
+
         public bool TryConnect(string token)
         {
             try
@@ -179,10 +181,15 @@ namespace WialonBase.Implementation
             }
             catch (Exception ex)
             {
-               // _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                }));
                 return false;
             }
         }
+
 
         public bool TryClose()
         {
@@ -192,13 +199,17 @@ namespace WialonBase.Implementation
             }
             catch (Exception ex)
             {
-                //_notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                }));
                 return false;
             }
         }
 
 
         public string CheckError(JObject jObject) => _wialonConnection.CheckError(jObject);
+
 
         public void UpdateToken()
         {

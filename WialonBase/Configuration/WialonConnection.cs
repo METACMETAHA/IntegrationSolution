@@ -2,6 +2,8 @@
 using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NotificationConstructor.Implementations;
+using NotificationConstructor.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,6 +12,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 using WialonBase.Helpers;
 using WialonBase.Interfaces;
 
@@ -72,14 +76,14 @@ namespace WialonBase.Configuration
                     _jsonConnectionInfo = JObject.Parse(responseString);
 
                     var error = CheckError(_jsonConnectionInfo);
-                    if (error != null)
+                    if (!string.IsNullOrWhiteSpace(error))
                         throw new Exception(error);
 
                     if (_jsonConnectionInfo["reason"] != null)
                         if (!string.IsNullOrWhiteSpace(_jsonConnectionInfo["reason"].Value<string>()))
                             throw new Exception($"Подключение установлено, но получена следующая ошибка от сервера: {_jsonConnectionInfo["reason"].Value<string>()}");
                 }
-
+                
                 return true;
             }
             catch (Exception ex)
@@ -256,6 +260,7 @@ namespace WialonBase.Configuration
         {
             TryClose();
         }
+
 
         public void UpdateToken()
         {

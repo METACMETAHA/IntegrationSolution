@@ -51,8 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>space.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -249,6 +248,10 @@
     <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
       <Project>{ca90b115-9c20-4ecb-8a52-14b2826f07a6}</Project>
       <Name>IntegrationSolution.Excel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotificationConstructor\NotificationConstructor.csproj">
+      <Project>{E91C928C-E71D-478A-A1A9-55C3E1E5A533}</Project>
+      <Name>NotificationConstructor</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProgressRing\ProgressRing.csproj">
       <Project>{5b3f58b4-e66b-47af-b4d2-20aa8d0f73fc}</Project>
