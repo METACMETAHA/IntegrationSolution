@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Common.Events;
+using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.SelfEntities;
 using Prism.Events;
@@ -20,7 +21,6 @@ namespace Integration.ModuleGUI.Models
             get { return _moduleData; }
             set { SetProperty(ref _moduleData, value); }
         }
-
         
         #endregion Properties
 

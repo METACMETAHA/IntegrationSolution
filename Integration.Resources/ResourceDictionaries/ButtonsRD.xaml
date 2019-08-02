@@ -376,7 +376,8 @@
 
     <Style x:Key="GrayButton" TargetType="{x:Type Button}">
 		<Setter Property="Cursor" Value="Hand"/>
-		<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
 		<Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
 		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
 		<Setter Property="BorderThickness" Value="1"/>

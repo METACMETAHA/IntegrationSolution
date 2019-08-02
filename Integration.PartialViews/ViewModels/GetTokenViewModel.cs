@@ -96,6 +96,7 @@ namespace Integration.PartialViews.ViewModels
                 if (tryConnect)
                 {
                     _settings["Token"] = TokenModel;
+                    _wialonContext.UpdateToken();
                     _notificationManager.NotifySuccessAsync("Токен обновлен");
                 }
                 else

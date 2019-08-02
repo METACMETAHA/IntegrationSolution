@@ -19,5 +19,6 @@ namespace IntegrationSolution.Excel.Interfaces
         void SetHeaders(ExcelWorksheet WorkSheet, List<string[]> headerRow, int row = 1);
 
         void SetCellsColor(ExcelRange excelRange, Color color, ExcelFillStyle fillType = ExcelFillStyle.Gray125);
+        
     }
 }

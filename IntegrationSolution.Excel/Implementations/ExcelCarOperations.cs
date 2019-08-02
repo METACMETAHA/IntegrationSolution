@@ -139,7 +139,8 @@ namespace IntegrationSolution.Excel.Implementations
                     _headerNames.StateNumber,
                     _headerNames.Departments);
 
-                headers.Add(StaticHelper.GetSameHeadersAddress(this, _headerNames.PartOfStructureNameForResult).FirstOrDefault());
+                headers.Add(StaticHelper.GetSameHeadersAddress(this, 
+                    _headerNames.PartOfStructureNameForResult).FirstOrDefault());
 
                 for (int row = headers.First().Value.Row + 1; row < this.EndCell.Row; row++)
                 {

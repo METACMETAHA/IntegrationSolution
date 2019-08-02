@@ -14,7 +14,7 @@ namespace IntegrationSolution.Common.Implementations
         public SerializablePropertyChanged(string binaryFile) : base(binaryFile)
         { }
 
-
+        [field: NonSerialized()]
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {

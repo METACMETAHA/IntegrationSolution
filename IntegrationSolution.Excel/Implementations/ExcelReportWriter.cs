@@ -41,9 +41,10 @@ namespace IntegrationSolution.Excel.Implementations
                         "Пробег всего по Wialon", "Кол-во превышений скоростного режима",
                         "Кол-во поездок (SAP)", "Кол-во поездок (Wialon)",
                         "Показания одометра (SAP)", "Показания одометра (Wialon)",
-                        "Разница показателей одометра", "Процент расхождения" }
+                        "Анализ пробегов", "Процент расхождения" }
                 };
 
+                worksheet.Column(5).Width = worksheet.Column(5).Width * 1.5;
                 worksheet.Column(5).Style.Numberformat.Format = "0.00";
                 worksheet.Column(6).Style.Numberformat.Format = "0";
                 worksheet.Column(7).Style.Numberformat.Format = "0";
@@ -52,9 +53,13 @@ namespace IntegrationSolution.Excel.Implementations
                 worksheet.Column(10).Style.Numberformat.Format = "0.00";
                 worksheet.Column(11).Style.Numberformat.Format = "0.00";
                 worksheet.Column(12).Style.Numberformat.Format = "0.00%";
+                
 
                 int row = 1;
                 ExcelDecorator.SetHeaders(worksheet, headerRow, row++);
+                
+                // Freeze first row
+                worksheet.View.FreezePanes(2, 1);
 
                 foreach (var item in valuePairs)
                 {
@@ -124,12 +129,12 @@ namespace IntegrationSolution.Excel.Implementations
                         "Дата выезда", "Начало (время SAP)", "Начало (время Wialon)", "Начало (локация)",
                         "Конец (время SAP)", "Конец (время Wialon)", "Конец (локация)",
                         "Показания одометра (SAP)", "Показания одометра (Wialon)",
-                        "Разница показателей одометра", "Процент расхождения", "Водитель", "Табельный номер водителя" }
+                        "Анализ пробегов", "Процент расхождения", "Водитель", "Табельный номер водителя" }
                 };
 
                 #region Columns` Style
                 worksheet.Column(5).Style.Numberformat.Format = "0.00";
-                worksheet.Column(5).Width = 15;
+                worksheet.Column(5).Width = 25;
                 worksheet.Column(6).Style.Numberformat.Format = "0";
                 worksheet.Column(7).Style.Numberformat.Format = "dd-mm-yyyy"; // "Date of trip"
                 worksheet.Column(7).Width = 15;
@@ -145,6 +150,9 @@ namespace IntegrationSolution.Excel.Implementations
 
                 int row = 1;
                 ExcelDecorator.SetHeaders(worksheet, headerRow, row++);
+                
+                // Freeze first row
+                worksheet.View.FreezePanes(2, 1);
 
                 foreach (var item in valuePairs)
                 {
@@ -297,7 +305,7 @@ namespace IntegrationSolution.Excel.Implementations
             #region Filling distinct cars
             if (sapCars != null)
             {
-                var worksheet = excel.Workbook.Worksheets.Add("SAP");
+                var worksheet = excel.Workbook.Worksheets.Add("ТС с ПЛ без пробега");
                 var headerRow = new List<string[]>()
                     {
                         new string[] {
@@ -376,7 +384,7 @@ namespace IntegrationSolution.Excel.Implementations
             #region Filling distinct cars
             if (wialonCars != null)
             {
-                var worksheet = excel.Workbook.Worksheets.Add("Wialon");
+                var worksheet = excel.Workbook.Worksheets.Add("ТС с пробегом без ПЛ");
                 var headerRow = new List<string[]>()
                     {
                         new string[] { "ID", "Гос.номер" }

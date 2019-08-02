@@ -1,4 +1,5 @@
-﻿using IntegrationSolution.Entities.Implementations.Wialon;
+﻿using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel;
@@ -54,6 +55,7 @@ namespace Integration.ModuleGUI.Models
             { SetProperty(ref _excelPathListFile, value); }
         }
 
+
         #region Vehicles
         private ObservableCollection<IVehicleSAP> vehicles;
         public ObservableCollection<IVehicleSAP> Vehicles
@@ -100,13 +102,26 @@ namespace Integration.ModuleGUI.Models
         }
         #endregion
 
+
+        private AppConfiguration settings;
+        public AppConfiguration Settings
+        {
+            get { return settings; }
+            set { SetProperty(ref settings, value); }
+        }
         #endregion Properties
 
 
         public CommonModuleData(IUnityContainer container)
         {
             _container = container;
+            Settings = container.Resolve<AppConfiguration>();
             _headerNames = _container.Resolve<HeaderNames>();
+
+            if (!string.IsNullOrWhiteSpace(Settings?.ConfigDTO.PathToMainFile))
+            {
+                this.PathToMainFile = Settings?.ConfigDTO.PathToMainFile;
+            }
         }
 
 

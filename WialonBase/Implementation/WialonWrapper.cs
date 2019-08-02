@@ -199,5 +199,10 @@ namespace WialonBase.Implementation
 
 
         public string CheckError(JObject jObject) => _wialonConnection.CheckError(jObject);
+
+        public void UpdateToken()
+        {
+            this._wialonConnection.UpdateToken();
+        }
     }
 }

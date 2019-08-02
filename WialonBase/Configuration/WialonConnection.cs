@@ -256,5 +256,10 @@ namespace WialonBase.Configuration
         {
             TryClose();
         }
+
+        public void UpdateToken()
+        {
+            Token = ConfigurationManager.AppSettings[nameof(Token)];
+        }
     }
 }

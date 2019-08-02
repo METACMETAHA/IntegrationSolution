@@ -76,5 +76,7 @@ namespace IntegrationSolution.Excel.Implementations
             excelRange.Style.Fill.PatternColor.SetColor(color);
             excelRange.Style.Fill.BackgroundColor.SetColor(color);
         }
+
+        
     }
 }

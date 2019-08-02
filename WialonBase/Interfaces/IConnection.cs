@@ -9,6 +9,8 @@ namespace WialonBase.Interfaces
 {
     public interface IConnection
     {
+        void UpdateToken();
+
         bool TryConnect();
 
         bool TryConnect(string token);

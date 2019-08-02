@@ -68,7 +68,7 @@ namespace IntegrationSolution.ShellGUI
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            LogManager.GetLogger(this.GetType()).Info("Запуск программы!");
+            //LogManager.GetLogger(this.GetType()).Info("Запуск программы!");
         }
 
 

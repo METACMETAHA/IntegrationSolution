@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Common.Interfaces;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,11 +16,15 @@ namespace IntegrationSolution.Common.Implementations
         [NonSerialized]
         protected BinaryFormatter formatter;
 
+        [NonSerialized]
+        protected readonly ILog _logger;
+
         public string FileName { get; protected set; }
 
         public Serializable(string file)
         {
             FileName = file;
+            _logger = LogManager.GetLogger(this.GetType());
         }
 
         public T Deserialize()
@@ -33,16 +38,27 @@ namespace IntegrationSolution.Common.Implementations
                     result = (T)formatter.Deserialize(fs);
             }
             catch (Exception)
-            { return null; }
+            {
+                return null;
+            }
             return result ?? null;
         }
 
         public void Serialize(T data)
         {
-            formatter = new BinaryFormatter();
+            if (data == null)
+                return;
 
-            using (FileStream fs = new FileStream(this.FileName, FileMode.OpenOrCreate))
-                formatter.Serialize(fs, data);
+            formatter = new BinaryFormatter();
+            try
+            {
+                using (FileStream fs = new FileStream(this.FileName, FileMode.OpenOrCreate))
+                    formatter.Serialize(fs, data);
+            }
+            catch (Exception ex)
+            {
+                _logger.Fatal(ex.Message);
+            }
         }
     }
 }
