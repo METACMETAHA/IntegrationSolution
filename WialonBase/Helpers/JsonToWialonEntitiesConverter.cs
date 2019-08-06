@@ -51,9 +51,20 @@ namespace WialonBase.Helpers
             if (trips != null)
             {
                 tripWialon.CountTrips = trips["rows"].Value<int>();
-                tripWialon.Mileage = double.Parse(trips.ElementAt(9).First.ElementAt(7).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim());
-                tripWialon.AvgSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
-                tripWialon.MaxSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(9).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+
+                try
+                {
+                    tripWialon.Mileage = double.Parse(trips.ElementAt(9).First.ElementAt(7).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim());
+                    tripWialon.AvgSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+                    tripWialon.MaxSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(9).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+                }
+                catch
+                {
+                    tripWialon.Mileage = double.Parse(trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim());
+                    tripWialon.AvgSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(9).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+                    tripWialon.MaxSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(10).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+                }
+
                 tripWialon.LocationBegin = trips.ElementAt(9).First.ElementAt(3).Value<string>();
                 tripWialon.LocationFinish = trips.ElementAt(9).First.ElementAt(5).Value<string>();
             }
@@ -61,7 +72,47 @@ namespace WialonBase.Helpers
             return tripWialon;
         }
 
-        
+
+        //------------------------------------------------------------------------------------------------
+        //----------------------------Last version before Wialon`s changes--------------------------------
+        //------------------------------------------------------------------------------------------------
+        //public static TripWialon ToTripWialon(this JToken obj)
+        //{
+        //    TripWialon tripWialon = new TripWialon
+        //    {
+        //        TotalMaxSpeed = obj["reportLayer"]["units"].First["max_speed"].Value<int>(),
+        //        TotalMileage = obj["reportLayer"]["units"].First["mileage"].Value<int>()
+        //    };
+        //    try
+        //    {
+        //        tripWialon.Begin = ((Int32)obj["reportLayer"]["units"].First["msgs"]["first"]["time"].Value<long>()).ToDateTime();
+        //        tripWialon.Finish = ((Int32)obj["reportLayer"]["units"].First["msgs"]["last"]["time"].Value<long>()).ToDateTime();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log4net.LogManager.GetLogger(nameof(JsonToWialonEntitiesConverter)).Debug($"{ex.Message} while processing entity (Begin-Finish)");
+        //    }
+
+        //    var tables = obj["reportResult"]["tables"];
+
+        //    tables = JToken.Parse(tables.ToString());
+
+        //    var trips = tables.FirstOrDefault(x => x["label"].Value<string>() == "Поездки");
+
+        //    if (trips != null)
+        //    {
+        //        tripWialon.CountTrips = trips["rows"].Value<int>();
+        //        tripWialon.Mileage = double.Parse(trips.ElementAt(9).First.ElementAt(7).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim());
+        //        tripWialon.AvgSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+        //        tripWialon.MaxSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(9).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
+        //        tripWialon.LocationBegin = trips.ElementAt(9).First.ElementAt(3).Value<string>();
+        //        tripWialon.LocationFinish = trips.ElementAt(9).First.ElementAt(5).Value<string>();
+        //    }
+
+        //    return tripWialon;
+        //}
+
+
         /// <summary>
         /// If no speed violation - it returns -1
         /// </summary>
@@ -121,12 +172,21 @@ namespace WialonBase.Helpers
 
                         LocationBegin = item.First["c"].ElementAt(3)["t"].Value<string>(),
                         LocationFinish = item.First["c"].ElementAt(5)["t"].Value<string>(),
-
-                        Mileage = double.Parse(item.First["c"].ElementAt(7).Value<string>().Replace("km", "").Replace(".", ",").Trim()),
-                        AvgSpeed = int.Parse(item.First["c"].ElementAt(8).Value<string>().Replace("km/h", "").Trim()),
-                        MaxSpeed = int.Parse(item.First["c"].ElementAt(9)["t"].Value<string>().Replace("km/h", "").Trim())
                     };
 
+                    // Get mileage
+                    try
+                    {
+                        trip.Mileage = double.Parse(item.First["c"].ElementAt(7).Value<string>().Replace("km", "").Replace(".", ",").Trim());
+                        trip.AvgSpeed = int.Parse(item.First["c"].ElementAt(8).Value<string>().Replace("km/h", "").Trim());
+                        trip.MaxSpeed = int.Parse(item.First["c"].ElementAt(9)["t"].Value<string>().Replace("km/h", "").Trim());
+                    }
+                    catch
+                    {
+                        trip.Mileage = double.Parse(item.First["c"].ElementAt(8).Value<string>().Replace("km", "").Replace(".", ",").Trim());
+                        trip.AvgSpeed = int.Parse(item.First["c"].ElementAt(9).Value<string>().Replace("km/h", "").Trim());
+                        trip.MaxSpeed = int.Parse(item.First["c"].ElementAt(10)["t"].Value<string>().Replace("km/h", "").Trim());
+                    }
                     trips.Add(trip);
                 }
                 catch

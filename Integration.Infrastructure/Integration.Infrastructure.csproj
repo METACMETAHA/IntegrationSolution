@@ -81,6 +81,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behavior\BindableSelectedItemBehavior.cs" />
     <Compile Include="Behavior\ListViewScrollingBehavior.cs" />
     <Compile Include="Constants\ConcurrentObservableCollection.cs" />
     <Compile Include="Constants\ConfigurationData.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="ViewModels\BodyViewModel.cs" />
     <Compile Include="ViewModels\FooterViewModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
+    <Compile Include="ViewModels\Info\InfoViewModel.cs" />
     <Compile Include="ViewModels\Logistics\LogisticsQuizViewModel.cs" />
     <Compile Include="Views\Account\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -102,6 +104,9 @@
     </Compile>
     <Compile Include="Views\HeaderView.xaml.cs">
       <DependentUpon>HeaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Info\InfoView.xaml.cs">
+      <DependentUpon>InfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Logistics\LogisticsQuizView.xaml.cs">
       <DependentUpon>LogisticsQuizView.xaml</DependentUpon>
@@ -136,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Info\InfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -68,10 +68,10 @@ namespace WialonBase.Implementation
 
                 #region Execute exec_report
                 var execReport = _wialonConnection.SendRequest("report/exec_report",
-                    "{\"reportResourceId\":894,\"reportTemplateId\":1,\"reportTemplate\":null,\"reportObjectId\":" + ID + ",\"reportObjectSecId\":0,\"interval\":{\"flags\":16777216,\"from\":" + from.ToUnixTime() + ",\"to\":" + to.ToUnixTime() + "},\"remoteExec\":1}");
+                    "{\"reportResourceId\":725,\"reportTemplateId\":1,\"reportTemplate\":null,\"reportObjectId\":" + ID + ",\"reportObjectSecId\":0,\"interval\":{\"flags\":16777216,\"from\":" + from.ToUnixTime() + ",\"to\":" + to.ToUnixTime() + "},\"remoteExec\":1}");
 
                 if (execReport["remoteExec"].Value<int>() != 1)
-                    throw new Exception($"Report (Id=894) is failed. Car id={ID}");
+                    throw new Exception($"Report (Id=725) is failed. Car id={ID}");
                 #endregion
 
                 #region Waiting for report

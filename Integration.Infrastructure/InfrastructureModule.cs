@@ -1,9 +1,11 @@
 ﻿using Integration.Infrastructure.Constants;
 using Integration.Infrastructure.ViewModels;
 using Integration.Infrastructure.ViewModels.Account;
+using Integration.Infrastructure.ViewModels.Info;
 using Integration.Infrastructure.ViewModels.Logistics;
 using Integration.Infrastructure.Views;
 using Integration.Infrastructure.Views.Account;
+using Integration.Infrastructure.Views.Info;
 using Integration.Infrastructure.Views.Logistics;
 using IntegrationSolution.Common.Helpers;
 using NotificationConstructor.Implementations;
@@ -50,6 +52,7 @@ namespace Integration.Infrastructure
             // Extension method
             _container.RegisterView<HomeView, HomeViewModel>(nameof(HomeView), new SingletonLifetimeManager());
             _container.RegisterView<LogisticsQuizView, LogisticsQuizViewModel>(nameof(LogisticsQuizView));
+            _container.RegisterView<InfoView, InfoViewModel>(nameof(InfoView));
 
             containerRegistry.RegisterSingleton<ConfigurationData>();
             containerRegistry.RegisterSingleton<INotificationManager, NotificationManager>();

@@ -1,6 +1,7 @@
 ﻿using Integration.Flyouts;
 using Integration.Flyouts.ViewModels;
 using Integration.Infrastructure.Views.Account;
+using Integration.Infrastructure.Views.Info;
 using Integration.Infrastructure.Views.Logistics;
 using IntegrationSolution.Common.Events;
 using MahApps.Metro.Controls;
@@ -114,7 +115,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             _container = container;
             _notificationManager = _container.Resolve<INotificationManager>();
             _eventAggregator = ea;
-            _timer = new Timer(840000); // 14min. Session live 15min.
+            _timer = new Timer(840000); // 14min. Session live 15min. - 840000ms
             _timer.AutoReset = true;
             _timer.Elapsed += _timer_Elapsed;
 
@@ -123,19 +124,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             IsEnabledNavigation = true;
             this.CreateMenuItems();
         }
-
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            this.IsConnectedNavigation = false;
-
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-            {
-                _notificationManager.NotifyInformationAsync("Сеанс подключения к системе Wialon истек!");
-            }));
-            
-            _timer.Stop();
-        }
-
+        
 
         #region Commands
         public ICommand ToggleFlyoutSettingsCommand { get; private set; }
@@ -147,6 +136,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             settings.IsOpen = !settings.IsOpen;
         }
         #endregion
+
 
         #region Helpers
         public void CreateMenuItems()
@@ -183,11 +173,23 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                     Icon = Application.Current.TryFindResource("appbar_information"),
                     Label = "Справка",
                     ToolTip = "Справка.",
-                    //Tag = new AboutViewModel(this)
+                    Tag = _container.Resolve<UserControl>(nameof(InfoView))
                 }
             };
         }
-        
+
+        // Timer for control Wialon connection
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.IsConnectedNavigation = false;
+
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                _notificationManager.NotifyInformationAsync("Сеанс подключения к системе Wialon истек!");
+            }));
+
+            _timer.Stop();
+        }
         #endregion
     }
 }
