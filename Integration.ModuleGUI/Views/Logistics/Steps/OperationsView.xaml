@@ -5,13 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
+             xmlns:vm="clr-namespace:Integration.ModuleGUI.ViewModels"
              xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+             mc:Ignorable="d" 
+             xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
+    
+    
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -50,13 +55,31 @@
                         </Button.Style>
                     </Button>
 
-                    <Grid>
+                    <charts:PieChart Height="400" Width="700" FontSize="12" LegendLocation="Right"
+                                     ClipToBounds="True" HoverPushOut="8" Hoverable="True" DataClickCommand="{Binding ClickDataCommand}"
+                                     Series="{Binding CarMileageStatistics}">
+                        <charts:PieChart.DataTooltip>
+                            <charts:DefaultTooltip BulletSize="20" IsWrapped="False" SelectionMode="OnlySender"/>
+                        </charts:PieChart.DataTooltip>
+                        <charts:PieChart.Style>
+                            <Style TargetType="charts:PieChart">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CarMileageStatistics}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </charts:PieChart.Style>
+                    </charts:PieChart>
+
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
 
-                        <dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
+                        --><!--<dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
                                          Margin="5"
                                          AllowCheckAnyTime="True"
                                          SortField="StateNumber"
@@ -158,8 +181,8 @@
                                     </Style.Triggers>
                                 </Style>
                             </partialViews:GridConfigurationView.Style>
-                        </partialViews:GridConfigurationView>
-                    </Grid>
+                        </partialViews:GridConfigurationView>--><!--
+                    </Grid>-->
                 </StackPanel>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>

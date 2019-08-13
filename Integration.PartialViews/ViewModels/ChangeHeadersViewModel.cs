@@ -243,7 +243,7 @@ namespace Integration.PartialViews.ViewModels
             if (pathToMainFileBeforeChanges != Settings.PathToMainFile)
             {
                 pathToMainFileBeforeChanges = Settings.PathToMainFile;
-                _notificationManager?.NotifySuccessAsync("Источник ТС обновлен!");
+                _notificationManager?.NotifySuccessAsync("Источник ТС обновлен!\nИзменения вступят в силу после перезагрузки приложения.");
             }
         }
         #endregion

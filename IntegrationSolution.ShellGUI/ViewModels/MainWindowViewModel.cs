@@ -56,7 +56,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 }
                 else
                 {
-                   // SetProperty(ref _isConnectedNavigation, false);
+                    SetProperty(ref _isConnectedNavigation, false);
                 }
 
                 if (IsConnectedNavigation == true)

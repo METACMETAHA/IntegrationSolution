@@ -122,6 +122,8 @@ namespace IntegrationSolution.Excel.Implementations
             using (ExcelPackage excel = new ExcelPackage())
             {
                 var worksheet = excel.Workbook.Worksheets.Add("Разница показаний одометров");
+                worksheet.OutLineSummaryBelow = false;
+
                 var headerRow = new List<string[]>()
                 {
                     new string[] { "Подразделение", "Гос.номер", "Модель", "Тип",
@@ -154,8 +156,9 @@ namespace IntegrationSolution.Excel.Implementations
                 // Freeze first row
                 worksheet.View.FreezePanes(2, 1);
 
+
                 foreach (var item in valuePairs)
-                {
+                {                    
                     var data = new List<object[]>()
                     {
                         new object[]
@@ -193,7 +196,7 @@ namespace IntegrationSolution.Excel.Implementations
                     worksheet.Row(row).Style.Font.SetFromFont(new Font("Times New Roman", 12, FontStyle.Bold));
 
                     worksheet.Cells[headerRange].LoadFromArrays(data);
-
+                    
                     row++;
 
                     int LSap = item.TripsSAP?.Count() ?? 0;
@@ -285,7 +288,9 @@ namespace IntegrationSolution.Excel.Implementations
 
                         string headerRangelocal = $"A{row}:" + Char.ConvertFromUtf32(dataDetails[0].Length + 64) + row;
                         worksheet.Cells[headerRangelocal].LoadFromArrays(dataDetails);
-                        worksheet.Row(row++).OutlineLevel = 1;
+
+                        worksheet.Row(row).OutlineLevel = 1;
+                        row++;
                     }
                 }
 
@@ -306,6 +311,8 @@ namespace IntegrationSolution.Excel.Implementations
             if (sapCars != null)
             {
                 var worksheet = excel.Workbook.Worksheets.Add("ТС с ПЛ без пробега");
+                worksheet.OutLineSummaryBelow = false;
+
                 var headerRow = new List<string[]>()
                     {
                         new string[] {
@@ -385,6 +392,8 @@ namespace IntegrationSolution.Excel.Implementations
             if (wialonCars != null)
             {
                 var worksheet = excel.Workbook.Worksheets.Add("ТС с пробегом без ПЛ");
+                worksheet.OutLineSummaryBelow = false;
+
                 var headerRow = new List<string[]>()
                     {
                         new string[] { "ID", "Гос.номер" }

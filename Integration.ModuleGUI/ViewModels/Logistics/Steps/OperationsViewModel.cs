@@ -7,6 +7,8 @@ using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
+using LiveCharts;
+using LiveCharts.Wpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
@@ -15,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +35,14 @@ namespace Integration.ModuleGUI.ViewModels
             get { return gridConfiguration; }
             set { SetProperty(ref gridConfiguration, value); }
         }
+
+
+        private SeriesCollection carMileageStatistics;
+        public SeriesCollection CarMileageStatistics
+        {
+            get { return carMileageStatistics; }
+            set { SetProperty(ref carMileageStatistics, value); }
+        }
         #endregion
 
         #region Ctor
@@ -45,6 +56,7 @@ namespace Integration.ModuleGUI.ViewModels
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
             ShowDetailsOnSAPCommand = new DelegateCommand(ShowSAPDetailsWndCmd);
+            ClickDataCommand = new DelegateCommand<ChartPoint>(ClickDataCmd);
             GridConfiguration = new GridConfiguration();
 
             _dialogManager = dialogManager;
@@ -129,7 +141,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
             string nameReport = "";
-            
+
             var desicion = await wnd.ShowMessageAsync("Вы хотите продолжить?", "Данная процедура может занять некоторое время.", MessageDialogStyle.AffirmativeAndNegative);
             if (desicion != MessageDialogResult.Affirmative)
                 return;
@@ -167,8 +179,8 @@ namespace Integration.ModuleGUI.ViewModels
                     wnd.ShowModalMessageExternal("Ошибка. Повторите ввод.", ex.Message);
                 }
             } while (avaliablePercent <= 0);
-            #endregion          
-            
+            #endregion
+
             var progress = await InitializeCars();
 
             #region Filling Vehicles Collections
@@ -186,7 +198,7 @@ namespace Integration.ModuleGUI.ViewModels
              });
             #endregion
 
-            await Task.Run(async () => 
+            await Task.Run(async () =>
             {
                 try
                 {
@@ -196,7 +208,7 @@ namespace Integration.ModuleGUI.ViewModels
                     if (!datesFromToContext.IsWithDetails)
                     {
                         ModuleData.SimpleDataForReport = new ObservableCollection<IntegratedVehicleInfo>(await this.GetVehicleInfos<IntegratedVehicleInfo>(progress, datesFromToContext));
-                        if(ModuleData.SimpleDataForReport == null || !ModuleData.SimpleDataForReport.Any())
+                        if (ModuleData.SimpleDataForReport == null || !ModuleData.SimpleDataForReport.Any())
                             throw new Exception("Данные отсутствуют.\nПопробуйте выбрать другой период или повторите попытку позже.");
                     }
                     else
@@ -224,7 +236,7 @@ namespace Integration.ModuleGUI.ViewModels
                         return;
                     else
                         nameReport = fileDialog.FileName;
-                    
+
                     if (!datesFromToContext.IsWithDetails)
                         _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName,
                             ModuleData.SimpleDataForReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
@@ -285,8 +297,33 @@ namespace Integration.ModuleGUI.ViewModels
                 };
             }
         }
+
+
+        public DelegateCommand<ChartPoint> ClickDataCommand { get; private set; }
+        protected async void ClickDataCmd(ChartPoint chartPoint)
+        {
+            var car = ModuleData.Vehicles.Where(x => chartPoint.SeriesView.Title.Contains(x.StateNumber)).FirstOrDefault();
+            if (car == null)
+                return;
+
+            StringBuilder msg = new StringBuilder();
+            if(!string.IsNullOrWhiteSpace(car.Department))
+                msg.AppendLine($"Служба/отдел:\t{car.Department}");
+
+            if (!string.IsNullOrWhiteSpace(car.StructureName))
+                msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
+
+            if (car.TripResulted != null)
+            {
+                msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
+                msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage}");
+            }
+
+
+            await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
+        }
         #endregion
-        
+
         #region Helpers
         private async Task<ProgressDialogController> InitializeCars()
         {
@@ -336,8 +373,35 @@ namespace Integration.ModuleGUI.ViewModels
                 }
             });
 
+            InitializeChartsData();
+
             return progress;
         }
+
+
+        private void InitializeChartsData()
+        {
+            if (!ModuleData.Vehicles.Any())
+                return;
+
+            var top = ModuleData.Vehicles.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10);
+
+            CarMileageStatistics = new SeriesCollection();
+
+            for (int i = 0; i < top.Count(); i++)
+            {
+                var elem = top.ElementAt(i);
+                CarMileageStatistics.Add(new PieSeries()
+                {
+                    Title = $"{elem.StateNumber} ({elem.UnitModel})",
+                    Values = new ChartValues<double>(new[] { elem.TripResulted?.TotalMileage ?? 0 }),
+                    DataLabels = true,
+                    LabelPoint = chartPoint => string.Format("{0} км", chartPoint.Y)
+                });
+            }
+
+        }
+
 
         private void NotifySuccessAndOpenFile(string path)
         {
@@ -359,6 +423,7 @@ namespace Integration.ModuleGUI.ViewModels
                 };
             }
         }
+
 
         private async Task<IEnumerable<T>> GetVehicleInfos<T>(
             ProgressDialogController progress, DatesFromToContext context) where T : IntegratedVehicleInfo
