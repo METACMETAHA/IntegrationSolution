@@ -26,6 +26,13 @@ using Unity;
 
 namespace Integration.ModuleGUI.ViewModels
 {
+    public enum ChartDefinition
+    {
+        CarMileageStatisticsSAP,
+        CarAverageMileageByTripStatisticsSAP
+    }
+
+
     public class OperationsViewModel : VMLocalBase
     {
         #region Variables
@@ -37,11 +44,19 @@ namespace Integration.ModuleGUI.ViewModels
         }
 
 
-        private SeriesCollection carMileageStatistics;
-        public SeriesCollection CarMileageStatistics
+        private SeriesCollection carMileageStatisticsSAP;
+        public SeriesCollection CarMileageStatisticsSAP
         {
-            get { return carMileageStatistics; }
-            set { SetProperty(ref carMileageStatistics, value); }
+            get { return carMileageStatisticsSAP; }
+            set { SetProperty(ref carMileageStatisticsSAP, value); }
+        }
+
+
+        private SeriesCollection carAverageMileageByTripStatisticsSAP;
+        public SeriesCollection CarAverageMileageByTripStatisticsSAP
+        {
+            get { return carAverageMileageByTripStatisticsSAP; }
+            set { SetProperty(ref carAverageMileageByTripStatisticsSAP, value); }
         }
         #endregion
 
@@ -316,7 +331,8 @@ namespace Integration.ModuleGUI.ViewModels
             if (car.TripResulted != null)
             {
                 msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
-                msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage}");
+                msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
+                msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage/car.CountTrips.Value), 2)} км/поездка");
             }
 
 
@@ -373,32 +389,52 @@ namespace Integration.ModuleGUI.ViewModels
                 }
             });
 
-            InitializeChartsData();
+            if (ModuleData.Vehicles.Any())
+            {
+                CarMileageStatisticsSAP = InitializeChartsData(ModuleData.Vehicles.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10)
+                    , ChartDefinition.CarMileageStatisticsSAP
+                    , chartPoint => string.Format("{0} км", chartPoint.Y));
+                
+                CarAverageMileageByTripStatisticsSAP = InitializeChartsData(ModuleData.Vehicles.OrderByDescending(x => (x?.TripResulted?.TotalMileage/x.CountTrips??-1)).Take(10)
+                    , ChartDefinition.CarAverageMileageByTripStatisticsSAP
+                    , chartPoint => string.Format("{0} км/поездка", chartPoint.Y));
+            }
 
             return progress;
         }
 
 
-        private void InitializeChartsData()
+        // Initialize collection for charts and returns by 
+        private SeriesCollection InitializeChartsData(IEnumerable<IVehicleSAP> vehicles, ChartDefinition chart, Func<ChartPoint, string> Label)
         {
-            if (!ModuleData.Vehicles.Any())
-                return;
+            SeriesCollection data = new SeriesCollection();
 
-            var top = ModuleData.Vehicles.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10);
-
-            CarMileageStatistics = new SeriesCollection();
-
-            for (int i = 0; i < top.Count(); i++)
+            foreach (var item in vehicles)
             {
-                var elem = top.ElementAt(i);
-                CarMileageStatistics.Add(new PieSeries()
+                ChartValues<double> vals = null;
+
+                switch (chart)
                 {
-                    Title = $"{elem.StateNumber} ({elem.UnitModel})",
-                    Values = new ChartValues<double>(new[] { elem.TripResulted?.TotalMileage ?? 0 }),
+                    case ChartDefinition.CarMileageStatisticsSAP:
+                        vals = new ChartValues<double>(new[] { item.TripResulted?.TotalMileage ?? 0 });
+                        break;
+                    case ChartDefinition.CarAverageMileageByTripStatisticsSAP:
+                        vals = new ChartValues<double>(new[] { Math.Round((item.TripResulted?.TotalMileage / item.CountTrips ?? -1), 2) });
+                        break;
+                    default:
+                        return null;
+                }
+
+                data.Add(new PieSeries()
+                {
+                    Title = $"{item.StateNumber} ({item.UnitModel})",
+                    Values = vals,
                     DataLabels = true,
-                    LabelPoint = chartPoint => string.Format("{0} км", chartPoint.Y)
+                    LabelPoint = Label
                 });
             }
+
+            return data;
 
         }
 

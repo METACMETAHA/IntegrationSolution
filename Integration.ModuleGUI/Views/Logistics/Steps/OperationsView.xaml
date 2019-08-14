@@ -15,6 +15,22 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
+    <UserControl.Resources>
+        <Style TargetType="charts:PieChart">
+            <Setter Property="Height" Value="420"/>
+            <Setter Property="Width" Value="650"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Thin"/>
+            <Setter Property="LegendLocation"  Value="Right"/>
+            <Setter Property="ClipToBounds" Value="True"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Hoverable" Value="True"/>
+            <Setter Property="HoverPushOut" Value="10"/>
+            <Setter Property="DataClickCommand" Value="{Binding ClickDataCommand}"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+        </Style>
+    </UserControl.Resources>
+
     
     
     <Grid>
@@ -39,39 +55,135 @@
             </TabItem>
 
             <TabItem Header="Сводка по SAP">
-                <StackPanel>
+                <Grid>
+
                     <Button Margin="10" Padding="10"
+                            Content="Инициализация"
                             Command="{Binding ShowDetailsOnSAPCommand}"
                             ToolTip="Быстрая сводка по путевым листам из системы SAP">
                         <Button.Style>
                             <Style BasedOn="{StaticResource LargeBlueBtn}" TargetType="Button">
-                                <Setter Property="Content" Value="Обновить данные"/>
+                                <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
-                                        <Setter Property="Content" Value="Инициализация"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
 
-                    <charts:PieChart Height="400" Width="700" FontSize="12" LegendLocation="Right"
-                                     ClipToBounds="True" HoverPushOut="8" Hoverable="True" DataClickCommand="{Binding ClickDataCommand}"
-                                     Series="{Binding CarMileageStatistics}">
-                        <charts:PieChart.DataTooltip>
-                            <charts:DefaultTooltip BulletSize="20" IsWrapped="False" SelectionMode="OnlySender"/>
-                        </charts:PieChart.DataTooltip>
-                        <charts:PieChart.Style>
-                            <Style TargetType="charts:PieChart">
-                                <Setter Property="Visibility" Value="Visible"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CarMileageStatistics}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </charts:PieChart.Style>
-                    </charts:PieChart>
+                    <Grid VirtualizingPanel.VirtualizationMode="Recycling"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingPanel.IsContainerVirtualizable="True">
+                        <StackPanel>
+                            <StackPanel.Style>
+                                <Style TargetType="{x:Type StackPanel}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            
+                                <Button Width="56" Height="56"
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Top"
+                            Padding="12" Margin="10" 
+                            Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                            Command="{Binding ShowDetailsOnSAPCommand}"
+                            ToolTip="Обновить данные">
+                                <Rectangle Width="28" Height="28" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_refresh}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+
+                            <ToggleButton IsChecked="{Binding SimpleSelection}"
+                                    Width="56"
+              Height="56"
+              HorizontalAlignment="Left" 
+                            VerticalAlignment="Top"
+                            Padding="12" Margin="10 70 10 10" 
+              Style="{StaticResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
+                                <Rectangle Width="28"
+               Height="28"
+               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill"
+                         Visual="{DynamicResource appbar_city}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </ToggleButton>
+                        </StackPanel>
+
+                        <Controls:MetroAnimatedSingleRowTabControl TabStripPlacement="Right"
+                                                               TabStripMargin="12 5"
+                                                               IsTabStop="True"
+                                                               HorizontalAlignment="Right">
+                        <Controls:MetroTabItem Header="Топ пробега">
+
+                                <WrapPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="Топ 10 по пробегу (по ПЛ)" 
+                                               TextWrapping="WrapWithOverflow" 
+                                               TextAlignment="Center"
+                                               Margin="10"
+                                               Style="{DynamicResource NormalHeaderWithEffect}"/>
+                                        <charts:PieChart HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                         Series="{Binding CarMileageStatisticsSAP}">
+                                            <charts:PieChart.DataTooltip>
+                                                <charts:DefaultTooltip BulletSize="20" FontSize="13" IsWrapped="False" SelectionMode="OnlySender"/>
+                                            </charts:PieChart.DataTooltip>
+                                        </charts:PieChart>
+
+                                        <StackPanel.Style>
+                                            <Style TargetType="{x:Type StackPanel}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CarMileageStatisticsSAP}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="Топ 10 по среднему пробегу за поездку (по ПЛ)" 
+                                               TextWrapping="WrapWithOverflow" 
+                                               TextAlignment="Center"
+                                               Margin="10"
+                                               Style="{DynamicResource NormalHeaderWithEffect}"/>
+                                        <charts:PieChart HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                         Series="{Binding CarAverageMileageByTripStatisticsSAP}">
+                                            <charts:PieChart.DataTooltip>
+                                                <charts:DefaultTooltip BulletSize="20" FontSize="13" IsWrapped="False"/>
+                                            </charts:PieChart.DataTooltip>
+                                        </charts:PieChart>
+
+                                        <StackPanel.Style>
+                                            <Style TargetType="{x:Type StackPanel}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CarAverageMileageByTripStatisticsSAP}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                    </StackPanel>
+                                </WrapPanel>
+
+                            </Controls:MetroTabItem>
+                        
+                        <Controls:MetroTabItem Header="221"/>
+                    </Controls:MetroAnimatedSingleRowTabControl>
+                    </Grid>
+                    
+                    
 
                     <!--<Grid>
                         <Grid.ColumnDefinitions>
@@ -183,7 +295,7 @@
                             </partialViews:GridConfigurationView.Style>
                         </partialViews:GridConfigurationView>--><!--
                     </Grid>-->
-                </StackPanel>
+                </Grid>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
     </Grid>
