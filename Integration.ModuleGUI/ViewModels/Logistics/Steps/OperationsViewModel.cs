@@ -58,6 +58,14 @@ namespace Integration.ModuleGUI.ViewModels
             get { return carAverageMileageByTripStatisticsSAP; }
             set { SetProperty(ref carAverageMileageByTripStatisticsSAP, value); }
         }
+
+
+        private ObservableCollection<IVehicleSAP> _commonCars;
+        public ObservableCollection<IVehicleSAP> CommonCars
+        {
+            get { return _commonCars; }
+            set { _commonCars = value; }
+        }
         #endregion
 
         #region Ctor
@@ -391,13 +399,18 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (ModuleData.Vehicles.Any())
             {
-                CarMileageStatisticsSAP = InitializeChartsData(ModuleData.Vehicles.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10)
+                var MileageStatisticsSAP = ModuleData.Vehicles.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10);
+                var AverageMileageByTripStatisticsSAP = ModuleData.Vehicles.OrderByDescending(x => (x?.TripResulted?.TotalMileage / x.CountTrips ?? -1)).Take(10);
+
+                CommonCars = new ObservableCollection<IVehicleSAP>(MileageStatisticsSAP.Intersect(AverageMileageByTripStatisticsSAP));
+
+                CarMileageStatisticsSAP = InitializeChartsData(MileageStatisticsSAP
                     , ChartDefinition.CarMileageStatisticsSAP
                     , chartPoint => string.Format("{0} км", chartPoint.Y));
                 
-                CarAverageMileageByTripStatisticsSAP = InitializeChartsData(ModuleData.Vehicles.OrderByDescending(x => (x?.TripResulted?.TotalMileage/x.CountTrips??-1)).Take(10)
+                CarAverageMileageByTripStatisticsSAP = InitializeChartsData(AverageMileageByTripStatisticsSAP
                     , ChartDefinition.CarAverageMileageByTripStatisticsSAP
-                    , chartPoint => string.Format("{0} км/поездка", chartPoint.Y));
+                    , chartPoint => string.Format("{0} км", chartPoint.Y));
             }
 
             return progress;
