@@ -15,9 +15,13 @@ namespace IntegrationSolution.Common.Implementations
     {
         public SerializeConfigDTO ConfigDTO { get; set; }
 
+        private Configuration configurationFile;
+        
         public AppConfiguration(SerializeConfigDTO configDTO)
         {
             ConfigDTO = configDTO;
+
+            configurationFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         }
 
         public object this[string propertyName]
@@ -28,7 +32,9 @@ namespace IntegrationSolution.Common.Implementations
             }
             set
             {
-                ConfigurationManager.AppSettings.Set(propertyName, value.ToString());
+                configurationFile.AppSettings.Settings[propertyName].Value = value.ToString();
+                configurationFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
             }
         }
         
