@@ -72,6 +72,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="ToastNotifications, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797" />
     <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
@@ -162,6 +163,10 @@
       <Project>{f29f3713-47cd-4283-8e86-6396a1b6c4b3}</Project>
       <Name>Integration.PartialViews</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Integration.Resources\Integration.Resources.csproj">
+      <Project>{dfa26885-87b2-457a-ba04-ae4222649462}</Project>
+      <Name>Integration.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
       <Project>{B4F847FE-667C-4189-92AE-9CCCAF77E341}</Project>
       <Name>IntegrationSolution.Common</Name>
@@ -180,7 +185,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Entypo-license.txt" />
+    <EmbeddedResource Include="Resources\Entypo-license.txt" />
     <Content Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
   <ItemGroup />

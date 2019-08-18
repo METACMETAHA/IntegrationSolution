@@ -1,4 +1,5 @@
 ﻿using Integration.ModuleGUI.Models;
+using IntegrationSolution.Common.Entities;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -70,7 +71,6 @@ namespace Integration.ModuleGUI.ViewModels
 
         #region Commands
         public DelegateCommand<string> LoadFileCommand { get; private set; }
-
         protected void Load(string NameControl)
         {
             bool IsWithoutExceptions = true;

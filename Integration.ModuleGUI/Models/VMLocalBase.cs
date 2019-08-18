@@ -1,10 +1,12 @@
-﻿using IntegrationSolution.Common.Events;
+﻿using IntegrationSolution.Common.Entities;
+using IntegrationSolution.Common.Events;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.SelfEntities;
 using Prism.Events;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Unity;
 using WialonBase.Interfaces;
 

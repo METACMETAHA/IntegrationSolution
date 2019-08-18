@@ -32,7 +32,7 @@
                  metro:TextBoxHelper.Watermark="Путь к файлу"
                  metro:TextBoxHelper.IsWaitingForData="True"
                  metro:TextBoxHelper.UseFloatingWatermark="True"
-                 Text="{Binding ModuleData.PathToMainFile, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding ModuleData.PathToMainFile, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                          IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"/>
 
         <TextBox Grid.Column="1" Grid.Row="1" Padding="4" Margin="20 10" IsReadOnly="True" Height="50"

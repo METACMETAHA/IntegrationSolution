@@ -10,6 +10,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Unity;
 using Unity.Resolution;
 
@@ -118,10 +119,12 @@ namespace Integration.ModuleGUI.Models
             Settings = container.Resolve<AppConfiguration>();
             _headerNames = _container.Resolve<HeaderNames>();
 
-            if (!string.IsNullOrWhiteSpace(Settings?.ConfigDTO.PathToMainFile))
+            if (File.Exists(Settings?.ConfigDTO.PathToMainFile))
             {
                 this.PathToMainFile = Settings?.ConfigDTO.PathToMainFile;
             }
+            else
+                Settings.ConfigDTO.PathToMainFile = null;
         }
 
 

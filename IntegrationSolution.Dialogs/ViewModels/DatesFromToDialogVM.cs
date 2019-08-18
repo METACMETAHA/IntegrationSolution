@@ -105,7 +105,7 @@ namespace IntegrationSolution.Dialogs.ViewModels
             if (Dates == null)
                 return false;
             
-            if (Dates.FromDate >= Dates.ToDate)
+            if (Dates.FromDate > Dates.ToDate)
                 return false;
 
             return true;

@@ -242,8 +242,16 @@ namespace Integration.PartialViews.ViewModels
         {
             if (pathToMainFileBeforeChanges != Settings.PathToMainFile)
             {
-                pathToMainFileBeforeChanges = Settings.PathToMainFile;
-                _notificationManager?.NotifySuccessAsync("Источник ТС обновлен!");
+                if (File.Exists(Settings.PathToMainFile))
+                {
+                    pathToMainFileBeforeChanges = Settings.PathToMainFile;
+                    _notificationManager?.NotifySuccessAsync("Источник ТС обновлен!");
+                }
+                else
+                {
+                    Settings.PathToMainFile = null;
+                    _notificationManager?.NotifyWarningAsync("Файл не существует!");
+                }
             }
         }
         #endregion

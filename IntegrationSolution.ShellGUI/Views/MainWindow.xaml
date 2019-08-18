@@ -71,15 +71,15 @@
                     <Setter Property="SnapsToDevicePixels" Value="True"/>
                     <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
                 </Style>
-            </Controls:FlyoutsControl.ItemContainerStyle>            
+            </Controls:FlyoutsControl.ItemContainerStyle>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
-    
+
 
     <Grid>
 
         <Grid.Resources>
-            
+
             <converters:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter"/>
 
             <!--  this is the template for the items (options too)  -->
@@ -113,7 +113,7 @@
             </DataTemplate>
 
         </Grid.Resources>
-        
+
         <Controls:HamburgerMenu
                            PaneForeground="{StaticResource ToolbarBg}"
                            DisplayMode="CompactInline"

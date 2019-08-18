@@ -82,18 +82,20 @@ namespace IntegrationSolution.Excel.Implementations
                         }
                     };
                     string headerRange = $"A{row}:" + Char.ConvertFromUtf32(data[0].Length + 64) + row;
-
+                    
                     if (item.CountSpeedViolations > 0)
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 6], ExcelDecorator.ExcelCssResources.LightRedColor);
 
                     if (item.CountTrips.SAP > item.CountTrips.Wialon)
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.RedColor);
-
-                    if (item.IndicatorMileage.SAP > item.IndicatorMileage.Wialon)
-                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 11], ExcelDecorator.ExcelCssResources.GreenColor);
-
-                    if (item.PercentDifference * 100 >= BadPercent)
+                    
+                    if ((item.PercentDifference * 100 >= BadPercent)
+                        && (item.IndicatorMileage.SAP > item.IndicatorMileage.Wialon))
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 12], ExcelDecorator.ExcelCssResources.RedColor);
+
+                    if ((item.PercentDifference * 100 >= BadPercent)
+                        && (item.IndicatorMileage.SAP < item.IndicatorMileage.Wialon))
+                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 12], ExcelDecorator.ExcelCssResources.YellowColor);
 
                     worksheet.Cells[headerRange].LoadFromArrays(data);
 
@@ -180,12 +182,15 @@ namespace IntegrationSolution.Excel.Implementations
 
                     //if (item.CountTrips.SAP > item.CountTrips.Wialon)
                     //    ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.RedColor);
+                    
 
-                    if (item.IndicatorMileage.SAP > item.IndicatorMileage.Wialon)
-                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.GreenColor);
-
-                    if (item.PercentDifference * 100 >= BadPercent)
+                    if ((item.PercentDifference * 100 >= BadPercent)
+                        && (item.IndicatorMileage.SAP > item.IndicatorMileage.Wialon))
                         ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.RedColor);
+
+                    if ((item.PercentDifference * 100 >= BadPercent)
+                        && (item.IndicatorMileage.SAP < item.IndicatorMileage.Wialon))
+                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.YellowColor);
 
                     worksheet.Cells[row, 8, row, 10].Style.Numberformat.Format = "0";
                     worksheet.Cells[row, 11, row, 13].Style.Numberformat.Format = "0";
@@ -229,7 +234,7 @@ namespace IntegrationSolution.Excel.Implementations
 
                             if (sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage) * 100 > BadPercent
                                 && sapElement.TotalMileage < wlnElement.Mileage)
-                                ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightGreenColor);
+                                ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightYellowColor);
                             else if (sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage) * 100 > BadPercent
                                 && sapElement.TotalMileage > wlnElement.Mileage)
                                 ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightRedColor);

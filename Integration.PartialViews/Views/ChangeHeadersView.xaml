@@ -166,7 +166,6 @@
                                  Controls:TextBoxHelper.IsWaitingForData="True"
                                  Controls:TextBoxHelper.UseFloatingWatermark="True"
                                  Controls:TextBoxHelper.ClearTextButton="True"
-                                 AllowDrop="True"
                                  HorizontalAlignment="Center"
                                  Text="{Binding Settings.PathToMainFile, UpdateSourceTrigger=LostFocus}">
                             <i:Interaction.Triggers>

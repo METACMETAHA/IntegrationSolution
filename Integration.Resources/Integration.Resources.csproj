@@ -97,5 +97,13 @@
   <ItemGroup>
     <Resource Include="Images\GetTokenSample.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\Пример заголовков путевых листов.XLSX">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Files\Руководство пользователя.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

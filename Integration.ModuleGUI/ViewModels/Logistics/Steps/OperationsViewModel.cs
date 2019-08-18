@@ -400,10 +400,14 @@ namespace Integration.ModuleGUI.ViewModels
                         {
                             if (!context.IsWithDetails)
                                 tripWialon = _wialonContext.GetCarInfo(vehicle.ID,
-                                    context.FromDate, context.ToDate);
+                                    context.FromDate, 
+                                    new DateTime(context.ToDate.Year, context.ToDate.Month, context.ToDate.Day,
+                                    23, 59, 59));
                             else
                                 tripWialon = _wialonContext.GetCarInfoDetails(vehicle.ID,
-                                    context.FromDate, context.ToDate);
+                                    context.FromDate,
+                                    new DateTime(context.ToDate.Year, context.ToDate.Month, context.ToDate.Day,
+                                    23, 59, 59));
                         }
 
                         //if (tripWialon == null)
