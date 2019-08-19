@@ -73,10 +73,12 @@ namespace Integration.Infrastructure.ViewModels.Info
 
                 if (Directory.Exists(downloadsDir))
                 {
-                    var newFile = pathToFile.CopyTo(Path.Combine(downloadsDir, pathToFile.Name));
-                    string argument = "/select, \"" + newFile + "\"";
-                    System.Diagnostics.Process.Start("explorer.exe", argument);
+                    File.Delete(Path.Combine(downloadsDir, pathToFile.Name));
                 }
+
+                var newFile = pathToFile.CopyTo(Path.Combine(downloadsDir, pathToFile.Name));
+                string argument = "/select, \"" + newFile.FullName + "\"";
+                System.Diagnostics.Process.Start("explorer.exe", argument);
             }
             catch (Exception ex)
             {

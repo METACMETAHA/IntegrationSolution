@@ -195,8 +195,10 @@
                                 </WrapPanel>
 
                             </Controls:MetroTabItem>
-                        
-                        <Controls:MetroTabItem Header="Водители"/>
+
+                            <Controls:MetroTabItem Header="Водители">
+                                <partialViews:PredictionChartView/>
+                            </Controls:MetroTabItem>
                     </Controls:MetroAnimatedSingleRowTabControl>
 
                         <Grid.Style>
