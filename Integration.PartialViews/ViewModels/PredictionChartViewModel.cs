@@ -1,4 +1,5 @@
-﻿using LiveCharts;
+﻿using IntegrationSolution.Common.ModulesExtension.Implementations;
+using LiveCharts;
 using LiveCharts.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -12,35 +13,8 @@ using System.Windows.Controls;
 
 namespace Integration.PartialViews.ViewModels
 {
-    public class PredictionChartViewModel : BindableBase
+    public class PredictionChartViewModel : ChartsVMBase
     {
-        public SeriesCollection Series { get; set; }
-
-        private Series selectedSeries;
-        public Series SelectedSeries
-        {
-            get { return selectedSeries; }
-            set
-            {
-                SetProperty(ref selectedSeries, value);
-                //if (SelectedSeries == null)
-                //    return;
-
-                //var ser = Series.FirstOrDefault(x => x.Title == SelectedSeries.Title);
-
-                //if (ser == null)
-                //    return;
-
-                //int index = Series.IndexOf(ser);
-
-                //var series = ((StackedAreaSeries)ser.Model.SeriesCollection.ElementAt(index));
-                //series.Visibility = series.Visibility == Visibility.Visible
-                //    ? Visibility.Hidden
-                //    : Visibility.Visible;
-            }
-        }
-
-
         public PredictionChartViewModel()
         {
             OnPreviewMouseDown = new DelegateCommand(OnPreviewMouseDownCmd);
@@ -81,19 +55,13 @@ namespace Integration.PartialViews.ViewModels
 
             if (ser == null)
                 return;
-            
+
             var series = (StackedAreaSeries)ser;
             series.Visibility = series.Visibility == Visibility.Visible
                 ? Visibility.Hidden
                 : Visibility.Visible;
 
-            //var item = ItemsControl.ContainerFromElement(ListBox, (DependencyObject)e.OriginalSource) as ListBoxItem;
-            //if (item == null) return;
-
-            //var series = (StackedAreaSeries)item.Content;
-            //series.Visibility = series.Visibility == Visibility.Visible
-            //    ? Visibility.Hidden
-            //    : Visibility.Visible;
+            SelectedSeries = null;
         }
     }
 }

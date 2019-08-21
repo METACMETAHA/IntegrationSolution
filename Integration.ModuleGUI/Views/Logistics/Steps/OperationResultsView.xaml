@@ -37,11 +37,11 @@
                 </ScrollViewer>
             </Controls:MetroTabItem>
 
-            <!--<Controls:MetroTabItem Header="Сравнение">
+            <Controls:MetroTabItem Header="Сравнение">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <views:CompareSapWialonMileageView ScrollViewer.CanContentScroll="True"/>
+                    <partialViews:PredictionChartView ScrollViewer.CanContentScroll="True" DataContext="{Binding PredictionChartContext}"/>
                 </ScrollViewer>
-            </Controls:MetroTabItem>-->
+            </Controls:MetroTabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
 
         <partialViews:GridConfigurationView Grid.Column="1"/>

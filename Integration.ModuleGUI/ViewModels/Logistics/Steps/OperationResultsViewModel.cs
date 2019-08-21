@@ -2,6 +2,7 @@
 using Integration.ModuleGUI.Views;
 using IntegrationSolution.Common.Helpers;
 using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using Prism.Events;
@@ -36,6 +37,13 @@ namespace Integration.ModuleGUI.ViewModels
             get { return _isOpenChildPopup; }
             set { SetProperty(ref _isOpenChildPopup, value); }
         }
+
+        private ChartsVMBase predictionChartContext;
+        public ChartsVMBase PredictionChartContext
+        {
+            get { return predictionChartContext; }
+            set { SetProperty(ref predictionChartContext, value); }
+        }
         #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
@@ -52,10 +60,13 @@ namespace Integration.ModuleGUI.ViewModels
             base.OnEnter();
             if (ModuleData.SimpleDataForReport == null)
                 ModuleData.SimpleDataForReport = new ObservableCollection<IntegratedVehicleInfo>(ModuleData.DetailsDataForReport);
+
         }
 
         public override bool MoveBack()
         {
+            ModuleData.SimpleDataForReport = null;
+            ModuleData.DetailsDataForReport = null;
             return true;
         }
         

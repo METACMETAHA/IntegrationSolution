@@ -12,7 +12,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="300" d:DesignWidth="6">
-    <Grid Margin="20" Width="620">
+    <Grid Margin="20" Width="620" MinHeight="300">
         <Grid.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" Opacity=".2" ShadowDepth="1"/>
         </Grid.Effect>
