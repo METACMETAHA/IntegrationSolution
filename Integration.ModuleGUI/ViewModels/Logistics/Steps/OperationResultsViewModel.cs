@@ -1,5 +1,6 @@
 ﻿using Integration.ModuleGUI.Models;
 using Integration.ModuleGUI.Views;
+using Integration.PartialViews.ViewModels;
 using IntegrationSolution.Common.Helpers;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
@@ -51,7 +52,7 @@ namespace Integration.ModuleGUI.ViewModels
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
-
+            PredictionChartContext = new PredictionChartViewModel();
             GridConfiguration = new GridConfiguration();
         }
 
