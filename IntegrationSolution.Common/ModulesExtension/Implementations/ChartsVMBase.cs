@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace IntegrationSolution.Common.ModulesExtension.Implementations
 {
@@ -27,11 +28,11 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
             set { SetProperty(ref selectedSeries, value); }
         }
 
-        public bool UpdateLocalData(Dictionary<string, IEnumerable<double>> data)
+        public bool InitializeLocalSeriesData(Dictionary<string, List<double>> data)
         {
             try
             {
-                var series = InitializeData(data);
+                var series = TryCreateSeriesCollection(data);
                 if (series != null && series.Any())
                     Series = series;
                 else
@@ -45,7 +46,8 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
             }
         }
 
-        public SeriesCollection InitializeData(Dictionary<string, IEnumerable<double>> data)
+        
+        public SeriesCollection TryCreateSeriesCollection(Dictionary<string, List<double>> data)
         {
             if (data == null)
                 return null;
@@ -53,11 +55,17 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
             SeriesCollection series = new SeriesCollection();
             foreach (var item in data)
             {
-                series.Add(new StackedAreaSeries
-                {
-                    Values = new ChartValues<double>(item.Value),
-                    Title = item.Key
+                Application.Current.Dispatcher.Invoke((Action)delegate {
+                    series.Add(new LineSeries
+                    {
+                        Values = new ChartValues<double>(item.Value),
+                        Title = item.Key,
+                        PointForeground = Brushes.White,
+                        PointGeometry = DefaultGeometries.Circle,
+                        PointGeometrySize = 9
+                    });
                 });
+                
             }
             return series;
         }

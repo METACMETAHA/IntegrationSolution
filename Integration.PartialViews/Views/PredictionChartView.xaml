@@ -9,8 +9,7 @@
              xmlns:converters="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
              mc:Ignorable="d" 
              Background="Transparent"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             
              d:DesignHeight="300" d:DesignWidth="6">
     <Grid Margin="20" Width="620" MinHeight="300">
         <Grid.Effect>
@@ -26,11 +25,11 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" FontSize="40" Foreground="#404040" Margin="20, 10">Energy Consumption</TextBlock>
+                <TextBlock Grid.Row="0" FontSize="40" Foreground="#404040" Margin="20, 10">График пробега по системам</TextBlock>
                 <Canvas Grid.Row="1" Name="Canvas" Margin="-4, 0, 0, 20">
                     <ListBox Name="ListBox" ItemsSource="{Binding Series, Converter={StaticResource ReverseConverter}}"
-                             SelectedItem="{Binding SelectedSeries}"
-                             Panel.ZIndex="1" Canvas.Left="60" Canvas.Top="20" BorderThickness="0" Background="Transparent">
+                             SelectedItem="{Binding SelectedSeries}" Panel.ZIndex="999"
+                             Canvas.Left="60" Canvas.Top="3" BorderThickness="0" Background="Transparent">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding OnPreviewMouseDown}"/>
@@ -39,7 +38,8 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding (charts:LineSeries.Title)}" 
-                                           Foreground="{Binding (charts:LineSeries.Fill)}"
+                                           FontStretch="SemiExpanded"
+                                           Foreground="{Binding (charts:LineSeries.Stroke)}"
                                            Opacity="{Binding (charts:LineSeries.Visibility), Converter={StaticResource OpacityConverter}}"
                                            FontSize="22"/>
                             </DataTemplate>
@@ -58,8 +58,12 @@
                         </ListBox.ItemContainerStyle>
                     </ListBox>
 
-                    <charts:CartesianChart Height="{Binding ElementName=Canvas, Path=ActualHeight}" Width="{Binding ElementName=Canvas, Path=ActualWidth}"
-                                     Series="{Binding Series}" Hoverable="True">
+                    <charts:CartesianChart Height="{Binding ElementName=Canvas, Path=ActualHeight}" 
+                                           Width="{Binding ElementName=Canvas, Path=ActualWidth}"
+                                           Series="{Binding Series}" Hoverable="True">
+                        <charts:CartesianChart.DataTooltip>
+                            <charts:DefaultTooltip BulletSize="20" Background="Gray"/>
+                        </charts:CartesianChart.DataTooltip>
                         <charts:CartesianChart.AxisX>
                             <charts:Axis IsEnabled="False" ShowLabels="False"></charts:Axis>
                         </charts:CartesianChart.AxisX>

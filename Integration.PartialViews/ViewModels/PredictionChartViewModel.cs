@@ -18,32 +18,13 @@ namespace Integration.PartialViews.ViewModels
         public PredictionChartViewModel()
         {
             OnPreviewMouseDown = new DelegateCommand(OnPreviewMouseDownCmd);
-
-            Series = new SeriesCollection
-            {
-                new StackedAreaSeries
-                {
-                    Values = new ChartValues<double> {20, 30, 35, 45, 65, 85},
-                    Title = "Electricity"
-                },
-                new StackedAreaSeries
-                {
-                    Values = new ChartValues<double> {10, 12, 18, 20, 38, 40},
-                    Title = "Water"
-                },
-                new StackedAreaSeries
-                {
-                    Values = new ChartValues<double> {5, 8, 12, 15, 22, 25},
-                    Title = "Solar"
-                },
-                new StackedAreaSeries
-                {
-                    Values = new ChartValues<double> {10, 12, 18, 20, 38, 40},
-                    Title = "Gas"
-                }
-            };
         }
 
+        public PredictionChartViewModel(Dictionary<string, List<double>> data) : this()
+        {
+            if (!InitializeLocalSeriesData(data))
+                Series = new SeriesCollection();
+        }
 
         public DelegateCommand OnPreviewMouseDown { get; private set; }
         protected void OnPreviewMouseDownCmd()
@@ -56,7 +37,7 @@ namespace Integration.PartialViews.ViewModels
             if (ser == null)
                 return;
 
-            var series = (StackedAreaSeries)ser;
+            var series = (LineSeries)ser;
             series.Visibility = series.Visibility == Visibility.Visible
                 ? Visibility.Hidden
                 : Visibility.Visible;
