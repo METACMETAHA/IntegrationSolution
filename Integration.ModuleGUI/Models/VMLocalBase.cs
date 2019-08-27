@@ -3,10 +3,12 @@ using IntegrationSolution.Common.Events;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.SelfEntities;
+using MahApps.Metro.Controls;
 using Prism.Events;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 using Unity;
 using WialonBase.Interfaces;
 
@@ -35,6 +37,20 @@ namespace Integration.ModuleGUI.Models
             _wialonContext = _container.Resolve<INavigationOperations>();
         }
 
+
+        #region IWindowActions implementation
+        public override void MaximizeWindow()
+        {
+            var wnd = (MetroWindow)Application.Current.MainWindow;
+            wnd.WindowState = WindowState.Maximized;
+        }
+
+        public override void NormalizeWindow()
+        {
+            var wnd = (MetroWindow)Application.Current.MainWindow;
+            wnd.WindowState = WindowState.Normal;
+        }
+        #endregion
 
         #region Events
         public override void OnEnter()

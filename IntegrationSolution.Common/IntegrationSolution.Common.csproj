@@ -93,6 +93,7 @@
     <Compile Include="CommonModule.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\OpacityConverter.cs" />
+    <Compile Include="Converters\PercentDifferenceConverter.cs" />
     <Compile Include="Converters\ReverseConverter.cs" />
     <Compile Include="Converters\SelectedItemToContentConverter.cs" />
     <Compile Include="Converters\StateNumberConverter.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Implementations\ValidationPropertyChangedBase.cs" />
     <Compile Include="Interfaces\ISerializable.cs" />
     <Compile Include="Interfaces\ISettings.cs" />
+    <Compile Include="Interfaces\IWindowActions.cs" />
     <Compile Include="Models\DatesFromToContext.cs" />
     <Compile Include="Models\FuelPrice.cs" />
     <Compile Include="ModulesExtension\Implementations\ChartsVMBase.cs" />

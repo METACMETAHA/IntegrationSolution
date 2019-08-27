@@ -6,12 +6,22 @@
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:views="clr-namespace:Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews"
+             xmlns:converters="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
              xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
+    <UserControl.Resources>
+        <converters:PercentDifferenceConverter x:Key="PercentConverter"/>
+        <Style TargetType="{x:Type TextBlock}">
+            <Style.Setters>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -60,6 +70,37 @@
                                         <i:InvokeCommandAction Command="{Binding OnCarChangedCmd}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="5 2" ToolTip="{Binding UnitModel}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Grid.RowSpan="3" TextWrapping="WrapWithOverflow" Text="{Binding StateNumber}" 
+                                                       FontSize="17" FontStretch="UltraCondensed" FontWeight="Light"
+                                                       HorizontalAlignment="Left"/>
+
+                                            <TextBlock Grid.Column="1" Text="{Binding PercentDifference, Converter={StaticResource PercentConverter}}" HorizontalAlignment="Right"/>
+
+                                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Type}" HorizontalAlignment="Right"/>
+
+                                            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding StructureName}" HorizontalAlignment="Right"/>
+
+                                        </Grid>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding PercentDifference}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
                             </ListBox>
                         </StackPanel>
                         

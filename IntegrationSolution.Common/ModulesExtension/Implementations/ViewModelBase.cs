@@ -1,5 +1,6 @@
 ﻿using IntegrationSolution.Common.Entities;
 using IntegrationSolution.Common.Events;
+using IntegrationSolution.Common.Interfaces;
 using IntegrationSolution.Common.ModulesExtension.Interfaces;
 using log4net;
 using NotificationConstructor.Interfaces;
@@ -18,7 +19,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
     /// Current abstration of each ViewModel is needed for store Title of each node in WizzardControl.
     /// Implement BindableVase and IModuleViewModel
     /// </summary>
-    public abstract class ViewModelBase : BindableBase, IModuleViewModelNavigation, IActiveState, INotifyEvents
+    public abstract class ViewModelBase : BindableBase, IModuleViewModelNavigation, IActiveState, INotifyEvents, IWindowActions
     {
         protected readonly IUnityContainer _container;
         protected readonly IEventAggregator _eventAggregator;
@@ -121,6 +122,11 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
             _eventAggregator.GetEvent<SubmitFinishedEvent>().Publish(IsFinished);
             _eventAggregator.GetEvent<CanGoNextUpdateEvent>().Publish(CanGoNext);
         }
+
+
+        public abstract void MaximizeWindow();
+
+        public abstract void NormalizeWindow();
 
 
         #region EventActions

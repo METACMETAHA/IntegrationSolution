@@ -9,6 +9,7 @@ using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using LiveCharts.Defaults;
+using MahApps.Metro.Controls;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -21,6 +22,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Unity;
 
@@ -64,7 +66,6 @@ namespace Integration.ModuleGUI.ViewModels
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
-
             OnCarChangedCmd = new DelegateCommand(OnCarChanged);
             GridConfiguration = new GridConfiguration();
         }
@@ -75,7 +76,14 @@ namespace Integration.ModuleGUI.ViewModels
             if (ModuleData.SimpleDataForReport == null)
                 ModuleData.SimpleDataForReport = new ObservableCollection<IntegratedVehicleInfo>(ModuleData.DetailsDataForReport);
 
-            
+            if (ModuleData.DetailsDataForReport != null)
+                base.MaximizeWindow();
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            base.NormalizeWindow();
         }
 
         public override bool MoveBack()
