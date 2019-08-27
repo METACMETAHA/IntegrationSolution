@@ -46,9 +46,9 @@
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel x:Name="panel">
+                        <StackPanel x:Name="panel" Height="500" ScrollViewer.CanContentScroll="True">
                             <TextBlock Margin="10 0 10 0" Text="Список ТС" Style="{DynamicResource MedHeaderBold}"/>
-                            <ListBox Margin="10" 
+                            <ListBox Margin="10"
                                  Height="{Binding ElementName=panel, Path=Height}"
                                  Width="{Binding ElementName=panel, Path=ActualWidth}"
                                  ItemsSource="{Binding ModuleData.SimpleDataForReport}" 

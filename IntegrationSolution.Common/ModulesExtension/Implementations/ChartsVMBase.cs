@@ -1,4 +1,6 @@
-﻿using LiveCharts;
+﻿using IntegrationSolution.Common.Models;
+using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -14,6 +16,9 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
 {
     public class ChartsVMBase : BindableBase
     {
+        public Func<double, string> XFormatter { get; set; }
+        public Func<double, string> YFormatter { get; set; }
+
         private SeriesCollection series;
         public SeriesCollection Series
         {
@@ -28,7 +33,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
             set { SetProperty(ref selectedSeries, value); }
         }
 
-        public bool InitializeLocalSeriesData(Dictionary<string, List<double>> data)
+        public bool InitializeLocalSeriesData(Dictionary<string, List<DateTimePoint>> data)
         {
             try
             {
@@ -37,6 +42,9 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
                     Series = series;
                 else
                     throw new Exception();
+
+                XFormatter = val => new DateTime((long)val).ToString("MMMM dd");
+                YFormatter = val => val.ToString() + " км";
 
                 return true;
             }
@@ -47,7 +55,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
         }
 
         
-        public SeriesCollection TryCreateSeriesCollection(Dictionary<string, List<double>> data)
+        public SeriesCollection TryCreateSeriesCollection(Dictionary<string, List<DateTimePoint>> data)
         {
             if (data == null)
                 return null;
@@ -58,7 +66,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
                 Application.Current.Dispatcher.Invoke((Action)delegate {
                     series.Add(new LineSeries
                     {
-                        Values = new ChartValues<double>(item.Value),
+                        Values = new ChartValues<DateTimePoint>(item.Value),
                         Title = item.Key,
                         PointForeground = Brushes.White,
                         PointGeometry = DefaultGeometries.Circle,

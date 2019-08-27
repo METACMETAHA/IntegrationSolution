@@ -77,8 +77,8 @@
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingPanel.IsContainerVirtualizable="True">
                         <StackPanel>
-                            
-                                <Button Width="56" Height="56"
+
+                            <Button Width="56" Height="56"
                                         HorizontalAlignment="Left" 
                                         VerticalAlignment="Top"
                                         Padding="12" Margin="10" 
@@ -91,23 +91,6 @@
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                             </Button>
-
-                            <!--<ToggleButton IsChecked="{Binding SimpleSelection}"
-                                    Width="56"
-              Height="56"
-              HorizontalAlignment="Left" 
-                            VerticalAlignment="Top"
-                            Padding="12" Margin="10 70 10 10" 
-              Style="{StaticResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}">
-                                <Rectangle Width="28"
-               Height="28"
-               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill"
-                         Visual="{DynamicResource appbar_city}"/>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </ToggleButton>-->
                         </StackPanel>
 
                         <Controls:MetroAnimatedSingleRowTabControl TabStripPlacement="Right"

@@ -1,5 +1,7 @@
-﻿using IntegrationSolution.Common.ModulesExtension.Implementations;
+﻿using IntegrationSolution.Common.Models;
+using IntegrationSolution.Common.ModulesExtension.Implementations;
 using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -20,7 +22,7 @@ namespace Integration.PartialViews.ViewModels
             OnPreviewMouseDown = new DelegateCommand(OnPreviewMouseDownCmd);
         }
 
-        public PredictionChartViewModel(Dictionary<string, List<double>> data) : this()
+        public PredictionChartViewModel(Dictionary<string, List<DateTimePoint>> data) : this()
         {
             if (!InitializeLocalSeriesData(data))
                 Series = new SeriesCollection();

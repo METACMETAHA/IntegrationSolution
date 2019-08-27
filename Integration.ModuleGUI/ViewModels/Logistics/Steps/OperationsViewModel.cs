@@ -169,8 +169,16 @@ namespace Integration.ModuleGUI.ViewModels
             if (desicion != MessageDialogResult.Affirmative)
                 return;
 
+            var tmp_progress = await wnd.ShowProgressAsync("Подождите пожалуйста", "Подготовка данных...");
+
             // Get cars from Wialon
-            var wialonCars = _wialonContext.GetCarsEnumarable();
+            ICollection<CarWialon> wialonCars = null;
+
+            wialonCars = await Task.Run(() => { return _wialonContext.GetCarsEnumarable(); });
+
+            if (tmp_progress.IsOpen)
+                await tmp_progress.CloseAsync();
+
             if (wialonCars == null)
             {
                 await wnd.ShowMessageAsync("Ошибка!", "Проверьте подключение к навигационной системе Wialon.");

@@ -3,10 +3,12 @@ using Integration.ModuleGUI.Views;
 using Integration.PartialViews.ViewModels;
 using IntegrationSolution.Common.Helpers;
 using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Common.Models;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
+using LiveCharts.Defaults;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -62,7 +64,6 @@ namespace Integration.ModuleGUI.ViewModels
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
-            //PredictionChartContext = new PredictionChartViewModel();
 
             OnCarChangedCmd = new DelegateCommand(OnCarChanged);
             GridConfiguration = new GridConfiguration();
@@ -112,61 +113,94 @@ namespace Integration.ModuleGUI.ViewModels
 
 
         #region Helpers
-        // --------------------------------------------------------------------------------------------
-        // --------------------------------------------------------------------------------------------
-        // set X-axis for dates. Change filling of collection (by points) for dates: from - to
-        // --------------------------------------------------------------------------------------------
-        // --------------------------------------------------------------------------------------------
-        private Dictionary<string, List<double>> PrepareData(IEnumerable<TripSAP> sap, IEnumerable<TripWialon> wialon)
+        private Dictionary<string, List<DateTimePoint>> PrepareData(IEnumerable<TripSAP> sap, IEnumerable<TripWialon> wialon)
         {
             if (sap == null || !sap.Any() ||
                 wialon == null || !wialon.Any())
                 return null;
 
-            sap = sap.OrderBy(x => x.DepartureFromGarageDate.Date);
-            wialon = wialon.OrderBy(x => x.Begin.Date);
+            var datesDictSAP = sap.OrderBy(x => x.DepartureFromGarageDate.Date).ToLookup(x => x.DepartureFromGarageDate.Date);
+            var datesDictWln = wialon.OrderBy(x => x.Begin.Date).ToLookup(x => x.Begin.Date);
 
-            Dictionary<string, List<double>> resultedCollection = new Dictionary<string, List<double>>()
+            Dictionary<string, List<DateTimePoint>> resultedCollection = new Dictionary<string, List<DateTimePoint>>()
             {
-                { "SAP", new List<double>() },
-                { "Wialon", new List<double>() }
+                { "SAP", new List<DateTimePoint>() },
+                { "Wialon", new List<DateTimePoint>() }
             };
-
-            //int indexSap = sap.Count(), indexWialon = wialon.Count();
             
-            for (int si = 0, wi = 0;
-                si < indexSap || wi < indexWialon; )
-            {
-                var _sap = sap.ElementAtOrDefault(si);
-                var _wln = wialon.ElementAtOrDefault(wi);
+            var startDate = (sap.FirstOrDefault()?.DepartureFromGarageDate.Date > wialon.FirstOrDefault()?.Begin.Date) ?
+                wialon.FirstOrDefault()?.Begin.Date : sap.FirstOrDefault()?.DepartureFromGarageDate.Date;
 
-                if (_sap != null && _wln != null &&
-                    _sap.DepartureFromGarageDate.ToShortDateString().Equals(_wln.Begin.ToShortDateString()))
+            if (startDate == null)
+                return resultedCollection;
+
+            var endDate = (sap.LastOrDefault()?.DepartureFromGarageDate.Date < wialon.LastOrDefault()?.Begin.Date) ?
+                wialon.LastOrDefault()?.Begin.Date : sap.LastOrDefault()?.DepartureFromGarageDate.Date;
+
+            if (endDate == null)
+                endDate = startDate;
+
+            var currDate = startDate.Value;
+
+            for (int si = 0, wi = 0;
+                currDate <= endDate;)
+            {
+                var _sap = datesDictSAP.ElementAtOrDefault(si);
+                var _wln = datesDictWln.ElementAtOrDefault(wi);
+                
+                if (_sap != null && _wln != null && _sap.Any() && _wln.Any() &&
+                    _sap.First().DepartureFromGarageDate.ToShortDateString().Equals(_wln.First().Begin.ToShortDateString()) &&
+                    _sap.First().DepartureFromGarageDate.ToShortDateString().Equals(currDate.ToShortDateString()))
                 {
-                    resultedCollection["SAP"].Add(_sap.TotalMileage);
-                    resultedCollection["Wialon"].Add(_wln.Mileage);
+                    double totalSap = 0;
+                    foreach (var item in _sap)
+                        totalSap += item.TotalMileage;
+
+                    double totalWln = 0;
+                    foreach (var item in _wln)
+                        totalWln += item.Mileage;
+
+                    resultedCollection["SAP"].Add(new DateTimePoint() { Value = totalSap, DateTime = currDate });
+                    resultedCollection["Wialon"].Add(new DateTimePoint() { Value = totalWln, DateTime = currDate });
 
                     si++;
                     wi++;
                 }
-                else if ((_sap != null && _sap.DepartureFromGarageDate.Date < _wln?.Begin.Date) ||
+                else if ((_sap != null && _sap.FirstOrDefault()?.DepartureFromGarageDate.Date < _wln?.FirstOrDefault()?.Begin.Date && 
+                    _sap.FirstOrDefault()?.DepartureFromGarageDate.Date == currDate.Date) ||
                     (_sap != null && _wln == null))
                 {
-                    resultedCollection["SAP"].Add(_sap.TotalMileage);
-                    resultedCollection["Wialon"].Add(double.NaN);
+                    double totalSap = 0;
+                    foreach (var item in _sap)
+                        totalSap += item.TotalMileage;
+
+                    resultedCollection["SAP"].Add(new DateTimePoint() { Value = totalSap, DateTime = currDate });
+                    resultedCollection["Wialon"].Add(new DateTimePoint() { Value = double.NaN, DateTime = currDate });
 
                     si++;
                 }
-                else if ((_wln != null && _sap?.DepartureFromGarageDate.Date > _wln.Begin.Date) ||
+                else if ((_wln != null && _sap?.FirstOrDefault()?.DepartureFromGarageDate.Date > _wln.FirstOrDefault()?.Begin.Date && 
+                    _wln.FirstOrDefault()?.Begin.Date == currDate.Date) ||
                     (_wln != null && _sap == null))
                 {
-                    resultedCollection["SAP"].Add(double.NaN);
-                    resultedCollection["Wialon"].Add(_wln.Mileage);
-                    
+                    double totalWln = 0;
+                    foreach (var item in _wln)
+                        totalWln += item.Mileage;
+
+                    resultedCollection["SAP"].Add(new DateTimePoint() { Value = double.NaN, DateTime = currDate });
+                    resultedCollection["Wialon"].Add(new DateTimePoint() { Value = totalWln, DateTime = currDate });
+
                     wi++;
                 }
+                else
+                {
+                    resultedCollection["SAP"].Add(new DateTimePoint() { Value = double.NaN, DateTime = currDate });
+                    resultedCollection["Wialon"].Add(new DateTimePoint() { Value = double.NaN, DateTime = currDate });
+                }
+                currDate = currDate.AddDays(1);
             }
 
+            
             return resultedCollection;
         }
         #endregion
