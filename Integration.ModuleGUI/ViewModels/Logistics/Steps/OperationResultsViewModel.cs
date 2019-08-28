@@ -59,6 +59,20 @@ namespace Integration.ModuleGUI.ViewModels
             set { selectedVehicleInfoInMilesChart = value; }
         }
 
+        private string searchField;
+        public string SearchField
+        {
+            get { return searchField; }
+            set { SetProperty(ref searchField, value); }
+        }
+
+        private bool isExpanderWithCarsVisible;
+        public bool IsExpanderWithCarsVisible
+        {
+            get { return isExpanderWithCarsVisible; }
+            set { isExpanderWithCarsVisible = value; }
+        }
+
         #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
@@ -66,7 +80,11 @@ namespace Integration.ModuleGUI.ViewModels
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
+
             OnCarChangedCmd = new DelegateCommand(OnCarChanged);
+
+            IsExpanderWithCarsVisible = true;
+
             GridConfiguration = new GridConfiguration();
         }
 

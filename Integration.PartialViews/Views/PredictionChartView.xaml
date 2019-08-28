@@ -7,10 +7,10 @@
              xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              Background="Transparent"
-             d:DesignHeight="300" d:DesignWidth="6">
-    <Grid Margin="20" Width="620" MinHeight="300">
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ColumnDefinition}}}" MinHeight="300">
         <Grid.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" Opacity=".2" ShadowDepth="1"/>
         </Grid.Effect>
@@ -18,14 +18,14 @@
             <converters:OpacityConverter x:Key="OpacityConverter"></converters:OpacityConverter>
             <converters:ReverseConverter x:Key="ReverseConverter"></converters:ReverseConverter>
         </Grid.Resources>
-        <Border CornerRadius="5" Background="White">
+        <Border BorderThickness="0" Background="Transparent">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" FontSize="40" Foreground="#404040" Margin="20, 10">График пробега по системам</TextBlock>
-                <Canvas Grid.Row="1" Name="Canvas" Margin="-4, 0, 0, 20">
+                <Canvas Grid.Row="1" Name="Canvas" Margin="-4, 0, 0, 0">
                     <ListBox Name="ListBox" ItemsSource="{Binding Series, Converter={StaticResource ReverseConverter}}"
                              SelectedItem="{Binding SelectedSeries}" Panel.ZIndex="999"
                              Canvas.Left="60" Canvas.Top="3" BorderThickness="0" Background="Transparent">

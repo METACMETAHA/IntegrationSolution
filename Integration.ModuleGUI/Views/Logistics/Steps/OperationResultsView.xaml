@@ -23,11 +23,6 @@
     </UserControl.Resources>
     
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="100"/>
-        </Grid.ColumnDefinitions>
-
         <!--<wnd:ChildWindow 
             Grid.ColumnSpan="2" Title="Подробно"
             IsOpen="{Binding IsOpenChildPopup}"
@@ -41,10 +36,13 @@
         </wnd:ChildWindow>-->
 
         <!--Tab with Simple Data-->
-        <Controls:MetroAnimatedSingleRowTabControl>
+        <Controls:MetroAnimatedTabControl>
             <Controls:MetroTabItem Header="Сводка">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <views:ReportSimpleView Height="Auto"/>
+                    <StackPanel Orientation="Horizontal">
+                        <views:ReportSimpleView Height="Auto"/>
+                        <partialViews:GridConfigurationView Width="100"/>
+                    </StackPanel>
                 </ScrollViewer>
             </Controls:MetroTabItem>
 
@@ -52,19 +50,39 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto" MaxWidth="370"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel x:Name="panel" Height="500" ScrollViewer.CanContentScroll="True">
-                            <TextBlock Margin="10 0 10 0" Text="Список ТС" Style="{DynamicResource MedHeaderBold}"/>
-                            <ListBox Margin="10"
+                        <Expander ExpandDirection="Right" FlowDirection="LeftToRight" HorizontalAlignment="Left" Margin="0 0 -10 0"
+                                  IsExpanded="{Binding IsExpanderWithCarsVisible}" SnapsToDevicePixels="True">
+                            <Expander.Header>
+                                <TextBlock Text="Список транспортных средств" 
+                                           FontStretch="SemiExpanded" FontWeight="Light"
+                                           Height="21" FontSize="18"
+                                           Foreground="Black">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="-90"/>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                            </Expander.Header>
+
+                            <StackPanel x:Name="panel" MaxWidth="350" Height="500" ScrollViewer.CanContentScroll="True" Margin="9">
+
+                                <TextBox Margin="0 5"
+                                     Controls:TextBoxHelper.ClearTextButton="True"
+                                     Controls:TextBoxHelper.Watermark="Поиск..."
+                                     FontSize="13"
+                                     Padding="5 2"
+                                     Text="{Binding SearchField, IsAsync=True}"/>
+
+                            <ListBox 
                                  Height="{Binding ElementName=panel, Path=Height}"
                                  Width="{Binding ElementName=panel, Path=ActualWidth}"
                                  ItemsSource="{Binding ModuleData.SimpleDataForReport}" 
                                  SelectedItem="{Binding SelectedVehicleInfoInMilesChart}"
                                  ScrollViewer.CanContentScroll="True"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                 ScrollViewer.VerticalScrollBarVisibility="Visible">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding OnCarChangedCmd}"/>
@@ -82,7 +100,7 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            
+
                                             <TextBlock Grid.RowSpan="3" TextWrapping="WrapWithOverflow" Text="{Binding StateNumber}" 
                                                        FontSize="17" FontStretch="UltraCondensed" FontWeight="Light"
                                                        HorizontalAlignment="Left"/>
@@ -94,23 +112,42 @@
                                             <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding StructureName}" HorizontalAlignment="Right"/>
 
                                         </Grid>
-                                        <DataTemplate.Triggers>
+                                    </DataTemplate>
+                                    
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                        <Style.Triggers>
                                             <DataTrigger Binding="{Binding PercentDifference}" Value="{x:Null}">
                                                 <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
-                                        </DataTemplate.Triggers>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
                             </ListBox>
                         </StackPanel>
-                        
-                        <partialViews:PredictionChartView Grid.Column="1" ScrollViewer.CanContentScroll="True" DataContext="{Binding PredictionChartContext}"/>
+                            
+                        </Expander>
+
+                        <partialViews:PredictionChartView Grid.Column="1" Margin="15 0 0 0" ScrollViewer.CanContentScroll="True" DataContext="{Binding PredictionChartContext}">
+                            <partialViews:PredictionChartView.Style>
+                                <Style TargetType="{x:Type UserControl}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedVehicleInfoInMilesChart}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </partialViews:PredictionChartView.Style>
+                        </partialViews:PredictionChartView>
                         
                     </Grid>
                 </ScrollViewer>
             </Controls:MetroTabItem>
-        </Controls:MetroAnimatedSingleRowTabControl>
+        </Controls:MetroAnimatedTabControl>
 
-        <partialViews:GridConfigurationView Grid.Column="1"/>
+        
     </Grid>
 </UserControl>
