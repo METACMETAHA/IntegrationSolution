@@ -21,7 +21,13 @@
             </Style.Setters>
         </Style>
     </UserControl.Resources>
-    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+
     <Grid>
         <!--<wnd:ChildWindow 
             Grid.ColumnSpan="2" Title="Подробно"
@@ -49,8 +55,9 @@
             <Controls:MetroTabItem Header="Сравнение">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" MaxWidth="370"/>
+                            <ColumnDefinition Width="auto" MaxWidth="520" MinWidth="30"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
 
@@ -67,19 +74,20 @@
                                 </TextBlock>
                             </Expander.Header>
 
-                            <StackPanel x:Name="panel" MaxWidth="350" Height="500" ScrollViewer.CanContentScroll="True" Margin="9">
+                            <StackPanel x:Name="panel" MaxWidth="500" Height="460" ScrollViewer.CanContentScroll="True" Margin="9"
+                                        Width="350">
 
                                 <TextBox Margin="0 5"
                                      Controls:TextBoxHelper.ClearTextButton="True"
                                      Controls:TextBoxHelper.Watermark="Поиск..."
                                      FontSize="13"
                                      Padding="5 2"
-                                     Text="{Binding SearchField, IsAsync=True}"/>
+                                     Text="{Binding SearchField, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <ListBox 
+                                <ListBox 
                                  Height="{Binding ElementName=panel, Path=Height}"
                                  Width="{Binding ElementName=panel, Path=ActualWidth}"
-                                 ItemsSource="{Binding ModuleData.SimpleDataForReport}" 
+                                 ItemsSource="{Binding VehicleInfos, Mode=OneWay}" 
                                  SelectedItem="{Binding SelectedVehicleInfoInMilesChart}"
                                  ScrollViewer.CanContentScroll="True"
                                  ScrollViewer.VerticalScrollBarVisibility="Visible">
@@ -130,18 +138,38 @@
                             
                         </Expander>
 
-                        <partialViews:PredictionChartView Grid.Column="1" Margin="15 0 0 0" ScrollViewer.CanContentScroll="True" DataContext="{Binding PredictionChartContext}">
-                            <partialViews:PredictionChartView.Style>
-                                <Style TargetType="{x:Type UserControl}">
-                                    <Setter Property="Visibility" Value="Visible"/>
+                        <partialViews:PredictionChartView Grid.Column="1" Margin="15 0 0 0" ScrollViewer.CanContentScroll="True" DataContext="{Binding PredictionChartContext}"/>
+
+                        <Grid.Style>
+                            <Style TargetType="{x:Type Grid}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ModuleData.DetailsDataForReport}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        </Grid>
+
+                        <TextBlock Grid.ColumnSpan="2" FontSize="48" HorizontalAlignment="Center" TextAlignment="Center"
+                                   Foreground="#171525" VerticalAlignment="Center" LineStackingStrategy="MaxHeight"
+                                   FontStretch="ExtraCondensed"  FontWeight="Light" TextWrapping="WrapWithOverflow"
+                                   Text="Данная секция доступна только при выполнении расширенного отчёта">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" Opacity=".35" ShadowDepth="1"/>
+                            </TextBlock.Effect>
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LargeHeaderBold}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SelectedVehicleInfoInMilesChart}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        <DataTrigger Binding="{Binding ModuleData.DetailsDataForReport}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </partialViews:PredictionChartView.Style>
-                        </partialViews:PredictionChartView>
+                            </TextBlock.Style>
+                        </TextBlock>
                         
                     </Grid>
                 </ScrollViewer>

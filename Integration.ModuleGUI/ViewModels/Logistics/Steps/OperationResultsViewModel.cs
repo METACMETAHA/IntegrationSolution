@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Unity;
 
 namespace Integration.ModuleGUI.ViewModels
@@ -63,7 +64,14 @@ namespace Integration.ModuleGUI.ViewModels
         public string SearchField
         {
             get { return searchField; }
-            set { SetProperty(ref searchField, value); }
+            set
+            {
+                if (searchField == value)
+                    return;
+                
+                SetProperty(ref searchField, value);
+                RaisePropertyChanged(nameof(VehicleInfos));
+            }
         }
 
         private bool isExpanderWithCarsVisible;
@@ -73,6 +81,17 @@ namespace Integration.ModuleGUI.ViewModels
             set { isExpanderWithCarsVisible = value; }
         }
 
+
+        // Collection with filter
+        public ObservableCollection<IntegratedVehicleInfo> VehicleInfos
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(SearchField))
+                    return ModuleData.SimpleDataForReport;
+                return new ObservableCollection<IntegratedVehicleInfo>(ModuleData.SimpleDataForReport.Where(x => x.StateNumber.Contains(SearchField)));
+            }
+        }
         #endregion
 
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
@@ -80,8 +99,9 @@ namespace Integration.ModuleGUI.ViewModels
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
-
+            
             OnCarChangedCmd = new DelegateCommand(OnCarChanged);
+            LoadedCommand = new DelegateCommand(() => { RaisePropertyChanged(nameof(VehicleInfos)); });
 
             IsExpanderWithCarsVisible = true;
 
@@ -135,6 +155,9 @@ namespace Integration.ModuleGUI.ViewModels
                 });
             }
         }
+
+
+        public DelegateCommand LoadedCommand { get; private set; }
         #endregion
 
 
