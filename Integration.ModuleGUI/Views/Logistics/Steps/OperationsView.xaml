@@ -1,91 +1,105 @@
-﻿<UserControl x:Class="Integration.ModuleGUI.Views.OperationsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
-             xmlns:vm="clr-namespace:Integration.ModuleGUI.ViewModels"
-             xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
-             mc:Ignorable="d" 
-             xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+﻿<UserControl
+    x:Class="Integration.ModuleGUI.Views.OperationsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:vm="clr-namespace:Integration.ModuleGUI.ViewModels"
+    xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <Style TargetType="charts:PieChart">
-            <Setter Property="Height" Value="420"/>
-            <Setter Property="Width" Value="650"/>
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="FontWeight" Value="Thin"/>
-            <Setter Property="LegendLocation"  Value="Right"/>
-            <Setter Property="ClipToBounds" Value="True"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Hoverable" Value="True"/>
-            <Setter Property="HoverPushOut" Value="10"/>
-            <Setter Property="DataClickCommand" Value="{Binding ClickDataCommand}"/>
-            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Height" Value="420" />
+            <Setter Property="Width" Value="650" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="Thin" />
+            <Setter Property="LegendLocation" Value="Right" />
+            <Setter Property="ClipToBounds" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Hoverable" Value="True" />
+            <Setter Property="HoverPushOut" Value="10" />
+            <Setter Property="DataClickCommand" Value="{Binding ClickDataCommand}" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
         </Style>
     </UserControl.Resources>
 
-    
-    
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Controls:MetroAnimatedSingleRowTabControl Grid.ColumnSpan="2">
             <TabItem Header="Операции">
                 <StackPanel>
-                    <Button Content="Затраты на транспортное обеспечение" Margin="10" Padding="10"
-                            Command="{Binding WriteTotalStatisticsInFileCommand}"
-                            Style="{StaticResource LargeBlueBtn}"
-                            ToolTip="Подсчёт расхода топлива и затрат, общего пробега и моточасов наработки"/>
-                    <Button Content="Аудит пробегов" Margin="10" Padding="10"
-                            Command="{Binding CheckDifferenceOfTotalSpeedCommand}"
-                            Style="{StaticResource LargeBlueBtn}"
-                            ToolTip="Сравнение данных по пробегу из системы SAP и Wialon"/>
+                    <Button
+                        Margin="10"
+                        Padding="10"
+                        Command="{Binding WriteTotalStatisticsInFileCommand}"
+                        Content="Затраты на транспортное обеспечение"
+                        Style="{StaticResource LargeBlueBtn}"
+                        ToolTip="Подсчёт расхода топлива и затрат, общего пробега и моточасов наработки" />
+                    <Button
+                        Margin="10"
+                        Padding="10"
+                        Command="{Binding CheckDifferenceOfTotalSpeedCommand}"
+                        Content="Аудит пробегов"
+                        Style="{StaticResource LargeBlueBtn}"
+                        ToolTip="Сравнение данных по пробегу из системы SAP и Wialon" />
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Сводка по SAP">
                 <Grid>
 
-                    <Button Margin="10" Padding="10"
-                            Content="Инициализация"
-                            Command="{Binding ShowDetailsOnSAPCommand}"
-                            ToolTip="Быстрая сводка по путевым листам из системы SAP">
+                    <Button
+                        Margin="10"
+                        Padding="10"
+                        Command="{Binding ShowDetailsOnSAPCommand}"
+                        Content="Инициализация"
+                        ToolTip="Быстрая сводка по путевым листам из системы SAP">
                         <Button.Style>
                             <Style BasedOn="{StaticResource LargeBlueBtn}" TargetType="Button">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
 
-                    <Grid VirtualizingPanel.VirtualizationMode="Recycling"
-                          VirtualizingPanel.IsVirtualizing="True"
-                          VirtualizingPanel.IsContainerVirtualizable="True">
+                    <Grid
+                        VirtualizingPanel.IsContainerVirtualizable="True"
+                        VirtualizingPanel.IsVirtualizing="True"
+                        VirtualizingPanel.VirtualizationMode="Recycling">
                         <StackPanel>
 
-                            <Button Width="56" Height="56"
-                                        HorizontalAlignment="Left" 
-                                        VerticalAlignment="Top"
-                                        Padding="12" Margin="10" 
-                                        Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                                        Command="{Binding ShowDetailsOnSAPCommand}"
-                                        ToolTip="Обновить данные">
-                                <Rectangle Width="28" Height="28" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Button
+                                Width="56"
+                                Height="56"
+                                Margin="10"
+                                Padding="12"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Command="{Binding ShowDetailsOnSAPCommand}"
+                                Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                                ToolTip="Обновить данные">
+                                <Rectangle
+                                    Width="28"
+                                    Height="28"
+                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_refresh}" />
                                     </Rectangle.OpacityMask>
@@ -93,47 +107,63 @@
                             </Button>
                         </StackPanel>
 
-                        <Controls:MetroAnimatedSingleRowTabControl TabStripPlacement="Right"
-                                                               TabStripMargin="12 5"
-                                                               IsTabStop="True"
-                                                               HorizontalAlignment="Right">
-                        <Controls:MetroTabItem Header="Пробег" HorizontalContentAlignment="Stretch">
+                        <Controls:MetroAnimatedSingleRowTabControl
+                            HorizontalAlignment="Right"
+                            IsTabStop="True"
+                            TabStripMargin="12 5"
+                            TabStripPlacement="Right">
+                            <Controls:MetroTabItem HorizontalContentAlignment="Stretch" Header="Пробег">
 
                                 <WrapPanel>
                                     <Grid>
                                         <StackPanel>
-                                            <TextBlock Text="Топ 10 по пробегу (по ПЛ)" 
-                                               TextWrapping="WrapWithOverflow" 
-                                               TextAlignment="Center"
-                                               Margin="10"
-                                               Style="{DynamicResource NormalHeaderWithEffect}"/>
-                                            <charts:PieChart HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                         Series="{Binding CarMileageStatisticsSAP}">
+                                            <TextBlock
+                                                Margin="10"
+                                                Style="{DynamicResource NormalHeaderWithEffect}"
+                                                Text="Топ 10 по пробегу (по ПЛ)"
+                                                TextAlignment="Center"
+                                                TextWrapping="WrapWithOverflow" />
+                                            <charts:PieChart
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Series="{Binding CarMileageStatisticsSAP}">
                                                 <charts:PieChart.DataTooltip>
-                                                    <charts:DefaultTooltip BulletSize="20" FontSize="13" IsWrapped="False" SelectionMode="OnlySender"/>
+                                                    <charts:DefaultTooltip
+                                                        BulletSize="20"
+                                                        FontSize="13"
+                                                        IsWrapped="False"
+                                                        SelectionMode="OnlySender" />
                                                 </charts:PieChart.DataTooltip>
                                             </charts:PieChart>
 
                                             <StackPanel.Style>
                                                 <Style TargetType="{x:Type StackPanel}">
-                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Setter Property="Visibility" Value="Visible" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding CarMileageStatisticsSAP}" Value="{x:Null}">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Setter Property="Visibility" Value="Collapsed" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </StackPanel.Style>
                                         </StackPanel>
 
-                                        <Button Grid.Column="1" Width="22" Height="22"
-                                            HorizontalAlignment="Right" 
-                                            VerticalAlignment="Top" 
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="22"
+                                            Height="22"
+                                            Margin="10"
+                                            Padding="4"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            ClickMode="Hover"
+                                            Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
                                             ToolTipService.HasDropShadow="True"
-                                            ToolTipService.InitialShowDelay="100"
-                                            Padding="4" Margin="10" ClickMode="Hover"
-                                            Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
-                                            <Rectangle Width="5" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                            ToolTipService.InitialShowDelay="100">
+                                            <Rectangle
+                                                Width="5"
+                                                Height="10"
+                                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information}" />
                                                 </Rectangle.OpacityMask>
@@ -141,10 +171,13 @@
                                             <Button.ToolTip>
                                                 <ToolTip>
                                                     <StackPanel>
-                                                        <TextBlock Text="ТС что находятся в обеих списках" TextAlignment="Center"
-                                                                   Margin="8 5 8 18" TextWrapping="WrapWithOverflow" 
-                                                                   Style="{DynamicResource SmallHeader}"/>
-                                                        <ListView ItemsSource="{Binding CommonCars}"/>
+                                                        <TextBlock
+                                                            Margin="8,5,8,18"
+                                                            Style="{DynamicResource SmallHeader}"
+                                                            Text="ТС что находятся в обеих списках"
+                                                            TextAlignment="Center"
+                                                            TextWrapping="WrapWithOverflow" />
+                                                        <ListView ItemsSource="{Binding CommonCars}" />
                                                     </StackPanel>
                                                 </ToolTip>
                                             </Button.ToolTip>
@@ -152,24 +185,30 @@
                                     </Grid>
 
                                     <StackPanel>
-                                        <TextBlock Text="Топ 10 по среднему пробегу за поездку (по ПЛ)" 
-                                               TextWrapping="WrapWithOverflow" 
-                                               TextAlignment="Center"
-                                               Margin="10"
-                                               Style="{DynamicResource NormalHeaderWithEffect}"/>
-                                        <charts:PieChart HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                         Series="{Binding CarAverageMileageByTripStatisticsSAP}">
+                                        <TextBlock
+                                            Margin="10"
+                                            Style="{DynamicResource NormalHeaderWithEffect}"
+                                            Text="Топ 10 по среднему пробегу за поездку (по ПЛ)"
+                                            TextAlignment="Center"
+                                            TextWrapping="WrapWithOverflow" />
+                                        <charts:PieChart
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Series="{Binding CarAverageMileageByTripStatisticsSAP}">
                                             <charts:PieChart.DataTooltip>
-                                                <charts:DefaultTooltip BulletSize="20" FontSize="13" IsWrapped="False"/>
+                                                <charts:DefaultTooltip
+                                                    BulletSize="20"
+                                                    FontSize="13"
+                                                    IsWrapped="False" />
                                             </charts:PieChart.DataTooltip>
                                         </charts:PieChart>
 
                                         <StackPanel.Style>
                                             <Style TargetType="{x:Type StackPanel}">
-                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="Visibility" Value="Visible" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding CarAverageMileageByTripStatisticsSAP}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -179,25 +218,23 @@
 
                             </Controls:MetroTabItem>
 
-                            <Controls:MetroTabItem Header="Водители">
-                                
-                            </Controls:MetroTabItem>
-                    </Controls:MetroAnimatedSingleRowTabControl>
+                            <Controls:MetroTabItem Header="Водители" />
+                        </Controls:MetroAnimatedSingleRowTabControl>
 
                         <Grid.Style>
                             <Style TargetType="{x:Type Grid}">
-                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Visibility" Value="Visible" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-                        
+
                     </Grid>
-                    
-                    
+
+
 
                     <!--<Grid>
                         <Grid.ColumnDefinitions>
@@ -205,7 +242,8 @@
                             <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
 
-                        --><!--<dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
+                    -->
+                    <!--<dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
                                          Margin="5"
                                          AllowCheckAnyTime="True"
                                          SortField="StateNumber"
@@ -241,7 +279,7 @@
                                                DisplayMemberBinding="{Binding Path=StateNumber}"
                                                Header="Гос.номер" Width="95"
                                                IsSizable="False" IsSortable="True"
-                                               ViewType="Text" FilterType="TextBox" 
+                                               ViewType="Text" FilterType="TextBox"
                                                FooterType="None" EditType="None"
                                                FilterCriteria="Contains"
                                                CellFontWeight="DemiBold"
@@ -250,44 +288,44 @@
 
                                 <dsx:DsxColumn FieldName="UnitModel"
                                                DisplayMemberBinding="{Binding Path=UnitModel}"
-                                               Header="Модель" Width="180" 
-                                               IsSizable="True" ViewType="Text" 
-                                               FilterType="TextBox"  EditType="None" 
+                                               Header="Модель" Width="180"
+                                               IsSizable="True" ViewType="Text"
+                                               FilterType="TextBox"  EditType="None"
                                                CellHAlign="Left"/>
 
-                                <dsx:DsxColumn FieldName="Type" 
+                                <dsx:DsxColumn FieldName="Type"
                                                DisplayMemberBinding="{Binding Path=Type}"
-                                               Header="Тип" Width="180" 
-                                               IsSizable="True" ViewType="Text" 
-                                               FilterType="TextBox" EditType="None" 
+                                               Header="Тип" Width="180"
+                                               IsSizable="True" ViewType="Text"
+                                               FilterType="TextBox" EditType="None"
                                                CellHAlign="Left"/>
 
-                                <dsx:DsxColumn FieldName="Department" 
+                                <dsx:DsxColumn FieldName="Department"
                                                DisplayMemberBinding="{Binding Path=Department}"
                                                Header="Службы/отделы" Width="180"
                                                IsSizable="True" IsSortable="True"
-                                               ViewType="Text" FilterType="TextBox" 
+                                               ViewType="Text" FilterType="TextBox"
                                                EditType="None"
                                                CellHAlign="Left"/>
 
-                                <dsx:DsxColumn FieldName="StructureName" 
+                                <dsx:DsxColumn FieldName="StructureName"
                                                DisplayMemberBinding="{Binding Path=StructureName}"
-                                               Header="Структурные подразделения" Width="115" 
-                                               IsSizable="True" ViewType="Text" 
-                                               FilterType="TextBox" EditType="TextBox" 
+                                               Header="Структурные подразделения" Width="115"
+                                               IsSizable="True" ViewType="Text"
+                                               FilterType="TextBox" EditType="TextBox"
                                                CellHAlign="Left"/>
 
-                                <dsx:DsxColumn FieldName="CountTrips" 
+                                <dsx:DsxColumn FieldName="CountTrips"
                                                DisplayMemberBinding="{Binding Path=CountTrips}"
-                                               Header="К-во поездок" Width="100" 
+                                               Header="К-во поездок" Width="100"
                                                IsSizable="True" ViewType="Integer"
-                                               FilterType="TextBox"  EditType="TextBox"  
+                                               FilterType="TextBox"  EditType="TextBox"
                                                FilterCriteria="GreaterOrEqual"
                                                CellHAlign="Left"/>
 
-                                <dsx:DsxColumn FieldName="TripResulted" 
+                                <dsx:DsxColumn FieldName="TripResulted"
                                                DisplayMemberBinding="{Binding TripResulted.TotalMileage}"
-                                               Header="Всего км." Width="70" 
+                                               Header="Всего км." Width="70"
                                                IsSizable="True" ViewType="Text"
                                                FilterType="None"  EditType="TextBox"
                                                CellHAlign="Left"/>
@@ -307,7 +345,8 @@
                                     </Style.Triggers>
                                 </Style>
                             </partialViews:GridConfigurationView.Style>
-                        </partialViews:GridConfigurationView>--><!--
+                        </partialViews:GridConfigurationView>-->
+                    <!--
                     </Grid>-->
                 </Grid>
             </TabItem>

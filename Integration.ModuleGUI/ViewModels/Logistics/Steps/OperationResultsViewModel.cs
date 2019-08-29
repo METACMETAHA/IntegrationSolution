@@ -39,12 +39,12 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref gridConfiguration, value); }
         }
 
-        private bool _isOpenChildPopup;
-        public bool IsOpenChildPopup
-        {
-            get { return _isOpenChildPopup; }
-            set { SetProperty(ref _isOpenChildPopup, value); }
-        }
+        //private bool _isOpenChildPopup;
+        //public bool IsOpenChildPopup
+        //{
+        //    get { return _isOpenChildPopup; }
+        //    set { SetProperty(ref _isOpenChildPopup, value); }
+        //}
 
         private ChartsVMBase predictionChartContext;
         public ChartsVMBase PredictionChartContext
@@ -78,18 +78,48 @@ namespace Integration.ModuleGUI.ViewModels
         public bool IsExpanderWithCarsVisible
         {
             get { return isExpanderWithCarsVisible; }
-            set { isExpanderWithCarsVisible = value; }
+            set { SetProperty(ref isExpanderWithCarsVisible, value); }
         }
 
+        private bool isHideNullMileageCars;
+        public bool IsHideNullMileageCars
+        {
+            get { return isHideNullMileageCars; }
+            set { SetProperty(ref isHideNullMileageCars, value); }
+        }
+
+        //private bool isHideNullMileageCars;
+        //public bool IsHideNullMileageCars
+        //{
+        //    get { return isHideNullMileageCars; }
+        //    set { SetProperty(ref isHideNullMileageCars, value); }
+        //}
+
+        private bool isSettingsPopupVisible;
+        public bool IsSettingsPopupVisible
+        {
+            get { return isSettingsPopupVisible; }
+            set { SetProperty(ref isSettingsPopupVisible, value); }
+        }
 
         // Collection with filter
         public ObservableCollection<IntegratedVehicleInfo> VehicleInfos
         {
             get
             {
+                IEnumerable<IntegratedVehicleInfo> dataList = new List<IntegratedVehicleInfo>();
                 if (string.IsNullOrWhiteSpace(SearchField))
-                    return ModuleData.SimpleDataForReport;
-                return new ObservableCollection<IntegratedVehicleInfo>(ModuleData.SimpleDataForReport.Where(x => x.StateNumber.Contains(SearchField)));
+                    dataList = ModuleData.SimpleDataForReport?.ToList();
+                else
+                    dataList = ModuleData.SimpleDataForReport?.Where(x => x.StateNumber.Contains(SearchField));
+
+                if (IsHideNullMileageCars == true)
+                    dataList = dataList?.Where(x => x.PercentDifference != null)?.ToList();
+
+                if (dataList == null)
+                    return new ObservableCollection<IntegratedVehicleInfo>();
+
+                return new ObservableCollection<IntegratedVehicleInfo>(dataList);
             }
         }
         #endregion
@@ -101,13 +131,15 @@ namespace Integration.ModuleGUI.ViewModels
             this.Title = "Результаты";
             
             OnCarChangedCmd = new DelegateCommand(OnCarChanged);
-            LoadedCommand = new DelegateCommand(() => { RaisePropertyChanged(nameof(VehicleInfos)); });
+            LoadedCommand = new DelegateCommand(() => { UpdateFilterCars(); });
+            UpdateFilterCarsCommand = new DelegateCommand(UpdateFilterCars);
 
             IsExpanderWithCarsVisible = true;
 
             GridConfiguration = new GridConfiguration();
         }
 
+        #region Implementation Navigate
         public override void OnEnter()
         {
             base.OnEnter();
@@ -133,7 +165,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             return true;
         }
-
+        #endregion
 
         #region Commands
         public DelegateCommand OnCarChangedCmd { get; private set; }
@@ -158,6 +190,12 @@ namespace Integration.ModuleGUI.ViewModels
 
 
         public DelegateCommand LoadedCommand { get; private set; }
+
+        public DelegateCommand UpdateFilterCarsCommand { get; private set; }
+        private void UpdateFilterCars()
+        {
+            RaisePropertyChanged(nameof(VehicleInfos));
+        }
         #endregion
 
 
