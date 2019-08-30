@@ -560,6 +560,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                         integratedVehicle.WialonMileageTotal = tripWialon?.TotalMileage;
                         integratedVehicle.CountSpeedViolations = tripWialon?.SpeedViolation?.Count() ?? 0;
+                        integratedVehicle.SpeedViolation = tripWialon?.SpeedViolation;
 
                         if (context.IsWithDetails)
                         {

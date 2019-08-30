@@ -26,7 +26,7 @@ namespace WialonBase.Interfaces
         /// <param name="to"></param>
         /// <returns></returns>
         TripWialon GetCarInfoDetails(int ID, DateTime from, DateTime to);
-
+        
         /// <summary>
         /// There can be only one report result in a session. 
         /// That is why if a session contains results of previous execution, those results must be cleared before a new execution.

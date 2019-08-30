@@ -1,4 +1,5 @@
-﻿using IntegrationSolution.Entities.Interfaces;
+﻿using IntegrationSolution.Entities.Implementations.Wialon;
+using IntegrationSolution.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace IntegrationSolution.Entities.Implementations
         
         public ICommonCompareIndicator<double?> IndicatorMileage { get; set; }
         public ICommonCompareIndicator<int> CountTrips { get; set; }
+
+        public IEnumerable<SpeedViolationWialon> SpeedViolation { get; set; }
 
 
         public VehicleInfoBase(

@@ -126,8 +126,7 @@ namespace WialonBase.Implementation
 
             return mainTrip;
         }
-
-
+        
         public bool CleanUpResults()
         {
             try

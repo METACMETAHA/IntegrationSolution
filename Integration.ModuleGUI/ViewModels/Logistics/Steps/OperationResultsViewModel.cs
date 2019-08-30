@@ -39,13 +39,6 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref gridConfiguration, value); }
         }
 
-        //private bool _isOpenChildPopup;
-        //public bool IsOpenChildPopup
-        //{
-        //    get { return _isOpenChildPopup; }
-        //    set { SetProperty(ref _isOpenChildPopup, value); }
-        //}
-
         private ChartsVMBase predictionChartContext;
         public ChartsVMBase PredictionChartContext
         {
@@ -53,11 +46,32 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref predictionChartContext, value); }
         }
 
+        private ChartsVMBase speedChartContext;
+        public ChartsVMBase SpeedChartContext
+        {
+            get { return speedChartContext; }
+            set { SetProperty(ref speedChartContext, value); }
+        }
+
         private IntegratedVehicleInfo selectedVehicleInfoInMilesChart;
         public IntegratedVehicleInfo SelectedVehicleInfoInMilesChart
         {
             get { return selectedVehicleInfoInMilesChart; }
-            set { selectedVehicleInfoInMilesChart = value; }
+            set { SetProperty(ref selectedVehicleInfoInMilesChart, value); }
+        }
+
+        private SpeedViolationWialon selectedSpeedViolationInfoForChart;
+        public SpeedViolationWialon SelectedSpeedViolationInfoForChart
+        {
+            get { return selectedSpeedViolationInfoForChart; }
+            set
+            {
+                if (value == selectedSpeedViolationInfoForChart)
+                    return;
+
+                SetProperty(ref selectedSpeedViolationInfoForChart, value);
+
+            }
         }
 
         private string searchField;
@@ -70,7 +84,7 @@ namespace Integration.ModuleGUI.ViewModels
                     return;
                 
                 SetProperty(ref searchField, value);
-                RaisePropertyChanged(nameof(VehicleInfos));
+                RaisePropertyChanged(nameof(VehicleFilteredList));
             }
         }
 
@@ -88,12 +102,12 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref isHideNullMileageCars, value); }
         }
 
-        //private bool isHideNullMileageCars;
-        //public bool IsHideNullMileageCars
-        //{
-        //    get { return isHideNullMileageCars; }
-        //    set { SetProperty(ref isHideNullMileageCars, value); }
-        //}
+        private bool isExpanderWithCarDetailsVisible;
+        public bool IsExpanderWithCarDetailsVisible
+        {
+            get { return isExpanderWithCarDetailsVisible; }
+            set { SetProperty(ref isExpanderWithCarDetailsVisible, value); }
+        }
 
         private bool isSettingsPopupVisible;
         public bool IsSettingsPopupVisible
@@ -102,8 +116,16 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref isSettingsPopupVisible, value); }
         }
 
+        private bool isViolationsWndVisible;
+        public bool IsViolationsWndVisible
+        {
+            get { return isViolationsWndVisible; }
+            set { SetProperty(ref isViolationsWndVisible, value); }
+        }
+
+
         // Collection with filter
-        public ObservableCollection<IntegratedVehicleInfo> VehicleInfos
+        public ObservableCollection<IntegratedVehicleInfo> VehicleFilteredList
         {
             get
             {
@@ -112,10 +134,10 @@ namespace Integration.ModuleGUI.ViewModels
                     dataList = ModuleData.SimpleDataForReport?.ToList();
                 else
                     dataList = ModuleData.SimpleDataForReport?.Where(x => x.StateNumber.Contains(SearchField));
-
+                
                 if (IsHideNullMileageCars == true)
                     dataList = dataList?.Where(x => x.PercentDifference != null)?.ToList();
-
+                
                 if (dataList == null)
                     return new ObservableCollection<IntegratedVehicleInfo>();
 
@@ -124,20 +146,23 @@ namespace Integration.ModuleGUI.ViewModels
         }
         #endregion
 
+
         public OperationResultsViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
             CanGoBack = true;
             CanGoNext = true;
             this.Title = "Результаты";
-            
+
             OnCarChangedCmd = new DelegateCommand(OnCarChanged);
             LoadedCommand = new DelegateCommand(() => { UpdateFilterCars(); });
+            OpenViolationsWndCommand = new DelegateCommand(OpenViolationsWnd);
             UpdateFilterCarsCommand = new DelegateCommand(UpdateFilterCars);
 
             IsExpanderWithCarsVisible = true;
 
             GridConfiguration = new GridConfiguration();
         }
+
 
         #region Implementation Navigate
         public override void OnEnter()
@@ -167,6 +192,7 @@ namespace Integration.ModuleGUI.ViewModels
         }
         #endregion
 
+
         #region Commands
         public DelegateCommand OnCarChangedCmd { get; private set; }
         [STAThreadAttribute]
@@ -191,10 +217,16 @@ namespace Integration.ModuleGUI.ViewModels
 
         public DelegateCommand LoadedCommand { get; private set; }
 
+        public DelegateCommand OpenViolationsWndCommand { get; private set; }
+        private void OpenViolationsWnd()
+        {
+            this.IsViolationsWndVisible = !IsViolationsWndVisible;
+        }
+
         public DelegateCommand UpdateFilterCarsCommand { get; private set; }
         private void UpdateFilterCars()
         {
-            RaisePropertyChanged(nameof(VehicleInfos));
+            RaisePropertyChanged(nameof(VehicleFilteredList));
         }
         #endregion
 
