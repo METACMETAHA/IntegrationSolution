@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace Integration.Infrastructure.Constants
+namespace IntegrationSolution.Common.Implementations
 {
     /// <summary>
     /// Thread-safe ObservableCollection<typeparamref name="T"/>

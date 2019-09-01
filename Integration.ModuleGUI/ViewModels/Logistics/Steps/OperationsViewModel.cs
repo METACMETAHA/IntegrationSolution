@@ -3,6 +3,7 @@ using Integration.ModuleGUI.Models;
 using IntegrationSolution.Common.Enums;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.Models;
+using IntegrationSolution.Entities.Implementations;
 using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
@@ -51,30 +52,11 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref carMileageStatisticsSAP, value); }
         }
 
-
+        private SeriesCollection driversStatisticsSAP;
         public SeriesCollection DriversStatisticsSAP
         {
-            get
-            {
-                SeriesCollection seriesDrivers = new SeriesCollection();
-
-                var drivers = ModuleData.Vehicles?.ToLookup(x => x.Trips.ToLookup(z => z.Driver)).AsParallel();
-                if (drivers != null)
-                {
-                    foreach (var driver in drivers)
-                    {
-                        seriesDrivers.Add(new PieSeries()
-                        {
-                            Title = $"{driver} ())",
-                            Values = new ChartValues<double>(new[] { 0.0, 9 }),
-                            DataLabels = true,
-                            LabelPoint = chartPoint => string.Format("{0} км", chartPoint.Y)
-                        });
-                    }
-                }
-
-                return seriesDrivers;
-            }
+            get { return driversStatisticsSAP; }
+            set { SetProperty(ref driversStatisticsSAP, value); }
         }
 
 
@@ -446,7 +428,7 @@ namespace Integration.ModuleGUI.ViewModels
                     , ChartDefinition.CarAverageMileageByTripStatisticsSAP
                     , chartPoint => string.Format("{0} км", chartPoint.Y));
 
-                RaisePropertyChanged(nameof(DriversStatisticsSAP));
+                DriversStatisticsSAP = InitializeDrivers(ModuleData.Vehicles);
             }
 
             return progress;
@@ -487,6 +469,47 @@ namespace Integration.ModuleGUI.ViewModels
 
         }
 
+        private async Task<SeriesCollection> InitializeDrivers(IEnumerable<IVehicleSAP> vehicles)
+        {
+            if (vehicles == null || vehicles.Any())
+                return new SeriesCollection();
+
+
+            SeriesCollection seriesDrivers = new SeriesCollection();
+
+            await Task.Run(() => {
+                
+            var drivers_trips = ModuleData.Vehicles?.Where(x => x.Trips != null)?.SelectMany(x => x.Trips)
+                .ToDictionary(x => x.Driver);
+            Dictionary<Driver, List<TripSAP>> driverDictionary = new Dictionary<Driver, List<TripSAP>>(new CompareDriver());
+
+            foreach (var item in drivers_trips)
+            {
+                if (!driverDictionary.Keys.Contains(item.Key))
+                    driverDictionary.Add(item.Key, new List<TripSAP>() { item.Value });
+                else
+                    driverDictionary[item.Key].Add(item.Value);
+            }
+
+                //if (drivers != null)
+                //{
+
+                //    //var qq = sa.ToDictionary
+                //    foreach (var driver in drivers)
+                //    {
+                //        seriesDrivers.Add(new PieSeries()
+                //        {
+                //            Title = $"{driver} ())",
+                //            Values = new ChartValues<double>(new[] { 0.0, 9 }),
+                //            DataLabels = true,
+                //            LabelPoint = chartPoint => string.Format("{0} км", chartPoint.Y)
+                //        });
+                //    }
+                //}
+            });
+
+            return seriesDrivers;
+        }
 
         private void NotifySuccessAndOpenFile(string path)
         {

@@ -84,7 +84,6 @@
   <ItemGroup>
     <Compile Include="Behavior\BindableSelectedItemBehavior.cs" />
     <Compile Include="Behavior\ListViewScrollingBehavior.cs" />
-    <Compile Include="Constants\ConcurrentObservableCollection.cs" />
     <Compile Include="Constants\ConfigurationData.cs" />
     <Compile Include="InfrastructureModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -168,7 +167,7 @@
       <Name>Integration.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
-      <Project>{B4F847FE-667C-4189-92AE-9CCCAF77E341}</Project>
+      <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\NotificationConstructor\NotificationConstructor.csproj">

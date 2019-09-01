@@ -18,5 +18,15 @@ namespace IntegrationSolution.Entities.Implementations
         {
             return $"{LastName} {FirstName} {Patronymic}";
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (this.GetType() != obj.GetType()) return false;
+
+            Driver dr = (Driver)obj;
+            return (this.UnitNumber == dr.UnitNumber) && (this.LastName == dr.LastName);
+        }
     }
 }

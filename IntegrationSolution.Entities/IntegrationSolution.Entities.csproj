@@ -50,6 +50,7 @@
     <Compile Include="Helpers\DoubleExtensions.cs" />
     <Compile Include="Helpers\FilterData.cs" />
     <Compile Include="Helpers\HeaderAttribute.cs" />
+    <Compile Include="Implementations\CompareDriver.cs" />
     <Compile Include="Implementations\CompareIndicator.cs" />
     <Compile Include="Implementations\Driver.cs" />
     <Compile Include="Implementations\Fuel\Disel.cs" />

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Unity;
 using Unity.Resolution;
 
@@ -96,6 +97,18 @@ namespace Integration.ModuleGUI.Models
         }
 
         private ObservableCollection<IntegratedVehicleInfoDetails> detailsDataForReport;
+        public ObservableCollection<IntegratedVehicleInfoDetails> DetailsDataForReport
+        {
+            get { return detailsDataForReport; }
+            set { SetProperty(ref detailsDataForReport, value); }
+        }
+
+        public ILookup<string, IVehicleSAP> VehiclesByType
+        {
+            get { return Vehicles?.Select(x => x).ToLookup(z => z.Type); }
+        }
+
+        private ConcurrentObservableDictionary<IntegratedVehicleInfoDetails> detailsDataForReport;
         public ObservableCollection<IntegratedVehicleInfoDetails> DetailsDataForReport
         {
             get { return detailsDataForReport; }

@@ -113,6 +113,8 @@
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Helpers\ResourceHelper.cs" />
     <Compile Include="Implementations\AppConfiguration.cs" />
+    <Compile Include="Implementations\ConcurrentObservableCollection.cs" />
+    <Compile Include="Implementations\ConcurrentObservableDictionary.cs" />
     <Compile Include="Implementations\GridConfiguration.cs" />
     <Compile Include="Implementations\PropertyChangedBase.cs" />
     <Compile Include="Implementations\Serializable.cs" />
