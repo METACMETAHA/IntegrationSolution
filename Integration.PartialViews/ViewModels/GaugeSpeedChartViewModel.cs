@@ -23,6 +23,13 @@ namespace Integration.PartialViews.ViewModels
             set { SetProperty(ref fromValue, value); }
         }
 
+        private double limitValue;
+        public double LimitValue
+        {
+            get { return limitValue; }
+            set { SetProperty(ref limitValue, value); }
+        }
+
         private double toValue;
         public double ToValue
         {
@@ -33,7 +40,7 @@ namespace Integration.PartialViews.ViewModels
         public GaugeSpeedChartViewModel() : this(0)
         { }
 
-        public GaugeSpeedChartViewModel(double current, double from = 0, double to = 200)
+        public GaugeSpeedChartViewModel(double current, double from = 0, double to = 200, double limit = 80)
         {
             if (current > to)
                 CurrentValue = to;
@@ -41,6 +48,7 @@ namespace Integration.PartialViews.ViewModels
                 CurrentValue = current;
             FromValue = from;
             ToValue = to;
+            LimitValue = limit;
         }
     }
 }

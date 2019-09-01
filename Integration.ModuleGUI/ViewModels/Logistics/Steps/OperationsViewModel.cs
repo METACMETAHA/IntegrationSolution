@@ -52,6 +52,32 @@ namespace Integration.ModuleGUI.ViewModels
         }
 
 
+        public SeriesCollection DriversStatisticsSAP
+        {
+            get
+            {
+                SeriesCollection seriesDrivers = new SeriesCollection();
+
+                var drivers = ModuleData.Vehicles?.ToLookup(x => x.Trips.ToLookup(z => z.Driver)).AsParallel();
+                if (drivers != null)
+                {
+                    foreach (var driver in drivers)
+                    {
+                        seriesDrivers.Add(new PieSeries()
+                        {
+                            Title = $"{driver} ())",
+                            Values = new ChartValues<double>(new[] { 0.0, 9 }),
+                            DataLabels = true,
+                            LabelPoint = chartPoint => string.Format("{0} км", chartPoint.Y)
+                        });
+                    }
+                }
+
+                return seriesDrivers;
+            }
+        }
+
+
         private SeriesCollection carAverageMileageByTripStatisticsSAP;
         public SeriesCollection CarAverageMileageByTripStatisticsSAP
         {
@@ -419,6 +445,8 @@ namespace Integration.ModuleGUI.ViewModels
                 CarAverageMileageByTripStatisticsSAP = InitializeChartsData(AverageMileageByTripStatisticsSAP
                     , ChartDefinition.CarAverageMileageByTripStatisticsSAP
                     , chartPoint => string.Format("{0} км", chartPoint.Y));
+
+                RaisePropertyChanged(nameof(DriversStatisticsSAP));
             }
 
             return progress;

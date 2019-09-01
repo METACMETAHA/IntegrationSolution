@@ -23,6 +23,14 @@ namespace Integration.ModuleGUI.Views
         public OperationResultsView()
         {
             InitializeComponent();
+            this.SizeChanged += OperationResultsView_SizeChanged;
+        }
+
+        private void OperationResultsView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ParentGridTabItem.Height = userControl.ActualHeight / 1.12;
+            panelDetails.Height = userControl.ActualHeight / 1.12;
+            //ViolationsWnd.Height = ParentGridTabItem.Height - 10;
         }
     }
 }

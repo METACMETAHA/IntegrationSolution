@@ -98,6 +98,7 @@
     <Compile Include="Converters\SelectedItemToContentConverter.cs" />
     <Compile Include="Converters\StateNumberConverter.cs" />
     <Compile Include="Converters\StringToDoubleConverter.cs" />
+    <Compile Include="Converters\ViolationsEnabledConverter.cs" />
     <Compile Include="Entities\Error.cs" />
     <Compile Include="Entities\SerializeConfigDTO.cs" />
     <Compile Include="Enums\DialogNamesEnum.cs" />

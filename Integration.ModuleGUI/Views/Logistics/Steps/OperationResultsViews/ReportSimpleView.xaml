@@ -9,8 +9,9 @@
 
     <StackPanel>
         <dsx:DsxDataGrid
-            MaxHeight="520"
+            MaxHeight="330"
             Margin="5"
+            Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True"
             AllowCheckAnyTime="True"
             CellAdornerIsVisible="True"
             CellEditingIsEnabled="False"
@@ -23,14 +24,14 @@
             ItemFixHeight="20"
             ItemsSource="{Binding ModuleData.SimpleDataForReport}"
             SortField="StateNumber"
-            VerticalGridLinesIsVisible="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
+            VerticalGridLinesIsVisible="{Binding GridConfiguration.VerticalGridLinesIsVisible, Mode=TwoWay}"
             VerticalScrollbarVisibility="Auto">
 
             <dsx:DsxDataGrid.Style>
                 <Style TargetType="dsx:DsxDataGrid">
                     <Setter Property="HeaderVisibility" Value="Visible" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding GridConfiguration.HeaderIsVisible}" Value="False">
+                        <DataTrigger Binding="{Binding GridConfiguration.HeaderIsVisible, Mode=TwoWay}" Value="False">
                             <Setter Property="HeaderVisibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>

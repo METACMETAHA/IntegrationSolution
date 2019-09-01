@@ -71,6 +71,8 @@ namespace Integration.ModuleGUI.ViewModels
 
                 SetProperty(ref selectedSpeedViolationInfoForChart, value);
 
+                if(value != null)
+                    SpeedChartContext = new GaugeSpeedChartViewModel(current: value.MaxSpeed, limit: value.SpeedLimit);
             }
         }
 
@@ -100,6 +102,13 @@ namespace Integration.ModuleGUI.ViewModels
         {
             get { return isHideNullMileageCars; }
             set { SetProperty(ref isHideNullMileageCars, value); }
+        }
+
+        private bool isShowOnlyViolationsCars;
+        public bool IsShowOnlyViolationsCars
+        {
+            get { return isShowOnlyViolationsCars; }
+            set { SetProperty(ref isShowOnlyViolationsCars, value); }
         }
 
         private bool isExpanderWithCarDetailsVisible;
@@ -137,6 +146,9 @@ namespace Integration.ModuleGUI.ViewModels
                 
                 if (IsHideNullMileageCars == true)
                     dataList = dataList?.Where(x => x.PercentDifference != null)?.ToList();
+
+                if (IsShowOnlyViolationsCars == true)
+                    dataList = dataList?.Where(x => x.CountSpeedViolations > 0)?.ToList();
                 
                 if (dataList == null)
                     return new ObservableCollection<IntegratedVehicleInfo>();
@@ -173,6 +185,9 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (ModuleData.DetailsDataForReport != null)
                 base.MaximizeWindow();
+
+            SelectedSpeedViolationInfoForChart = null;
+            SelectedVehicleInfoInMilesChart = null;
         }
 
         public override void OnExit()
@@ -206,6 +221,8 @@ namespace Integration.ModuleGUI.ViewModels
                 var sel = SelectedVehicleInfoInMilesChart as IntegratedVehicleInfoDetails;
                 if (sel == null)
                     return;
+
+                IsViolationsWndVisible = false;
 
                 await Task.Run(() => { 
                     PredictionChartContext = new PredictionChartViewModel(

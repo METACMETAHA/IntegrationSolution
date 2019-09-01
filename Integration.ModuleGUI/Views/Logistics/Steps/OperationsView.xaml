@@ -218,7 +218,80 @@
 
                             </Controls:MetroTabItem>
 
-                            <Controls:MetroTabItem Header="Водители" />
+                            <Controls:MetroTabItem HorizontalContentAlignment="Stretch" Header="Водители">
+
+                                <!--<WrapPanel>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock
+                                                Margin="10"
+                                                Style="{DynamicResource NormalHeaderWithEffect}"
+                                                Text="Топ 10 по выездам (по ПЛ)"
+                                                TextAlignment="Center"
+                                                TextWrapping="WrapWithOverflow" />
+                                            <charts:PieChart
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Series="{Binding CarMileageStatisticsSAP}">
+                                                <charts:PieChart.DataTooltip>
+                                                    <charts:DefaultTooltip
+                                                        BulletSize="20"
+                                                        FontSize="13"
+                                                        IsWrapped="False"
+                                                        SelectionMode="OnlySender" />
+                                                </charts:PieChart.DataTooltip>
+                                            </charts:PieChart>
+
+                                            <StackPanel.Style>
+                                                <Style TargetType="{x:Type StackPanel}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding CarMileageStatisticsSAP}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Style>
+                                        </StackPanel>
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="22"
+                                            Height="22"
+                                            Margin="10"
+                                            Padding="4"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            ClickMode="Hover"
+                                            Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                                            ToolTipService.HasDropShadow="True"
+                                            ToolTipService.InitialShowDelay="100">
+                                            <Rectangle
+                                                Width="5"
+                                                Height="10"
+                                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <Button.ToolTip>
+                                                <ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock
+                                                            Margin="8,5,8,18"
+                                                            Style="{DynamicResource SmallHeader}"
+                                                            Text="ТС что находятся в обеих списках"
+                                                            TextAlignment="Center"
+                                                            TextWrapping="WrapWithOverflow" />
+                                                        <ListView ItemsSource="{Binding CommonCars}" />
+                                                    </StackPanel>
+                                                </ToolTip>
+                                            </Button.ToolTip>
+                                        </Button>
+                                    </Grid>
+                                </WrapPanel>-->
+
+                            </Controls:MetroTabItem>
                         </Controls:MetroAnimatedSingleRowTabControl>
 
                         <Grid.Style>
@@ -234,120 +307,6 @@
 
                     </Grid>
 
-
-
-                    <!--<Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
-
-                    -->
-                    <!--<dsx:DsxDataGrid ItemsSource="{Binding ModuleData.Vehicles}"
-                                         Margin="5"
-                                         AllowCheckAnyTime="True"
-                                         SortField="StateNumber"
-                                         HorizontalGridLinesIsVisible="True"
-                                         HorizontalScrollbarVisibility="Auto"
-                                         VerticalScrollbarVisibility="Auto"
-                                         VerticalGridLinesIsVisible="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
-                                         CellAdornerIsVisible="True"
-                                         CellEditingIsEnabled="False"
-                                         FooterVisibility="Auto"
-                                         FilterVisibility="Auto"
-                                         ItemFixHeight="20"
-                                         FilterHeight="40" MaxHeight="460"
-                                         IsVirtualizing="True">
-
-                            <dsx:DsxDataGrid.Style>
-                                <Style TargetType="dsx:DsxDataGrid">
-                                    <Setter Property="HeaderVisibility" Value="Visible"/>
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding GridConfiguration.HeaderIsVisible}" Value="False">
-                                            <Setter Property="HeaderVisibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </dsx:DsxDataGrid.Style>
-
-                            <dsx:DsxDataGrid.Columns>
-                                <dsx:DsxColumn FieldName="StateNumber"
-                                               DisplayMemberBinding="{Binding Path=StateNumber}"
-                                               Header="Гос.номер" Width="95"
-                                               IsSizable="False" IsSortable="True"
-                                               ViewType="Text" FilterType="TextBox"
-                                               FooterType="None" EditType="None"
-                                               FilterCriteria="Contains"
-                                               CellFontWeight="DemiBold"
-                                               CellForeground="DarkBlue"
-                                               CellHAlign="Center"/>
-
-                                <dsx:DsxColumn FieldName="UnitModel"
-                                               DisplayMemberBinding="{Binding Path=UnitModel}"
-                                               Header="Модель" Width="180"
-                                               IsSizable="True" ViewType="Text"
-                                               FilterType="TextBox"  EditType="None"
-                                               CellHAlign="Left"/>
-
-                                <dsx:DsxColumn FieldName="Type"
-                                               DisplayMemberBinding="{Binding Path=Type}"
-                                               Header="Тип" Width="180"
-                                               IsSizable="True" ViewType="Text"
-                                               FilterType="TextBox" EditType="None"
-                                               CellHAlign="Left"/>
-
-                                <dsx:DsxColumn FieldName="Department"
-                                               DisplayMemberBinding="{Binding Path=Department}"
-                                               Header="Службы/отделы" Width="180"
-                                               IsSizable="True" IsSortable="True"
-                                               ViewType="Text" FilterType="TextBox"
-                                               EditType="None"
-                                               CellHAlign="Left"/>
-
-                                <dsx:DsxColumn FieldName="StructureName"
-                                               DisplayMemberBinding="{Binding Path=StructureName}"
-                                               Header="Структурные подразделения" Width="115"
-                                               IsSizable="True" ViewType="Text"
-                                               FilterType="TextBox" EditType="TextBox"
-                                               CellHAlign="Left"/>
-
-                                <dsx:DsxColumn FieldName="CountTrips"
-                                               DisplayMemberBinding="{Binding Path=CountTrips}"
-                                               Header="К-во поездок" Width="100"
-                                               IsSizable="True" ViewType="Integer"
-                                               FilterType="TextBox"  EditType="TextBox"
-                                               FilterCriteria="GreaterOrEqual"
-                                               CellHAlign="Left"/>
-
-                                <dsx:DsxColumn FieldName="TripResulted"
-                                               DisplayMemberBinding="{Binding TripResulted.TotalMileage}"
-                                               Header="Всего км." Width="70"
-                                               IsSizable="True" ViewType="Text"
-                                               FilterType="None"  EditType="TextBox"
-                                               CellHAlign="Left"/>
-
-                            </dsx:DsxDataGrid.Columns>
-
-                        </dsx:DsxDataGrid>
-
-                        <partialViews:GridConfigurationView Grid.Column="1">
-                            <partialViews:GridConfigurationView.Style>
-                                <Style TargetType="{x:Type UserControl}">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ModuleData.Vehicles}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </partialViews:GridConfigurationView.Style>
-                        </partialViews:GridConfigurationView>-->
-                    <!--
-                    </Grid>-->
                 </Grid>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>

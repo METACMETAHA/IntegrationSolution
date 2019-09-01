@@ -9,32 +9,43 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <charts:AngularGauge
-            Grid.Row="1"
-            FontSize="16"
-            FontWeight="Bold"
-            Foreground="White"
-            FromValue="{Binding FromValue}"
-            LabelsStep="50"
-            SectionsInnerRadius=".5"
-            TicksForeground="White"
-            TicksStep="25"
-            ToValue="{Binding ToValue}"
-            Wedge="300"
-            Value="{Binding CurrentValue}">
-            <charts:AngularGauge.Sections>
-                <charts:AngularSection
-                    Fill="#F8A725"
-                    FromValue="{Binding FromValue}"
-                    ToValue="{Binding CurrentValue}" />
-                <charts:AngularSection
-                    Fill="#FF3939"
-                    FromValue="{Binding CurrentValue}"
-                    ToValue="{Binding ToValue}" />
-            </charts:AngularGauge.Sections>
-        </charts:AngularGauge>
+        <StackPanel Grid.Row="1">
+            <charts:AngularGauge
+                Width="220"
+                Height="220"
+                FontSize="12"
+                FontWeight="Bold"
+                Foreground="White"
+                FromValue="{Binding FromValue, FallbackValue=0, TargetNullValue=0}"
+                LabelsStep="50"
+                NeedleFill="Black"
+                SectionsInnerRadius=".5"
+                TicksForeground="White"
+                TicksStep="25"
+                ToValue="{Binding ToValue, FallbackValue=200, TargetNullValue=200}"
+                Wedge="300"
+                Value="{Binding CurrentValue, FallbackValue=0, TargetNullValue=0}">
+
+                <charts:AngularGauge.Effect>
+                    <DropShadowEffect
+                        BlurRadius="17"
+                        Opacity=".7"
+                        Color="Gray" />
+                </charts:AngularGauge.Effect>
+
+                <charts:AngularGauge.Sections>
+                    <charts:AngularSection
+                        Fill="#F8A725"
+                        FromValue="{Binding FromValue, FallbackValue=0, TargetNullValue=0}"
+                        ToValue="{Binding LimitValue, FallbackValue=80, TargetNullValue=80}" />
+                    <charts:AngularSection
+                        Fill="#FF3939"
+                        FromValue="{Binding LimitValue, FallbackValue=80, TargetNullValue=80}"
+                        ToValue="{Binding ToValue, FallbackValue=200, TargetNullValue=200}" />
+                </charts:AngularGauge.Sections>
+            </charts:AngularGauge>
+        </StackPanel>
     </Grid>
 </UserControl>

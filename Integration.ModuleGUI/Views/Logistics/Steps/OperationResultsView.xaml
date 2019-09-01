@@ -14,10 +14,12 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:views="clr-namespace:Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews"
     xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+    x:Name="userControl"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
         <converters:PercentDifferenceConverter x:Key="PercentConverter" />
+        <converters:ViolationsEnabledConverter x:Key="ViolationsEnabledConverter" />
         <Style TargetType="{x:Type TextBlock}">
             <Style.Setters>
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -31,14 +33,20 @@
     </i:Interaction.Triggers>
 
 
-    <Grid>
+    <Grid x:Name="ParentGrid">
 
         <!--  Tab with Simple Data  -->
         <Controls:MetroAnimatedTabControl>
             <Controls:MetroTabItem Header="Сводка">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Orientation="Horizontal">
-                        <views:ReportSimpleView Height="Auto" />
+                    <StackPanel
+                        x:Name="panelDetails"
+                        VerticalAlignment="Stretch"
+                        CanHorizontallyScroll="True"
+                        ClipToBounds="True"
+                        Orientation="Horizontal"
+                        ScrollViewer.CanContentScroll="True">
+                        <views:ReportSimpleView Height="{Binding ElementName=panelDetails, Path=Height}" ScrollViewer.CanContentScroll="True" />
                         <partialViews:GridConfigurationView Width="100" />
                     </StackPanel>
                 </ScrollViewer>
@@ -46,7 +54,10 @@
 
             <Controls:MetroTabItem Header="Сравнение">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Grid>
+                    <Grid
+                        x:Name="ParentGridTabItem"
+                        VerticalAlignment="Stretch"
+                        ClipToBounds="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition
@@ -61,9 +72,9 @@
                             </Grid.ColumnDefinitions>
 
                             <Expander
-                                MaxHeight="518"
                                 Margin="0,0,-7,0"
                                 HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
                                 ExpandDirection="Right"
                                 FlowDirection="LeftToRight"
                                 IsExpanded="{Binding IsExpanderWithCarsVisible}"
@@ -85,8 +96,7 @@
                                 <Grid
                                     x:Name="panel"
                                     Width="350"
-                                    MaxWidth="400"
-                                    MaxHeight="515"
+                                    MaxHeight="415"
                                     Margin="6,2"
                                     ScrollViewer.CanContentScroll="True">
                                     <Grid.ColumnDefinitions>
@@ -234,6 +244,10 @@
                                                     Command="{Binding Path=UpdateFilterCarsCommand}"
                                                     Content="Скрыть ТС без пробега"
                                                     IsChecked="{Binding IsHideNullMileageCars}" />
+                                                <ToggleButton
+                                                    Command="{Binding Path=UpdateFilterCarsCommand}"
+                                                    Content="Отобразить только ТС с нарушениями"
+                                                    IsChecked="{Binding IsShowOnlyViolationsCars}" />
                                             </StackPanel>
                                         </Border>
                                     </Popup>
@@ -252,7 +266,8 @@
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
                                     Panel.ZIndex="999"
-                                    Badge="{Binding SelectedVehicleInfoInMilesChart.CountSpeedViolations}">
+                                    Badge="{Binding SelectedVehicleInfoInMilesChart.CountSpeedViolations}"
+                                    IsEnabled="{Binding SelectedVehicleInfoInMilesChart.CountSpeedViolations, Converter={StaticResource ViolationsEnabledConverter}}">
                                     <Controls:Badged.Effect>
                                         <DropShadowEffect
                                             BlurRadius="12"
@@ -261,6 +276,16 @@
                                             ShadowDepth="3"
                                             Color="#C3BFBB" />
                                     </Controls:Badged.Effect>
+                                    <Controls:Badged.Style>
+                                        <Style TargetType="{x:Type Controls:Badged}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedVehicleInfoInMilesChart}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Controls:Badged.Style>
 
                                     <Button Command="{Binding OpenViolationsWndCommand}">
                                         <StackPanel Orientation="Horizontal">
@@ -292,7 +317,6 @@
 
                             <Expander
                                 Grid.Column="2"
-                                MaxHeight="518"
                                 Margin="-7,0,0,0"
                                 HorizontalAlignment="Right"
                                 BorderThickness="0"
@@ -317,7 +341,6 @@
 
                                 <Grid
                                     Width="250"
-                                    MaxHeight="515"
                                     Margin="6,2"
                                     ScrollViewer.CanContentScroll="True">
                                     <Grid.ColumnDefinitions>
@@ -546,11 +569,12 @@
         <wnd:ChildWindow
             x:Name="ViolationsWnd"
             Title="{Binding SelectedVehicleInfoInMilesChart.StateNumber, StringFormat='Нарушения скоростного режима ({0})'}"
-            MaxHeight="550"
+            MinWidth="400"
+            MinHeight="300"
             Padding="30"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
-            AllowMove="False"
+            AllowMove="True"
             CloseByEscape="True"
             EnableDropShadow="True"
             IsAutoCloseEnabled="False"
@@ -562,10 +586,10 @@
                 <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
             </wnd:ChildWindow.OverlayBrush>
 
-            <Grid>
+            <Grid MaxHeight="300">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -584,7 +608,7 @@
                             IsVirtualizing="True"
                             ItemFixHeight="20"
                             ItemsSource="{Binding SelectedVehicleInfoInMilesChart.SpeedViolation}"
-                            SelectedItem="{Binding SpeedViolationWialon}"
+                            SelectedItem="{Binding SelectedSpeedViolationInfoForChart}"
                             SortField="StateNumber"
                             VerticalGridLinesIsVisible="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
                             VerticalScrollbarVisibility="Auto">
@@ -678,12 +702,8 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <StackPanel Grid.Column="1">
-                    <partialViews:GaugeSpeedChart
-                        Grid.Column="1"
-                        Margin="15,0,0,0"
-                        DataContext="{Binding PredictionChartContext}"
-                        ScrollViewer.CanContentScroll="True" />
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <partialViews:GaugeSpeedChart Margin="10" DataContext="{Binding SpeedChartContext}" />
                 </StackPanel>
 
             </Grid>
