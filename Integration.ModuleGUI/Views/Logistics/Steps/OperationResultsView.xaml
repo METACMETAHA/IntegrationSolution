@@ -96,7 +96,6 @@
                                 <Grid
                                     x:Name="panel"
                                     Width="350"
-                                    MaxHeight="415"
                                     Margin="6,2"
                                     ScrollViewer.CanContentScroll="True">
                                     <Grid.ColumnDefinitions>
@@ -154,10 +153,10 @@
                                         Text="{Binding SearchField, UpdateSourceTrigger=PropertyChanged}" />
 
                                     <ListBox
+                                        x:Name="listBoxCars"
                                         Grid.Row="1"
                                         Grid.ColumnSpan="2"
                                         Width="{Binding ElementName=panel, Path=ActualWidth}"
-                                        Height="{Binding ElementName=panel, Path=Height}"
                                         Margin="0,0,0,5"
                                         ItemsSource="{Binding VehicleFilteredList, Mode=OneWay}"
                                         ScrollViewer.CanContentScroll="True"
@@ -321,7 +320,6 @@
                                 HorizontalAlignment="Right"
                                 BorderThickness="0"
                                 ExpandDirection="Left"
-                                FlowDirection="LeftToRight"
                                 IsExpanded="{Binding IsExpanderWithCarDetailsVisible}"
                                 ScrollViewer.CanContentScroll="True"
                                 SnapsToDevicePixels="True">

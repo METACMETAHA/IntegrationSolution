@@ -255,8 +255,11 @@ namespace Integration.ModuleGUI.ViewModels
                 wialon == null || !wialon.Any())
                 return null;
 
-            var datesDictSAP = sap.OrderBy(x => x.DepartureFromGarageDate.Date).ToLookup(x => x.DepartureFromGarageDate.Date);
-            var datesDictWln = wialon.OrderBy(x => x.Begin.Date).ToLookup(x => x.Begin.Date);
+            sap = sap.OrderBy(x => x.DepartureFromGarageDate.Date);
+            wialon = wialon.OrderBy(x => x.Begin.Date);
+
+            var datesDictSAP = sap.ToLookup(x => x.DepartureFromGarageDate.Date);
+            var datesDictWln = wialon.ToLookup(x => x.Begin.Date);
 
             Dictionary<string, List<DateTimePoint>> resultedCollection = new Dictionary<string, List<DateTimePoint>>()
             {

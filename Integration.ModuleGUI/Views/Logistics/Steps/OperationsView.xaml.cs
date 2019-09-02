@@ -23,6 +23,13 @@ namespace Integration.ModuleGUI.Views
         public OperationsView()
         {
             InitializeComponent();
+            SizeChanged += OperationsView_SizeChanged;
+        }
+
+        private void OperationsView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //listBoxCars.Height = parentDriversGrid.ActualHeight/1.52;
+            //panel.Width = this.Width / 3;
         }
     }
 }

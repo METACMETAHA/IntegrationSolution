@@ -1,6 +1,7 @@
 ﻿using Integration.Infrastructure.Constants;
 using IntegrationSolution.Common.Entities;
 using IntegrationSolution.Common.Events;
+using IntegrationSolution.Common.Implementations;
 using log4net;
 using log4net.Core;
 using Prism.Events;

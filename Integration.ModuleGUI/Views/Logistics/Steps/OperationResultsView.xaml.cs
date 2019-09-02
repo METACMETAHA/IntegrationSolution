@@ -30,6 +30,7 @@ namespace Integration.ModuleGUI.Views
         {
             ParentGridTabItem.Height = userControl.ActualHeight / 1.12;
             panelDetails.Height = userControl.ActualHeight / 1.12;
+            listBoxCars.Height = ParentGridTabItem.Height / 1.25;
             //ViolationsWnd.Height = ParentGridTabItem.Height - 10;
         }
     }

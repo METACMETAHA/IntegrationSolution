@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Entities.Implementations;
 using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
@@ -108,11 +109,11 @@ namespace Integration.ModuleGUI.Models
             get { return Vehicles?.Select(x => x).ToLookup(z => z.Type); }
         }
 
-        private ConcurrentObservableDictionary<IntegratedVehicleInfoDetails> detailsDataForReport;
-        public ObservableCollection<IntegratedVehicleInfoDetails> DetailsDataForReport
+        private ConcurrentObservableCollection<Driver> driverCollection;
+        public ConcurrentObservableCollection<Driver> DriverCollection
         {
-            get { return detailsDataForReport; }
-            set { SetProperty(ref detailsDataForReport, value); }
+            get { return driverCollection; }
+            set { SetProperty(ref driverCollection, value); }
         }
         #endregion
 

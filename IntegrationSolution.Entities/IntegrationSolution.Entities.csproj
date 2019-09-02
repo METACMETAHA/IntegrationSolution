@@ -46,12 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\CompareVehicles.cs" />
     <Compile Include="Helpers\AttributeProvider.cs" />
     <Compile Include="Helpers\DoubleExtensions.cs" />
     <Compile Include="Helpers\FilterData.cs" />
     <Compile Include="Helpers\HeaderAttribute.cs" />
     <Compile Include="Implementations\CompareDriver.cs" />
     <Compile Include="Implementations\CompareIndicator.cs" />
+    <Compile Include="Implementations\CompareTripSAP.cs" />
     <Compile Include="Implementations\Driver.cs" />
     <Compile Include="Implementations\Fuel\Disel.cs" />
     <Compile Include="Implementations\Fuel\FuelBase.cs" />

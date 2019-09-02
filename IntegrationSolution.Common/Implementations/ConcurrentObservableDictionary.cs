@@ -27,6 +27,15 @@ namespace IntegrationSolution.Common.Implementations
             _dictionary = new ConcurrentDictionary<TKey, TValue>();
         }
 
+        /// <summary>
+        /// Initializes an instance of the ObservableConcurrentDictionary class with comparer.
+        /// </summary>
+        public ConcurrentObservableDictionary(IEqualityComparer<TKey> comparer)
+        {
+            _context = AsyncOperationManager.SynchronizationContext;
+            _dictionary = new ConcurrentDictionary<TKey, TValue>(comparer);
+        }
+
         /// <summary>Event raised when the collection changes.</summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         /// <summary>Event raised when a property on the collection changes.</summary>

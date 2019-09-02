@@ -1,4 +1,6 @@
-﻿using IntegrationSolution.Entities.Interfaces;
+﻿using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Entities.Interfaces;
+using IntegrationSolution.Entities.SelfEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +9,23 @@ using System.Threading.Tasks;
 
 namespace IntegrationSolution.Entities.Implementations
 {
-    public class Driver : IPerson
+    public class Driver : PropertyChangedBase, IPerson 
     {
         public string UnitNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
+
+        private ConcurrentObservableDictionary<IVehicle, List<TripSAP>> historyDrive;
+        public ConcurrentObservableDictionary<IVehicle, List<TripSAP>> HistoryDrive
+        {
+            get { return historyDrive; }
+            set
+            {
+                historyDrive = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public override string ToString()
         {

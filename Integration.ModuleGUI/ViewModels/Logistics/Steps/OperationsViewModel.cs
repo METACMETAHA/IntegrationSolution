@@ -9,6 +9,7 @@ using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
 using LiveCharts;
+using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -51,15 +52,7 @@ namespace Integration.ModuleGUI.ViewModels
             get { return carMileageStatisticsSAP; }
             set { SetProperty(ref carMileageStatisticsSAP, value); }
         }
-
-        private SeriesCollection driversStatisticsSAP;
-        public SeriesCollection DriversStatisticsSAP
-        {
-            get { return driversStatisticsSAP; }
-            set { SetProperty(ref driversStatisticsSAP, value); }
-        }
-
-
+        
         private SeriesCollection carAverageMileageByTripStatisticsSAP;
         public SeriesCollection CarAverageMileageByTripStatisticsSAP
         {
@@ -74,6 +67,102 @@ namespace Integration.ModuleGUI.ViewModels
             get { return _commonCars; }
             set { _commonCars = value; }
         }
+
+        private Driver selectedDriverChart;
+        public Driver SelectedDriverChart
+        {
+            get { return selectedDriverChart; }
+            set { SetProperty(ref selectedDriverChart, value); }
+        }
+
+        private bool isExpanderWithDriversVisible;
+        public bool IsExpanderWithDriversVisible
+        {
+            get { return isExpanderWithDriversVisible; }
+            set { SetProperty(ref isExpanderWithDriversVisible, value); }
+        }
+
+        private bool isSettingsPopupVisible;
+        public bool IsSettingsPopupVisible
+        {
+            get { return isSettingsPopupVisible; }
+            set { SetProperty(ref isSettingsPopupVisible, value); }
+        }
+
+        private bool isDriversCarsPopupVisible;
+        public bool IsDriversCarsPopupVisible
+        {
+            get { return isDriversCarsPopupVisible; }
+            set { SetProperty(ref isDriversCarsPopupVisible, value); }
+        }
+
+        private string searchField;
+        public string SearchField
+        {
+            get { return searchField; }
+            set
+            {
+                if (searchField == value)
+                    return;
+
+                SetProperty(ref searchField, value);
+                RaisePropertyChanged(nameof(DriversFilteredList));
+            }
+        }
+
+        private string searchChartField;
+        public string SearchChartField
+        {
+            get { return searchChartField; }
+            set
+            {
+                if (searchChartField == value)
+                    return;
+
+                SetProperty(ref searchChartField, value);
+                //RaisePropertyChanged(nameof(DriversFilteredList));
+            }
+        }
+
+        private ChartValues<Driver> driversStatisticsSAP;
+        public ChartValues<Driver> DriversStatisticsSAP
+        {
+            get { return driversStatisticsSAP; }
+            set { SetProperty(ref driversStatisticsSAP, value); }
+        }
+
+        public object Mapper { get; set; }
+
+        // Collection with filter
+        public ObservableCollection<Driver> DriversFilteredList
+        {
+            get
+            {
+                IEnumerable<Driver> dataList = new List<Driver>();
+                if (string.IsNullOrWhiteSpace(SearchField))
+                    dataList = ModuleData.DriverCollection?.ToList();
+                else
+                {
+                    var search = SearchField.ToLower();
+
+                    dataList = ModuleData.DriverCollection?
+                        .Where(x => x.LastName.ToLower().Contains(search) || x.FirstName.ToLower().Contains(search)
+                        || x.Patronymic.ToLower().Contains(search) || x.UnitNumber.ToLower().Contains(search));
+                    /*x.HistoryDrive.Keys.Select(key => key.StateNumber.Contains(SearchField)*/
+                    
+                }
+                //if (IsHideNullMileageCars == true)
+                //    dataList = dataList?.Where(x => x.PercentDifference != null)?.ToList();
+
+                //if (IsShowOnlyViolationsCars == true)
+                //    dataList = dataList?.Where(x => x.CountSpeedViolations > 0)?.ToList();
+
+                if (dataList == null)
+                    return new ObservableCollection<Driver>();
+
+                return new ObservableCollection<Driver>(dataList);
+            }
+        }
         #endregion
 
         #region Ctor
@@ -84,13 +173,23 @@ namespace Integration.ModuleGUI.ViewModels
             this.Title = "Операции";
             this.CanGoBack = true;
             this.CanGoNext = false;
+
+            IsExpanderWithDriversVisible = true;
+            IsSettingsPopupVisible = false;
+
             WriteTotalStatisticsInFileCommand = new DelegateCommand(WriteTotalStatisticsJob);
             CheckDifferenceOfTotalSpeedCommand = new DelegateCommand(CheckDifference);
             ShowDetailsOnSAPCommand = new DelegateCommand(ShowSAPDetailsWndCmd);
             ClickDataCommand = new DelegateCommand<ChartPoint>(ClickDataCmd);
+            OnDriverChangedCmd = new DelegateCommand(OnDriverChanged);
+            OpenDriversCarsPopupCommand = new DelegateCommand(OpenDriversCarsPopup);
             GridConfiguration = new GridConfiguration();
 
             _dialogManager = dialogManager;
+
+            Mapper = Mappers.Xy<Driver>()
+                .X((driver, index) => index)
+                .Y(driver => driver.HistoryDrive.Keys.Count);
         }
         #endregion
 
@@ -362,6 +461,29 @@ namespace Integration.ModuleGUI.ViewModels
 
             await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
         }
+
+
+        public DelegateCommand OpenDriversCarsPopupCommand { get; private set; }
+        private void OpenDriversCarsPopup()
+        {
+            this.IsDriversCarsPopupVisible = !IsDriversCarsPopupVisible;
+        }
+
+
+        public DelegateCommand OnDriverChangedCmd { get; private set; }
+        [STAThreadAttribute]
+        protected async void OnDriverChanged()
+        {
+            if (SelectedDriverChart == null)
+                return;
+
+            if (SelectedDriverChart.HistoryDrive != null)
+            {
+                await Task.Run(() => {
+                   // SelectedDriverChart.HistoryDrive.Values.Count
+                });
+            }
+        }
         #endregion
 
         #region Helpers
@@ -428,7 +550,8 @@ namespace Integration.ModuleGUI.ViewModels
                     , ChartDefinition.CarAverageMileageByTripStatisticsSAP
                     , chartPoint => string.Format("{0} км", chartPoint.Y));
 
-                DriversStatisticsSAP = InitializeDrivers(ModuleData.Vehicles);
+                // Initialize Drivers
+                InitializeDrivers(ModuleData.Vehicles.AsEnumerable());
             }
 
             return progress;
@@ -469,47 +592,62 @@ namespace Integration.ModuleGUI.ViewModels
 
         }
 
-        private async Task<SeriesCollection> InitializeDrivers(IEnumerable<IVehicleSAP> vehicles)
+
+        private async void InitializeDrivers(IEnumerable<IVehicleSAP> vehicles)
         {
-            if (vehicles == null || vehicles.Any())
-                return new SeriesCollection();
-
-
-            SeriesCollection seriesDrivers = new SeriesCollection();
-
-            await Task.Run(() => {
-                
-            var drivers_trips = ModuleData.Vehicles?.Where(x => x.Trips != null)?.SelectMany(x => x.Trips)
-                .ToDictionary(x => x.Driver);
-            Dictionary<Driver, List<TripSAP>> driverDictionary = new Dictionary<Driver, List<TripSAP>>(new CompareDriver());
-
-            foreach (var item in drivers_trips)
+            if (vehicles == null || !vehicles.Any())
+                return;
+            
+            await Task.Run(() =>
             {
-                if (!driverDictionary.Keys.Contains(item.Key))
-                    driverDictionary.Add(item.Key, new List<TripSAP>() { item.Value });
-                else
-                    driverDictionary[item.Key].Add(item.Value);
-            }
+                var drivers_trips = ModuleData.Vehicles?.Where(x => x.Trips != null)?.SelectMany(x => x.Trips)
+                    .ToDictionary(x => x.Driver);
 
-                //if (drivers != null)
-                //{
+                base.ModuleData.DriverCollection = new ConcurrentObservableCollection<Driver>();
+                var compareTrips = new CompareTripSAP();
 
-                //    //var qq = sa.ToDictionary
-                //    foreach (var driver in drivers)
-                //    {
-                //        seriesDrivers.Add(new PieSeries()
-                //        {
-                //            Title = $"{driver} ())",
-                //            Values = new ChartValues<double>(new[] { 0.0, 9 }),
-                //            DataLabels = true,
-                //            LabelPoint = chartPoint => string.Format("{0} км", chartPoint.Y)
-                //        });
-                //    }
-                //}
+                foreach (var item in drivers_trips)
+                {
+                    var driver = ModuleData.DriverCollection.FirstOrDefault(x => x.LastName == item.Key.LastName && x.UnitNumber == item.Key.UnitNumber);
+
+                    var car = ModuleData.Vehicles.Where(x => x.Trips != null).FirstOrDefault(x => x.Trips.Contains(item.Value, compareTrips));
+
+                    if (driver != null)
+                    {
+                        if (driver.HistoryDrive == null)
+                            driver.HistoryDrive = new ConcurrentObservableDictionary<IVehicle, List<TripSAP>>(new CompareVehicles());
+                        if (car != null)
+                        {
+                            var car_atCollection = driver.HistoryDrive.FirstOrDefault(x => x.Key.StateNumber == car.StateNumber);
+                            if (car_atCollection.Key != null)
+                            {
+                                if (car_atCollection.Value == null)
+                                    car_atCollection = new KeyValuePair<IVehicle, List<TripSAP>>(car_atCollection.Key, new List<TripSAP>());
+                                car_atCollection.Value.Add(item.Value);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var new_driver = item.Key;
+                        new_driver.HistoryDrive = new ConcurrentObservableDictionary<IVehicle, List<TripSAP>>(new CompareVehicles());
+                        if (car != null)
+                        {
+                            new_driver.HistoryDrive.Add(car, new List<TripSAP>() { item.Value });
+                            ModuleData.DriverCollection.Add(new_driver);
+                        }
+                    }
+                }
+
+                // IComparable for drivers and after that set : Results = records.AsChartValues();
+                var record = ModuleData.DriverCollection.Select(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage))).ToList();
+
+
+                RaisePropertyChanged(nameof(DriversFilteredList));
+
             });
-
-            return seriesDrivers;
         }
+
 
         private void NotifySuccessAndOpenFile(string path)
         {
