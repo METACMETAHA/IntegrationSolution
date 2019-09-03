@@ -54,7 +54,6 @@ namespace IntegrationSolution.Entities.Implementations
             return totalCurrent.Value.CompareTo(totalObj.Value);
         }
 
-
         public double AvarageMileagePerTrip
         {
             get

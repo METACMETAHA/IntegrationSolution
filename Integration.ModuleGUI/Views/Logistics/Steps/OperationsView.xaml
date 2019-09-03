@@ -244,14 +244,43 @@
                                         </Grid.ColumnDefinitions>
 
                                         <StackPanel Grid.ColumnSpan="2">
-                                            <TextBox
-                                                Margin="13"
-                                                Padding="5,2"
-                                                Controls:TextBoxHelper.ClearTextButton="True"
-                                                Controls:TextBoxHelper.Watermark="Поиск на графике..."
-                                                FontSize="13"
-                                                Text="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
+                                            <StackPanel.Style>
+                                                <Style TargetType="{x:Type StackPanel}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedDriverChart}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Style>
 
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="*" MinWidth="130" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBox
+                                                    MinWidth="150"
+                                                    Margin="13"
+                                                    Padding="5,2"
+                                                    Controls:TextBoxHelper.ClearTextButton="True"
+                                                    Controls:TextBoxHelper.Watermark="Поиск на графике..."
+                                                    FontSize="13"
+                                                    Text="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <Controls:SplitButton
+                                                    Grid.Column="1"
+                                                    Width="300"
+                                                    MinWidth="130"
+                                                    Margin="5,13"
+                                                    HorizontalAlignment="Right"
+                                                    DisplayMemberPath="Value"
+                                                    ItemsSource="{Binding DriversMainCharts}"
+                                                    SelectedIndex="{Binding SelectedIndexDriversMainCharts}" />
+
+                                            </Grid>
                                             <charts:CartesianChart
                                                 x:Name="MainDriversChart"
                                                 MinWidth="395"
@@ -277,7 +306,6 @@
                                                 </charts:CartesianChart.AxisY>
                                             </charts:CartesianChart>
                                         </StackPanel>
-
 
                                         <!--  Column 2  -->
                                         <Expander
@@ -376,6 +404,11 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Center"
                                                     Badge="{Binding ModuleData.DriverCollection.Count, FallbackValue=0, TargetNullValue=0}">
+                                                    <Controls:Badged.ToolTip>
+                                                        <Border Padding="15,5">
+                                                            <TextBlock FontSize="12" Text="{Binding ModuleData.DriverCollection.Count, StringFormat='Количество водителей по путевым листам: {0}'}" />
+                                                        </Border>
+                                                    </Controls:Badged.ToolTip>
                                                     <Controls:Badged.Effect>
                                                         <DropShadowEffect
                                                             BlurRadius="6"
@@ -385,7 +418,7 @@
                                                             Color="#C3BFBB" />
                                                     </Controls:Badged.Effect>
 
-                                                    <Button Command="{Binding}">
+                                                    <Button Command="{Binding ShowDriversMainChartCommand}">
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock
                                                                 Margin="3,2,5,2"

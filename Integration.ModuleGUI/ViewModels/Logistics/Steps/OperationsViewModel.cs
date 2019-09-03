@@ -35,7 +35,6 @@ namespace Integration.ModuleGUI.ViewModels
         CarAverageMileageByTripStatisticsSAP
     }
 
-
     public class OperationsViewModel : VMLocalBase
     {
         #region Variables
@@ -60,8 +59,7 @@ namespace Integration.ModuleGUI.ViewModels
             get { return carAverageMileageByTripStatisticsSAP; }
             set { SetProperty(ref carAverageMileageByTripStatisticsSAP, value); }
         }
-
-
+        
         private ObservableCollection<IVehicleSAP> _commonCars;
         public ObservableCollection<IVehicleSAP> CommonCars
         {
@@ -69,13 +67,7 @@ namespace Integration.ModuleGUI.ViewModels
             set { _commonCars = value; }
         }
 
-        private Driver selectedDriverChart;
-        public Driver SelectedDriverChart
-        {
-            get { return selectedDriverChart; }
-            set { SetProperty(ref selectedDriverChart, value); }
-        }
-
+        
         private bool isExpanderWithDriversVisible;
         public bool IsExpanderWithDriversVisible
         {
@@ -121,18 +113,27 @@ namespace Integration.ModuleGUI.ViewModels
                     return;
                 
                 SetProperty(ref searchChartField, value);
+                SetDriversMainChartDataBySelectedTypeChart(SelectedIndexDriversMainCharts, value);
+            }
+        }
 
-                string search = (SearchChartField ?? string.Empty).ToLower();
-
-                var records = ModuleData.DriverCollection
-                    .Where(x => x.LastName.ToLower().Contains(search))
-                    .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
-                    .Take(15).ToArray();
-                DriversStatisticsSAP.Clear();
-                DriversStatisticsSAP.AddRange(records);
-                Labels.Clear();
-                foreach (var x in records) Labels.Add($"{x.LastName} {x.FirstName}.");
-                RaisePropertyChanged(nameof(DriversStatisticsSAP));
+        public Dictionary<int, string> DriversMainCharts { get; set; } = new Dictionary<int, string>()
+            {
+                { 0, "Показатели по километражу" },
+                { 1, "Показатели по продуктивности" },
+                { 2, "Показатели по среднему километражу за поездку" },
+                { 3, "Показатели по количеству поездок" },
+                { 4, "Показатели по самым длинным поездкам" },
+                { 5, "Показатели по самым коротким поездкам" }
+            };
+        private int selectedIndexDriversMainCharts;
+        public int SelectedIndexDriversMainCharts
+        {
+            get { return selectedIndexDriversMainCharts; }
+            set
+            {
+                SetProperty(ref selectedIndexDriversMainCharts, value);
+                SetDriversMainChartDataBySelectedTypeChart(value, SearchChartField);         
             }
         }
 
@@ -142,8 +143,15 @@ namespace Integration.ModuleGUI.ViewModels
             get { return driversStatisticsSAP; }
             set { SetProperty(ref driversStatisticsSAP, value); }
         }
-        public Func<double, string> Formatter { get; set; }
 
+        private Driver selectedDriverChart;
+        public Driver SelectedDriverChart
+        {
+            get { return selectedDriverChart; }
+            set { SetProperty(ref selectedDriverChart, value); }
+        }
+
+        public Func<double, string> Formatter { get; set; }
         public ObservableCollection<string> Labels { get; set; }
         public object Mapper { get; set; }
 
@@ -179,6 +187,7 @@ namespace Integration.ModuleGUI.ViewModels
         }
         #endregion
 
+
         #region Ctor
         private readonly IDialogManager _dialogManager;
 
@@ -197,15 +206,14 @@ namespace Integration.ModuleGUI.ViewModels
             ClickDataCommand = new DelegateCommand<ChartPoint>(ClickDataCmd);
             OnDriverChangedCmd = new DelegateCommand(OnDriverChanged);
             OpenDriversCarsPopupCommand = new DelegateCommand(OpenDriversCarsPopup);
+            ShowDriversMainChartCommand = new DelegateCommand(ShowDriversMainChart);
+
             GridConfiguration = new GridConfiguration();
-
+            
             _dialogManager = dialogManager;
-
-            Mapper = Mappers.Xy<Driver>()
-                .X((driver, index) => index)
-                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault() );
         }
         #endregion
+
 
         #region Moves next/back
         public override bool MoveBack() => this.CanGoBack;
@@ -221,6 +229,7 @@ namespace Integration.ModuleGUI.ViewModels
             return CanGoNext;
         }
         #endregion
+
 
         #region Commands
         public DelegateCommand WriteTotalStatisticsInFileCommand { get; private set; }
@@ -501,6 +510,11 @@ namespace Integration.ModuleGUI.ViewModels
             this.IsDriversCarsPopupVisible = !IsDriversCarsPopupVisible;
         }
 
+        public DelegateCommand ShowDriversMainChartCommand { get; private set; }
+        private void ShowDriversMainChart()
+        {
+            SelectedDriverChart = null;
+        }
 
         public DelegateCommand OnDriverChangedCmd { get; private set; }
         [STAThreadAttribute]
@@ -671,13 +685,7 @@ namespace Integration.ModuleGUI.ViewModels
                     }
                 }
 
-
-                var records = ModuleData.DriverCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
-                    .Take(15).ToArray();
-                DriversStatisticsSAP = records.AsChartValues();
-                Labels = new ObservableCollection<string>(records.Select(x => $"{x.LastName} {x.FirstName}."));
-                Formatter = value => (value).ToString() + " км";
-
+                SelectedIndexDriversMainCharts = 0;
                 RaisePropertyChanged(nameof(DriversFilteredList));
 
             });
@@ -703,6 +711,141 @@ namespace Integration.ModuleGUI.ViewModels
                     ErrorDescription = ex.Message
                 };
             }
+        }
+
+
+        private void SetDriversMainChartDataBySelectedTypeChart(int index, string searchField)
+        {
+            int CountTake = 20;
+
+            if (DriversStatisticsSAP == null)
+            {
+                Mapper = Mappers.Xy<Driver>()
+                .X((driver, ind) => ind)
+                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+
+                var record = ModuleData.DriverCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                        .Take(CountTake).ToArray();
+                DriversStatisticsSAP = record.AsChartValues();
+                Labels = new ObservableCollection<string>(record.Select(x => $"{x.LastName} {x.FirstName}."));
+                Formatter = val => (val).ToString() + " км";
+                return;
+            }
+
+            string search = (searchField ?? string.Empty).ToLower();
+            Driver[] records = new Driver[0];
+
+            // Indexes from DriversMainCharts field
+            switch (index)
+            {
+                case 1:
+                    /////////////////////////////
+                    //var countTripsAtAll = ModuleData.DriverCollection.Select(x => x.AvarageMileagePerTrip).Average(); // общее значение среднего по выездам => отобразить где-то
+                    /////////////////////////////
+                    ///
+                    var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+
+                    records = ModuleData.DriverCollection
+                        .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgTripsAtAll)
+                        .OrderByDescending(x => x.AvarageMileagePerTrip)
+                        .Take(CountTake).ToArray();
+
+                    UpdateChartData(records);
+
+                    Formatter = val => (val).ToString() + " км (сред.)";
+                    Mapper = Mappers.Xy<Driver>()
+                .X((driver, ind) => ind)
+                .Y(driver => driver.AvarageMileagePerTrip);
+
+                    break;
+
+                case 2:
+                    records = ModuleData.DriverCollection
+                        .Where(x => x.LastName.ToLower().Contains(search))
+                        .OrderByDescending(x => x.AvarageMileagePerTrip)
+                        .Take(CountTake).ToArray();
+
+                    UpdateChartData(records);
+
+                    Formatter = val => (val).ToString() + " км";
+                    Mapper = Mappers.Xy<Driver>()
+                .X((driver, ind) => ind)
+                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+
+                    break;
+
+                case 3:
+                    records = ModuleData.DriverCollection
+                        .Where(x => x.LastName.ToLower().Contains(search))
+                        .OrderByDescending(x => x.CountTrips)
+                        .Take(CountTake).ToArray();
+
+                    UpdateChartData(records);
+
+                    Formatter = val => (val).ToString() + " км";
+                    Mapper = Mappers.Xy<Driver>()
+                .X((driver, ind) => ind)
+                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+
+                    break;
+
+                case 4:
+                    records = ModuleData.DriverCollection
+                        .Where(x => x.LastName.ToLower().Contains(search))
+                        .OrderByDescending(x => x.MaxTripMileage.Key)
+                        .Take(CountTake).ToArray();
+
+                    UpdateChartData(records);
+
+                    Formatter = val => (val).ToString() + " км";
+                    Mapper = Mappers.Xy<Driver>()
+                .X((driver, ind) => ind)
+                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+
+                    break;
+
+                case 5:
+                    records = ModuleData.DriverCollection
+                        .Where(x => x.LastName.ToLower().Contains(search))
+                        .OrderByDescending(x => x.MinTripMileage.Key)
+                        .Take(CountTake).ToArray();
+
+                    UpdateChartData(records);
+
+                    Formatter = val => (val).ToString() + " км";
+                    Mapper = Mappers.Xy<Driver>()
+                .X((driver, ind) => ind)
+                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+
+                    break;
+
+                case 0:
+                default:
+                    records = ModuleData.DriverCollection
+                        .Where(x => x.LastName.ToLower().Contains(search))
+                        .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                        .Take(CountTake).ToArray();
+
+                    UpdateChartData(records);
+
+                    Formatter = val => (val).ToString() + " км";
+                    Mapper = Mappers.Xy<Driver>()
+                .X((driver, ind) => ind)
+                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+
+                    break;
+            }
+
+            
+            RaisePropertyChanged(nameof(DriversStatisticsSAP));
+        }
+
+        private void UpdateChartData(Driver[] records)
+        {
+            DriversStatisticsSAP.Clear();
+            DriversStatisticsSAP.AddRange(records);
+            Labels.Clear();
+            foreach (var x in records) Labels.Add($"{x.LastName} {x.FirstName}.");
         }
 
 
