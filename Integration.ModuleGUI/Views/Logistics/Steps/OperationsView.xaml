@@ -13,6 +13,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:vm="clr-namespace:Integration.ModuleGUI.ViewModels"
     xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+    x:Name="userContol"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
@@ -219,309 +220,323 @@
 
                             </Controls:MetroTabItem>
 
-                            <Controls:MetroTabItem HorizontalContentAlignment="Right" Header="Водители">
+                            <Controls:MetroTabItem
+                                HorizontalContentAlignment="Stretch"
+                                Header="Водители"
+                                ScrollViewer.CanContentScroll="True">
 
-                                <Grid
-                                    x:Name="parentDriversGrid"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    ClipToBounds="True">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition
-                                            Width="auto"
-                                            MinWidth="110"
-                                            MaxWidth="520" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.ColumnSpan="2">
-                                        <TextBox
-                                            Margin="0,5"
-                                            Padding="5,2"
-                                            Controls:TextBoxHelper.ClearTextButton="True"
-                                            Controls:TextBoxHelper.Watermark="Поиск..."
-                                            FontSize="13"
-                                            Text="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
-
-                                        <charts:CartesianChart>
-                                            <charts:CartesianChart.Series>
-                                                <charts:ColumnSeries
-                                                    Title="Показатели по водителям"
-                                                    Configuration="{Binding Mapper}"
-                                                    Values="{Binding DriversStatisticsSAP}" />
-                                            </charts:CartesianChart.Series>
-                                            <charts:CartesianChart.AxisX>
-                                                <charts:Axis
-                                                    DisableAnimations="True"
-                                                    Labels="{Binding Labels}"
-                                                    LabelsRotation="-20">
-                                                    <charts:Axis.Separator>
-                                                        <charts:Separator Step="1" />
-                                                    </charts:Axis.Separator>
-                                                </charts:Axis>
-                                            </charts:CartesianChart.AxisX>
-                                            <charts:CartesianChart.AxisY>
-                                                <charts:Axis LabelFormatter="{Binding MillionFormatter}" />
-                                            </charts:CartesianChart.AxisY>
-                                        </charts:CartesianChart>
-                                    </StackPanel>
-
-
-                                    <!--  Column 2  -->
-                                    <Expander
-                                        Grid.Column="2"
-                                        Margin="7,0,0,0"
-                                        HorizontalAlignment="Right"
+                                <ScrollViewer
+                                    CanContentScroll="True"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <Grid
+                                        x:Name="parentDriversGrid"
+                                        HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
-                                        ExpandDirection="Left"
-                                        IsExpanded="{Binding IsExpanderWithDriversVisible}"
-                                        SnapsToDevicePixels="True">
-                                        <Expander.Header>
-                                            <TextBlock
-                                                Height="21"
-                                                FontSize="18"
-                                                FontStretch="SemiExpanded"
-                                                FontWeight="Light"
-                                                Foreground="Black"
-                                                Text="Список водителей">
-                                                <TextBlock.LayoutTransform>
-                                                    <RotateTransform Angle="90" />
-                                                </TextBlock.LayoutTransform>
-                                            </TextBlock>
-                                        </Expander.Header>
+                                        ClipToBounds="True">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition
+                                                Width="auto"
+                                                MaxWidth="520"
+                                                ScrollViewer.CanContentScroll="True" />
+                                        </Grid.ColumnDefinitions>
 
-                                        <Grid
-                                            x:Name="panel"
-                                            MaxHeight="530"
-                                            Margin="6,2"
-                                            ScrollViewer.CanContentScroll="True">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width="41" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="41" />
-                                                <RowDefinition Height="61" />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-
-                                            <ToggleButton
-                                                x:Name="settingsButton"
-                                                Grid.Column="1"
-                                                Margin="2,2,10,2"
-                                                Padding="6"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                HorizontalContentAlignment="Center"
-                                                VerticalContentAlignment="Center"
-                                                BorderThickness="0"
-                                                IsChecked="{Binding IsSettingsPopupVisible, Mode=TwoWay}">
-                                                <ToggleButton.Style>
-                                                    <Style TargetType="{x:Type ToggleButton}">
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="ToggleButton">
-                                                                    <ContentPresenter />
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                                <Setter Property="Background" Value="#FFA429" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ToggleButton.Style>
-                                                <Rectangle
-                                                    Width="20"
-                                                    Height="20"
-                                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </ToggleButton>
-
+                                        <StackPanel Grid.ColumnSpan="2">
                                             <TextBox
-                                                Margin="0,5"
+                                                Margin="13"
                                                 Padding="5,2"
                                                 Controls:TextBoxHelper.ClearTextButton="True"
-                                                Controls:TextBoxHelper.Watermark="Поиск..."
+                                                Controls:TextBoxHelper.Watermark="Поиск на графике..."
                                                 FontSize="13"
-                                                Text="{Binding SearchField, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
 
-                                            <Controls:Badged
-                                                x:Name="violationsButton"
-                                                Grid.Row="1"
-                                                Grid.ColumnSpan="2"
-                                                Margin="-2,7,20,7"
-                                                Padding="6"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Top"
-                                                HorizontalContentAlignment="Stretch"
-                                                VerticalContentAlignment="Center"
-                                                Badge="{Binding ModuleData.DriverCollection.Count, FallbackValue=0, TargetNullValue=0}">
-                                                <Controls:Badged.Effect>
-                                                    <DropShadowEffect
-                                                        BlurRadius="6"
-                                                        Direction="-100"
-                                                        RenderingBias="Quality"
-                                                        ShadowDepth="3"
-                                                        Color="#C3BFBB" />
-                                                </Controls:Badged.Effect>
+                                            <charts:CartesianChart
+                                                x:Name="MainDriversChart"
+                                                MinWidth="395"
+                                                MinHeight="170"
+                                                DataClickCommand="{Binding ClickDataCommand}"
+                                                LegendLocation="Bottom"
+                                                ScrollViewer.CanContentScroll="True">
+                                                <charts:CartesianChart.Series>
+                                                    <charts:ColumnSeries
+                                                        Title="Показатели по водителям"
+                                                        Configuration="{Binding Mapper}"
+                                                        Values="{Binding DriversStatisticsSAP}" />
+                                                </charts:CartesianChart.Series>
+                                                <charts:CartesianChart.AxisX>
+                                                    <charts:Axis Labels="{Binding Labels}" LabelsRotation="-20">
+                                                        <charts:Axis.Separator>
+                                                            <charts:Separator Step="1" />
+                                                        </charts:Axis.Separator>
+                                                    </charts:Axis>
+                                                </charts:CartesianChart.AxisX>
+                                                <charts:CartesianChart.AxisY>
+                                                    <charts:Axis LabelFormatter="{Binding Formatter}" />
+                                                </charts:CartesianChart.AxisY>
+                                            </charts:CartesianChart>
+                                        </StackPanel>
 
-                                                <Button Command="{Binding}">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock
-                                                            Margin="3,2,5,2"
-                                                            FontSize="14"
-                                                            Foreground="Black"
-                                                            Style="{StaticResource RText}"
-                                                            Text="Общий график" />
-                                                        <Rectangle
-                                                            Width="20"
-                                                            Height="20"
-                                                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                                            <Rectangle.OpacityMask>
-                                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_people_multiple_magnify}" />
-                                                            </Rectangle.OpacityMask>
-                                                        </Rectangle>
-                                                    </StackPanel>
-                                                </Button>
 
-                                            </Controls:Badged>
+                                        <!--  Column 2  -->
+                                        <Expander
+                                            x:Name="expanderListBox"
+                                            Grid.Column="2"
+                                            Height="230"
+                                            MaxHeight="530"
+                                            Margin="7,0,0,0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            ExpandDirection="Right"
+                                            IsExpanded="{Binding IsExpanderWithDriversVisible}"
+                                            SnapsToDevicePixels="True">
+                                            <Expander.Header>
+                                                <TextBlock
+                                                    Height="21"
+                                                    FontSize="18"
+                                                    FontStretch="SemiExpanded"
+                                                    FontWeight="Light"
+                                                    Foreground="Black"
+                                                    Text="Список водителей">
+                                                    <TextBlock.LayoutTransform>
+                                                        <RotateTransform Angle="90" />
+                                                    </TextBlock.LayoutTransform>
+                                                </TextBlock>
+                                            </Expander.Header>
 
-                                            <ListBox
-                                                x:Name="listBoxCars"
-                                                Grid.Row="2"
-                                                Grid.ColumnSpan="2"
-                                                Width="460"
-                                                Height="{Binding ElementName=panel, Path=Height}"
-                                                ItemsSource="{Binding DriversFilteredList, Mode=OneWay}"
-                                                ScrollViewer.CanContentScroll="True"
-                                                ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                                SelectedItem="{Binding SelectedDriverChart}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="SelectionChanged">
-                                                        <i:InvokeCommandAction Command="{Binding OnDriverChangedCmd}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid x:Name="gridItem" Margin="5,2">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
+                                            <Grid
+                                                x:Name="panel"
+                                                Margin="6,2"
+                                                ScrollViewer.CanContentScroll="True">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="41" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="41" />
+                                                    <RowDefinition Height="61" />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
 
+                                                <ToggleButton
+                                                    x:Name="settingsButton"
+                                                    Grid.Column="1"
+                                                    Margin="2,2,10,2"
+                                                    Padding="6"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    BorderThickness="0"
+                                                    IsChecked="{Binding IsSettingsPopupVisible, Mode=TwoWay}">
+                                                    <ToggleButton.Style>
+                                                        <Style TargetType="{x:Type ToggleButton}">
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="ToggleButton">
+                                                                        <ContentPresenter />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter Property="Background" Value="#FFA429" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ToggleButton.Style>
+                                                    <Rectangle
+                                                        Width="20"
+                                                        Height="20"
+                                                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                                                        <Rectangle.OpacityMask>
+                                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
+                                                        </Rectangle.OpacityMask>
+                                                    </Rectangle>
+                                                </ToggleButton>
+
+                                                <TextBox
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,5,50,5"
+                                                    Padding="5,2"
+                                                    Controls:TextBoxHelper.ClearTextButton="True"
+                                                    Controls:TextBoxHelper.Watermark="Поиск по списку..."
+                                                    FontSize="13"
+                                                    Text="{Binding SearchField, UpdateSourceTrigger=PropertyChanged}" />
+
+                                                <Controls:Badged
+                                                    x:Name="violationsButton"
+                                                    Grid.Row="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="-2,7,20,7"
+                                                    Padding="6"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Top"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Center"
+                                                    Badge="{Binding ModuleData.DriverCollection.Count, FallbackValue=0, TargetNullValue=0}">
+                                                    <Controls:Badged.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="6"
+                                                            Direction="-100"
+                                                            RenderingBias="Quality"
+                                                            ShadowDepth="3"
+                                                            Color="#C3BFBB" />
+                                                    </Controls:Badged.Effect>
+
+                                                    <Button Command="{Binding}">
+                                                        <StackPanel Orientation="Horizontal">
                                                             <TextBlock
-                                                                Grid.RowSpan="3"
-                                                                HorizontalAlignment="Left"
-                                                                FontSize="15"
-                                                                FontStretch="UltraCondensed"
-                                                                FontWeight="Light"
-                                                                Text="{Binding}"
-                                                                TextWrapping="WrapWithOverflow" />
+                                                                Margin="3,2,5,2"
+                                                                FontSize="14"
+                                                                Foreground="Black"
+                                                                Style="{StaticResource RText}"
+                                                                Text="Общий график" />
+                                                            <Rectangle
+                                                                Width="20"
+                                                                Height="20"
+                                                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_people_multiple_magnify}" />
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+                                                        </StackPanel>
+                                                    </Button>
 
-                                                            <Button
-                                                                x:Name="popupCarsBtn"
-                                                                Width="16"
-                                                                Height="16"
-                                                                Margin="1"
-                                                                Padding="4"
-                                                                HorizontalAlignment="Right"
-                                                                VerticalAlignment="Top"
-                                                                Command="{Binding DataContext.OpenDriversCarsPopupCommand, RelativeSource={RelativeSource AncestorType=UserControl, AncestorLevel=1}}"
-                                                                Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                                                                ToolTipService.HasDropShadow="True"
-                                                                ToolTipService.InitialShowDelay="100">
-                                                                <Rectangle
-                                                                    Width="3"
-                                                                    Height="7"
-                                                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information}" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </Button>
+                                                </Controls:Badged>
 
-                                                            <TextBlock
-                                                                Grid.Column="1"
-                                                                HorizontalAlignment="Right"
-                                                                FontSize="12"
-                                                                FontWeight="UltraLight"
-                                                                Text="{Binding UnitNumber, StringFormat='Табельный номер: {0}'}" />
+                                                <ListBox
+                                                    x:Name="listBoxCars"
+                                                    Grid.Row="2"
+                                                    Grid.ColumnSpan="2"
+                                                    Width="460"
+                                                    Height="{Binding ElementName=panel, Path=Height}"
+                                                    ItemsSource="{Binding DriversFilteredList, Mode=OneWay}"
+                                                    ScrollViewer.CanContentScroll="True"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                    SelectedItem="{Binding SelectedDriverChart}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{Binding OnDriverChangedCmd}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid x:Name="gridItem" Margin="5,2">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
 
-                                                            <TextBlock
-                                                                Grid.Row="1"
-                                                                Grid.Column="1"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{Binding HistoryDrive.Keys.Count, StringFormat='ТС использовано за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
+                                                                <TextBlock
+                                                                    Grid.RowSpan="3"
+                                                                    HorizontalAlignment="Left"
+                                                                    FontSize="15"
+                                                                    FontStretch="UltraCondensed"
+                                                                    FontWeight="Light"
+                                                                    Text="{Binding}"
+                                                                    TextWrapping="WrapWithOverflow" />
 
-                                                            <TextBlock
-                                                                Grid.Row="2"
-                                                                Grid.Column="1"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{Binding HistoryDrive.Values[0].Count, StringFormat='Поездок всего за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
+                                                                <Button
+                                                                    x:Name="popupCarsBtn"
+                                                                    Width="16"
+                                                                    Height="16"
+                                                                    Margin="1"
+                                                                    Padding="4"
+                                                                    HorizontalAlignment="Right"
+                                                                    VerticalAlignment="Top"
+                                                                    Command="{Binding DataContext.OpenDriversCarsPopupCommand, RelativeSource={RelativeSource AncestorType=UserControl, AncestorLevel=1}}"
+                                                                    Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                                                                    ToolTipService.HasDropShadow="True"
+                                                                    ToolTipService.InitialShowDelay="100">
+                                                                    <Rectangle
+                                                                        Width="3"
+                                                                        Height="7"
+                                                                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information}" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Button>
 
-                                                        </Grid>
-                                                    </DataTemplate>
+                                                                <TextBlock
+                                                                    Grid.Column="1"
+                                                                    HorizontalAlignment="Right"
+                                                                    FontSize="12"
+                                                                    FontWeight="UltraLight"
+                                                                    Text="{Binding UnitNumber, StringFormat='Табельный номер: {0}'}" />
 
-                                                </ListBox.ItemTemplate>
-                                                <ListBox.ItemContainerStyle>
-                                                    <Style TargetType="{x:Type ListBoxItem}">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HistoryDrive}" Value="{x:Null}">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding HistoryDrive.Keys}" Value="{x:Null}">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ListBox.ItemContainerStyle>
-                                            </ListBox>
+                                                                <TextBlock
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{Binding HistoryDrive.Keys.Count, StringFormat='ТС использовано за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
 
-                                            <Popup
-                                                x:Name="editPopup"
-                                                Grid.RowSpan="2"
-                                                Grid.Column="1"
-                                                Width="Auto"
-                                                AllowsTransparency="True"
-                                                IsOpen="{Binding IsSettingsPopupVisible, Mode=TwoWay}"
-                                                Placement="Bottom"
-                                                PlacementTarget="{Binding ElementName=settingsButton}"
-                                                PopupAnimation="Scroll"
-                                                StaysOpen="False">
-                                                <Border Background="#FFFFF0CB" BorderThickness="0">
-                                                    <StackPanel
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Center"
-                                                        Background="Transparent"
-                                                        Orientation="Vertical">
-                                                        <ToggleButton
-                                                            Command="{Binding}"
-                                                            Content="Скрыть ТС без пробега"
-                                                            IsChecked="false" />
-                                                        <ToggleButton
-                                                            Command="{Binding}"
-                                                            Content="Отобразить только ТС с нарушениями"
-                                                            IsChecked="False" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </Popup>
+                                                                <TextBlock
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{Binding HistoryDrive.Values[0].Count, StringFormat='Поездок всего за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
 
-                                        </Grid>
-                                    </Expander>
+                                                            </Grid>
+                                                        </DataTemplate>
 
-                                </Grid>
+                                                    </ListBox.ItemTemplate>
+                                                    <ListBox.ItemContainerStyle>
+                                                        <Style TargetType="{x:Type ListBoxItem}">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding HistoryDrive}" Value="{x:Null}">
+                                                                    <Setter Property="IsEnabled" Value="False" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding HistoryDrive.Keys}" Value="{x:Null}">
+                                                                    <Setter Property="IsEnabled" Value="False" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ListBox.ItemContainerStyle>
+                                                </ListBox>
+
+                                                <Popup
+                                                    x:Name="editPopup"
+                                                    Grid.RowSpan="2"
+                                                    Grid.Column="1"
+                                                    Width="Auto"
+                                                    AllowsTransparency="True"
+                                                    IsOpen="{Binding IsSettingsPopupVisible, Mode=TwoWay}"
+                                                    Placement="Bottom"
+                                                    PlacementTarget="{Binding ElementName=settingsButton}"
+                                                    PopupAnimation="Scroll"
+                                                    StaysOpen="False">
+                                                    <Border Background="#FFFFF0CB" BorderThickness="0">
+                                                        <StackPanel
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            Orientation="Vertical">
+                                                            <ToggleButton
+                                                                Command="{Binding}"
+                                                                Content="Скрыть ТС без пробега"
+                                                                IsChecked="false" />
+                                                            <ToggleButton
+                                                                Command="{Binding}"
+                                                                Content="Отобразить только ТС с нарушениями"
+                                                                IsChecked="False" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Popup>
+
+                                            </Grid>
+                                        </Expander>
+
+                                    </Grid>
+                                </ScrollViewer>
                                 <!--<WrapPanel>
                                     <Grid>
                                         <StackPanel>

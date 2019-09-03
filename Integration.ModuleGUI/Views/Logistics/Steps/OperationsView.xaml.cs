@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -28,8 +29,21 @@ namespace Integration.ModuleGUI.Views
 
         private void OperationsView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //listBoxCars.Height = parentDriversGrid.ActualHeight/1.52;
-            //panel.Width = this.Width / 3;
+            if (ActualWidth >= 1100)
+                MainDriversChart.Width = this.ActualWidth / 2;
+            else
+                MainDriversChart.Width = this.ActualWidth / 2.8;
+            
+            if (SapDetaisPanel.ActualHeight >= 450)
+            {
+                expanderListBox.Height = this.ActualHeight / 1.2;
+                MainDriversChart.Height = this.ActualHeight / 1.4;
+            }
+            else
+            {
+                expanderListBox.Height = this.ActualHeight / 1.5;
+                MainDriversChart.Height = this.ActualHeight / 1.8;
+            }
         }
     }
 }

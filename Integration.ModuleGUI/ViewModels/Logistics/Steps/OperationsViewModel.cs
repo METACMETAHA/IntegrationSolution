@@ -10,6 +10,7 @@ using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
 using LiveCharts;
 using LiveCharts.Configurations;
+using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -118,9 +119,20 @@ namespace Integration.ModuleGUI.ViewModels
             {
                 if (searchChartField == value)
                     return;
-
+                
                 SetProperty(ref searchChartField, value);
-                //RaisePropertyChanged(nameof(DriversFilteredList));
+
+                string search = (SearchChartField ?? string.Empty).ToLower();
+
+                var records = ModuleData.DriverCollection
+                    .Where(x => x.LastName.ToLower().Contains(search))
+                    .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                    .Take(15).ToArray();
+                DriversStatisticsSAP.Clear();
+                DriversStatisticsSAP.AddRange(records);
+                Labels.Clear();
+                foreach (var x in records) Labels.Add($"{x.LastName} {x.FirstName}.");
+                RaisePropertyChanged(nameof(DriversStatisticsSAP));
             }
         }
 
@@ -130,7 +142,9 @@ namespace Integration.ModuleGUI.ViewModels
             get { return driversStatisticsSAP; }
             set { SetProperty(ref driversStatisticsSAP, value); }
         }
+        public Func<double, string> Formatter { get; set; }
 
+        public ObservableCollection<string> Labels { get; set; }
         public object Mapper { get; set; }
 
         // Collection with filter
@@ -189,7 +203,7 @@ namespace Integration.ModuleGUI.ViewModels
 
             Mapper = Mappers.Xy<Driver>()
                 .X((driver, index) => index)
-                .Y(driver => driver.HistoryDrive.Keys.Count);
+                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault() );
         }
         #endregion
 
@@ -440,26 +454,44 @@ namespace Integration.ModuleGUI.ViewModels
         public DelegateCommand<ChartPoint> ClickDataCommand { get; private set; }
         protected async void ClickDataCmd(ChartPoint chartPoint)
         {
-            var car = ModuleData.Vehicles.Where(x => chartPoint.SeriesView.Title.Contains(x.StateNumber)).FirstOrDefault();
-            if (car == null)
-                return;
-
             StringBuilder msg = new StringBuilder();
-            if(!string.IsNullOrWhiteSpace(car.Department))
-                msg.AppendLine($"Служба/отдел:\t{car.Department}");
 
-            if (!string.IsNullOrWhiteSpace(car.StructureName))
-                msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
-
-            if (car.TripResulted != null)
+            var car = ModuleData.Vehicles.Where(x => chartPoint.SeriesView.Title.Contains(x.StateNumber)).FirstOrDefault();
+            if (car != null)
             {
-                msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
-                msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
-                msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage/car.CountTrips.Value), 2)} км/поездка");
+                if (!string.IsNullOrWhiteSpace(car.Department))
+                    msg.AppendLine($"Служба/отдел:\t{car.Department}");
+
+                if (!string.IsNullOrWhiteSpace(car.StructureName))
+                    msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
+
+                if (car.TripResulted != null)
+                {
+                    msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
+                    msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
+                    msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage / car.CountTrips.Value), 2)} км/поездка");
+                }
+
+                await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
             }
+            else
+            {
+                var driver = chartPoint.Instance as Driver;
+                if (driver == null)
+                    return;
+                
+                msg.AppendLine($"Всего поездок за период:\t{driver.CountTrips}");
+                msg.AppendLine($"Использовано транспортных средств:\t{driver.CountCars}");
+                msg.AppendLine();
+                msg.AppendLine($"Средний километраж за поездку:\t{Math.Round((driver.AvarageMileagePerTrip), 2)} км/поездка");
+                msg.AppendLine($"Самая длинная поездка:\t{driver.MaxTripMileage.Key} км\t({driver.MaxTripMileage.Value.ToShortDateString()})");
+                msg.AppendLine($"Самая коротка поездка:\t{driver.MinTripMileage.Key} км\t({driver.MinTripMileage.Value.ToShortDateString()})");
+                msg.AppendLine();
+                msg.AppendLine();
+                msg.AppendLine("* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.");
 
-
-            await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
+                await _dialogManager.ShowMessageBox($"{driver.ToString()}\t({driver.UnitNumber})", msg.ToString());
+            }            
         }
 
 
@@ -639,9 +671,12 @@ namespace Integration.ModuleGUI.ViewModels
                     }
                 }
 
-                // IComparable for drivers and after that set : Results = records.AsChartValues();
-                var record = ModuleData.DriverCollection.Select(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage))).ToList();
 
+                var records = ModuleData.DriverCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                    .Take(15).ToArray();
+                DriversStatisticsSAP = records.AsChartValues();
+                Labels = new ObservableCollection<string>(records.Select(x => $"{x.LastName} {x.FirstName}."));
+                Formatter = value => (value).ToString() + " км";
 
                 RaisePropertyChanged(nameof(DriversFilteredList));
 
