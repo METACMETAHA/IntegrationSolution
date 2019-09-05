@@ -69,6 +69,21 @@ namespace IntegrationSolution.Entities.Implementations
             }
         }
 
+        public double TotalMileage
+        {
+            get
+            {
+                if (HistoryDrive == null)
+                    return 0;
+
+                List<double> total = new List<double>();
+                foreach (var item in HistoryDrive)
+                    total.Add(item.Value.Sum(x => x.TotalMileage));
+
+                return total.Sum();
+            }
+        }
+
         public KeyValuePair<double, DateTime> MaxTripMileage
         {
             get
@@ -106,5 +121,12 @@ namespace IntegrationSolution.Entities.Implementations
 
         public int CountCars
             => HistoryDrive?.Keys.Count ?? 0;
+
+        public double GetEffectivityPercent(double AverageAllDrivers)
+        {
+            var percent = TotalMileage / AverageAllDrivers;
+            var kof = 100/percent;
+            return Math.Round(100 - kof, 2);
+        }
     }
 }

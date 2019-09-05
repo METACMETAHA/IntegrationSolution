@@ -31,6 +31,41 @@
             <Setter Property="DataClickCommand" Value="{Binding ClickDataCommand}" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
         </Style>
+        <Style
+            x:Key="InformButton"
+            BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="ToolTipService.HasDropShadow" Value="True" />
+            <Setter Property="ToolTipService.InitialShowDelay" Value="100" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Rectangle
+                            Width="4"
+                            Height="7"
+                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#C8C8C8" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -243,7 +278,7 @@
                                                 ScrollViewer.CanContentScroll="True" />
                                         </Grid.ColumnDefinitions>
 
-                                        <StackPanel Grid.ColumnSpan="2">
+                                        <StackPanel>
                                             <StackPanel.Style>
                                                 <Style TargetType="{x:Type StackPanel}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -270,16 +305,99 @@
                                                     FontSize="13"
                                                     Text="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
 
-                                                <Controls:SplitButton
-                                                    Grid.Column="1"
-                                                    Width="300"
-                                                    MinWidth="130"
-                                                    Margin="5,13"
-                                                    HorizontalAlignment="Right"
-                                                    DisplayMemberPath="Value"
-                                                    ItemsSource="{Binding DriversMainCharts}"
-                                                    SelectedIndex="{Binding SelectedIndexDriversMainCharts}" />
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                    <Controls:SplitButton
+                                                        x:Name="chartsType"
+                                                        Width="300"
+                                                        MinWidth="130"
+                                                        Margin="5,13"
+                                                        HorizontalAlignment="Right"
+                                                        DisplayMemberPath="Value"
+                                                        ItemsSource="{Binding DriversMainCharts}"
+                                                        SelectedIndex="{Binding SelectedIndexDriversMainCharts}" />
 
+                                                    <Button ToolTipService.ShowDuration="900000">
+                                                        <Button.ToolTip>
+                                                            <StackPanel>
+                                                                <TextBlock Text="Данный показатель высчитывается следующим образом:" />
+                                                                <Grid Margin="10,10,10,30">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition />
+                                                                        <ColumnDefinition />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="5*" />
+                                                                        <RowDefinition Height="*" />
+                                                                        <RowDefinition Height="5*" />
+                                                                    </Grid.RowDefinitions>
+
+                                                                    <StackPanel
+                                                                        Grid.RowSpan="3"
+                                                                        HorizontalAlignment="Right"
+                                                                        VerticalAlignment="Center"
+                                                                        Orientation="Horizontal">
+                                                                        <TextBlock
+                                                                            FontSize="16"
+                                                                            FontWeight="SemiBold"
+                                                                            Text="Продуктивность = " />
+                                                                        <TextBlock
+                                                                            FontSize="14"
+                                                                            Text="100 - "
+                                                                            TextAlignment="Center" />
+                                                                    </StackPanel>
+                                                                    <TextBlock
+                                                                        Grid.Column="1"
+                                                                        Text="Километраж за период"
+                                                                        TextAlignment="Center" />
+                                                                    <TextBlock
+                                                                        Grid.Row="1"
+                                                                        Grid.Column="1"
+                                                                        FontSize="6"
+                                                                        FontWeight="Light"
+                                                                        Text="__________________________________________________________________________________________________" />
+                                                                    <TextBlock
+                                                                        Grid.Row="2"
+                                                                        Grid.Column="1"
+                                                                        Text="Средний пробег среди отобранной группы водителей *" />
+                                                                </Grid>
+                                                                <TextBlock
+                                                                    Margin="25,0,0,10"
+                                                                    FontSize="11"
+                                                                    TextAlignment="Left"
+                                                                    TextWrapping="WrapWithOverflow">
+                                                                    <Run FontSize="12" Text="* Алгоритм отбора группы водителей: " />
+                                                                    <LineBreak />
+                                                                    <Run Text="- Количество поездок у каждого водителя переводятся в 100-бальную шкалу, где 100 - это водитель с наибольшим количеством ПЛ." />
+                                                                    <LineBreak />
+                                                                    <Run Text="- С высчитанной шкалы отбираются во внимание те водители, у которых значения по шкале больше 40 (то есть отбираются реальные водители)" />
+                                                                    <LineBreak />
+                                                                    <Run Text="- Затем, среди отобранных водителей подсчитывается средний пробег за поездку." />
+                                                                    <LineBreak />
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                        </Button.ToolTip>
+
+                                                        <Button.Style>
+                                                            <Style BasedOn="{StaticResource InformButton}" TargetType="{x:Type Button}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding SelectedIndexDriversMainCharts}" Value="1">
+                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+
+                                                        <Rectangle
+                                                            Width="3"
+                                                            Height="7"
+                                                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information}" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Button>
+                                                </StackPanel>
                                             </Grid>
                                             <charts:CartesianChart
                                                 x:Name="MainDriversChart"
@@ -307,6 +425,125 @@
                                             </charts:CartesianChart>
                                         </StackPanel>
 
+                                        <Grid Grid.Column="1">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedDriverChart}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <Expander
+                                                Height="{Binding ElementName=expanderListBox, Path=Height}"
+                                                MaxWidth="250"
+                                                Margin="3,0,0,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                ExpandDirection="Right"
+                                                ScrollViewer.CanContentScroll="True"
+                                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                SnapsToDevicePixels="True">
+                                                <Expander.Header>
+                                                    <TextBlock
+                                                        Height="21"
+                                                        FontSize="18"
+                                                        FontStretch="SemiExpanded"
+                                                        FontWeight="Light"
+                                                        Foreground="Black"
+                                                        Text="Статистика">
+                                                        <TextBlock.LayoutTransform>
+                                                            <RotateTransform Angle="90" />
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Expander.Header>
+
+                                                <ScrollViewer
+                                                    Grid.Column="1"
+                                                    MaxWidth="250"
+                                                    Margin="3,0,0,0"
+                                                    CanContentScroll="True"
+                                                    HorizontalScrollBarVisibility="Auto"
+                                                    VerticalScrollBarVisibility="Auto">
+
+                                                    <StackPanel Width="200">
+
+                                                        <GroupBox Margin="2,10" Header="Всего поездок">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding TotalTripsAtAll, FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center"
+                                                                    ToolTip="{Binding TotalTripsAtAll, FallbackValue='-', TargetNullValue='-'}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                        <GroupBox Margin="2,10" Header="Общий километраж">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding TotalMileageAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center"
+                                                                    ToolTip="{Binding TotalMileageAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}" />
+
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalMileageAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+                                                        <GroupBox Margin="2,10" Header="Средний км за поездку">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding TotalAvgMileagePerTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center"
+                                                                    ToolTip="{Binding TotalAvgMileagePerTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}" />
+
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalAvgMileagePerTripAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                        <GroupBox Margin="2,10" Header="Самая длинная поездка">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding TotalMaxTripAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center"
+                                                                    ToolTip="{Binding TotalMaxTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}" />
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalMaxTripAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                        <GroupBox Margin="2,10" Header="Самая короткая поездка">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding TotalMinTripAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center"
+                                                                    ToolTip="{Binding TotalMinTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}" />
+
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalMinTripAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                    </StackPanel>
+                                                </ScrollViewer>
+                                            </Expander>
+                                        </Grid>
                                         <!--  Column 2  -->
                                         <Expander
                                             x:Name="expanderListBox"
@@ -478,16 +715,8 @@
 
                                                                 <Button
                                                                     x:Name="popupCarsBtn"
-                                                                    Width="16"
-                                                                    Height="16"
-                                                                    Margin="1"
-                                                                    Padding="4"
-                                                                    HorizontalAlignment="Right"
-                                                                    VerticalAlignment="Top"
                                                                     Command="{Binding DataContext.OpenDriversCarsPopupCommand, RelativeSource={RelativeSource AncestorType=UserControl, AncestorLevel=1}}"
-                                                                    Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                                                                    ToolTipService.HasDropShadow="True"
-                                                                    ToolTipService.InitialShowDelay="100">
+                                                                    Style="{StaticResource InformButton}">
                                                                     <Rectangle
                                                                         Width="3"
                                                                         Height="7"

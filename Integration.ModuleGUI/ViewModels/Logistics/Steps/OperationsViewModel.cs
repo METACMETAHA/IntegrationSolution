@@ -44,8 +44,7 @@ namespace Integration.ModuleGUI.ViewModels
             get { return gridConfiguration; }
             set { SetProperty(ref gridConfiguration, value); }
         }
-
-
+        
         private SeriesCollection carMileageStatisticsSAP;
         public SeriesCollection CarMileageStatisticsSAP
         {
@@ -151,9 +150,48 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref selectedDriverChart, value); }
         }
 
-        public Func<double, string> Formatter { get; set; }
+        #region Total Drivers Statistics
+        public int? TotalTripsAtAll
+        {
+            get => ModuleData?.DriverCollection?.Sum(x => x.CountTrips);
+        }
+
+        public double? TotalMileageAtAll
+        {
+            get => Math.Round(ModuleData?.DriverCollection?.Sum(x => x.TotalMileage) ?? 0,2);
+        }
+
+        public double? TotalAvgMileagePerTripAtAll
+        {
+            get => Math.Round(ModuleData?.DriverCollection?.Average(x => x.AvarageMileagePerTrip) ?? 0, 2);
+        }
+
+        public double? TotalMinTripAtAll
+        {
+            get => Math.Round(ModuleData?.DriverCollection?.Min(x => x.MinTripMileage.Key) ?? 0, 2);
+        }
+
+        public double? TotalMaxTripAtAll
+        {
+            get => Math.Round(ModuleData?.DriverCollection?.Max(x => x.MaxTripMileage.Key) ?? 0, 2);
+        }
+        #endregion
+
         public ObservableCollection<string> Labels { get; set; }
-        public object Mapper { get; set; }
+
+        private Func<double, string> formatter;
+        public Func<double, string> Formatter
+        {
+            get { return formatter; }
+            set { SetProperty(ref formatter, value); }
+        }
+
+        private object mapper;
+        public object Mapper
+        {
+            get { return mapper; }
+            set { SetProperty(ref mapper, value); }
+        }
 
         // Collection with filter
         public ObservableCollection<Driver> DriversFilteredList
@@ -207,6 +245,7 @@ namespace Integration.ModuleGUI.ViewModels
             OnDriverChangedCmd = new DelegateCommand(OnDriverChanged);
             OpenDriversCarsPopupCommand = new DelegateCommand(OpenDriversCarsPopup);
             ShowDriversMainChartCommand = new DelegateCommand(ShowDriversMainChart);
+            ShowTotalCommand = new DelegateCommand<string>(ShowTotal);
 
             GridConfiguration = new GridConfiguration();
             
@@ -488,13 +527,19 @@ namespace Integration.ModuleGUI.ViewModels
                 var driver = chartPoint.Instance as Driver;
                 if (driver == null)
                     return;
-                
+
+                var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+                var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
+                var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+
                 msg.AppendLine($"Всего поездок за период:\t{driver.CountTrips}");
                 msg.AppendLine($"Использовано транспортных средств:\t{driver.CountCars}");
                 msg.AppendLine();
+                msg.AppendLine($"Всего километраж за период:\t{Math.Round((driver.TotalMileage), 2)} км");
                 msg.AppendLine($"Средний километраж за поездку:\t{Math.Round((driver.AvarageMileagePerTrip), 2)} км/поездка");
                 msg.AppendLine($"Самая длинная поездка:\t{driver.MaxTripMileage.Key} км\t({driver.MaxTripMileage.Value.ToShortDateString()})");
                 msg.AppendLine($"Самая коротка поездка:\t{driver.MinTripMileage.Key} км\t({driver.MinTripMileage.Value.ToShortDateString()})");
+                msg.AppendLine($"Показатель продуктивности:\t{driver.GetEffectivityPercent(avgMileage)}%");
                 msg.AppendLine();
                 msg.AppendLine();
                 msg.AppendLine("* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.");
@@ -510,11 +555,117 @@ namespace Integration.ModuleGUI.ViewModels
             this.IsDriversCarsPopupVisible = !IsDriversCarsPopupVisible;
         }
 
+
         public DelegateCommand ShowDriversMainChartCommand { get; private set; }
         private void ShowDriversMainChart()
         {
-            SelectedDriverChart = null;
+            SelectedDriverChart = null; //ModuleData.DriverCollection.First().
         }
+
+
+        public DelegateCommand<string> ShowTotalCommand { get; private set; }
+        protected async void ShowTotal(string TypeOfTotal)
+        {
+            if (string.IsNullOrWhiteSpace(TypeOfTotal))
+                return;
+            StringBuilder msg = new StringBuilder();
+            String Title = string.Empty;
+            List<Driver> drivers = null;
+
+            switch (TypeOfTotal)
+            {
+                case nameof(TotalMinTripAtAll):
+                    #region
+                    drivers = ModuleData.DriverCollection?.Where(x => Math.Abs(x.MinTripMileage.Key - TotalMinTripAtAll.Value) < 0.1)?.ToList();
+
+                    if (drivers == null || !drivers.Any())
+                        return;
+
+                    Title = $"Самая короткая поездка:\t{TotalMinTripAtAll} км";
+
+                    for (int i = 0; i < drivers.Count; i++)
+                    {
+                        msg.AppendLine($"{drivers[i]}\t\t{drivers[i].MinTripMileage.Value.ToShortDateString()}");
+                    }
+                    break;
+                #endregion
+
+                case nameof(TotalMaxTripAtAll):
+                    #region
+                    drivers = ModuleData.DriverCollection?.Where(x => Math.Abs(x.MaxTripMileage.Key - TotalMaxTripAtAll.Value) < 0.1)?.ToList();
+
+                    if (drivers == null || !drivers.Any())
+                        return;
+
+                    Title = $"Самая длинная поездка:\t{TotalMaxTripAtAll} км";
+
+                    for (int i = 0; i < drivers.Count; i++)
+                    {
+                        msg.AppendLine($"{drivers[i]}\t\t{drivers[i].MaxTripMileage.Value.ToShortDateString()}");
+                    }
+                    break;
+                #endregion
+                    
+                case nameof(TotalMileageAtAll):
+                    #region
+                    var max = ModuleData.DriverCollection?.Max(x => x.TotalMileage);
+                    drivers = ModuleData.DriverCollection?.Where(x => Math.Abs(x.TotalMileage - max.Value) < 0.1)?.ToList();
+
+                    if (drivers == null || !drivers.Any())
+                        return;
+
+                    Title = $"Самый большой километраж за период:\t{max} км";
+
+                    for (int i = 0; i < drivers.Count; i++)
+                    {
+                        msg.AppendLine($"{drivers[i]}\t\t Всего поездок: {drivers[i].CountTrips}");
+                    }
+                    break;
+                #endregion
+
+                case nameof(TotalAvgMileagePerTripAtAll):
+                    #region
+                    var avgMax = ModuleData.DriverCollection?.Max(x => x.AvarageMileagePerTrip);
+                    var avgMin = ModuleData.DriverCollection?.Min(x => x.AvarageMileagePerTrip);
+                    var driversMax = ModuleData.DriverCollection?.Where(x => Math.Abs(x.AvarageMileagePerTrip - avgMax.Value) < 0.1)?.ToList();
+                    var driversMin = ModuleData.DriverCollection?.Where(x => Math.Abs(x.AvarageMileagePerTrip - avgMin.Value) < 0.1)?.ToList();
+                    Title = "";
+                    if (driversMax != null && driversMax.Any())
+                    {
+                        Title = $"Самый большой средний километраж за поездку:\t{avgMax} км/поездка {Environment.NewLine}";
+
+                        for (int i = 0; i < driversMax.Count; i++)
+                        {
+                            msg.AppendLine($"Лидеры по среднему пробегу:");
+                            msg.AppendLine($"{driversMax[i]}\t\t Всего поездок: {driversMax[i].CountTrips} ({driversMax[i].TotalMileage} км)");
+                        }
+                    }
+
+                    if (driversMin != null && driversMin.Any())
+                    {
+                        Title += $"Самый малый средний километраж за поездку:\t{avgMin} км/поездка";
+
+                        msg.AppendLine();
+                        msg.AppendLine();
+                        msg.AppendLine($"Аутсайдеры по среднему пробегу:");
+
+                        for (int i = 0; i < driversMin.Count; i++)
+                        {                            
+                            msg.AppendLine($"{driversMin[i]}\t\t Всего поездок: {driversMin[i].CountTrips} ({driversMin[i].TotalMileage} км)");
+                        }
+                    }
+
+                    if (string.IsNullOrWhiteSpace(Title))
+                        return;
+                    break;
+                #endregion
+
+                default:
+                    return;
+            }
+            await _dialogManager.ShowMessageBox(Title, msg.ToString());
+        }
+
 
         public DelegateCommand OnDriverChangedCmd { get; private set; }
         [STAThreadAttribute]
@@ -687,7 +838,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                 SelectedIndexDriversMainCharts = 0;
                 RaisePropertyChanged(nameof(DriversFilteredList));
-
+                UpdateTotalStatistics();
             });
         }
 
@@ -714,7 +865,7 @@ namespace Integration.ModuleGUI.ViewModels
         }
 
 
-        private void SetDriversMainChartDataBySelectedTypeChart(int index, string searchField)
+        private void SetDriversMainChartDataBySelectedTypeChart(int index, string search_Field)
         {
             int CountTake = 20;
 
@@ -732,30 +883,33 @@ namespace Integration.ModuleGUI.ViewModels
                 return;
             }
 
-            string search = (searchField ?? string.Empty).ToLower();
+            string search = (search_Field ?? string.Empty).ToLower();
             Driver[] records = new Driver[0];
 
             // Indexes from DriversMainCharts field
             switch (index)
             {
-                case 1:
-                    /////////////////////////////
-                    //var countTripsAtAll = ModuleData.DriverCollection.Select(x => x.AvarageMileagePerTrip).Average(); // общее значение среднего по выездам => отобразить где-то
-                    /////////////////////////////
-                    ///
+                case 1:                    
+                    // getting the average scale of CountTrips between all drivers (clip 50% of trips) - Left border of min trips
                     var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
 
+                    // getting the average scale of CountTrips between second part of drivers (clip 75% of clips)
+                    // cut off not drivers - change left border of min trips
+                    var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average()*0.65);
+
+                    var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+
                     records = ModuleData.DriverCollection
-                        .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgTripsAtAll)
-                        .OrderByDescending(x => x.AvarageMileagePerTrip)
+                        .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgDriversTrips)
+                        .OrderByDescending(x => x.GetEffectivityPercent(avgMileage)) //x.TotalMileage/avgMileage
                         .Take(CountTake).ToArray();
 
                     UpdateChartData(records);
 
-                    Formatter = val => (val).ToString() + " км (сред.)";
+                    Formatter = val => (Math.Round(val,2)).ToString() + " %";
                     Mapper = Mappers.Xy<Driver>()
                 .X((driver, ind) => ind)
-                .Y(driver => driver.AvarageMileagePerTrip);
+                .Y(driver => Math.Round(driver.GetEffectivityPercent(avgMileage), 2)); //driver.TotalMileage/avgMileage
 
                     break;
 
@@ -767,11 +921,10 @@ namespace Integration.ModuleGUI.ViewModels
 
                     UpdateChartData(records);
 
-                    Formatter = val => (val).ToString() + " км";
+                    Formatter = val => (Math.Round(val, 2)).ToString() + " км/поездка";
                     Mapper = Mappers.Xy<Driver>()
                 .X((driver, ind) => ind)
-                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
-
+                .Y(driver => driver.AvarageMileagePerTrip);
                     break;
 
                 case 3:
@@ -782,10 +935,10 @@ namespace Integration.ModuleGUI.ViewModels
 
                     UpdateChartData(records);
 
-                    Formatter = val => (val).ToString() + " км";
+                    Formatter = val => (val).ToString() + " поездок";
                     Mapper = Mappers.Xy<Driver>()
                 .X((driver, ind) => ind)
-                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+                .Y(driver => driver.CountTrips);
 
                     break;
 
@@ -797,10 +950,10 @@ namespace Integration.ModuleGUI.ViewModels
 
                     UpdateChartData(records);
 
-                    Formatter = val => (val).ToString() + " км";
+                    Formatter = val => (Math.Round(val, 2)).ToString() + " км";
                     Mapper = Mappers.Xy<Driver>()
                 .X((driver, ind) => ind)
-                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+                .Y(driver => driver.MaxTripMileage.Key);
 
                     break;
 
@@ -812,10 +965,10 @@ namespace Integration.ModuleGUI.ViewModels
 
                     UpdateChartData(records);
 
-                    Formatter = val => (val).ToString() + " км";
+                    Formatter = val => (Math.Round(val, 2)).ToString() + " км";
                     Mapper = Mappers.Xy<Driver>()
                 .X((driver, ind) => ind)
-                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+                .Y(driver => driver.MinTripMileage.Key);
 
                     break;
 
@@ -848,6 +1001,14 @@ namespace Integration.ModuleGUI.ViewModels
             foreach (var x in records) Labels.Add($"{x.LastName} {x.FirstName}.");
         }
 
+        private void UpdateTotalStatistics()
+        {
+            RaisePropertyChanged(nameof(TotalMileageAtAll));
+            RaisePropertyChanged(nameof(TotalTripsAtAll));
+            RaisePropertyChanged(nameof(TotalAvgMileagePerTripAtAll));
+            RaisePropertyChanged(nameof(TotalMaxTripAtAll));
+            RaisePropertyChanged(nameof(TotalMinTripAtAll));
+        }
 
         private async Task<IEnumerable<T>> GetVehicleInfos<T>(
             ProgressDialogController progress, DatesFromToContext context) where T : IntegratedVehicleInfo
