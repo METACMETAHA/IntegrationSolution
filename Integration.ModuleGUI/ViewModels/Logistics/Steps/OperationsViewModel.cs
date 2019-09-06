@@ -58,21 +58,21 @@ namespace Integration.ModuleGUI.ViewModels
             get { return gridConfiguration; }
             set { SetProperty(ref gridConfiguration, value); }
         }
-        
+
         private SeriesCollection carMileageStatisticsSAP;
         public SeriesCollection CarMileageStatisticsSAP
         {
             get { return carMileageStatisticsSAP; }
             set { SetProperty(ref carMileageStatisticsSAP, value); }
         }
-        
+
         private SeriesCollection carAverageMileageByTripStatisticsSAP;
         public SeriesCollection CarAverageMileageByTripStatisticsSAP
         {
             get { return carAverageMileageByTripStatisticsSAP; }
             set { SetProperty(ref carAverageMileageByTripStatisticsSAP, value); }
         }
-        
+
         private ObservableCollection<IVehicleSAP> _commonCars;
         public ObservableCollection<IVehicleSAP> CommonCars
         {
@@ -131,7 +131,7 @@ namespace Integration.ModuleGUI.ViewModels
             {
                 if (searchChartField == value)
                     return;
-                
+
                 SetProperty(ref searchChartField, value);
                 SetDriversMainChartDataBySelectedTypeChart(SelectedIndexDriversMainCharts, value);
             }
@@ -153,7 +153,7 @@ namespace Integration.ModuleGUI.ViewModels
             set
             {
                 SetProperty(ref selectedIndexDriversMainCharts, value);
-                SetDriversMainChartDataBySelectedTypeChart(value, SearchChartField);         
+                SetDriversMainChartDataBySelectedTypeChart(value, SearchChartField);
             }
         }
 
@@ -187,7 +187,7 @@ namespace Integration.ModuleGUI.ViewModels
 
         public double? TotalMileageAtAll
         {
-            get => Math.Round(ModuleData?.DriverCollection?.Sum(x => x.TotalMileage) ?? 0,2);
+            get => Math.Round(ModuleData?.DriverCollection?.Sum(x => x.TotalMileage) ?? 0, 2);
         }
 
         public double? TotalAvgMileagePerTripAtAll
@@ -266,7 +266,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                     dataList = ModuleData.DriverCollection?
                         .Where(x => x.LastName.ToLower().Contains(search) || x.FirstName.ToLower().Contains(search)
-                        || x.Patronymic.ToLower().Contains(search) || x.UnitNumber.ToLower().Contains(search));                    
+                        || x.Patronymic.ToLower().Contains(search) || x.UnitNumber.ToLower().Contains(search));
                 }
                 if (IsShowOnlyDrivers == true)
                 {
@@ -280,7 +280,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                 if (dataList == null)
                     return new ObservableCollection<Driver>();
-                
+
                 return new ObservableCollection<Driver>(dataList.OrderByDescending(x => x.CountTrips));
             }
         }
@@ -310,7 +310,7 @@ namespace Integration.ModuleGUI.ViewModels
             UpdateFilterDriversCommand = new DelegateCommand(UpdateFilterDrivers);
 
             GridConfiguration = new GridConfiguration();
-            
+
             _dialogManager = dialogManager;
         }
         #endregion
@@ -565,49 +565,54 @@ namespace Integration.ModuleGUI.ViewModels
         protected async void ClickDataCmd(ChartPoint chartPoint)
         {
             StringBuilder msg = new StringBuilder();
-
-            var car = ModuleData.Vehicles.Where(x => chartPoint.SeriesView.Title.Contains(x.StateNumber)).FirstOrDefault();
-            if (car != null)
+            try
             {
-                if (!string.IsNullOrWhiteSpace(car.Department))
-                    msg.AppendLine($"Служба/отдел:\t{car.Department}");
 
-                if (!string.IsNullOrWhiteSpace(car.StructureName))
-                    msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
-
-                if (car.TripResulted != null)
+                var car = ModuleData.Vehicles.Where(x => chartPoint.SeriesView.Title.Contains(x.StateNumber)).FirstOrDefault();
+                if (car != null)
                 {
-                    msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
-                    msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
-                    msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage / car.CountTrips.Value), 2)} км/поездка");
+                    if (!string.IsNullOrWhiteSpace(car.Department))
+                        msg.AppendLine($"Служба/отдел:\t{car.Department}");
+
+                    if (!string.IsNullOrWhiteSpace(car.StructureName))
+                        msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
+
+                    if (car.TripResulted != null)
+                    {
+                        msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
+                        msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
+                        msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage / car.CountTrips.Value), 2)} км/поездка");
+                    }
+
+                    await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
                 }
+                else
+                {
+                    var driver = chartPoint.Instance as Driver;
+                    if (driver == null)
+                        return;
 
-                await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
+                    var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+                    var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips >= avgTripsAtAll)?.Select(x => x.CountTrips).Average() * 0.65);
+                    var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+
+                    msg.AppendLine($"Всего поездок за период:\t{driver.CountTrips}");
+                    msg.AppendLine($"Использовано транспортных средств:\t{driver.CountCars}");
+                    msg.AppendLine();
+                    msg.AppendLine($"Всего километраж за период:\t{Math.Round((driver.TotalMileage), 2)} км");
+                    msg.AppendLine($"Средний километраж за поездку:\t{Math.Round((driver.AvarageMileagePerTrip), 2)} км/поездка");
+                    msg.AppendLine($"Самая длинная поездка:\t{driver.MaxTripMileage.Key} км\t({driver.MaxTripMileage.Value.ToShortDateString()})");
+                    msg.AppendLine($"Самая коротка поездка:\t{driver.MinTripMileage.Key} км\t({driver.MinTripMileage.Value.ToShortDateString()})");
+                    msg.AppendLine($"Показатель продуктивности:\t{driver.GetEffectivityPercent(avgMileage)}%");
+                    msg.AppendLine();
+                    msg.AppendLine();
+                    msg.AppendLine("* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.");
+
+                    await _dialogManager.ShowMessageBox($"{driver.ToString()}\t({driver.UnitNumber})", msg.ToString());
+                }
             }
-            else
-            {
-                var driver = chartPoint.Instance as Driver;
-                if (driver == null)
-                    return;
-
-                var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
-                var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
-                var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
-
-                msg.AppendLine($"Всего поездок за период:\t{driver.CountTrips}");
-                msg.AppendLine($"Использовано транспортных средств:\t{driver.CountCars}");
-                msg.AppendLine();
-                msg.AppendLine($"Всего километраж за период:\t{Math.Round((driver.TotalMileage), 2)} км");
-                msg.AppendLine($"Средний километраж за поездку:\t{Math.Round((driver.AvarageMileagePerTrip), 2)} км/поездка");
-                msg.AppendLine($"Самая длинная поездка:\t{driver.MaxTripMileage.Key} км\t({driver.MaxTripMileage.Value.ToShortDateString()})");
-                msg.AppendLine($"Самая коротка поездка:\t{driver.MinTripMileage.Key} км\t({driver.MinTripMileage.Value.ToShortDateString()})");
-                msg.AppendLine($"Показатель продуктивности:\t{driver.GetEffectivityPercent(avgMileage)}%");
-                msg.AppendLine();
-                msg.AppendLine();
-                msg.AppendLine("* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.");
-
-                await _dialogManager.ShowMessageBox($"{driver.ToString()}\t({driver.UnitNumber})", msg.ToString());
-            }            
+            catch (Exception)
+            { }
         }
 
 
@@ -667,7 +672,7 @@ namespace Integration.ModuleGUI.ViewModels
                     }
                     break;
                 #endregion
-                    
+
                 case nameof(TotalMileageAtAll):
                     #region
                     var max = ModuleData.DriverCollection?.Max(x => x.TotalMileage);
@@ -712,7 +717,7 @@ namespace Integration.ModuleGUI.ViewModels
                         msg.AppendLine($"Аутсайдеры по среднему пробегу:");
 
                         for (int i = 0; i < driversMin.Count; i++)
-                        {                            
+                        {
                             msg.AppendLine($"{driversMin[i]}\t\t Всего поездок: {driversMin[i].CountTrips} ({driversMin[i].TotalMileage} км)");
                         }
                     }
@@ -738,7 +743,8 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (SelectedDriverChart.HistoryDrive != null)
             {
-                await Task.Run(() => {
+                await Task.Run(() =>
+                {
                     PredictionDriversChartContext = new PredictionChartViewModel(
                         PrepareData(SelectedDriverChart.HistoryDrive.SelectMany(x => x.Value)))
                     { Title = "График водителя" };
@@ -820,7 +826,7 @@ namespace Integration.ModuleGUI.ViewModels
                 CarMileageStatisticsSAP = InitializeChartsData(MileageStatisticsSAP
                     , ChartDefinition.CarMileageStatisticsSAP
                     , chartPoint => string.Format("{0} км", chartPoint.Y));
-                
+
                 CarAverageMileageByTripStatisticsSAP = InitializeChartsData(AverageMileageByTripStatisticsSAP
                     , ChartDefinition.CarAverageMileageByTripStatisticsSAP
                     , chartPoint => string.Format("{0} км", chartPoint.Y));
@@ -871,7 +877,7 @@ namespace Integration.ModuleGUI.ViewModels
         private SeriesCollection InitializeChartsData(IEnumerable<TripSAP> trips, Func<ChartPoint, string> Label)
         {
             SeriesCollection data = new SeriesCollection();
-            
+
             foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek))
                               .OfType<DayOfWeek>()
                               .ToList())
@@ -882,7 +888,7 @@ namespace Integration.ModuleGUI.ViewModels
                 if (!common.Any())
                     continue;
 
-                ChartValues<double> vals = new ChartValues<double>(new[] 
+                ChartValues<double> vals = new ChartValues<double>(new[]
                 {
                     Math.Round(common?.Sum(x => x.TotalMileage) ?? 0, 2)
                 });
@@ -905,7 +911,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             if (vehicles == null || !vehicles.Any())
                 return;
-            
+
             await Task.Run(() =>
             {
                 var drivers_trips = ModuleData.Vehicles?.Where(x => x.Trips != null)?.SelectMany(x => x.Trips)
@@ -1032,7 +1038,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                     UpdateChartData(records);
 
-                    Formatter = val => (Math.Round(val,2)).ToString() + " %";
+                    Formatter = val => (Math.Round(val, 2)).ToString() + " %";
                     Mapper = Mappers.Xy<Driver>()
                 .X((driver, ind) => ind)
                 .Y(driver => Math.Round(driver.GetEffectivityPercent(avgMileage), 2)); //driver.TotalMileage/avgMileage
@@ -1135,10 +1141,10 @@ namespace Integration.ModuleGUI.ViewModels
                     break;
             }
 
-            
+
             RaisePropertyChanged(nameof(DriversStatisticsSAP));
         }
-        
+
 
         private void UpdateChartData(Driver[] records)
         {
@@ -1188,14 +1194,18 @@ namespace Integration.ModuleGUI.ViewModels
 
                 if (element == null)
                 {
-                    if(datesDict.Count() == 1)
+                    if (datesDict.Count() == 1)
                         resultedCollection["SAP"].Add(new DateTimePoint() { Value = double.NaN, DateTime = currentDate });
                     return resultedCollection;
                 }
                 if (element.Key.Date.Equals(currentDate.Date))
                 {
-                    resultedCollection["SAP"].Add(new DateTimePoint() { Value = element.Sum(x => x.TotalMileage)
-                        , DateTime = element.Key });
+                    resultedCollection["SAP"].Add(new DateTimePoint()
+                    {
+                        Value = element.Sum(x => x.TotalMileage)
+                        ,
+                        DateTime = element.Key
+                    });
 
                     i++;
                 }
@@ -1250,7 +1260,7 @@ namespace Integration.ModuleGUI.ViewModels
                         {
                             if (!context.IsWithDetails)
                                 tripWialon = _wialonContext.GetCarInfo(vehicle.ID,
-                                    context.FromDate, 
+                                    context.FromDate,
                                     new DateTime(context.ToDate.Year, context.ToDate.Month, context.ToDate.Day,
                                     23, 59, 59));
                             else

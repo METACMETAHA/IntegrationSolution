@@ -486,7 +486,6 @@
                                                     TextAlignment="Center"
                                                     TextWrapping="WrapWithOverflow" />
                                                 <charts:PieChart
-                                                    Height="{Binding ElementName=listBoxCars, Path=ActualHeight}"
                                                     MaxWidth="410"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
