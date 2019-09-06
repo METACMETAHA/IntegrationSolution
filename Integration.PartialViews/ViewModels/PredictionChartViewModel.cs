@@ -17,8 +17,17 @@ namespace Integration.PartialViews.ViewModels
 {
     public class PredictionChartViewModel : ChartsVMBase
     {
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
+        }
+
+
         public PredictionChartViewModel()
         {
+            Title = "График пробега по системам";
             OnPreviewMouseDown = new DelegateCommand(OnPreviewMouseDownCmd);
         }
 

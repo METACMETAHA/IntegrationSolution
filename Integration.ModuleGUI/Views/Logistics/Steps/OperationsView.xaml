@@ -278,6 +278,7 @@
                                                 ScrollViewer.CanContentScroll="True" />
                                         </Grid.ColumnDefinitions>
 
+                                        <!--  Main chart  -->
                                         <StackPanel>
                                             <StackPanel.Style>
                                                 <Style TargetType="{x:Type StackPanel}">
@@ -425,6 +426,26 @@
                                             </charts:CartesianChart>
                                         </StackPanel>
 
+                                        <!--  Personal driver`s chart  -->
+                                        <Grid>
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedDriverChart}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <partialViews:PredictionChartView
+                                                Margin="15,0,0,0"
+                                                DataContext="{Binding PredictionDriversChartContext}"
+                                                ScrollViewer.CanContentScroll="True" />
+                                        </Grid>
+
+                                        <!--  Total statistics  -->
                                         <Grid Grid.Column="1">
                                             <Grid.Style>
                                                 <Style TargetType="{x:Type Grid}">
@@ -544,6 +565,138 @@
                                                 </ScrollViewer>
                                             </Expander>
                                         </Grid>
+
+                                        <!--  Personal statistics  -->
+                                        <Grid Grid.Column="1">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedDriverChart}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <Expander
+                                                Height="{Binding ElementName=expanderListBox, Path=Height}"
+                                                MaxWidth="250"
+                                                Margin="3,0,0,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                ExpandDirection="Right"
+                                                IsExpanded="True"
+                                                ScrollViewer.CanContentScroll="True"
+                                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                SnapsToDevicePixels="True">
+                                                <Expander.Header>
+                                                    <TextBlock
+                                                        Height="21"
+                                                        FontSize="18"
+                                                        FontStretch="SemiExpanded"
+                                                        FontWeight="Light"
+                                                        Foreground="Black"
+                                                        Text="Статистика">
+                                                        <TextBlock.LayoutTransform>
+                                                            <RotateTransform Angle="90" />
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Expander.Header>
+
+                                                <ScrollViewer
+                                                    Grid.Column="1"
+                                                    MaxWidth="250"
+                                                    Margin="3,0,0,0"
+                                                    CanContentScroll="True"
+                                                    HorizontalScrollBarVisibility="Auto"
+                                                    VerticalScrollBarVisibility="Auto">
+
+                                                    <StackPanel Width="200">
+
+                                                        <GroupBox Margin="2,10" Header="Всего поездок">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding SelectedDriverChart.CountTrips, FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center"
+                                                                    ToolTip="{Binding SelectedDriverChart.CountTrips, FallbackValue='-', TargetNullValue='-'}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                        <GroupBox Margin="2,10" Header="Общий километраж">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding SelectedDriverChart.TotalMileage, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center"
+                                                                    ToolTip="{Binding SelectedDriverChart.TotalMileage, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}" />
+
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalMileageAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+                                                        <GroupBox Margin="2,10" Header="Средний км за поездку">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding SelectedDriverChart.AvarageMileagePerTrip, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding SelectedDriverChart.AvarageMileagePerTrip, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
+
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalAvgMileagePerTripAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                        <GroupBox Margin="2,10" Header="Самая длинная поездка">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding SelectedDriverChart.MaxTripMileage.Key, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding SelectedDriverChart.MaxTripMileage.Value, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="dd/MM/yyyy" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalMaxTripAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                        <GroupBox Margin="2,10" Header="Самая короткая поездка">
+                                                            <Grid>
+                                                                <TextBlock
+                                                                    FontSize="18"
+                                                                    Text="{Binding SelectedDriverChart.MinTripMileage.Key, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding SelectedDriverChart.MinTripMileage.Value, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="dd/MM/yyyy" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
+
+                                                                <Button
+                                                                    Command="{Binding ShowTotalCommand}"
+                                                                    CommandParameter="TotalMinTripAtAll"
+                                                                    Style="{StaticResource InformButton}" />
+                                                            </Grid>
+                                                        </GroupBox>
+
+                                                    </StackPanel>
+                                                </ScrollViewer>
+                                            </Expander>
+                                        </Grid>
+
                                         <!--  Column 2  -->
                                         <Expander
                                             x:Name="expanderListBox"
@@ -640,7 +793,7 @@
                                                     VerticalAlignment="Top"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Center"
-                                                    Badge="{Binding ModuleData.DriverCollection.Count, FallbackValue=0, TargetNullValue=0}">
+                                                    Badge="{Binding DriversFilteredList.Count, FallbackValue=0, TargetNullValue=0}">
                                                     <Controls:Badged.ToolTip>
                                                         <Border Padding="15,5">
                                                             <TextBlock FontSize="12" Text="{Binding ModuleData.DriverCollection.Count, StringFormat='Количество водителей по путевым листам: {0}'}" />
@@ -783,13 +936,9 @@
                                                             Background="Transparent"
                                                             Orientation="Vertical">
                                                             <ToggleButton
-                                                                Command="{Binding}"
-                                                                Content="Скрыть ТС без пробега"
-                                                                IsChecked="false" />
-                                                            <ToggleButton
-                                                                Command="{Binding}"
-                                                                Content="Отобразить только ТС с нарушениями"
-                                                                IsChecked="False" />
+                                                                Command="{Binding UpdateFilterDriversCommand}"
+                                                                Content="Отобрать потенциальных водителей"
+                                                                IsChecked="{Binding IsShowOnlyDrivers}" />
                                                         </StackPanel>
                                                     </Border>
                                                 </Popup>

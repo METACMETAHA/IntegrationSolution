@@ -1,8 +1,10 @@
 ﻿using DialogConstruction.Interfaces;
 using Integration.ModuleGUI.Models;
+using Integration.PartialViews.ViewModels;
 using IntegrationSolution.Common.Enums;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.Models;
+using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.Implementations;
 using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
@@ -10,6 +12,7 @@ using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
 using LiveCharts;
 using LiveCharts.Configurations;
+using LiveCharts.Defaults;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using MahApps.Metro.Controls;
@@ -143,6 +146,13 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref driversStatisticsSAP, value); }
         }
 
+        private ChartsVMBase predictionDriversChartContext;
+        public ChartsVMBase PredictionDriversChartContext
+        {
+            get { return predictionDriversChartContext; }
+            set { SetProperty(ref predictionDriversChartContext, value); }
+        }
+
         private Driver selectedDriverChart;
         public Driver SelectedDriverChart
         {
@@ -193,6 +203,16 @@ namespace Integration.ModuleGUI.ViewModels
             set { SetProperty(ref mapper, value); }
         }
 
+
+        #region Filters for driver list
+        private bool isShowOnlyDrivers;
+        public bool IsShowOnlyDrivers
+        {
+            get { return isShowOnlyDrivers; }
+            set { SetProperty(ref isShowOnlyDrivers, value); }
+        }
+        #endregion
+
         // Collection with filter
         public ObservableCollection<Driver> DriversFilteredList
         {
@@ -207,20 +227,22 @@ namespace Integration.ModuleGUI.ViewModels
 
                     dataList = ModuleData.DriverCollection?
                         .Where(x => x.LastName.ToLower().Contains(search) || x.FirstName.ToLower().Contains(search)
-                        || x.Patronymic.ToLower().Contains(search) || x.UnitNumber.ToLower().Contains(search));
-                    /*x.HistoryDrive.Keys.Select(key => key.StateNumber.Contains(SearchField)*/
-                    
+                        || x.Patronymic.ToLower().Contains(search) || x.UnitNumber.ToLower().Contains(search));                    
                 }
-                //if (IsHideNullMileageCars == true)
-                //    dataList = dataList?.Where(x => x.PercentDifference != null)?.ToList();
+                if (IsShowOnlyDrivers == true)
+                {
+                    var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+                    var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
+                    dataList = dataList?.Where(x => x.CountTrips >= avgDriversTrips)?.ToList();
+                }
 
                 //if (IsShowOnlyViolationsCars == true)
                 //    dataList = dataList?.Where(x => x.CountSpeedViolations > 0)?.ToList();
 
                 if (dataList == null)
                     return new ObservableCollection<Driver>();
-
-                return new ObservableCollection<Driver>(dataList);
+                
+                return new ObservableCollection<Driver>(dataList.OrderByDescending(x => x.CountTrips));
             }
         }
         #endregion
@@ -246,6 +268,7 @@ namespace Integration.ModuleGUI.ViewModels
             OpenDriversCarsPopupCommand = new DelegateCommand(OpenDriversCarsPopup);
             ShowDriversMainChartCommand = new DelegateCommand(ShowDriversMainChart);
             ShowTotalCommand = new DelegateCommand<string>(ShowTotal);
+            UpdateFilterDriversCommand = new DelegateCommand(UpdateFilterDrivers);
 
             GridConfiguration = new GridConfiguration();
             
@@ -677,9 +700,18 @@ namespace Integration.ModuleGUI.ViewModels
             if (SelectedDriverChart.HistoryDrive != null)
             {
                 await Task.Run(() => {
-                   // SelectedDriverChart.HistoryDrive.Values.Count
+                    PredictionDriversChartContext = new PredictionChartViewModel(
+                        PrepareData(SelectedDriverChart.HistoryDrive.SelectMany(x => x.Value)))
+                    { Title = "График водителя" };
                 });
             }
+        }
+
+
+        public DelegateCommand UpdateFilterDriversCommand { get; private set; }
+        private void UpdateFilterDrivers()
+        {
+            RaisePropertyChanged(nameof(DriversFilteredList));
         }
         #endregion
 
@@ -1008,6 +1040,56 @@ namespace Integration.ModuleGUI.ViewModels
             RaisePropertyChanged(nameof(TotalAvgMileagePerTripAtAll));
             RaisePropertyChanged(nameof(TotalMaxTripAtAll));
             RaisePropertyChanged(nameof(TotalMinTripAtAll));
+        }
+
+        private Dictionary<string, List<DateTimePoint>> PrepareData(IEnumerable<TripSAP> trips)
+        {
+            if (trips == null || !trips.Any())
+                return null;
+
+            trips = trips.OrderBy(x => x.DepartureFromGarageDate.Date);
+
+            var datesDict = trips.ToLookup(x => x.DepartureFromGarageDate.Date);
+            Dictionary<string, List<DateTimePoint>> resultedCollection = new Dictionary<string, List<DateTimePoint>>()
+            {
+                { "SAP", new List<DateTimePoint>() }
+            };
+
+            var startDate = trips.FirstOrDefault()?.DepartureFromGarageDate.Date;
+            if (startDate == null)
+                return resultedCollection;
+
+            var endDate = trips.LastOrDefault()?.DepartureFromGarageDate.Date;
+            if (endDate == null)
+                return resultedCollection;
+
+            var currentDate = startDate.Value;
+
+            for (int i = 0; currentDate <= endDate.Value.AddDays(1);)
+            {
+                var element = datesDict.ElementAtOrDefault(i);
+
+                if (element == null)
+                {
+                    if(datesDict.Count() == 1)
+                        resultedCollection["SAP"].Add(new DateTimePoint() { Value = double.NaN, DateTime = currentDate });
+                    return resultedCollection;
+                }
+                if (element.Key.Date.Equals(currentDate.Date))
+                {
+                    resultedCollection["SAP"].Add(new DateTimePoint() { Value = element.Sum(x => x.TotalMileage)
+                        , DateTime = element.Key });
+
+                    i++;
+                }
+                else
+                {
+                    resultedCollection["SAP"].Add(new DateTimePoint() { Value = double.NaN, DateTime = currentDate });
+                }
+
+                currentDate = currentDate.AddDays(1);
+            }
+            return resultedCollection;
         }
 
         private async Task<IEnumerable<T>> GetVehicleInfos<T>(

@@ -65,7 +65,7 @@ namespace IntegrationSolution.Entities.Implementations
                 foreach (var item in HistoryDrive)
                     avg.Add(item.Value.Average(x => x.TotalMileage));
 
-                return avg.Average();
+                return Math.Round(avg.Average(), 2);
             }
         }
 
