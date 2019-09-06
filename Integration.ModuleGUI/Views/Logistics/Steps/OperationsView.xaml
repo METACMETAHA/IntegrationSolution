@@ -301,10 +301,22 @@
                                                     MinWidth="150"
                                                     Margin="13"
                                                     Padding="5,2"
-                                                    Controls:TextBoxHelper.ClearTextButton="True"
-                                                    Controls:TextBoxHelper.Watermark="Поиск на графике..."
-                                                    FontSize="13"
-                                                    Text="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
+                                                    FontSize="13">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.Watermark" Value="Поиск на графике..." />
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                            <Setter Property="Text" Value="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsAccessFilterFromListBox}" Value="True">
+                                                                    <Setter Property="IsEnabled" Value="False" />
+                                                                    <Setter Property="Text" Value="" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
 
                                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                                                     <Controls:SplitButton
@@ -398,6 +410,24 @@
                                                             </Rectangle.OpacityMask>
                                                         </Rectangle>
                                                     </Button>
+
+                                                    <ToggleButton
+                                                        Width="{Binding ElementName=chartsType, Path=ActualHeight}"
+                                                        Height="{Binding ElementName=chartsType, Path=ActualHeight}"
+                                                        Margin="2,0"
+                                                        IsChecked="{Binding IsAccessFilterFromListBox}"
+                                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
+                                                        ToolTip="Применить фильтрацию из списка">
+                                                        <Rectangle
+                                                            Width="15"
+                                                            Height="15"
+                                                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </ToggleButton>
+
                                                 </StackPanel>
                                             </Grid>
                                             <charts:CartesianChart
@@ -428,6 +458,10 @@
 
                                         <!--  Personal driver`s chart  -->
                                         <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
                                             <Grid.Style>
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Visible" />
@@ -443,6 +477,34 @@
                                                 Margin="15,0,0,0"
                                                 DataContext="{Binding PredictionDriversChartContext}"
                                                 ScrollViewer.CanContentScroll="True" />
+
+                                            <StackPanel Grid.Column="1" Margin="15,10">
+                                                <TextBlock
+                                                    Margin="10"
+                                                    Style="{DynamicResource NormalHeaderWithEffect}"
+                                                    Text="Рабочие дни"
+                                                    TextAlignment="Center"
+                                                    TextWrapping="WrapWithOverflow" />
+                                                <charts:PieChart
+                                                    Height="{Binding ElementName=listBoxCars, Path=ActualHeight}"
+                                                    MaxWidth="410"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    LegendLocation="Bottom"
+                                                    Series="{Binding DriverWorkingDays}">
+                                                    <charts:PieChart.DataTooltip>
+                                                        <charts:DefaultTooltip
+                                                            BulletSize="25"
+                                                            FontSize="13"
+                                                            IsWrapped="False"
+                                                            SelectionMode="OnlySender" />
+                                                    </charts:PieChart.DataTooltip>
+                                                    <charts:PieChart.ChartLegend>
+                                                        <charts:DefaultLegend BulletSize="25" />
+                                                    </charts:PieChart.ChartLegend>
+                                                </charts:PieChart>
+                                            </StackPanel>
+
                                         </Grid>
 
                                         <!--  Total statistics  -->
@@ -508,8 +570,11 @@
                                                                 <TextBlock
                                                                     FontSize="18"
                                                                     Text="{Binding TotalMileageAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
-                                                                    TextAlignment="Center"
-                                                                    ToolTip="{Binding TotalMileageAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding TotalMileageAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
 
                                                                 <Button
                                                                     Command="{Binding ShowTotalCommand}"
@@ -522,8 +587,11 @@
                                                                 <TextBlock
                                                                     FontSize="18"
                                                                     Text="{Binding TotalAvgMileagePerTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}"
-                                                                    TextAlignment="Center"
-                                                                    ToolTip="{Binding TotalAvgMileagePerTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding TotalAvgMileagePerTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
 
                                                                 <Button
                                                                     Command="{Binding ShowTotalCommand}"
@@ -537,8 +605,11 @@
                                                                 <TextBlock
                                                                     FontSize="18"
                                                                     Text="{Binding TotalMaxTripAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
-                                                                    TextAlignment="Center"
-                                                                    ToolTip="{Binding TotalMaxTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding TotalMaxTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
                                                                 <Button
                                                                     Command="{Binding ShowTotalCommand}"
                                                                     CommandParameter="TotalMaxTripAtAll"
@@ -551,8 +622,11 @@
                                                                 <TextBlock
                                                                     FontSize="18"
                                                                     Text="{Binding TotalMinTripAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
-                                                                    TextAlignment="Center"
-                                                                    ToolTip="{Binding TotalMinTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding TotalMinTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
 
                                                                 <Button
                                                                     Command="{Binding ShowTotalCommand}"
@@ -630,8 +704,11 @@
                                                                 <TextBlock
                                                                     FontSize="18"
                                                                     Text="{Binding SelectedDriverChart.TotalMileage, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
-                                                                    TextAlignment="Center"
-                                                                    ToolTip="{Binding SelectedDriverChart.TotalMileage, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    TextAlignment="Center">
+                                                                    <TextBlock.ToolTip>
+                                                                        <ToolTip Content="{Binding SelectedDriverChart.TotalMileage, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="км" />
+                                                                    </TextBlock.ToolTip>
+                                                                </TextBlock>
 
                                                                 <Button
                                                                     Command="{Binding ShowTotalCommand}"

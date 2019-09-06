@@ -38,6 +38,17 @@ namespace Integration.ModuleGUI.ViewModels
         CarAverageMileageByTripStatisticsSAP
     }
 
+    public enum DayOfWeek
+    {
+        Monday = 1,
+        Tuesday = 2,
+        Wednesday = 3,
+        Thursday = 4,
+        Friday = 5,
+        Saturday = 6,
+        Sunday = 7,
+    }
+
     public class OperationsViewModel : VMLocalBase
     {
         #region Variables
@@ -69,7 +80,13 @@ namespace Integration.ModuleGUI.ViewModels
             set { _commonCars = value; }
         }
 
-        
+        private SeriesCollection driverWorkingDays;
+        public SeriesCollection DriverWorkingDays
+        {
+            get { return driverWorkingDays; }
+            set { SetProperty(ref driverWorkingDays, value); }
+        }
+
         private bool isExpanderWithDriversVisible;
         public bool IsExpanderWithDriversVisible
         {
@@ -102,6 +119,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                 SetProperty(ref searchField, value);
                 RaisePropertyChanged(nameof(DriversFilteredList));
+                IsAccessFilterFromListBox = IsAccessFilterFromListBox;
             }
         }
 
@@ -139,6 +157,7 @@ namespace Integration.ModuleGUI.ViewModels
             }
         }
 
+        // MAIN CHART
         private ChartValues<Driver> driversStatisticsSAP;
         public ChartValues<Driver> DriversStatisticsSAP
         {
@@ -213,7 +232,27 @@ namespace Integration.ModuleGUI.ViewModels
         }
         #endregion
 
-        // Collection with filter
+
+        private bool isAccessFilterFromListBox;
+        public bool IsAccessFilterFromListBox
+        {
+            get { return isAccessFilterFromListBox; }
+            set
+            {
+                SetProperty(ref isAccessFilterFromListBox, value);
+                if (value)
+                {
+                    SetDriversMainChartDataBySelectedTypeChart(SelectedIndexDriversMainCharts, SearchField);
+                }
+                else
+                {
+                    SetDriversMainChartDataBySelectedTypeChart(SelectedIndexDriversMainCharts, SearchChartField);
+                }
+            }
+        }
+
+
+        // Collection with filter (FOR LISTBOX)
         public ObservableCollection<Driver> DriversFilteredList
         {
             get
@@ -704,6 +743,9 @@ namespace Integration.ModuleGUI.ViewModels
                         PrepareData(SelectedDriverChart.HistoryDrive.SelectMany(x => x.Value)))
                     { Title = "График водителя" };
                 });
+
+                DriverWorkingDays = InitializeChartsData(SelectedDriverChart.HistoryDrive.SelectMany(x => x.Value)
+                    , chartPoint => string.Format("{0} км ({1:P})", chartPoint.Y, chartPoint.Participation));
             }
         }
 
@@ -712,6 +754,10 @@ namespace Integration.ModuleGUI.ViewModels
         private void UpdateFilterDrivers()
         {
             RaisePropertyChanged(nameof(DriversFilteredList));
+
+            if (IsAccessFilterFromListBox)
+                IsAccessFilterFromListBox = IsAccessFilterFromListBox; // need to call property
+
         }
         #endregion
 
@@ -821,6 +867,39 @@ namespace Integration.ModuleGUI.ViewModels
 
         }
 
+        // Initialize collection for working days of driver
+        private SeriesCollection InitializeChartsData(IEnumerable<TripSAP> trips, Func<ChartPoint, string> Label)
+        {
+            SeriesCollection data = new SeriesCollection();
+            
+            foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek))
+                              .OfType<DayOfWeek>()
+                              .ToList())
+            {
+
+                var common = trips.Where(x => x.DepartureFromGarageDate.DayOfWeek.ToString().Equals(day.ToString()));
+
+                if (!common.Any())
+                    continue;
+
+                ChartValues<double> vals = new ChartValues<double>(new[] 
+                {
+                    Math.Round(common?.Sum(x => x.TotalMileage) ?? 0, 2)
+                });
+
+                data.Add(new PieSeries()
+                {
+                    Title = $"{day.ToString()}",
+                    Values = vals,
+                    DataLabels = true,
+                    LabelPoint = Label
+                });
+            }
+
+            return data;
+
+        }
+
 
         private async void InitializeDrivers(IEnumerable<IVehicleSAP> vehicles)
         {
@@ -901,13 +980,21 @@ namespace Integration.ModuleGUI.ViewModels
         {
             int CountTake = 20;
 
+            List<Driver> baseCollection = null;
+            if (IsAccessFilterFromListBox)
+                baseCollection = DriversFilteredList.ToList();
+            else
+                baseCollection = ModuleData.DriverCollection.ToList();
+
             if (DriversStatisticsSAP == null)
             {
                 Mapper = Mappers.Xy<Driver>()
                 .X((driver, ind) => ind)
                 .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
 
-                var record = ModuleData.DriverCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                //var record = ModuleData.DriverCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                //        .Take(CountTake).ToArray();
+                var record = baseCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
                         .Take(CountTake).ToArray();
                 DriversStatisticsSAP = record.AsChartValues();
                 Labels = new ObservableCollection<string>(record.Select(x => $"{x.LastName} {x.FirstName}."));
@@ -921,17 +1008,24 @@ namespace Integration.ModuleGUI.ViewModels
             // Indexes from DriversMainCharts field
             switch (index)
             {
-                case 1:                    
+                case 1:
                     // getting the average scale of CountTrips between all drivers (clip 50% of trips) - Left border of min trips
-                    var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+                    //var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+                    var avgTripsAtAll = (int)baseCollection.Select(x => x.CountTrips).Average();
 
                     // getting the average scale of CountTrips between second part of drivers (clip 75% of clips)
                     // cut off not drivers - change left border of min trips
-                    var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average()*0.65);
+                    //var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average()*0.65);
+                    var avgDriversTrips = (int)(baseCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
 
-                    var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+                    //var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+                    var avgMileage = baseCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
 
-                    records = ModuleData.DriverCollection
+                    //records = ModuleData.DriverCollection
+                    //    .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgDriversTrips)
+                    //    .OrderByDescending(x => x.GetEffectivityPercent(avgMileage)) //x.TotalMileage/avgMileage
+                    //    .Take(CountTake).ToArray();
+                    records = baseCollection
                         .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgDriversTrips)
                         .OrderByDescending(x => x.GetEffectivityPercent(avgMileage)) //x.TotalMileage/avgMileage
                         .Take(CountTake).ToArray();
@@ -946,7 +1040,11 @@ namespace Integration.ModuleGUI.ViewModels
                     break;
 
                 case 2:
-                    records = ModuleData.DriverCollection
+                    //records = ModuleData.DriverCollection
+                    //    .Where(x => x.LastName.ToLower().Contains(search))
+                    //    .OrderByDescending(x => x.AvarageMileagePerTrip)
+                    //    .Take(CountTake).ToArray();
+                    records = baseCollection
                         .Where(x => x.LastName.ToLower().Contains(search))
                         .OrderByDescending(x => x.AvarageMileagePerTrip)
                         .Take(CountTake).ToArray();
@@ -960,7 +1058,11 @@ namespace Integration.ModuleGUI.ViewModels
                     break;
 
                 case 3:
-                    records = ModuleData.DriverCollection
+                    //records = ModuleData.DriverCollection
+                    //    .Where(x => x.LastName.ToLower().Contains(search))
+                    //    .OrderByDescending(x => x.CountTrips)
+                    //    .Take(CountTake).ToArray();
+                    records = baseCollection
                         .Where(x => x.LastName.ToLower().Contains(search))
                         .OrderByDescending(x => x.CountTrips)
                         .Take(CountTake).ToArray();
@@ -975,10 +1077,14 @@ namespace Integration.ModuleGUI.ViewModels
                     break;
 
                 case 4:
-                    records = ModuleData.DriverCollection
+                    records = baseCollection
                         .Where(x => x.LastName.ToLower().Contains(search))
                         .OrderByDescending(x => x.MaxTripMileage.Key)
                         .Take(CountTake).ToArray();
+                    //records = ModuleData.DriverCollection
+                    //    .Where(x => x.LastName.ToLower().Contains(search))
+                    //    .OrderByDescending(x => x.MaxTripMileage.Key)
+                    //    .Take(CountTake).ToArray();
 
                     UpdateChartData(records);
 
@@ -990,7 +1096,11 @@ namespace Integration.ModuleGUI.ViewModels
                     break;
 
                 case 5:
-                    records = ModuleData.DriverCollection
+                    //records = ModuleData.DriverCollection
+                    //    .Where(x => x.LastName.ToLower().Contains(search))
+                    //    .OrderByDescending(x => x.MinTripMileage.Key)
+                    //    .Take(CountTake).ToArray();
+                    records = baseCollection
                         .Where(x => x.LastName.ToLower().Contains(search))
                         .OrderByDescending(x => x.MinTripMileage.Key)
                         .Take(CountTake).ToArray();
@@ -1006,7 +1116,11 @@ namespace Integration.ModuleGUI.ViewModels
 
                 case 0:
                 default:
-                    records = ModuleData.DriverCollection
+                    //records = ModuleData.DriverCollection
+                    //    .Where(x => x.LastName.ToLower().Contains(search))
+                    //    .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                    //    .Take(CountTake).ToArray();
+                    records = baseCollection
                         .Where(x => x.LastName.ToLower().Contains(search))
                         .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
                         .Take(CountTake).ToArray();
@@ -1024,6 +1138,7 @@ namespace Integration.ModuleGUI.ViewModels
             
             RaisePropertyChanged(nameof(DriversStatisticsSAP));
         }
+        
 
         private void UpdateChartData(Driver[] records)
         {
@@ -1033,6 +1148,7 @@ namespace Integration.ModuleGUI.ViewModels
             foreach (var x in records) Labels.Add($"{x.LastName} {x.FirstName}.");
         }
 
+
         private void UpdateTotalStatistics()
         {
             RaisePropertyChanged(nameof(TotalMileageAtAll));
@@ -1041,6 +1157,7 @@ namespace Integration.ModuleGUI.ViewModels
             RaisePropertyChanged(nameof(TotalMaxTripAtAll));
             RaisePropertyChanged(nameof(TotalMinTripAtAll));
         }
+
 
         private Dictionary<string, List<DateTimePoint>> PrepareData(IEnumerable<TripSAP> trips)
         {
@@ -1091,6 +1208,7 @@ namespace Integration.ModuleGUI.ViewModels
             }
             return resultedCollection;
         }
+
 
         private async Task<IEnumerable<T>> GetVehicleInfos<T>(
             ProgressDialogController progress, DatesFromToContext context) where T : IntegratedVehicleInfo
