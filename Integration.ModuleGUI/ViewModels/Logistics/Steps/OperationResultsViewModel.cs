@@ -282,7 +282,7 @@ namespace Integration.ModuleGUI.ViewModels
             var currDate = startDate.Value;
 
             for (int si = 0, wi = 0;
-                currDate <= endDate;)
+                currDate <= endDate.Value.AddDays(1);)
             {
                 var _sap = datesDictSAP.ElementAtOrDefault(si);
                 var _wln = datesDictWln.ElementAtOrDefault(wi);
