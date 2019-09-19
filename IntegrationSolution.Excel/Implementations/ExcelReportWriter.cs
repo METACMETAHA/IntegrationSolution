@@ -52,6 +52,7 @@ namespace IntegrationSolution.Excel.Implementations
                 worksheet.Column(9).Style.Numberformat.Format = "0.00";
                 worksheet.Column(10).Style.Numberformat.Format = "0.00";
                 worksheet.Column(11).Style.Numberformat.Format = "0.00";
+                worksheet.Column(12).Width = 15;
                 worksheet.Column(12).Style.Numberformat.Format = "0.00%";
                 
 
@@ -128,28 +129,30 @@ namespace IntegrationSolution.Excel.Implementations
 
                 var headerRow = new List<string[]>()
                 {
-                    new string[] { "Подразделение", "Гос.номер", "Модель", "Тип",
-                        "Пробег всего по Wialon", "Кол-во превышений скоростного режима",
-                        "Дата выезда", "Начало (время SAP)", "Начало (время Wialon)", "Начало (локация)",
-                        "Конец (время SAP)", "Конец (время Wialon)", "Конец (локация)",
-                        "Показания одометра (SAP)", "Показания одометра (Wialon)",
-                        "Анализ пробегов", "Процент расхождения", "Водитель", "Табельный номер водителя" }
+                    new string[] { "Подразделение", "Гос.номер", "Модель", "Тип", //4
+                        "Показания одометра (SAP)", "Показания одометра (Wialon)", //6
+                        "Анализ пробегов", "Процент расхождения", //8
+                        "Дата выезда", "Начало (время SAP)", "Начало (время Wialon)", "Начало (локация)", //12
+                        "Конец (время SAP)", "Конец (время Wialon)", "Конец (локация)", //15
+                        "Пробег всего по Wialon", "Кол-во превышений скоростного режима", //17
+                        "Водитель", "Табельный номер водителя" } //19
                 };
 
                 #region Columns` Style
-                worksheet.Column(5).Style.Numberformat.Format = "0.00";
-                worksheet.Column(5).Width = 25;
-                worksheet.Column(6).Style.Numberformat.Format = "0";
-                worksheet.Column(7).Style.Numberformat.Format = "dd-mm-yyyy"; // "Date of trip"
-                worksheet.Column(7).Width = 15;
-                worksheet.Column(8).Style.Numberformat.Format = "hh:mm"; // Begin trip (SAP)
-                worksheet.Column(9).Style.Numberformat.Format = "hh:mm"; // Begin trip (Wialon)
-                worksheet.Column(11).Style.Numberformat.Format = "hh:mm"; // End trip (SAP)
-                worksheet.Column(12).Style.Numberformat.Format = "hh:mm"; // End trip (Wialon)
-                worksheet.Column(14).Style.Numberformat.Format = "0.00";
-                worksheet.Column(15).Style.Numberformat.Format = "0.00";
                 worksheet.Column(16).Style.Numberformat.Format = "0.00";
-                worksheet.Column(17).Style.Numberformat.Format = "0.00%";
+                worksheet.Column(16).Width = 25;
+                worksheet.Column(17).Style.Numberformat.Format = "0";
+                worksheet.Column(9).Style.Numberformat.Format = "dd-mm-yyyy"; // "Date of trip"
+                worksheet.Column(9).Width = 15;
+                worksheet.Column(10).Style.Numberformat.Format = "hh:mm"; // Begin trip (SAP)
+                worksheet.Column(11).Style.Numberformat.Format = "hh:mm"; // Begin trip (Wialon)
+                worksheet.Column(13).Style.Numberformat.Format = "hh:mm"; // End trip (SAP)
+                worksheet.Column(14).Style.Numberformat.Format = "hh:mm"; // End trip (Wialon)
+                worksheet.Column(5).Style.Numberformat.Format = "0.00";
+                worksheet.Column(6).Style.Numberformat.Format = "0.00";
+                worksheet.Column(7).Style.Numberformat.Format = "0.00";
+                worksheet.Column(8).Width = 15;
+                worksheet.Column(8).Style.Numberformat.Format = "0.00%";
                 #endregion
 
                 int row = 1;
@@ -166,14 +169,15 @@ namespace IntegrationSolution.Excel.Implementations
                         new object[]
                         {
                             item.StructureName, item.StateNumber, item.UnitModel, item.Type,
-                            item.WialonMileageTotal, item.CountSpeedViolations,
-                            null, item.CountTrips.SAP,
-                            item.CountTrips.Wialon,
-                            null, null, null, null,
                             item.IndicatorMileage.SAP,
                             item.IndicatorMileage.Wialon,
                             item.IndicatorMileage.Difference,
-                            item.PercentDifference, item.TripsSAP?.ToLookup(x => x.Driver.UnitNumber).Count, null
+                            item.PercentDifference,
+                            null, item.CountTrips.SAP,
+                            item.CountTrips.Wialon,
+                            null, null, null, null,
+                            item.WialonMileageTotal, item.CountSpeedViolations,
+                            item.TripsSAP?.ToLookup(x => x.Driver.UnitNumber).Count, null
                         }
                     };
                     string headerRange = $"A{row}:" + Char.ConvertFromUtf32(data[0].Length + 64) + row;
@@ -181,7 +185,7 @@ namespace IntegrationSolution.Excel.Implementations
                     ExcelDecorator.SetCellsColor(worksheet.Cells[headerRange], ExcelDecorator.ExcelCssResources.LightYellowColor);
 
                     //if (item.CountSpeedViolations > 0)
-                    //    ExcelDecorator.SetCellsColor(worksheet.Cells[row, 6], ExcelDecorator.ExcelCssResources.LightRedColor);
+                    //    ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightRedColor);
 
                     //if (item.CountTrips.SAP > item.CountTrips.Wialon)
                     //    ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.RedColor);
@@ -189,14 +193,14 @@ namespace IntegrationSolution.Excel.Implementations
 
                     if ((item.PercentDifference * 100 >= BadPercent)
                         && (item.IndicatorMileage.SAP > item.IndicatorMileage.Wialon))
-                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.RedColor);
+                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.RedColor);
 
                     if ((item.PercentDifference * 100 >= BadPercent)
                         && (item.IndicatorMileage.SAP < item.IndicatorMileage.Wialon))
-                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.YellowColor);
+                        ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.YellowColor);
 
-                    worksheet.Cells[row, 8, row, 10].Style.Numberformat.Format = "0";
-                    worksheet.Cells[row, 11, row, 13].Style.Numberformat.Format = "0";
+                    worksheet.Cells[row, 9, row, 11].Style.Numberformat.Format = "0";
+                    worksheet.Cells[row, 15, row, 17].Style.Numberformat.Format = "0";
                     worksheet.Cells[row, 18].Style.Numberformat.Format = "0";
                     worksheet.Row(row).Style.Font.SetFromFont(new Font("Times New Roman", 12, FontStyle.Bold));
 
@@ -223,13 +227,13 @@ namespace IntegrationSolution.Excel.Implementations
                                 new object[]
                                 {
                                     null, null, null, null,
-                                    null, wlnElement.SpeedViolation?.Count(),
-                                    wlnElement.Begin.Date,
-                                    sapElement.DepartureFromGarageDate.TimeOfDay, wlnElement.Begin.TimeOfDay, wlnElement.LocationBegin,
-                                    sapElement.ReturnToGarageDate.TimeOfDay, wlnElement.Finish.TimeOfDay, wlnElement.LocationFinish,
                                     sapElement.TotalMileage, wlnElement.Mileage,
                                     sapElement.TotalMileage - wlnElement.Mileage,
                                     sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage),
+                                    wlnElement.Begin.Date,
+                                    sapElement.DepartureFromGarageDate.TimeOfDay, wlnElement.Begin.TimeOfDay, wlnElement.LocationBegin,
+                                    sapElement.ReturnToGarageDate.TimeOfDay, wlnElement.Finish.TimeOfDay, wlnElement.LocationFinish,                                    
+                                    null, wlnElement.SpeedViolation?.Count(),
                                     sapElement.Driver.ToString(),
                                     sapElement.Driver.UnitNumber
                                 }
@@ -237,10 +241,10 @@ namespace IntegrationSolution.Excel.Implementations
 
                             if (sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage) * 100 > BadPercent
                                 && sapElement.TotalMileage < wlnElement.Mileage)
-                                ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightYellowColor);
+                                ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.LightYellowColor);
                             else if (sapElement.TotalMileage.GetPercentFrom(wlnElement.Mileage) * 100 > BadPercent
                                 && sapElement.TotalMileage > wlnElement.Mileage)
-                                ExcelDecorator.SetCellsColor(worksheet.Cells[row, 17], ExcelDecorator.ExcelCssResources.LightRedColor);
+                                ExcelDecorator.SetCellsColor(worksheet.Cells[row, 8], ExcelDecorator.ExcelCssResources.LightRedColor);
 
                             IWln++;
                             ISap++;
@@ -254,11 +258,11 @@ namespace IntegrationSolution.Excel.Implementations
                                 new object[]
                                 {
                                     null, null, null, null,
-                                    null, null,
+                                    sapElement.TotalMileage, null,
+                                    null, null,                                    
                                     sapElement.DepartureFromGarageDate.Date,
                                     sapElement.DepartureFromGarageDate.TimeOfDay, null, null,
                                     sapElement.ReturnToGarageDate.TimeOfDay, null, null,
-                                    sapElement.TotalMileage, null,
                                     null, null,
                                     sapElement.Driver.ToString(),
                                     sapElement.Driver.UnitNumber
@@ -276,12 +280,13 @@ namespace IntegrationSolution.Excel.Implementations
                                 new object[]
                                 {
                                     null, null, null, null,
-                                    null, wlnElement.SpeedViolation?.Count(),
+                                    null, wlnElement.Mileage,
+                                    null, null,
                                     wlnElement.Begin.Date,
                                     null, wlnElement.Begin.TimeOfDay, wlnElement.LocationBegin,
-                                    null, wlnElement.Finish.TimeOfDay, wlnElement.LocationFinish,
-                                    null, wlnElement.Mileage,
-                                    null, null, null, null
+                                    null, wlnElement.Finish.TimeOfDay, wlnElement.LocationFinish,                                    
+                                    null, wlnElement.SpeedViolation?.Count(),
+                                    null, null
                                 }
                             };
 
