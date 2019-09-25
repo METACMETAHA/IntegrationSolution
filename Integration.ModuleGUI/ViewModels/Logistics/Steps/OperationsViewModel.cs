@@ -939,8 +939,12 @@ namespace Integration.ModuleGUI.ViewModels
                             {
                                 if (car_atCollection.Value == null)
                                     car_atCollection = new KeyValuePair<IVehicle, List<TripSAP>>(car_atCollection.Key, new List<TripSAP>());
-                                car_atCollection.Value.Add(item.Value);
                             }
+                            else
+                                car_atCollection = new KeyValuePair<IVehicle, List<TripSAP>>(car, new List<TripSAP>());
+
+                            car_atCollection.Value.Add(item.Value);
+                            driver.HistoryDrive.Add(car, car_atCollection.Value);
                         }
                     }
                     else

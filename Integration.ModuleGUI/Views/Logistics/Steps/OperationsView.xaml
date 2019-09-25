@@ -967,13 +967,13 @@
                                                                     Grid.Row="1"
                                                                     Grid.Column="1"
                                                                     HorizontalAlignment="Right"
-                                                                    Text="{Binding HistoryDrive.Keys.Count, StringFormat='ТС использовано за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    Text="{Binding CountCars, StringFormat='ТС использовано за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
 
                                                                 <TextBlock
                                                                     Grid.Row="2"
                                                                     Grid.Column="1"
                                                                     HorizontalAlignment="Right"
-                                                                    Text="{Binding HistoryDrive.Values[0].Count, StringFormat='Поездок всего за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    Text="{Binding CountTrips, StringFormat='Поездок всего за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
 
                                                             </Grid>
                                                         </DataTemplate>
