@@ -51,8 +51,8 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                         _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(false);
                     else
                         _eventAggregator.GetEvent<WialonConnectionEvent>().Publish(true);
-                    var ss = value;
-                        SetProperty(ref _isConnectedNavigation, value);
+
+                    SetProperty(ref _isConnectedNavigation, value);
                 }
                 else
                 {
@@ -118,7 +118,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             _timer = new Timer(840000); // 14min. Session live 15min. - 840000ms
             _timer.AutoReset = true;
             _timer.Elapsed += _timer_Elapsed;
-
+            
             ToggleFlyoutSettingsCommand = new DelegateCommand(ToggleSettings);
             
             IsEnabledNavigation = true;
@@ -181,14 +181,24 @@ namespace IntegrationSolution.ShellGUI.ViewModels
         // Timer for control Wialon connection
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.IsConnectedNavigation = false;
-
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            if (_container.Resolve<INavigationOperations>().TryConnect())
             {
-                _notificationManager.NotifyInformationAsync("Сеанс подключения к системе Wialon истек!");
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _notificationManager.NotifySuccessAsync("Сеанс подключения к системе Wialon продолжен!");
+                }));
+            }
+            else
+            {
+                this.IsConnectedNavigation = false;
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _notificationManager.NotifyInformationAsync("Сеанс подключения к системе Wialon истек!");
+                }));
 
-            _timer.Stop();
+                _timer.Stop();
+            }
+            
         }
         #endregion
     }

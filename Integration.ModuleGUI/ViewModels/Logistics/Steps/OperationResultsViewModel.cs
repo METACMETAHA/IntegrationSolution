@@ -71,7 +71,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                 SetProperty(ref selectedSpeedViolationInfoForChart, value);
 
-                if(value != null)
+                if (value != null)
                     SpeedChartContext = new GaugeSpeedChartViewModel(current: value.MaxSpeed, limit: value.SpeedLimit);
             }
         }

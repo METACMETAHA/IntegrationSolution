@@ -18,13 +18,13 @@
                 FontSize="12"
                 FontWeight="Bold"
                 Foreground="White"
-                FromValue="{Binding FromValue, FallbackValue=0, TargetNullValue=0}"
+                FromValue="0"
                 LabelsStep="50"
                 NeedleFill="Black"
                 SectionsInnerRadius=".5"
                 TicksForeground="White"
                 TicksStep="25"
-                ToValue="{Binding ToValue, FallbackValue=200, TargetNullValue=200}"
+                ToValue="200"
                 Wedge="300"
                 Value="{Binding CurrentValue, FallbackValue=0, TargetNullValue=0}">
 
@@ -39,7 +39,7 @@
                     <charts:AngularSection
                         Fill="#F8A725"
                         FromValue="{Binding FromValue, FallbackValue=0, TargetNullValue=0}"
-                        ToValue="{Binding LimitValue, FallbackValue=80, TargetNullValue=80}" />
+                        ToValue="200" />
                     <charts:AngularSection
                         Fill="#FF3939"
                         FromValue="{Binding LimitValue, FallbackValue=80, TargetNullValue=80}"

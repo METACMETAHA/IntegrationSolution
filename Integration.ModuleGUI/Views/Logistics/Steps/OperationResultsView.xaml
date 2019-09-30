@@ -579,7 +579,9 @@
             IsModal="False"
             IsOpen="{Binding IsViolationsWndVisible}"
             ShowCloseButton="True"
-            ShowTitleBar="True">
+            ShowTitleBar="True"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <wnd:ChildWindow.OverlayBrush>
                 <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
             </wnd:ChildWindow.OverlayBrush>
@@ -598,9 +600,8 @@
                             AllowCheckAnyTime="True"
                             CellAdornerIsVisible="True"
                             CellEditingIsEnabled="False"
-                            FilterHeight="40"
-                            FilterVisibility="Auto"
-                            FooterVisibility="Auto"
+                            FilterVisibility="Collapsed"
+                            FooterVisibility="Collapsed"
                             HorizontalGridLinesIsVisible="True"
                             HorizontalScrollbarVisibility="Auto"
                             IsVirtualizing="True"
@@ -702,6 +703,16 @@
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <partialViews:GaugeSpeedChart Margin="10" DataContext="{Binding SpeedChartContext}" />
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SpeedChartContext}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
                 </StackPanel>
 
             </Grid>

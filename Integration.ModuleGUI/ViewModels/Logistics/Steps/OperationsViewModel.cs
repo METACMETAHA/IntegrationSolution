@@ -391,6 +391,7 @@ namespace Integration.ModuleGUI.ViewModels
 
 
         public DelegateCommand CheckDifferenceOfTotalSpeedCommand { get; private set; }
+        [STAThread]
         protected async void CheckDifference()
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
@@ -486,30 +487,34 @@ namespace Integration.ModuleGUI.ViewModels
 
                     this.CanGoNext = true;
 
-                    Microsoft.Win32.SaveFileDialog fileDialog = new Microsoft.Win32.SaveFileDialog
+                    await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    new Action(() =>
                     {
-                        Title = "Создание отчёта...",
-                        ValidateNames = true,
-                        CheckPathExists = true,
-                        DefaultExt = ".xlsx | .xls",
-                        Filter = "Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*"
-                    };
-                    if (fileDialog.ShowDialog() != true)
-                        return;
-                    else
-                        nameReport = fileDialog.FileName;
+                        Microsoft.Win32.SaveFileDialog fileDialog = new Microsoft.Win32.SaveFileDialog
+                        {
+                            Title = "Создание отчёта...",
+                            ValidateNames = true,
+                            CheckPathExists = true,
+                            DefaultExt = ".xlsx | .xls",
+                            Filter = "Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*"
+                        };
+                        
+                        if (fileDialog.ShowDialog() != true)
+                            return;
+                        else
+                            nameReport = fileDialog.FileName;
 
-                    if (!datesFromToContext.IsWithDetails)
-                        _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName,
-                            ModuleData.SimpleDataForReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
-                            ModuleData.VehiclesExcelDistinctWialon.ToList(),
-                            ModuleData.VehiclesWialonDistinctExcel.ToList());
-                    else
-                        _container.Resolve<IExcelWriter>().CreateReportDiffMileageWithDetails(fileDialog.FileName,
-                            ModuleData.DetailsDataForReport.OrderBy(x => x.PercentDifference).ToList(), avaliablePercent,
-                            ModuleData.VehiclesExcelDistinctWialon.ToList(),
-                            ModuleData.VehiclesWialonDistinctExcel.ToList());
-
+                        if (!datesFromToContext.IsWithDetails)
+                            _container.Resolve<IExcelWriter>().CreateReportDiffMileage(fileDialog.FileName,
+                                    ModuleData.SimpleDataForReport.OrderByDescending(x => x.PercentDifference).ToList(), avaliablePercent,
+                                    ModuleData.VehiclesExcelDistinctWialon.ToList(),
+                                    ModuleData.VehiclesWialonDistinctExcel.ToList());
+                        else
+                            _container.Resolve<IExcelWriter>().CreateReportDiffMileageWithDetails(fileDialog.FileName,
+                                    ModuleData.DetailsDataForReport.OrderByDescending(x => x.PercentDifference).ToList(), avaliablePercent,
+                                    ModuleData.VehiclesExcelDistinctWialon.ToList(),
+                                    ModuleData.VehiclesWialonDistinctExcel.ToList());
+                    }));
                     progress.SetProgress(1);
                 }
                 catch (Exception ex)
@@ -565,54 +570,49 @@ namespace Integration.ModuleGUI.ViewModels
         protected async void ClickDataCmd(ChartPoint chartPoint)
         {
             StringBuilder msg = new StringBuilder();
-            try
+
+            var car = ModuleData.Vehicles.Where(x => chartPoint?.SeriesView.Title.Contains(x.StateNumber) ?? false).FirstOrDefault();
+            if (car != null)
             {
+                if (!string.IsNullOrWhiteSpace(car.Department))
+                    msg.AppendLine($"Служба/отдел:\t{car.Department}");
 
-                var car = ModuleData.Vehicles.Where(x => chartPoint.SeriesView.Title.Contains(x.StateNumber)).FirstOrDefault();
-                if (car != null)
+                if (!string.IsNullOrWhiteSpace(car.StructureName))
+                    msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
+
+                if (car.TripResulted != null)
                 {
-                    if (!string.IsNullOrWhiteSpace(car.Department))
-                        msg.AppendLine($"Служба/отдел:\t{car.Department}");
-
-                    if (!string.IsNullOrWhiteSpace(car.StructureName))
-                        msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
-
-                    if (car.TripResulted != null)
-                    {
-                        msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
-                        msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
-                        msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage / car.CountTrips.Value), 2)} км/поездка");
-                    }
-
-                    await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
+                    msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
+                    msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
+                    msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage / car.CountTrips.Value), 2)} км/поездка");
                 }
-                else
-                {
-                    var driver = chartPoint.Instance as Driver;
-                    if (driver == null)
-                        return;
 
-                    var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
-                    var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips >= avgTripsAtAll)?.Select(x => x.CountTrips).Average() * 0.65);
-                    var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
-
-                    msg.AppendLine($"Всего поездок за период:\t{driver.CountTrips}");
-                    msg.AppendLine($"Использовано транспортных средств:\t{driver.CountCars}");
-                    msg.AppendLine();
-                    msg.AppendLine($"Всего километраж за период:\t{Math.Round((driver.TotalMileage), 2)} км");
-                    msg.AppendLine($"Средний километраж за поездку:\t{Math.Round((driver.AvarageMileagePerTrip), 2)} км/поездка");
-                    msg.AppendLine($"Самая длинная поездка:\t{driver.MaxTripMileage.Key} км\t({driver.MaxTripMileage.Value.ToShortDateString()})");
-                    msg.AppendLine($"Самая коротка поездка:\t{driver.MinTripMileage.Key} км\t({driver.MinTripMileage.Value.ToShortDateString()})");
-                    msg.AppendLine($"Показатель продуктивности:\t{driver.GetEffectivityPercent(avgMileage)}%");
-                    msg.AppendLine();
-                    msg.AppendLine();
-                    msg.AppendLine("* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.");
-
-                    await _dialogManager.ShowMessageBox($"{driver.ToString()}\t({driver.UnitNumber})", msg.ToString());
-                }
+                await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
             }
-            catch (Exception)
-            { }
+            else
+            {
+                var driver = chartPoint.Instance as Driver;
+                if (driver == null)
+                    return;
+
+                var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+                var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
+                var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+
+                msg.AppendLine($"Всего поездок за период:\t{driver.CountTrips}");
+                msg.AppendLine($"Использовано транспортных средств:\t{driver.CountCars}");
+                msg.AppendLine();
+                msg.AppendLine($"Всего километраж за период:\t{Math.Round((driver.TotalMileage), 2)} км");
+                msg.AppendLine($"Средний километраж за поездку:\t{Math.Round((driver.AvarageMileagePerTrip), 2)} км/поездка");
+                msg.AppendLine($"Самая длинная поездка:\t{driver.MaxTripMileage.Key} км\t({driver.MaxTripMileage.Value.ToShortDateString()})");
+                msg.AppendLine($"Самая коротка поездка:\t{driver.MinTripMileage.Key} км\t({driver.MinTripMileage.Value.ToShortDateString()})");
+                msg.AppendLine($"Показатель продуктивности:\t{driver.GetEffectivityPercent(avgMileage)}%");
+                msg.AppendLine();
+                msg.AppendLine();
+                msg.AppendLine("* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.");
+
+                await _dialogManager.ShowMessageBox($"{driver.ToString()}\t({driver.UnitNumber})", msg.ToString());
+            }
         }
 
 
@@ -766,6 +766,8 @@ namespace Integration.ModuleGUI.ViewModels
 
         }
         #endregion
+
+
 
         #region Helpers
         private async Task<ProgressDialogController> InitializeCars()
@@ -937,8 +939,12 @@ namespace Integration.ModuleGUI.ViewModels
                             {
                                 if (car_atCollection.Value == null)
                                     car_atCollection = new KeyValuePair<IVehicle, List<TripSAP>>(car_atCollection.Key, new List<TripSAP>());
-                                car_atCollection.Value.Add(item.Value);
                             }
+                            else
+                                car_atCollection = new KeyValuePair<IVehicle, List<TripSAP>>(car, new List<TripSAP>());
+
+                            car_atCollection.Value.Add(item.Value);
+                            driver.HistoryDrive.Add(car, car_atCollection.Value);
                         }
                     }
                     else

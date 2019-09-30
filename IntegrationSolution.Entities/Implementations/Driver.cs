@@ -117,7 +117,7 @@ namespace IntegrationSolution.Entities.Implementations
         }
 
         public int CountTrips
-            => HistoryDrive?.Values.FirstOrDefault().Count ?? 0;
+            => HistoryDrive?.Sum(x => x.Value.Count)  ?? 0;
 
         public int CountCars
             => HistoryDrive?.Keys.Count ?? 0;
