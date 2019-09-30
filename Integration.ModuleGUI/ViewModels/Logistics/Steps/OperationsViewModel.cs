@@ -984,163 +984,167 @@ namespace Integration.ModuleGUI.ViewModels
 
         private void SetDriversMainChartDataBySelectedTypeChart(int index, string search_Field)
         {
-            int CountTake = 20;
-
-            List<Driver> baseCollection = null;
-            if (IsAccessFilterFromListBox)
-                baseCollection = DriversFilteredList.ToList();
-            else
-                baseCollection = ModuleData.DriverCollection.ToList();
-
-            if (DriversStatisticsSAP == null)
+            try
             {
-                Mapper = Mappers.Xy<Driver>()
-                .X((driver, ind) => ind)
-                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+                int CountTake = 20;
 
-                //var record = ModuleData.DriverCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
-                //        .Take(CountTake).ToArray();
-                var record = baseCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
-                        .Take(CountTake).ToArray();
-                DriversStatisticsSAP = record.AsChartValues();
-                Labels = new ObservableCollection<string>(record.Select(x => $"{x.LastName} {x.FirstName}."));
-                Formatter = val => (val).ToString() + " км";
-                return;
-            }
+                List<Driver> baseCollection = null;
+                if (IsAccessFilterFromListBox)
+                    baseCollection = DriversFilteredList.ToList();
+                else
+                    baseCollection = ModuleData.DriverCollection.ToList();
 
-            string search = (search_Field ?? string.Empty).ToLower();
-            Driver[] records = new Driver[0];
-
-            // Indexes from DriversMainCharts field
-            switch (index)
-            {
-                case 1:
-                    // getting the average scale of CountTrips between all drivers (clip 50% of trips) - Left border of min trips
-                    //var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
-                    var avgTripsAtAll = (int)baseCollection.Select(x => x.CountTrips).Average();
-
-                    // getting the average scale of CountTrips between second part of drivers (clip 75% of clips)
-                    // cut off not drivers - change left border of min trips
-                    //var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average()*0.65);
-                    var avgDriversTrips = (int)(baseCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
-
-                    //var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
-                    var avgMileage = baseCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
-
-                    //records = ModuleData.DriverCollection
-                    //    .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgDriversTrips)
-                    //    .OrderByDescending(x => x.GetEffectivityPercent(avgMileage)) //x.TotalMileage/avgMileage
-                    //    .Take(CountTake).ToArray();
-                    records = baseCollection
-                        .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgDriversTrips)
-                        .OrderByDescending(x => x.GetEffectivityPercent(avgMileage)) //x.TotalMileage/avgMileage
-                        .Take(CountTake).ToArray();
-
-                    UpdateChartData(records);
-
-                    Formatter = val => (Math.Round(val, 2)).ToString() + " %";
+                if (DriversStatisticsSAP == null)
+                {
                     Mapper = Mappers.Xy<Driver>()
-                .X((driver, ind) => ind)
-                .Y(driver => Math.Round(driver.GetEffectivityPercent(avgMileage), 2)); //driver.TotalMileage/avgMileage
+                    .X((driver, ind) => ind)
+                    .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
 
-                    break;
-
-                case 2:
-                    //records = ModuleData.DriverCollection
-                    //    .Where(x => x.LastName.ToLower().Contains(search))
-                    //    .OrderByDescending(x => x.AvarageMileagePerTrip)
-                    //    .Take(CountTake).ToArray();
-                    records = baseCollection
-                        .Where(x => x.LastName.ToLower().Contains(search))
-                        .OrderByDescending(x => x.AvarageMileagePerTrip)
-                        .Take(CountTake).ToArray();
-
-                    UpdateChartData(records);
-
-                    Formatter = val => (Math.Round(val, 2)).ToString() + " км/поездка";
-                    Mapper = Mappers.Xy<Driver>()
-                .X((driver, ind) => ind)
-                .Y(driver => driver.AvarageMileagePerTrip);
-                    break;
-
-                case 3:
-                    //records = ModuleData.DriverCollection
-                    //    .Where(x => x.LastName.ToLower().Contains(search))
-                    //    .OrderByDescending(x => x.CountTrips)
-                    //    .Take(CountTake).ToArray();
-                    records = baseCollection
-                        .Where(x => x.LastName.ToLower().Contains(search))
-                        .OrderByDescending(x => x.CountTrips)
-                        .Take(CountTake).ToArray();
-
-                    UpdateChartData(records);
-
-                    Formatter = val => (val).ToString() + " поездок";
-                    Mapper = Mappers.Xy<Driver>()
-                .X((driver, ind) => ind)
-                .Y(driver => driver.CountTrips);
-
-                    break;
-
-                case 4:
-                    records = baseCollection
-                        .Where(x => x.LastName.ToLower().Contains(search))
-                        .OrderByDescending(x => x.MaxTripMileage.Key)
-                        .Take(CountTake).ToArray();
-                    //records = ModuleData.DriverCollection
-                    //    .Where(x => x.LastName.ToLower().Contains(search))
-                    //    .OrderByDescending(x => x.MaxTripMileage.Key)
-                    //    .Take(CountTake).ToArray();
-
-                    UpdateChartData(records);
-
-                    Formatter = val => (Math.Round(val, 2)).ToString() + " км";
-                    Mapper = Mappers.Xy<Driver>()
-                .X((driver, ind) => ind)
-                .Y(driver => driver.MaxTripMileage.Key);
-
-                    break;
-
-                case 5:
-                    //records = ModuleData.DriverCollection
-                    //    .Where(x => x.LastName.ToLower().Contains(search))
-                    //    .OrderByDescending(x => x.MinTripMileage.Key)
-                    //    .Take(CountTake).ToArray();
-                    records = baseCollection
-                        .Where(x => x.LastName.ToLower().Contains(search))
-                        .OrderByDescending(x => x.MinTripMileage.Key)
-                        .Take(CountTake).ToArray();
-
-                    UpdateChartData(records);
-
-                    Formatter = val => (Math.Round(val, 2)).ToString() + " км";
-                    Mapper = Mappers.Xy<Driver>()
-                .X((driver, ind) => ind)
-                .Y(driver => driver.MinTripMileage.Key);
-
-                    break;
-
-                case 0:
-                default:
-                    //records = ModuleData.DriverCollection
-                    //    .Where(x => x.LastName.ToLower().Contains(search))
-                    //    .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
-                    //    .Take(CountTake).ToArray();
-                    records = baseCollection
-                        .Where(x => x.LastName.ToLower().Contains(search))
-                        .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
-                        .Take(CountTake).ToArray();
-
-                    UpdateChartData(records);
-
+                    //var record = ModuleData.DriverCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                    //        .Take(CountTake).ToArray();
+                    var record = baseCollection.OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                            .Take(CountTake).ToArray();
+                    DriversStatisticsSAP = record.AsChartValues();
+                    Labels = new ObservableCollection<string>(record.Select(x => $"{x.LastName} {x.FirstName}."));
                     Formatter = val => (val).ToString() + " км";
-                    Mapper = Mappers.Xy<Driver>()
-                .X((driver, ind) => ind)
-                .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+                    return;
+                }
 
-                    break;
+                string search = (search_Field ?? string.Empty).ToLower();
+                Driver[] records = new Driver[0];
+
+                // Indexes from DriversMainCharts field
+                switch (index)
+                {
+                    case 1:
+                        // getting the average scale of CountTrips between all drivers (clip 50% of trips) - Left border of min trips
+                        //var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
+                        var avgTripsAtAll = (int)baseCollection.Select(x => x.CountTrips).Average();
+
+                        // getting the average scale of CountTrips between second part of drivers (clip 75% of clips)
+                        // cut off not drivers - change left border of min trips
+                        //var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average()*0.65);
+                        var avgDriversTrips = (int)(baseCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
+
+                        //var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+                        var avgMileage = baseCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
+
+                        //records = ModuleData.DriverCollection
+                        //    .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgDriversTrips)
+                        //    .OrderByDescending(x => x.GetEffectivityPercent(avgMileage)) //x.TotalMileage/avgMileage
+                        //    .Take(CountTake).ToArray();
+                        records = baseCollection
+                            .Where(x => x.LastName.ToLower().Contains(search) && x.CountTrips > avgDriversTrips)
+                            .OrderByDescending(x => x.GetEffectivityPercent(avgMileage)) //x.TotalMileage/avgMileage
+                            .Take(CountTake).ToArray();
+
+                        UpdateChartData(records);
+
+                        Formatter = val => (Math.Round(val, 2)).ToString() + " %";
+                        Mapper = Mappers.Xy<Driver>()
+                    .X((driver, ind) => ind)
+                    .Y(driver => Math.Round(driver.GetEffectivityPercent(avgMileage), 2)); //driver.TotalMileage/avgMileage
+
+                        break;
+
+                    case 2:
+                        //records = ModuleData.DriverCollection
+                        //    .Where(x => x.LastName.ToLower().Contains(search))
+                        //    .OrderByDescending(x => x.AvarageMileagePerTrip)
+                        //    .Take(CountTake).ToArray();
+                        records = baseCollection
+                            .Where(x => x.LastName.ToLower().Contains(search))
+                            .OrderByDescending(x => x.AvarageMileagePerTrip)
+                            .Take(CountTake).ToArray();
+
+                        UpdateChartData(records);
+
+                        Formatter = val => (Math.Round(val, 2)).ToString() + " км/поездка";
+                        Mapper = Mappers.Xy<Driver>()
+                    .X((driver, ind) => ind)
+                    .Y(driver => driver.AvarageMileagePerTrip);
+                        break;
+
+                    case 3:
+                        //records = ModuleData.DriverCollection
+                        //    .Where(x => x.LastName.ToLower().Contains(search))
+                        //    .OrderByDescending(x => x.CountTrips)
+                        //    .Take(CountTake).ToArray();
+                        records = baseCollection
+                            .Where(x => x.LastName.ToLower().Contains(search))
+                            .OrderByDescending(x => x.CountTrips)
+                            .Take(CountTake).ToArray();
+
+                        UpdateChartData(records);
+
+                        Formatter = val => (val).ToString() + " поездок";
+                        Mapper = Mappers.Xy<Driver>()
+                    .X((driver, ind) => ind)
+                    .Y(driver => driver.CountTrips);
+
+                        break;
+
+                    case 4:
+                        records = baseCollection
+                            .Where(x => x.LastName.ToLower().Contains(search))
+                            .OrderByDescending(x => x.MaxTripMileage.Key)
+                            .Take(CountTake).ToArray();
+                        //records = ModuleData.DriverCollection
+                        //    .Where(x => x.LastName.ToLower().Contains(search))
+                        //    .OrderByDescending(x => x.MaxTripMileage.Key)
+                        //    .Take(CountTake).ToArray();
+
+                        UpdateChartData(records);
+
+                        Formatter = val => (Math.Round(val, 2)).ToString() + " км";
+                        Mapper = Mappers.Xy<Driver>()
+                    .X((driver, ind) => ind)
+                    .Y(driver => driver.MaxTripMileage.Key);
+
+                        break;
+
+                    case 5:
+                        //records = ModuleData.DriverCollection
+                        //    .Where(x => x.LastName.ToLower().Contains(search))
+                        //    .OrderByDescending(x => x.MinTripMileage.Key)
+                        //    .Take(CountTake).ToArray();
+                        records = baseCollection
+                            .Where(x => x.LastName.ToLower().Contains(search))
+                            .OrderByDescending(x => x.MinTripMileage.Key)
+                            .Take(CountTake).ToArray();
+
+                        UpdateChartData(records);
+
+                        Formatter = val => (Math.Round(val, 2)).ToString() + " км";
+                        Mapper = Mappers.Xy<Driver>()
+                    .X((driver, ind) => ind)
+                    .Y(driver => driver.MinTripMileage.Key);
+
+                        break;
+
+                    case 0:
+                    default:
+                        //records = ModuleData.DriverCollection
+                        //    .Where(x => x.LastName.ToLower().Contains(search))
+                        //    .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                        //    .Take(CountTake).ToArray();
+                        records = baseCollection
+                            .Where(x => x.LastName.ToLower().Contains(search))
+                            .OrderByDescending(x => x.HistoryDrive.Select(tr => tr.Value.Sum(ml => ml.TotalMileage)).FirstOrDefault())
+                            .Take(CountTake).ToArray();
+
+                        UpdateChartData(records);
+
+                        Formatter = val => (val).ToString() + " км";
+                        Mapper = Mappers.Xy<Driver>()
+                    .X((driver, ind) => ind)
+                    .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
+
+                        break;
+                }
             }
-
+            catch (Exception)
+            { }
 
             RaisePropertyChanged(nameof(DriversStatisticsSAP));
         }
