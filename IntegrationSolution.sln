@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsxGridCtrl", "DsxGridCtrl\
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Integration.Setup", "Integration.Setup\Integration.Setup.vdproj", "{F03ABEBD-1EBD-4653-9476-507B3B30BBCD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Analytics", "IntegrationSolution.Analytics\IntegrationSolution.Analytics.csproj", "{0C4E510F-83C5-4A47-8449-59AA540C0BDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{39DC30DA-B60B-426B-8C81-437FE661849B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F03ABEBD-1EBD-4653-9476-507B3B30BBCD}.Debug|Any CPU.ActiveCfg = Debug
 		{F03ABEBD-1EBD-4653-9476-507B3B30BBCD}.Release|Any CPU.ActiveCfg = Release
+		{0C4E510F-83C5-4A47-8449-59AA540C0BDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4E510F-83C5-4A47-8449-59AA540C0BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4E510F-83C5-4A47-8449-59AA540C0BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4E510F-83C5-4A47-8449-59AA540C0BDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
