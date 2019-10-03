@@ -183,8 +183,8 @@ namespace Integration.ModuleGUI.ViewModels
             if (ModuleData.SimpleDataForReport == null)
                 ModuleData.SimpleDataForReport = new ObservableCollection<IntegratedVehicleInfo>(ModuleData.DetailsDataForReport);
 
-            if (ModuleData.DetailsDataForReport != null)
-                base.MaximizeWindow();
+            //if (ModuleData.DetailsDataForReport != null)
+            //    base.MaximizeWindow();
 
             SelectedSpeedViolationInfoForChart = null;
             SelectedVehicleInfoInMilesChart = null;
@@ -193,7 +193,7 @@ namespace Integration.ModuleGUI.ViewModels
         public override void OnExit()
         {
             base.OnExit();
-            base.NormalizeWindow();
+            //base.NormalizeWindow();
         }
 
         public override bool MoveBack()

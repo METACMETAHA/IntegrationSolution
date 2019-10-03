@@ -326,6 +326,10 @@ namespace Integration.ModuleGUI.ViewModels
                 var progress = await InitializeCars();
                 await progress.CloseAsync();
             }
+
+            if (ModuleData.DetailsDataForReport == null || ModuleData.SimpleDataForReport == null)
+                return false;
+
             this.IsFinished = true;
             return CanGoNext;
         }
