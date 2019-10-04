@@ -109,6 +109,14 @@ namespace Integration.ModuleGUI.Models
             get { return Vehicles?.Select(x => x).ToLookup(z => z.Type.Trim()); }
         }
 
+        // Filter by vehicle type
+        private Dictionary<string, bool> vehicleTypes;
+        public Dictionary<string, bool> VehicleTypes
+        {
+            get { return vehicleTypes; }
+            set { SetProperty(ref vehicleTypes, value); }
+        }
+
         private ConcurrentObservableCollection<Driver> driverCollection;
         public ConcurrentObservableCollection<Driver> DriverCollection
         {
@@ -180,6 +188,15 @@ namespace Integration.ModuleGUI.Models
             { return ex; }
 
             return null;
+        }
+
+
+        public void ChangeStateType(string type)
+        {
+            if (VehicleTypes != null && VehicleTypes.ContainsKey(type))
+                VehicleTypes[type] = !VehicleTypes[type];
+
+            RaisePropertyChanged(nameof(VehicleTypes));
         }
     }
 }
