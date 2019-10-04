@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace Integration.Infrastructure.Behavior
+namespace IntegrationSolution.Common.Behaviors
 {
     public class BindableSelectedItemBehavior : Behavior<TreeView>
     {

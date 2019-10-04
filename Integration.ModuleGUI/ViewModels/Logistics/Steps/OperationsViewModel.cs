@@ -65,7 +65,7 @@ namespace Integration.ModuleGUI.ViewModels
             get { return carMileageStatisticsSAP; }
             set { SetProperty(ref carMileageStatisticsSAP, value); }
         }
-
+        
         private SeriesCollection carAverageMileageByTripStatisticsSAP;
         public SeriesCollection CarAverageMileageByTripStatisticsSAP
         {
@@ -77,7 +77,7 @@ namespace Integration.ModuleGUI.ViewModels
         public ObservableCollection<IVehicleSAP> CommonCars
         {
             get { return _commonCars; }
-            set { _commonCars = value; }
+            set { SetProperty(ref _commonCars, value); }
         }
 
         private SeriesCollection driverWorkingDays;
@@ -99,6 +99,13 @@ namespace Integration.ModuleGUI.ViewModels
         {
             get { return isSettingsPopupVisible; }
             set { SetProperty(ref isSettingsPopupVisible, value); }
+        }
+
+        private bool isTopFilterPopupVisible;
+        public bool IsTopFilterPopupVisible
+        {
+            get { return isTopFilterPopupVisible; }
+            set { SetProperty(ref isTopFilterPopupVisible, value); }
         }
 
         private bool isDriversCarsPopupVisible;
@@ -223,6 +230,23 @@ namespace Integration.ModuleGUI.ViewModels
         }
 
 
+        #region Filters for top lists
+        private bool isShowCommonTop10;
+        public bool IsShowCommonTop10
+        {
+            get { return isShowCommonTop10; }
+            set { SetProperty(ref isShowCommonTop10, value); InitializeTopCharts(); }
+        }
+
+        private bool isShowLast10;
+        public bool IsShowLast10
+        {
+            get { return isShowLast10; }
+            set { SetProperty(ref isShowLast10, value); InitializeTopCharts(); }
+        }
+        #endregion
+
+
         #region Filters for driver list
         private bool isShowOnlyDrivers;
         public bool IsShowOnlyDrivers
@@ -251,6 +275,13 @@ namespace Integration.ModuleGUI.ViewModels
             }
         }
 
+        // Filter by vehicle type
+        private Dictionary<string, bool> vehicleTypes;
+        public Dictionary<string, bool> VehicleTypes
+        {
+            get { return vehicleTypes; }
+            set { SetProperty(ref vehicleTypes, value); }
+        }
 
         // Collection with filter (FOR LISTBOX)
         public ObservableCollection<Driver> DriversFilteredList
@@ -308,6 +339,8 @@ namespace Integration.ModuleGUI.ViewModels
             ShowDriversMainChartCommand = new DelegateCommand(ShowDriversMainChart);
             ShowTotalCommand = new DelegateCommand<string>(ShowTotal);
             UpdateFilterDriversCommand = new DelegateCommand(UpdateFilterDrivers);
+            ShowLast10Command = new DelegateCommand(ShowLast10);
+            UnCheckFilterTypeVehicleCommand = new DelegateCommand<string>(UnCheckFilterTypeVehicle);
 
             GridConfiguration = new GridConfiguration();
 
@@ -327,7 +360,7 @@ namespace Integration.ModuleGUI.ViewModels
                 await progress.CloseAsync();
             }
 
-            if (ModuleData.DetailsDataForReport == null || ModuleData.SimpleDataForReport == null)
+            if (ModuleData.DetailsDataForReport == null && ModuleData.SimpleDataForReport == null)
                 return false;
 
             this.IsFinished = true;
@@ -769,9 +802,48 @@ namespace Integration.ModuleGUI.ViewModels
                 IsAccessFilterFromListBox = IsAccessFilterFromListBox; // need to call property
 
         }
+        
+
+        public DelegateCommand ShowLast10Command { get; private set; }
+        private void ShowLast10()
+        {
+            var wnd = (MetroWindow)Application.Current.MainWindow;
+
+            var topTotal = new List<IVehicleSAP>();
+            var topAvg = new List<IVehicleSAP>();
+
+            foreach (var item in VehicleTypes?.Where(x => x.Value == true).Select(x => x.Key))
+            {
+                topTotal.AddRange(ModuleData.VehiclesByType[item]);
+                topAvg.AddRange(ModuleData.VehiclesByType[item]);
+            }
+
+            topTotal = topTotal.Where(x => x.TripResulted != null)?.OrderBy(x => x.TripResulted.TotalMileage).Take(10).ToList();
+            topAvg = topAvg.Where(x => x.TripResulted != null)?.OrderBy(x => (x?.TripResulted?.TotalMileage / x.CountTrips ?? -1)).Take(10).ToList();
+
+            StringBuilder msg = new StringBuilder();
+
+            msg.AppendLine("Топ 10 аутсайдеров по пробегу:" + Environment.NewLine);
+            topTotal.ForEach(x => msg.AppendLine($"{(topTotal.IndexOf(x) + 1).ToString()}. {x.StateNumber}\t({x.UnitModel} / {x.Type})\t\t{x.TripResulted?.TotalMileage}км"));
+
+
+            msg.AppendLine(Environment.NewLine + Environment.NewLine + "Топ 10 аутсайдеров по среднему пробегу за поездку:" + Environment.NewLine);
+            topAvg.ForEach(x => msg.AppendLine($"{(topAvg.IndexOf(x) + 1).ToString()}. {x.StateNumber}\t({x.UnitModel} / {x.Type})\t\t{(Math.Round((x.TripResulted?.TotalMileage / x.CountTrips ?? -1), 2)).ToString()}км"));
+
+            wnd.ShowModalMessageExternal("Список аутсайдеров", msg.ToString());
+        }
+
+
+        public DelegateCommand<string> UnCheckFilterTypeVehicleCommand { get; private set; }
+        protected virtual void UnCheckFilterTypeVehicle(string type)
+        {
+            if (VehicleTypes != null && VehicleTypes.ContainsKey(type))
+                VehicleTypes[type] = !VehicleTypes[type];
+
+            RaisePropertyChanged(nameof(VehicleTypes));
+            InitializeTopCharts();
+        }
         #endregion
-
-
 
         #region Helpers
         private async Task<ProgressDialogController> InitializeCars()
@@ -824,26 +896,65 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (ModuleData.Vehicles.Any())
             {
-                var MileageStatisticsSAP = ModuleData.Vehicles.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10);
-                var AverageMileageByTripStatisticsSAP = ModuleData.Vehicles.OrderByDescending(x => (x?.TripResulted?.TotalMileage / x.CountTrips ?? -1)).Take(10);
-
-                CommonCars = new ObservableCollection<IVehicleSAP>(MileageStatisticsSAP.Intersect(AverageMileageByTripStatisticsSAP));
-
-                CarMileageStatisticsSAP = InitializeChartsData(MileageStatisticsSAP
-                    , ChartDefinition.CarMileageStatisticsSAP
-                    , chartPoint => string.Format("{0} км", chartPoint.Y));
-
-                CarAverageMileageByTripStatisticsSAP = InitializeChartsData(AverageMileageByTripStatisticsSAP
-                    , ChartDefinition.CarAverageMileageByTripStatisticsSAP
-                    , chartPoint => string.Format("{0} км", chartPoint.Y));
-
                 // Initialize Drivers
                 InitializeDrivers(ModuleData.Vehicles.AsEnumerable());
+
+                VehicleTypes = new Dictionary<string, bool>();
+                foreach (var item in ModuleData.VehiclesByType)
+                {
+                    VehicleTypes.Add(item.Key, true);
+                }
+
+                InitializeTopCharts();
             }
 
             return progress;
         }
 
+        private void InitializeTopCharts()
+        {
+            var topTotal = new List<IVehicleSAP>();
+            var topAvg = new List<IVehicleSAP>();
+
+            foreach (var item in VehicleTypes?.Where(x => x.Value == true).Select(x => x.Key))
+            {
+                topTotal.AddRange(ModuleData.VehiclesByType[item]);
+                topAvg.AddRange(ModuleData.VehiclesByType[item]);
+            }
+
+            if (IsShowLast10)
+            {
+                topTotal = topTotal.Where(x => x.TripResulted != null)?.OrderBy(x => x.TripResulted.TotalMileage).Take(10).ToList();
+                topAvg = topAvg.Where(x => x.TripResulted != null)?.OrderBy(x => (x?.TripResulted?.TotalMileage / x.CountTrips ?? -1)).Take(10).ToList();
+            }
+            else
+            {
+                topTotal = topTotal.Where(x => x.TripResulted != null)?.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10).ToList();
+                topAvg = topAvg.Where(x => x.TripResulted != null)?.OrderByDescending(x => (x?.TripResulted?.TotalMileage / x.CountTrips ?? -1)).Take(10).ToList();
+            }
+
+            var resTotal = topTotal.OrderByDescending(x => x?.TripResulted?.TotalMileage).Take(10);
+            var resAvg = topAvg.OrderByDescending(x => (x?.TripResulted?.TotalMileage / x.CountTrips ?? -1)).Take(10);
+            
+            CommonCars = new ObservableCollection<IVehicleSAP>(resTotal.Intersect(resAvg));
+
+            if (IsShowCommonTop10)
+            {
+                resTotal = resTotal.Where(x => CommonCars.Contains(x));
+                resAvg = resAvg.Where(x => CommonCars.Contains(x));
+            }
+            
+            CarMileageStatisticsSAP = InitializeChartsData(
+                resTotal
+                    , ChartDefinition.CarMileageStatisticsSAP
+                    , chartPoint => string.Format("{0} км", chartPoint.Y));
+
+            CarAverageMileageByTripStatisticsSAP = InitializeChartsData(
+                resAvg
+                , ChartDefinition.CarAverageMileageByTripStatisticsSAP
+                , chartPoint => string.Format("{0} км", chartPoint.Y));
+
+        }
 
         // Initialize collection for charts and returns by 
         private SeriesCollection InitializeChartsData(IEnumerable<IVehicleSAP> vehicles, ChartDefinition chart, Func<ChartPoint, string> Label)

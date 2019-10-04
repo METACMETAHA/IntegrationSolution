@@ -106,7 +106,7 @@ namespace Integration.ModuleGUI.Models
 
         public ILookup<string, IVehicleSAP> VehiclesByType
         {
-            get { return Vehicles?.Select(x => x).ToLookup(z => z.Type); }
+            get { return Vehicles?.Select(x => x).ToLookup(z => z.Type.Trim()); }
         }
 
         private ConcurrentObservableCollection<Driver> driverCollection;
