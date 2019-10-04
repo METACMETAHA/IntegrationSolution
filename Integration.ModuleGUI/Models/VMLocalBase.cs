@@ -35,7 +35,7 @@ namespace Integration.ModuleGUI.Models
         {
             ModuleData = container.Resolve<CommonModuleData>();
 
-            
+            UnCheckFilterTypeVehicleCommand = new DelegateCommand<string>(UnCheckFilterTypeVehicle);
 
             _wialonContext = _container.Resolve<INavigationOperations>(); 
         }
@@ -80,7 +80,11 @@ namespace Integration.ModuleGUI.Models
         #endregion EventActions
 
         #region Commands
-        
+        public DelegateCommand<string> UnCheckFilterTypeVehicleCommand { get; private set; }
+        protected virtual void UnCheckFilterTypeVehicle(string type)
+        {
+            ModuleData.ChangeStateType(type);
+        }
         #endregion
     }
 }

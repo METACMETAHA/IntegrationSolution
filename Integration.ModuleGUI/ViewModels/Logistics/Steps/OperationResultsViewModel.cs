@@ -131,14 +131,8 @@ namespace Integration.ModuleGUI.ViewModels
             get { return isViolationsWndVisible; }
             set { SetProperty(ref isViolationsWndVisible, value); }
         }
+
         
-        // Filter by vehicle type
-        private Dictionary<string, bool> vehicleTypes;
-        public Dictionary<string, bool> VehicleTypes
-        {
-            get { return vehicleTypes; }
-            set { SetProperty(ref vehicleTypes, value); }
-        }
 
         // Collection with filter
         public ObservableCollection<IntegratedVehicleInfo> VehicleFilteredList
@@ -147,7 +141,7 @@ namespace Integration.ModuleGUI.ViewModels
             {
                 IEnumerable<IntegratedVehicleInfo> dataList = new List<IntegratedVehicleInfo>();
 
-                var trueVehiclesTypes = VehicleTypes?
+                var trueVehiclesTypes = ModuleData.VehicleTypes?
                         .Where(types => types.Value)?.ToDictionary(obj => obj.Key, val => val.Value);
 
                 if (string.IsNullOrWhiteSpace(SearchField))
@@ -183,11 +177,9 @@ namespace Integration.ModuleGUI.ViewModels
             LoadedCommand = new DelegateCommand(() => { UpdateFilterCars(); });
             OpenViolationsWndCommand = new DelegateCommand(OpenViolationsWnd);
             UpdateFilterCarsCommand = new DelegateCommand(UpdateFilterCars);
-            UnCheckFilterTypeVehicleCommand = new DelegateCommand<string>(UnCheckFilterTypeVehicle);
-
-            IsExpanderWithCarsVisible = true;
-
             
+            IsExpanderWithCarsVisible = true;
+                        
             GridConfiguration = new GridConfiguration();
         }
 
@@ -202,14 +194,12 @@ namespace Integration.ModuleGUI.ViewModels
             SelectedSpeedViolationInfoForChart = null;
             SelectedVehicleInfoInMilesChart = null;
 
-            VehicleTypes = new Dictionary<string, bool>();
+            ModuleData.VehicleTypes = new Dictionary<string, bool>();
             foreach (var item in ModuleData.VehiclesByType)
             {
-                VehicleTypes.Add(item.Key, true);
+                ModuleData.VehicleTypes.Add(item.Key, true);
             }
-            VehicleTypes = new Dictionary<string, bool>(VehicleTypes);
-            RaisePropertyChanged(nameof(VehicleTypes));
-
+            RaisePropertyChanged(nameof(ModuleData.VehicleTypes));
         }
 
         public override void OnExit()
@@ -265,25 +255,13 @@ namespace Integration.ModuleGUI.ViewModels
         public DelegateCommand UpdateFilterCarsCommand { get; private set; }
         private void UpdateFilterCars()
         {
-            //if (VehicleTypes == null)
-            //{
-            //    VehicleTypes = new ConcurrentObservableDictionary<string, bool>();
-            //    foreach (var item in ModuleData.VehiclesByType)
-            //    {
-            //        VehicleTypes.Add(item.Key, true);
-            //    }
-                
-            //}
             RaisePropertyChanged(nameof(VehicleFilteredList));
         }
 
-        public DelegateCommand<string> UnCheckFilterTypeVehicleCommand { get; private set; }
-        protected virtual void UnCheckFilterTypeVehicle(string type)
-        {
-            if (VehicleTypes != null && VehicleTypes.ContainsKey(type))
-                VehicleTypes[type] = !VehicleTypes[type];
 
-            RaisePropertyChanged(nameof(VehicleTypes));
+        protected override void UnCheckFilterTypeVehicle(string type)
+        {
+            ModuleData.ChangeStateType(type);
             RaisePropertyChanged(nameof(VehicleFilteredList));
         }
         #endregion

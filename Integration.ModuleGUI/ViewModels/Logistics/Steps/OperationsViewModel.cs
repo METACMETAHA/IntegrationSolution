@@ -276,12 +276,12 @@ namespace Integration.ModuleGUI.ViewModels
         }
 
         // Filter by vehicle type
-        private Dictionary<string, bool> vehicleTypes;
-        public Dictionary<string, bool> VehicleTypes
-        {
-            get { return vehicleTypes; }
-            set { SetProperty(ref vehicleTypes, value); }
-        }
+        //private Dictionary<string, bool> vehicleTypes;
+        //public Dictionary<string, bool> VehicleTypes
+        //{
+        //    get { return vehicleTypes; }
+        //    set { SetProperty(ref vehicleTypes, value); }
+        //}
 
         // Collection with filter (FOR LISTBOX)
         public ObservableCollection<Driver> DriversFilteredList
@@ -340,7 +340,6 @@ namespace Integration.ModuleGUI.ViewModels
             ShowTotalCommand = new DelegateCommand<string>(ShowTotal);
             UpdateFilterDriversCommand = new DelegateCommand(UpdateFilterDrivers);
             ShowLast10Command = new DelegateCommand(ShowLast10);
-            UnCheckFilterTypeVehicleCommand = new DelegateCommand<string>(UnCheckFilterTypeVehicle);
 
             GridConfiguration = new GridConfiguration();
 
@@ -811,8 +810,8 @@ namespace Integration.ModuleGUI.ViewModels
 
             var topTotal = new List<IVehicleSAP>();
             var topAvg = new List<IVehicleSAP>();
-
-            foreach (var item in VehicleTypes?.Where(x => x.Value == true).Select(x => x.Key))
+            
+            foreach (var item in ModuleData.VehicleTypes?.Where(x => x.Value == true).Select(x => x.Key))
             {
                 topTotal.AddRange(ModuleData.VehiclesByType[item]);
                 topAvg.AddRange(ModuleData.VehiclesByType[item]);
@@ -832,15 +831,10 @@ namespace Integration.ModuleGUI.ViewModels
 
             wnd.ShowModalMessageExternal("Список аутсайдеров", msg.ToString());
         }
-
-
-        public DelegateCommand<string> UnCheckFilterTypeVehicleCommand { get; private set; }
-        protected virtual void UnCheckFilterTypeVehicle(string type)
+        
+        protected override void UnCheckFilterTypeVehicle(string type)
         {
-            if (VehicleTypes != null && VehicleTypes.ContainsKey(type))
-                VehicleTypes[type] = !VehicleTypes[type];
-
-            RaisePropertyChanged(nameof(VehicleTypes));
+            ModuleData.ChangeStateType(type);
             InitializeTopCharts();
         }
         #endregion
@@ -899,10 +893,10 @@ namespace Integration.ModuleGUI.ViewModels
                 // Initialize Drivers
                 InitializeDrivers(ModuleData.Vehicles.AsEnumerable());
 
-                VehicleTypes = new Dictionary<string, bool>();
+                ModuleData.VehicleTypes = new Dictionary<string, bool>();
                 foreach (var item in ModuleData.VehiclesByType)
                 {
-                    VehicleTypes.Add(item.Key, true);
+                    ModuleData.VehicleTypes.Add(item.Key, true);
                 }
 
                 InitializeTopCharts();
@@ -916,7 +910,7 @@ namespace Integration.ModuleGUI.ViewModels
             var topTotal = new List<IVehicleSAP>();
             var topAvg = new List<IVehicleSAP>();
 
-            foreach (var item in VehicleTypes?.Where(x => x.Value == true).Select(x => x.Key))
+            foreach (var item in ModuleData.VehicleTypes?.Where(x => x.Value == true).Select(x => x.Key))
             {
                 topTotal.AddRange(ModuleData.VehiclesByType[item]);
                 topAvg.AddRange(ModuleData.VehiclesByType[item]);

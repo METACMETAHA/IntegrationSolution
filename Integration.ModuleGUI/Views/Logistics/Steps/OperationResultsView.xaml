@@ -249,7 +249,7 @@
                                                     IsChecked="{Binding IsShowOnlyViolationsCars}" />
 
                                                 <Expander Header="Отобрать по типу">
-                                                    <ListBox ItemsSource="{Binding VehicleTypes}" MaxHeight="250" 
+                                                    <ListBox ItemsSource="{Binding ModuleData.VehicleTypes}" MaxHeight="250" 
                                                                      ScrollViewer.CanContentScroll="True">
                                                         <ListBox.ItemTemplate>
                                                             <DataTemplate>

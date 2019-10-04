@@ -25,7 +25,7 @@ namespace Integration.ModuleGUI
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<CommonModuleData>();
-            
+
             _container.RegisterType(typeof(ICommonCompareIndicator<>), typeof(CompareIndicator<>));
             _container.RegisterType<IntegratedVehicleInfo>();
             _container.RegisterType<IntegratedVehicleInfoDetails>();
