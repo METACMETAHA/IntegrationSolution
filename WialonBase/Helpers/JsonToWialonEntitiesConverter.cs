@@ -54,13 +54,13 @@ namespace WialonBase.Helpers
 
                 try
                 {
-                    tripWialon.Mileage = double.Parse(trips.ElementAt(9).First.ElementAt(7).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim());
+                    tripWialon.Mileage = trips.ElementAt(9).First.ElementAt(7).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim().ToDouble();
                     tripWialon.AvgSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
                     tripWialon.MaxSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(9).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
                 }
                 catch
                 {
-                    tripWialon.Mileage = double.Parse(trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim());
+                    tripWialon.Mileage = trips.ElementAt(9).First.ElementAt(8).Value<string>().Replace("km/h", "").Replace("km", "").Replace('.', ',').Trim().ToDouble();
                     tripWialon.AvgSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(9).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
                     tripWialon.MaxSpeed = int.Parse(trips.ElementAt(9).First.ElementAt(10).Value<string>().Replace("km/h", "").Replace("km", "").Trim());
                 }
@@ -145,7 +145,7 @@ namespace WialonBase.Helpers
                         Duration = TimeSpan.Parse(item.First["c"].ToArray()[3].Value<string>()),
                         MaxSpeed = int.Parse(item.First["c"].ToArray()[5]["t"].Value<string>().Replace("km/h", "").Trim()),
                         SpeedLimit = int.Parse(item.First["c"].ToArray()[6].Value<string>().Replace("km/h", "").Trim()),
-                        Mileage = double.Parse(item.First["c"].ToArray()[7].Value<string>().Replace("km", "").Replace('.', ',').Trim())
+                        Mileage = item.First["c"].ToArray()[7].Value<string>().Replace("km", "").Replace('.', ',').Trim().ToDouble()
                     };
                     speedCollection.Add(speedViolation);
                 }
@@ -177,13 +177,13 @@ namespace WialonBase.Helpers
                     // Get mileage
                     try
                     {
-                        trip.Mileage = double.Parse(item.First["c"].ElementAt(7).Value<string>().Replace("km", "").Replace(".", ",").Trim());
+                        trip.Mileage = item.First["c"].ElementAt(7).Value<string>().Replace("km", "").Replace(".", ",").Trim().ToDouble();
                         trip.AvgSpeed = int.Parse(item.First["c"].ElementAt(8).Value<string>().Replace("km/h", "").Trim());
                         trip.MaxSpeed = int.Parse(item.First["c"].ElementAt(9)["t"].Value<string>().Replace("km/h", "").Trim());
                     }
                     catch
                     {
-                        trip.Mileage = double.Parse(item.First["c"].ElementAt(8).Value<string>().Replace("km", "").Replace(".", ",").Trim());
+                        trip.Mileage = item.First["c"].ElementAt(8).Value<string>().Replace("km", "").Replace(".", ",").Trim().ToDouble();
                         trip.AvgSpeed = int.Parse(item.First["c"].ElementAt(9).Value<string>().Replace("km/h", "").Trim());
                         trip.MaxSpeed = int.Parse(item.First["c"].ElementAt(10)["t"].Value<string>().Replace("km/h", "").Trim());
                     }

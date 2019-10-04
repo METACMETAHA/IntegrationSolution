@@ -515,12 +515,12 @@ namespace IntegrationSolution.Excel.Common
             {
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalMileageResult)]].Column,
+                                    fuelHeaders[nameof(_headerNames.TotalMileageResult)].Column,
                                     vehicle.TripResulted?.TotalMileage);
 
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalJobDoneResult)]].Column,
+                                    fuelHeaders[nameof(_headerNames.TotalJobDoneResult)].Column,
                                     vehicle.TripResulted?.MotoHoursIndicationsAtAll);
             }
             catch (Exception)
@@ -561,7 +561,7 @@ namespace IntegrationSolution.Excel.Common
                             costForFuel += item.Value.ConsumptionActual * price.DiselCost;
                             excelFile.CurrentWorkSheet.SetValue(
                                 header.FirstOrDefault().Row,
-                                fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCostDisel)]].Column,
+                                fuelHeaders[nameof(_headerNames.TotalCostDisel)].Column,
                                 item.Value.ConsumptionActual * price.DiselCost);
                             break;
 
@@ -569,7 +569,7 @@ namespace IntegrationSolution.Excel.Common
                             costForFuel += item.Value.ConsumptionActual * price.GasCost;
                             excelFile.CurrentWorkSheet.SetValue(
                                 header.FirstOrDefault().Row,
-                                fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCostGas)]].Column,
+                                fuelHeaders[nameof(_headerNames.TotalCostGas)].Column,
                                 item.Value.ConsumptionActual * price.GasCost);
                             break;
 
@@ -577,7 +577,7 @@ namespace IntegrationSolution.Excel.Common
                             costForFuel += item.Value.ConsumptionActual * price.LPGCost;
                             excelFile.CurrentWorkSheet.SetValue(
                                 header.FirstOrDefault().Row,
-                                fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCostLPG)]].Column,
+                                fuelHeaders[nameof(_headerNames.TotalCostLPG)].Column,
                                 item.Value.ConsumptionActual * price.LPGCost);
                             break;
 
@@ -594,14 +594,14 @@ namespace IntegrationSolution.Excel.Common
                 double costAmortizationAndDriver = 8470;
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.DriversFOT)]].Column,
+                                    fuelHeaders[nameof(_headerNames.DriversFOT)].Column,
                                     8470);
 
 
                 var costAtAll = costForFuel + costAmortizationAndDriver * 2;
                 excelFile.CurrentWorkSheet.SetValue(
                                     header.FirstOrDefault().Row,
-                                    fuelHeaders[_headerNames.PropertiesData[nameof(_headerNames.TotalCost)]].Column,
+                                    fuelHeaders[nameof(_headerNames.TotalCost)].Column,
                                     costAtAll);
             }
             catch (Exception)

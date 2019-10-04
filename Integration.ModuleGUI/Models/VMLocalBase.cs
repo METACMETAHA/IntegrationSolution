@@ -4,6 +4,7 @@ using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.SelfEntities;
 using MahApps.Metro.Controls;
+using Prism.Commands;
 using Prism.Events;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,6 @@ namespace Integration.ModuleGUI.Models
             get { return _moduleData; }
             set { SetProperty(ref _moduleData, value); }
         }
-        
         #endregion Properties
 
 
@@ -34,7 +34,10 @@ namespace Integration.ModuleGUI.Models
             IEventAggregator ea) : base(container, ea)
         {
             ModuleData = container.Resolve<CommonModuleData>();
-            _wialonContext = _container.Resolve<INavigationOperations>();
+
+            
+
+            _wialonContext = _container.Resolve<INavigationOperations>(); 
         }
 
 
@@ -66,7 +69,6 @@ namespace Integration.ModuleGUI.Models
         }
         #endregion
 
-
         #region EventActions
         protected async void UpdateNavigationConnection(bool obj)
         {
@@ -76,5 +78,9 @@ namespace Integration.ModuleGUI.Models
                 _wialonContext = null;
         }
         #endregion EventActions
+
+        #region Commands
+        
+        #endregion
     }
 }

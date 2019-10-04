@@ -9,6 +9,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:behavior="clr-namespace:IntegrationSolution.Common.Behaviors;assembly=IntegrationSolution.Common"
     xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:vm="clr-namespace:Integration.ModuleGUI.ViewModels"
@@ -97,7 +98,6 @@
 
             <TabItem Header="Сводка по SAP">
                 <Grid x:Name="SapDetaisPanel">
-
                     <Button
                         Margin="10"
                         Padding="10"
@@ -121,7 +121,6 @@
                         VirtualizingPanel.IsVirtualizing="True"
                         VirtualizingPanel.VirtualizationMode="Recycling">
                         <StackPanel>
-
                             <Button
                                 Width="56"
                                 Height="56"
@@ -151,41 +150,44 @@
                             TabStripPlacement="Left">
                             <Controls:MetroTabItem HorizontalContentAlignment="Stretch" Header="Пробег">
 
-                                <WrapPanel>
-                                    <Grid>
-                                        <StackPanel>
-                                            <TextBlock
+                                <StackPanel>
+
+                                    <WrapPanel>
+                                        <Grid>
+                                            <StackPanel>
+                                                <TextBlock
                                                 Margin="10"
                                                 Style="{DynamicResource NormalHeaderWithEffect}"
                                                 Text="Топ 10 по пробегу (по ПЛ)"
                                                 TextAlignment="Center"
                                                 TextWrapping="WrapWithOverflow" />
-                                            <charts:PieChart
+                                                <charts:PieChart
+                                                MaxHeight="350"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
                                                 Series="{Binding CarMileageStatisticsSAP}">
-                                                <charts:PieChart.DataTooltip>
-                                                    <charts:DefaultTooltip
+                                                    <charts:PieChart.DataTooltip>
+                                                        <charts:DefaultTooltip
                                                         BulletSize="20"
                                                         FontSize="13"
                                                         IsWrapped="False"
                                                         SelectionMode="OnlySender" />
-                                                </charts:PieChart.DataTooltip>
-                                            </charts:PieChart>
+                                                    </charts:PieChart.DataTooltip>
+                                                </charts:PieChart>
 
-                                            <StackPanel.Style>
-                                                <Style TargetType="{x:Type StackPanel}">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding CarMileageStatisticsSAP}" Value="{x:Null}">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </StackPanel.Style>
-                                        </StackPanel>
+                                                <StackPanel.Style>
+                                                    <Style TargetType="{x:Type StackPanel}">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding CarMileageStatisticsSAP}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
+                                            </StackPanel>
 
-                                        <Button
+                                            <Button
                                             Grid.Column="1"
                                             Width="22"
                                             Height="22"
@@ -197,62 +199,193 @@
                                             Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
                                             ToolTipService.HasDropShadow="True"
                                             ToolTipService.InitialShowDelay="100">
-                                            <Rectangle
+                                                <Rectangle
                                                 Width="5"
                                                 Height="10"
                                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information}" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                            <Button.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock
                                                             Margin="8,5,8,18"
                                                             Style="{DynamicResource SmallHeader}"
                                                             Text="ТС что находятся в обеих списках"
                                                             TextAlignment="Center"
                                                             TextWrapping="WrapWithOverflow" />
-                                                        <ListView ItemsSource="{Binding CommonCars}" />
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </Button.ToolTip>
-                                        </Button>
-                                    </Grid>
+                                                            <ListView ItemsSource="{Binding CommonCars}" />
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                            </Button>
 
-                                    <StackPanel>
-                                        <TextBlock
+                                            <ToggleButton
+                                                x:Name="topFilterBtn"
+                                                    Grid.Column="1"
+                                                    Margin="40 12.5"
+                                                    Padding="4"
+                                                    HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                    HorizontalContentAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    BorderThickness="0"
+                                                    IsChecked="{Binding IsTopFilterPopupVisible, Mode=TwoWay}">
+                                                <ToggleButton.Style>
+                                                    <Style TargetType="{x:Type ToggleButton}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ToggleButton">
+                                                                    <ContentPresenter />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                                <Setter Property="Background" Value="#FFA429" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ToggleButton.Style>
+                                                <Rectangle
+                                                        Width="18"
+                                                        Height="18"
+                                                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </ToggleButton>
+
+                                            <Button Grid.Column="1"
+                                                    Margin="70 9"
+                                                    Padding="4"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    HorizontalContentAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    BorderThickness="0"
+                    Command="{Binding ShowLast10Command}"
+                    ToolTip="Отобразить списком">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                                                           TargetType="{x:Type Button}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsShowLast10}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+
+                                                <Rectangle Width="18" Height="18" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_list}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </Button>
+
+                                            <Popup
+                                                    MaxWidth="350"
+                                                    AllowsTransparency="True"
+                                                    IsOpen="{Binding IsTopFilterPopupVisible, Mode=TwoWay}"
+                                                    Placement="Bottom"
+                                                    PlacementTarget="{Binding ElementName=topFilterBtn}"
+                                                    PopupAnimation="Scroll"
+                                                    StaysOpen="False">
+                                                <Border Background="#FFFFF0CB" BorderThickness="0">
+                                                    <StackPanel
+                                                        Width="auto"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            Background="Transparent"
+                                                            Orientation="Vertical">
+                                                        <ToggleButton
+                                                                Content="Отобрать ТС что попали в общий топ 10"
+                                                                IsChecked="{Binding IsShowCommonTop10}" />
+                                                        <ToggleButton
+                                                                IsChecked="{Binding IsShowLast10}"
+                                                                Content="Отобразить аутсайдеров" />
+
+                                                        <Expander Header="Отобрать по типу">
+                                                            <ListBox ItemsSource="{Binding VehicleTypes}" MaxHeight="250" 
+                                                                     ScrollViewer.CanContentScroll="True">
+                                                                <ListBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid Margin="5">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="30"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+
+                                                                            <CheckBox IsChecked="{Binding Value, Mode=OneWay}">
+                                                                                <i:Interaction.Triggers>
+                                                                                    <i:EventTrigger EventName="Checked">
+                                                                                        <i:InvokeCommandAction Command="{Binding DataContext.UnCheckFilterTypeVehicleCommand,
+                                                                                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                                                                               CommandParameter="{Binding Key}"/>
+                                                                                    </i:EventTrigger>
+                                                                                    <i:EventTrigger EventName="Unchecked">
+                                                                                        <i:InvokeCommandAction Command="{Binding DataContext.UnCheckFilterTypeVehicleCommand,
+                                                                                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                                                                               CommandParameter="{Binding Key}"/>
+                                                                                    </i:EventTrigger>
+                                                                                </i:Interaction.Triggers>
+                                                                            </CheckBox>
+                                                                            <TextBlock Grid.Column="1" 
+                                                                                       HorizontalAlignment="Stretch"
+                                                                                       TextWrapping="WrapWithOverflow"
+                                                                                       TextAlignment="Left"
+                                                                                       Text="{Binding Key}"/>
+
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                </ListBox.ItemTemplate>
+                                                            </ListBox>
+                                                        </Expander>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Popup>
+                                        </Grid>
+
+                                        <StackPanel>
+                                            <TextBlock
                                             Margin="10"
                                             Style="{DynamicResource NormalHeaderWithEffect}"
                                             Text="Топ 10 по среднему пробегу за поездку (по ПЛ)"
                                             TextAlignment="Center"
                                             TextWrapping="WrapWithOverflow" />
-                                        <charts:PieChart
+                                            <charts:PieChart
+                                            MaxHeight="350"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
                                             Series="{Binding CarAverageMileageByTripStatisticsSAP}">
-                                            <charts:PieChart.DataTooltip>
-                                                <charts:DefaultTooltip
+                                                <charts:PieChart.DataTooltip>
+                                                    <charts:DefaultTooltip
                                                     BulletSize="20"
                                                     FontSize="13"
                                                     IsWrapped="False" />
-                                            </charts:PieChart.DataTooltip>
-                                        </charts:PieChart>
+                                                </charts:PieChart.DataTooltip>
+                                            </charts:PieChart>
 
-                                        <StackPanel.Style>
-                                            <Style TargetType="{x:Type StackPanel}">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CarAverageMileageByTripStatisticsSAP}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </StackPanel.Style>
-                                    </StackPanel>
-                                </WrapPanel>
+                                            <StackPanel.Style>
+                                                <Style TargetType="{x:Type StackPanel}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding CarAverageMileageByTripStatisticsSAP}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Style>
+                                        </StackPanel>
+                                    </WrapPanel>
 
+
+                                </StackPanel>
                             </Controls:MetroTabItem>
 
                             <Controls:MetroTabItem

@@ -309,17 +309,17 @@ namespace IntegrationSolution.Excel.Implementations
         public void WriteInHeadersAndDataForTotalResult(ICollection<IVehicleSAP> vehicles)
         {
             StaticHelper.WriteVehicleDataAndHeaders(this, vehicles,
-                _headerNames.TotalMileageResult,
-                _headerNames.TotalJobDoneResult,
-                _headerNames.ConsumptionGasActualResult,
-                _headerNames.ConsumptionDieselActualResult,
-                _headerNames.ConsumptionLPGActualResult,
-                _headerNames.TotalCostGas,
-                _headerNames.TotalCostDisel,
-                _headerNames.TotalCostLPG,
-                _headerNames.Amortization,
-                _headerNames.DriversFOT,
-                _headerNames.TotalCost);
+                _headerNames.PropertiesData[nameof(_headerNames.TotalMileageResult)],
+                _headerNames.PropertiesData[nameof(_headerNames.TotalJobDoneResult)],
+                _headerNames.PropertiesData[nameof(_headerNames.ConsumptionGasActualResult)],
+                _headerNames.PropertiesData[nameof(_headerNames.ConsumptionDieselActualResult)],
+                _headerNames.PropertiesData[nameof(_headerNames.ConsumptionLPGActualResult)],
+                _headerNames.PropertiesData[nameof(_headerNames.TotalCostGas)],
+                _headerNames.PropertiesData[nameof(_headerNames.TotalCostDisel)],
+                _headerNames.PropertiesData[nameof(_headerNames.TotalCostLPG)],
+                _headerNames.PropertiesData[nameof(_headerNames.Amortization)],
+                _headerNames.PropertiesData[nameof(_headerNames.DriversFOT)],
+                _headerNames.PropertiesData[nameof(_headerNames.TotalCost)]);
         }
 
 

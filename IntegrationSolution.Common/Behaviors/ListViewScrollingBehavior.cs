@@ -7,10 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Interactivity;
 
-namespace Integration.Infrastructure.Behavior
+namespace IntegrationSolution.Common.Behaviors
 {
     public class ListViewScrollingBehavior
     {
@@ -109,7 +107,7 @@ namespace Integration.Infrastructure.Behavior
                     if (dispatcher != null && !dispatcher.CheckAccess())
                     {
                         dispatcher.BeginInvoke(
-                            (Action)(() => 
+                            (Action)(() =>
                             {
                                 listBox.ScrollIntoView(e.NewItems[0]);
                                 listBox.SelectedItem = e.NewItems[0];

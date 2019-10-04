@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:Integration.Infrastructure.Views.Info"
              xmlns:views="clr-namespace:Integration.Infrastructure.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:behaviours="clr-namespace:Integration.Infrastructure.Behavior"
              mc:Ignorable="d" 
              xmlns:prism="http://www.codeplex.com/prism"
              prism:ViewModelLocator.AutoWireViewModel="True">
