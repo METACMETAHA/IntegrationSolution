@@ -301,6 +301,7 @@ namespace Integration.ModuleGUI.ViewModels
                 }
                 if (IsShowOnlyDrivers == true)
                 {
+
                     var avgTripsAtAll = (int)ModuleData.DriverCollection.Select(x => x.CountTrips).Average();
                     var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
                     dataList = dataList?.Where(x => x.CountTrips >= avgDriversTrips)?.ToList();
@@ -838,6 +839,7 @@ namespace Integration.ModuleGUI.ViewModels
             InitializeTopCharts();
         }
         #endregion
+
 
         #region Helpers
         private async Task<ProgressDialogController> InitializeCars()
