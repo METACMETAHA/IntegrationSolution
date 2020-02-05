@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="Integration.Infrastructure.Views.HeaderView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Integration.Infrastructure.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
+
+    <!--  Header  -->
+    <Grid Grid.Row="0" Background="{StaticResource HeaderBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Style="{StaticResource NormalHeaderWithEffect}"
+            Text="Мониторинг транспортного обеспечения" />
+
+        <ContentControl
+            Grid.Column="1"
+            Height="65"
+            Margin="20,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="{StaticResource DtekLogo}" />
+
+    </Grid>
+</UserControl>

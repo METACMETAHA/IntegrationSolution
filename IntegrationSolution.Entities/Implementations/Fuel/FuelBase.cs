@@ -4,24 +4,24 @@ using System.Linq;
 
 namespace IntegrationSolution.Entities.Implementations
 {
-    public abstract class FuelBase<T> : IFuel where T : class
+    public class FuelBase : IFuel //where T : class
     {
         public string Title { get; private set; }
 
-        [HeaderAttribute("DepartureBalance&replace&")]
-        public string DepartureBalance { get; set; }
+        [Header("DepartureBalance&replace&")]
+        public double DepartureBalance { get; set; }
 
-        [HeaderAttribute("ReturnBalance&replace&")]
-        public string ReturnBalance { get; set; }
+        [Header("ReturnBalance&replace&")]
+        public double ReturnBalance { get; set; }
 
-        [HeaderAttribute("Consumption&replace&Actual")]
-        public string ConsumptionActual { get; set; }
+        [Header("Consumption&replace&Actual")]
+        public double ConsumptionActual { get; set; }
 
-        [HeaderAttribute("Consumption&replace&Normative")]
-        public string ConsumptionNormative { get; set; }
+        [Header("Consumption&replace&Normative")]
+        public double ConsumptionNormative { get; set; }
 
-        [HeaderAttribute("Consumption&replace&SavingsOrOverruns")]
-        public string ConsumptionSavingsOrOverruns { get; set; }
+        [Header("Consumption&replace&SavingsOrOverruns")]
+        public double ConsumptionSavingsOrOverruns { get; set; }
 
 
         /// <summary>
@@ -32,11 +32,11 @@ namespace IntegrationSolution.Entities.Implementations
         {
             if (!string.IsNullOrWhiteSpace(FuelName))
                 Title = FuelName;
-            else
-                Title = typeof(T).Name;
+            //else
+                //Title = typeof(T).Name;
 
-            foreach (var prop in this.GetType().GetProperties().Where(x => x.GetCustomAttributes(typeof(HeaderAttribute), false).Length > 0))
-                AttributeProvider.SetHeaderDescription<T>(prop.Name, typeof(T).Name);
+            //foreach (var prop in this.GetType().GetProperties().Where(x => x.GetCustomAttributes(typeof(HeaderAttribute), false).Length > 0))
+            //    AttributeProvider.SetHeaderDescription<T>(prop.Name, typeof(T).Name);
         }
     }
 }

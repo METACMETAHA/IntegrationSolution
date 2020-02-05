@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="IntegrationSolution.Dialogs.PartialViews.DatesFromToPartialView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IntegrationSolution.Dialogs.PartialViews"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Style TargetType="{x:Type Calendar}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=customSelection, Path=IsChecked}" Value="True">
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <StackPanel Grid.ColumnSpan="3" Margin="10 25 10 10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerMonth}" Content="За месяц" Padding="5" Margin="7"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerWeek}" Content="За неделю" Padding="5" Margin="7"/>
+            <RadioButton Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding PerDay}" Content="Сегодня" Padding="5" Margin="7"/>
+            <RadioButton x:Name="customSelection" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Custom}" Content="Выборочно" Padding="5" Margin="7"/>
+        </StackPanel>
+
+        <Calendar Grid.Column="0" Grid.Row="1" Margin="10" SelectedDate="{Binding Dates.FromDate}" IsTodayHighlighted="False"
+                  SelectionMode="SingleDate"/>
+        <Calendar Grid.Column="1" Grid.Row="1" Margin="10" SelectedDate="{Binding Dates.ToDate}" IsTodayHighlighted="False"
+                  SelectionMode="SingleDate"/>
+    </Grid>
+</UserControl>

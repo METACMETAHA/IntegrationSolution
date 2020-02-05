@@ -8,8 +8,8 @@ namespace IntegrationSolution.Entities.Interfaces
 {
     public interface ITractorIndicators
     {
-        string DepartureMotoHoursIndications { get; set; }
-        string ReturnMotoHoursIndications { get; set; }
-        string MotoHoursIndicationsAtAll { get; set; }
+        double DepartureMotoHoursIndications { get; set; }
+        double ReturnMotoHoursIndications { get; set; }
+        double MotoHoursIndicationsAtAll { get; set; }
     }
 }

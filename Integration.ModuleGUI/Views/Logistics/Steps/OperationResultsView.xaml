@@ -1,0 +1,760 @@
+﻿<UserControl
+    x:Class="Integration.ModuleGUI.Views.OperationResultsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:converters="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:partialViews="clr-namespace:Integration.PartialViews.Views;assembly=Integration.PartialViews"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:views="clr-namespace:Integration.ModuleGUI.Views.Logistics.Steps.OperationResultsViews"
+    xmlns:wnd="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+    x:Name="userControl"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <converters:PercentDifferenceConverter x:Key="PercentConverter" />
+        <converters:ViolationsEnabledConverter x:Key="ViolationsEnabledConverter" />
+        <Style TargetType="{x:Type TextBlock}">
+            <Style.Setters>
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+
+    <Grid x:Name="ParentGrid">
+
+        <!--  Tab with Simple Data  -->
+        <Controls:MetroAnimatedTabControl>
+            <Controls:MetroTabItem Header="Сводка">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel
+                        x:Name="panelDetails"
+                        VerticalAlignment="Stretch"
+                        CanHorizontallyScroll="True"
+                        ClipToBounds="True"
+                        Orientation="Horizontal"
+                        ScrollViewer.CanContentScroll="True">
+                        <views:ReportSimpleView Height="{Binding ElementName=panelDetails, Path=Height}" ScrollViewer.CanContentScroll="True" />
+                        <partialViews:GridConfigurationView Width="100" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Controls:MetroTabItem>
+
+            <Controls:MetroTabItem Header="Сравнение">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid
+                        x:Name="ParentGridTabItem"
+                        VerticalAlignment="Stretch"
+                        ClipToBounds="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="auto"
+                                    MinWidth="30"
+                                    MaxWidth="520" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition
+                                    Width="auto"
+                                    MinWidth="30"
+                                    MaxWidth="300" />
+                            </Grid.ColumnDefinitions>
+
+                            <Expander
+                                Margin="0,0,-7,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                ExpandDirection="Right"
+                                FlowDirection="LeftToRight"
+                                IsExpanded="{Binding IsExpanderWithCarsVisible}"
+                                SnapsToDevicePixels="True">
+                                <Expander.Header>
+                                    <TextBlock
+                                        Height="21"
+                                        FontSize="18"
+                                        FontStretch="SemiExpanded"
+                                        FontWeight="Light"
+                                        Foreground="Black"
+                                        Text="Список транспортных средств">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="-90" />
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
+                                </Expander.Header>
+
+                                <Grid
+                                    x:Name="panel"
+                                    Width="350"
+                                    Margin="6,2"
+                                    ScrollViewer.CanContentScroll="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="35" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="41" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <ToggleButton
+                                        x:Name="settingsButton"
+                                        Grid.Column="1"
+                                        Margin="2,2,0,2"
+                                        Padding="6"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        BorderThickness="0"
+                                        IsChecked="{Binding IsSettingsPopupVisible, Mode=TwoWay}">
+                                        <ToggleButton.Style>
+                                            <Style TargetType="{x:Type ToggleButton}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ToggleButton">
+                                                            <ContentPresenter />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#FFA429" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                        <Rectangle
+                                            Width="20"
+                                            Height="20"
+                                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_filter}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </ToggleButton>
+
+                                    <TextBox
+                                        Margin="0,5"
+                                        Padding="5,2"
+                                        Controls:TextBoxHelper.ClearTextButton="True"
+                                        Controls:TextBoxHelper.Watermark="Поиск..."
+                                        FontSize="13"
+                                        Text="{Binding SearchField, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    <ListBox
+                                        x:Name="listBoxCars"
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="2"
+                                        Width="{Binding ElementName=panel, Path=ActualWidth}"
+                                        Margin="0,0,0,5"
+                                        ItemsSource="{Binding VehicleFilteredList, Mode=OneWay}"
+                                        ScrollViewer.CanContentScroll="True"
+                                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                        SelectedItem="{Binding SelectedVehicleInfoInMilesChart}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding OnCarChangedCmd}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="5,2" ToolTip="{Binding UnitModel}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock
+                                                        Grid.RowSpan="3"
+                                                        HorizontalAlignment="Left"
+                                                        FontSize="17"
+                                                        FontStretch="UltraCondensed"
+                                                        FontWeight="Light"
+                                                        Text="{Binding StateNumber}"
+                                                        TextWrapping="WrapWithOverflow" />
+
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Right"
+                                                        Text="{Binding PercentDifference, Converter={StaticResource PercentConverter}}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Right"
+                                                        Text="{Binding Type}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Right"
+                                                        Text="{Binding StructureName}" />
+
+                                                </Grid>
+                                            </DataTemplate>
+
+                                        </ListBox.ItemTemplate>
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListBoxItem}">
+                                                <Setter Property="IsEnabled" Value="True" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding PercentDifference}" Value="{x:Null}">
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+
+                                    <Popup
+                                        x:Name="editPopup"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        Width="Auto"
+                                        AllowsTransparency="True"
+                                        IsOpen="{Binding IsSettingsPopupVisible, Mode=TwoWay}"
+                                        Placement="Bottom"
+                                        PlacementTarget="{Binding ElementName=settingsButton}"
+                                        PopupAnimation="Scroll"
+                                        StaysOpen="False">
+                                        <Border Background="#FFFFF0CB" BorderThickness="0">
+                                            <StackPanel
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Background="Transparent"
+                                                Orientation="Vertical">
+                                                <ToggleButton
+                                                    Command="{Binding Path=UpdateFilterCarsCommand}"
+                                                    Content="Скрыть ТС без пробега"
+                                                    IsChecked="{Binding IsHideNullMileageCars}" />
+                                                <ToggleButton
+                                                    Command="{Binding Path=UpdateFilterCarsCommand}"
+                                                    Content="Отобразить только ТС с нарушениями"
+                                                    IsChecked="{Binding IsShowOnlyViolationsCars}" />
+
+                                                <Expander Header="Отобрать по типу">
+                                                    <ListBox ItemsSource="{Binding ModuleData.VehicleTypes}" MaxHeight="250" 
+                                                                     ScrollViewer.CanContentScroll="True">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid Margin="5">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="30"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <CheckBox IsChecked="{Binding Value, Mode=OneWay}">
+                                                                        <i:Interaction.Triggers>
+                                                                            <i:EventTrigger EventName="Checked">
+                                                                                <i:InvokeCommandAction Command="{Binding DataContext.UnCheckFilterTypeVehicleCommand,
+                                                                                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                                                                               CommandParameter="{Binding Key}"/>
+                                                                            </i:EventTrigger>
+                                                                            <i:EventTrigger EventName="Unchecked">
+                                                                                <i:InvokeCommandAction Command="{Binding DataContext.UnCheckFilterTypeVehicleCommand,
+                                                                                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                                                                               CommandParameter="{Binding Key}"/>
+                                                                            </i:EventTrigger>
+                                                                        </i:Interaction.Triggers>
+                                                                    </CheckBox>
+                                                                    <TextBlock Grid.Column="1" 
+                                                                                       HorizontalAlignment="Stretch"
+                                                                                       TextWrapping="WrapWithOverflow"
+                                                                                       TextAlignment="Left"
+                                                                                       Text="{Binding Key}"/>
+
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                </Expander>
+                                            </StackPanel>
+                                        </Border>
+                                    </Popup>
+
+                                </Grid>
+                            </Expander>
+
+                            <Grid Grid.Column="1">
+
+                                <Controls:Badged
+                                    x:Name="violationsButton"
+                                    Margin="0,12,25,0"
+                                    Padding="6"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Panel.ZIndex="999"
+                                    Badge="{Binding SelectedVehicleInfoInMilesChart.CountSpeedViolations}"
+                                    IsEnabled="{Binding SelectedVehicleInfoInMilesChart.CountSpeedViolations, Converter={StaticResource ViolationsEnabledConverter}}">
+                                    <Controls:Badged.Effect>
+                                        <DropShadowEffect
+                                            BlurRadius="12"
+                                            Direction="-100"
+                                            RenderingBias="Quality"
+                                            ShadowDepth="3"
+                                            Color="#C3BFBB" />
+                                    </Controls:Badged.Effect>
+                                    <Controls:Badged.Style>
+                                        <Style TargetType="{x:Type Controls:Badged}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedVehicleInfoInMilesChart}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Controls:Badged.Style>
+
+                                    <Button Command="{Binding OpenViolationsWndCommand}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock
+                                                Margin="3,2,5,2"
+                                                FontSize="14"
+                                                Foreground="Black"
+                                                Style="{StaticResource RText}"
+                                                Text="Нарушения" />
+                                            <Rectangle
+                                                Width="20"
+                                                Height="20"
+                                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_transit_congestion}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </StackPanel>
+                                    </Button>
+
+                                </Controls:Badged>
+
+                                <partialViews:PredictionChartView
+                                    Grid.Column="1"
+                                    Margin="15,0,0,0"
+                                    DataContext="{Binding PredictionChartContext}"
+                                    ScrollViewer.CanContentScroll="True" />
+                            </Grid>
+
+                            <Expander
+                                Grid.Column="2"
+                                Margin="-7,0,0,0"
+                                HorizontalAlignment="Right"
+                                BorderThickness="0"
+                                ExpandDirection="Left"
+                                IsExpanded="{Binding IsExpanderWithCarDetailsVisible}"
+                                ScrollViewer.CanContentScroll="True"
+                                SnapsToDevicePixels="True">
+                                <Expander.Header>
+                                    <TextBlock
+                                        Height="21"
+                                        FontSize="18"
+                                        FontStretch="SemiExpanded"
+                                        FontWeight="Light"
+                                        Foreground="Black"
+                                        Text="Подробности">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="90" />
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
+                                </Expander.Header>
+
+                                <Grid
+                                    Width="250"
+                                    Margin="6,2"
+                                    ScrollViewer.CanContentScroll="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="35" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,10"
+                                            HorizontalAlignment="Center"
+                                            FontSize="24"
+                                            FontStretch="UltraCondensed"
+                                            FontWeight="Light"
+                                            Text="ПОДРОБНОСТИ" />
+                                        <Border
+                                            Width="240"
+                                            Height="1"
+                                            Margin="5,0,5,27"
+                                            HorizontalAlignment="Center"
+                                            Background="#F7CB64"
+                                            BorderThickness="0"
+                                            CornerRadius="30" />
+                                        <StackPanel.Style>
+                                            <Style TargetType="{x:Type StackPanel}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedVehicleInfoInMilesChart}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                    </StackPanel>
+
+                                    <ScrollViewer
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="2"
+                                        ScrollViewer.CanContentScroll="True"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <StackPanel ScrollViewer.CanContentScroll="True">
+                                            <StackPanel.Resources>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="FontSize" Value="14" />
+                                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                                    <Setter Property="Margin" Value="25,10" />
+                                                    <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                                </Style>
+                                            </StackPanel.Resources>
+
+                                            <WrapPanel>
+                                                <TextBlock
+                                                    Margin="10,0"
+                                                    Style="{DynamicResource RegText}"
+                                                    Text="Гос.номер: " />
+                                                <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.StateNumber}" />
+                                            </WrapPanel>
+
+                                            <WrapPanel Margin="0,10">
+                                                <TextBlock
+                                                    Margin="10,0"
+                                                    Style="{DynamicResource RegText}"
+                                                    Text="Модель: " />
+                                                <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.UnitModel}" />
+                                            </WrapPanel>
+
+                                            <WrapPanel Margin="0,10">
+                                                <TextBlock
+                                                    Margin="10,0"
+                                                    Style="{DynamicResource RegText}"
+                                                    Text="Тип: " />
+                                                <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.Type}" />
+                                            </WrapPanel>
+
+                                            <WrapPanel Margin="0,10">
+                                                <TextBlock
+                                                    Margin="10,0"
+                                                    Style="{DynamicResource RegText}"
+                                                    Text="Структурное подр.: " />
+                                                <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.StructureName}" />
+                                            </WrapPanel>
+
+                                            <GroupBox
+                                                Margin="0,10"
+                                                Padding="10"
+                                                Header="Количество поездок">
+                                                <StackPanel>
+                                                    <WrapPanel>
+                                                        <TextBlock
+                                                            Margin="10,0"
+                                                            Style="{DynamicResource RegText}"
+                                                            Text="SAP: " />
+                                                        <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.CountTrips.SAP}" />
+                                                    </WrapPanel>
+                                                    <WrapPanel>
+                                                        <TextBlock
+                                                            Margin="10,0"
+                                                            Style="{DynamicResource RegText}"
+                                                            Text="Wialon: " />
+                                                        <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.CountTrips.Wialon}" />
+                                                    </WrapPanel>
+                                                </StackPanel>
+                                            </GroupBox>
+
+                                            <GroupBox
+                                                Margin="0,10"
+                                                Padding="10"
+                                                Header="Километраж поездок">
+                                                <StackPanel>
+                                                    <WrapPanel>
+                                                        <TextBlock
+                                                            Margin="10,0"
+                                                            Style="{DynamicResource RegText}"
+                                                            Text="SAP: " />
+                                                        <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.IndicatorMileage.SAP}" />
+                                                    </WrapPanel>
+                                                    <WrapPanel>
+                                                        <TextBlock
+                                                            Margin="10,0"
+                                                            Style="{DynamicResource RegText}"
+                                                            Text="Wialon: " />
+                                                        <TextBox Style="{DynamicResource CopyAbleTextBox}" Text="{Binding SelectedVehicleInfoInMilesChart.IndicatorMileage.Wialon}" />
+                                                    </WrapPanel>
+                                                </StackPanel>
+                                            </GroupBox>
+
+                                            <WrapPanel Margin="0,10">
+                                                <TextBlock
+                                                    Margin="10,0"
+                                                    Style="{DynamicResource RegText}"
+                                                    Text="Отклонение пробегов: " />
+                                                <TextBlock Style="{DynamicResource RText}" Text="{Binding SelectedVehicleInfoInMilesChart.PercentDifference, Converter={StaticResource PercentConverter}}" />
+                                            </WrapPanel>
+
+                                            <StackPanel.Style>
+                                                <Style TargetType="{x:Type StackPanel}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedVehicleInfoInMilesChart}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Style>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                    <TextBlock
+                                        Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Text="Для просмотра подробностей выберите ТС"
+                                        TextWrapping="WrapWithOverflow">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect BlurRadius="11" />
+                                        </TextBlock.Effect>
+                                        <TextBlock.Style>
+                                            <Style BasedOn="{StaticResource NormalHeaderWithEffect}" TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedVehicleInfoInMilesChart}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                </Grid>
+
+                            </Expander>
+
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ModuleData.DetailsDataForReport}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+
+                        <TextBlock
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="48"
+                            FontStretch="ExtraCondensed"
+                            FontWeight="Light"
+                            Foreground="#171525"
+                            LineStackingStrategy="MaxHeight"
+                            Text="Данная секция доступна только при выполнении расширенного отчёта"
+                            TextAlignment="Center"
+                            TextWrapping="WrapWithOverflow">
+                            <TextBlock.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="15"
+                                    Direction="-90"
+                                    Opacity=".35"
+                                    RenderingBias="Quality"
+                                    ShadowDepth="1" />
+                            </TextBlock.Effect>
+                            <TextBlock.Style>
+                                <Style BasedOn="{StaticResource LargeHeaderBold}" TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ModuleData.DetailsDataForReport}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                    </Grid>
+                </ScrollViewer>
+            </Controls:MetroTabItem>
+        </Controls:MetroAnimatedTabControl>
+
+        <wnd:ChildWindow
+            x:Name="ViolationsWnd"
+            Title="{Binding SelectedVehicleInfoInMilesChart.StateNumber, StringFormat='Нарушения скоростного режима ({0})'}"
+            MinWidth="400"
+            MinHeight="300"
+            Padding="30"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            AllowMove="True"
+            CloseByEscape="True"
+            EnableDropShadow="True"
+            IsAutoCloseEnabled="False"
+            IsModal="False"
+            IsOpen="{Binding IsViolationsWndVisible}"
+            ShowCloseButton="True"
+            ShowTitleBar="True"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Recycling">
+            <wnd:ChildWindow.OverlayBrush>
+                <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
+            </wnd:ChildWindow.OverlayBrush>
+
+            <Grid MaxHeight="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <dsx:DsxDataGrid
+                            Width="auto"
+                            Margin="5"
+                            AllowCheckAnyTime="True"
+                            CellAdornerIsVisible="True"
+                            CellEditingIsEnabled="False"
+                            FilterVisibility="Collapsed"
+                            FooterVisibility="Collapsed"
+                            HorizontalGridLinesIsVisible="True"
+                            HorizontalScrollbarVisibility="Auto"
+                            IsVirtualizing="True"
+                            ItemFixHeight="20"
+                            ItemsSource="{Binding SelectedVehicleInfoInMilesChart.SpeedViolation}"
+                            SelectedItem="{Binding SelectedSpeedViolationInfoForChart}"
+                            SortField="StateNumber"
+                            VerticalGridLinesIsVisible="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
+                            VerticalScrollbarVisibility="Auto">
+
+                            <dsx:DsxDataGrid.Style>
+                                <Style TargetType="dsx:DsxDataGrid">
+                                    <Setter Property="HeaderVisibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding GridConfiguration.HeaderIsVisible}" Value="False">
+                                            <Setter Property="HeaderVisibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </dsx:DsxDataGrid.Style>
+
+                            <dsx:DsxDataGrid.Columns>
+                                <dsx:DsxColumn
+                                    Width="155"
+                                    CellFontWeight="DemiBold"
+                                    CellForeground="DarkBlue"
+                                    CellHAlign="Center"
+                                    DisplayMemberBinding="{Binding Path=Begin}"
+                                    EditType="None"
+                                    FieldName="Begin"
+                                    FilterCriteria="Equals"
+                                    FilterType="DatePicker"
+                                    FooterType="None"
+                                    Header="Дата"
+                                    IsSizable="True"
+                                    IsSortable="True"
+                                    ViewType="Text" />
+
+                                <dsx:DsxColumn
+                                    Width="160"
+                                    CellHAlign="Left"
+                                    DisplayMemberBinding="{Binding Path=LocationBegin}"
+                                    EditType="None"
+                                    FieldName="LocationBegin"
+                                    FilterType="TextBox"
+                                    Header="Адрес"
+                                    IsSizable="True"
+                                    ViewType="Text" />
+
+                                <dsx:DsxColumn
+                                    Width="140"
+                                    CellHAlign="Left"
+                                    DisplayMemberBinding="{Binding Path=Duration}"
+                                    EditType="None"
+                                    FieldName="Duration"
+                                    FilterType="TextBox"
+                                    Header="Продолжительность"
+                                    IsSizable="True" />
+
+                                <dsx:DsxColumn
+                                    Width="100"
+                                    CellHAlign="Left"
+                                    DisplayMemberBinding="{Binding Path=Mileage}"
+                                    EditType="None"
+                                    FieldName="Mileage"
+                                    FilterType="TextBox"
+                                    Header="Расстояние (км)"
+                                    IsSizable="True"
+                                    ViewType="Text" />
+
+                                <dsx:DsxColumn
+                                    Width="100"
+                                    CellHAlign="Left"
+                                    DisplayMemberBinding="{Binding Path=SpeedLimit}"
+                                    EditType="TextBox"
+                                    FieldName="SpeedLimit"
+                                    FilterCriteria="GreaterOrEqual"
+                                    FilterType="TextBox"
+                                    Header="Ограничение (км/ч)"
+                                    IsSizable="True"
+                                    ViewType="Integer" />
+
+                                <dsx:DsxColumn
+                                    Width="100"
+                                    CellHAlign="Left"
+                                    DisplayMemberBinding="{Binding Path=MaxSpeed}"
+                                    EditType="None"
+                                    FieldName="MaxSpeed"
+                                    FilterType="TextBox"
+                                    Header="Скоорость (км/ч)"
+                                    IsSizable="True"
+                                    ViewType="Integer" />
+
+                            </dsx:DsxDataGrid.Columns>
+
+                        </dsx:DsxDataGrid>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <partialViews:GaugeSpeedChart Margin="10" DataContext="{Binding SpeedChartContext}" />
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SpeedChartContext}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
+
+            </Grid>
+
+        </wnd:ChildWindow>
+
+    </Grid>
+</UserControl>

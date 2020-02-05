@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="Integration.PartialViews.Views.GridConfigurationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Integration.PartialViews.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+    <StackPanel>
+        <ToggleButton
+            Width="50"
+            Height="50"
+            Margin="15"
+            IsChecked="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
+            Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
+            ToolTip="Отобразить/скрыть сетку">
+            <Rectangle
+                Width="35"
+                Height="35"
+                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_centerline}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </ToggleButton>
+
+        <ToggleButton
+            Width="50"
+            Height="50"
+            Margin="15"
+            IsChecked="{Binding GridConfiguration.HeaderIsVisible}"
+            Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
+            ToolTip="Отобразить/скрыть заголовки">
+            <Rectangle
+                Width="25"
+                Height="25"
+                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_text_serif}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </ToggleButton>
+    </StackPanel>
+</UserControl>

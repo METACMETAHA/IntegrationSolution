@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="ResourceDictionary.xaml"/>-->
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="MainRD.xaml"/>
+        <ResourceDictionary Source="ImagesDictionary.xaml"/>
+        <ResourceDictionary Source="ContextMenuRD.xaml"/>
+        <ResourceDictionary Source="ButtonsRD.xaml"/>
+        <ResourceDictionary Source="TextBoxRD.xaml"/>
+        <ResourceDictionary Source="TabControlRD.xaml"/>
+        <ResourceDictionary Source="ListBoxRD.xaml"/>
+        <ResourceDictionary Source="ScrollbarRD.xaml"/>
+        <ResourceDictionary Source="ModalWindowRD.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+    <!-- In order to by pass the problem of wpf which does not get to the nested
+    see this for more details 
+    http://connect.microsoft.com/VisualStudio/feedback/details/555322/global-wpf-styles-are-not-shown-when-using-2-levels-of-references-->
+    
+</ResourceDictionary>
+

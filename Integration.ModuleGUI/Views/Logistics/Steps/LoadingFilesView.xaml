@@ -1,0 +1,100 @@
+﻿<UserControl
+    x:Class="Integration.ModuleGUI.Views.LoadingFilesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <converter:InverseBooleanConverter x:Key="boolConvert" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="100" />
+            <RowDefinition MaxHeight="100" />
+            <RowDefinition MaxHeight="100" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="30,12"
+            Padding="10"
+            VerticalAlignment="Center"
+            Style="{StaticResource MedHeaderBold}"
+            Text="Общий список машин"
+            TextAlignment="Center" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="30,12"
+            Padding="10"
+            VerticalAlignment="Center"
+            Style="{StaticResource MedHeaderBold}"
+            Text="Экспорт"
+            TextAlignment="Center" />
+
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Height="50"
+            Margin="20,10"
+            Padding="4"
+            metro:TextBoxHelper.IsWaitingForData="True"
+            metro:TextBoxHelper.UseFloatingWatermark="True"
+            metro:TextBoxHelper.Watermark="Путь к файлу"
+            IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"
+            IsReadOnly="True"
+            Text="{Binding ModuleData.PathToMainFile, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="50"
+            Margin="20,10"
+            Padding="4"
+            metro:TextBoxHelper.IsWaitingForData="True"
+            metro:TextBoxHelper.UseFloatingWatermark="True"
+            metro:TextBoxHelper.Watermark="Путь к файлу"
+            IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"
+            IsReadOnly="True"
+            Text="{Binding ModuleData.PathToPathListFile, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Button
+            x:Name="loadMainFile"
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="20,0"
+            VerticalAlignment="Center"
+            BorderThickness="1"
+            Command="{Binding LoadFileCommand, IsAsync=True}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Name}"
+            Content="Загрузить файл..."
+            Style="{StaticResource GrayButton}" />
+
+        <Button
+            x:Name="loadPathListFile"
+            Grid.Row="1"
+            Grid.Column="2"
+            Margin="20,0"
+            VerticalAlignment="Center"
+            BorderThickness="1"
+            Command="{Binding LoadFileCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Name}"
+            Content="Загрузить файл..."
+            Style="{StaticResource GrayButton}" />
+    </Grid>
+
+
+</UserControl>

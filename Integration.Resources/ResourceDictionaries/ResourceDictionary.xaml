@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--Fonts-->
+    <system:Double x:Key="HeaderNormalFontSize">20</system:Double>
+    <FontFamily x:Key="NormalFont">Century Gothic</FontFamily>
+
+    
+    <!--Colors-->
+    <Color x:Key="NormalFontColor">#FFFFFFFF</Color>
+    <Color x:Key="InverseNormalFontColor">#12184C</Color>
+    
+    
+    <!--Brushes-->
+    <SolidColorBrush x:Key="HeaderNormalForegroundBrush" Color="{StaticResource NormalFontColor}" />
+    <SolidColorBrush x:Key="FooterNormalForegroundBrush" Color="{StaticResource InverseNormalFontColor}" />
+
+    
+    <!--TextBlocks header-->
+    <Style x:Key="HeaderNormalTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource NormalFont}" />
+        <Setter Property="Foreground" Value="{StaticResource HeaderNormalForegroundBrush}" />
+        <Setter Property="FontSize" Value="{StaticResource HeaderNormalFontSize}" />
+        <Setter Property="Margin" Value="20"/>
+    </Style>
+
+    
+    <!--TextBlocks footer-->
+    <Style x:Key="FooterNormalTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource NormalFont}" />
+        <Setter Property="Foreground" Value="{StaticResource FooterNormalForegroundBrush}" />
+        <Setter Property="FontSize" Value="{StaticResource HeaderNormalFontSize}" />
+        <Setter Property="Margin" Value="20"/>
+    </Style>
+
+    <!--Controls-->
+    <Style x:Key="BaseControlStyle" TargetType="Control">
+        <Setter Property="FontFamily" Value="{StaticResource NormalFont}" />
+        <Setter Property="Foreground" Value="{StaticResource HeaderNormalForegroundBrush}" />
+        <Setter Property="FontSize" Value="{StaticResource HeaderNormalFontSize}" />
+    </Style>
+    
+    
+    <!--Background header color-->
+    <SolidColorBrush x:Key="HeaderBackgroundColor">#12184C</SolidColorBrush>
+
+    <!--Background wizard progress bar color-->
+    <SolidColorBrush x:Key="WizardBackgroundColor">#D7DAEF</SolidColorBrush>
+
+</ResourceDictionary>

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Integration.Infrastructure.Views.FooterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:scroll="clr-namespace:IntegrationSolution.Common.Behaviors;assembly=IntegrationSolution.Common"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <!--Footer-->
+    <Grid>
+        <ListView ItemsSource="{Binding LogData}"
+                  scroll:ListViewScrollingBehavior.ScrollOnNewItem="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock  Margin="5" Text="{Binding ErrorDescription}">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="Green"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsError}" Value="True">
+                                        <Setter Property="Foreground" Value="#FFC50606"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

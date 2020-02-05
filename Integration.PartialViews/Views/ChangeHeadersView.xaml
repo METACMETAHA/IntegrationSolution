@@ -1,0 +1,188 @@
+﻿<UserControl x:Class="Integration.PartialViews.Views.ChangeHeadersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Integration.PartialViews.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Helpers="clr-namespace:IntegrationSolution.Common.Helpers;assembly=IntegrationSolution.Common"
+             mc:Ignorable="d"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsContainerVirtualizable="True"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="350*" MaxWidth="450"/>
+        </Grid.ColumnDefinitions>
+
+        <!--First column-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+
+            <ListBox ItemsSource="{Binding Headers}"
+                     SelectedItem="{Binding SelectedHeader}"
+                     ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     SelectedValuePath="Value" Margin="4">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Margin="5,0,0,0" Text="{Binding Path=Value}" ToolTip="{Binding Path=Key}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Grid.Row="1" Width="56" Height="56"
+                    HorizontalAlignment="Center" 
+                    Padding="12" Margin="10" 
+                    Command="{Binding ResetAllHeadersCommand}"
+                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                    ToolTip="Сбросить все">
+                <Rectangle Width="28" Height="28" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_layer_minus}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" IsEnabled="False" ShowsPreview="False" Width="1" Background="{StaticResource HeaderBackground}"
+                      VerticalAlignment="Stretch" ToolTip="Разделитель"/>
+
+        <!--Third column-->
+        <Grid Grid.Column="2" Margin="5 5 0 0" 
+              SnapsToDevicePixels="True">
+
+            <StackPanel Width="auto" MinWidth="30" Margin="5 5 23 5">
+                <TextBox Padding="4" Margin="10 7" Width="280"
+                     Controls:TextBoxHelper.Watermark="Название заголовка"
+                     Controls:TextBoxHelper.IsWaitingForData="True"
+                     Controls:TextBoxHelper.UseFloatingWatermark="True"
+                     Controls:TextBoxHelper.ClearTextButton="True"
+                     HorizontalAlignment="Center"
+                     Text="{Binding ValueForSelectedHeader, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button HorizontalAlignment="Left" Width="56" Height="56"
+                            Padding="12" Margin="10" 
+                            Command="{Binding ResetSelectedHeaderCommand}"
+                            Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                            ToolTip="Сбросить текущее значение">
+                        <Rectangle Width="24" Height="24" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <Button Grid.Column="1" HorizontalAlignment="Right" Width="56" Height="56"
+                            Padding="12" Margin="10" 
+                            Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                            Command="{Binding UpdateSelectedHeaderCommand}"
+                            ToolTip="Изменить">
+                        <Rectangle Width="24" Height="24">
+                            <Rectangle.Fill>
+                                <SolidColorBrush x:Name="editBrush">
+                                    <SolidColorBrush.Color>
+                                        <Color A="20" B="30" G="100"/>
+                                    </SolidColorBrush.Color>
+                                </SolidColorBrush>
+                            </Rectangle.Fill>
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}" />
+                            </Rectangle.OpacityMask>
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="editBrush" Storyboard.TargetProperty="Color"
+                                                            From="LightGreen" To="DarkGreen" RepeatBehavior="Forever"
+                                                            Duration="0:0:3" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                    </Button>
+
+                    <TextBlock Text="Чтобы увидеть подсказку - наведите на кнопку" 
+                               Grid.ColumnSpan="2" Grid.Row="1"
+                               Style="{StaticResource InfoTextBoxBtwnNavButtons}"
+                               TextWrapping="Wrap" FontSize="12" 
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Center">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush x:Name="OwnBrush" Color="#FF5D5D5D" />
+                        </TextBlock.Foreground>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="OwnBrush"
+                                                Storyboard.TargetProperty="Color"
+                                                From="DarkOrange" To="LightSteelBlue" RepeatBehavior="Forever"
+                                                Duration="0:0:3" AutoReverse="True"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+            <Expander ExpandDirection="Left" FlowDirection="LeftToRight" HorizontalAlignment="Right" Margin="0 -50 -10 0">
+                <Expander.Header>
+                    <TextBlock Text="Общий список машин" 
+                               Height="17" FontSize="14"
+                               Foreground="Black">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <Grid>
+                    <Border Background="#F2F2D4" Opacity="0.67" Margin="0" BorderThickness="0"/>
+                    <StackPanel>
+                        <TextBox Padding="4" Margin="10 7" Width="300" TextWrapping="WrapWithOverflow"
+                                 Controls:TextBoxHelper.Watermark="Название файла с ТС"
+                                 Controls:TextBoxHelper.IsWaitingForData="True"
+                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                 Controls:TextBoxHelper.ClearTextButton="True"
+                                 HorizontalAlignment="Center"
+                                 Text="{Binding Settings.PathToMainFile, UpdateSourceTrigger=LostFocus}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <i:InvokeCommandAction Command="{Binding Path=LostFocusTxtBoxCarFileCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Button Margin="10 7"
+                                HorizontalAlignment="Right"
+                                Content="Выбрать файл" FontSize="11"
+                                Style="{StaticResource GrayButton}"
+                                Command="{Binding LoadMainCarFileCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Expander>
+        </Grid>
+
+    </Grid>
+</UserControl>

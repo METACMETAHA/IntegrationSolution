@@ -10,10 +10,10 @@ namespace IntegrationSolution.Entities.Interfaces
     {
         string Title { get; }
 
-        string DepartureBalance { get; set; }
-        string ReturnBalance { get; set; }
-        string ConsumptionActual { get; set; }
-        string ConsumptionNormative { get; set; }
-        string ConsumptionSavingsOrOverruns { get; set; }
+        double DepartureBalance { get; set; }
+        double ReturnBalance { get; set; }
+        double ConsumptionActual { get; set; }
+        double ConsumptionNormative { get; set; }
+        double ConsumptionSavingsOrOverruns { get; set; }
     }
 }

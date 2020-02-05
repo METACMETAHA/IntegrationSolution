@@ -1,0 +1,41 @@
+﻿<Dialogs:BaseMetroDialog x:Class="IntegrationSolution.Dialogs.Views.InstructionsForToken"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IntegrationSolution.Dialogs.Views"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:PartialViews="clr-namespace:IntegrationSolution.Dialogs.PartialViews"
+             Title="Инструкция по получению токена"
+             DialogTitleFontSize="32" FontSize="16" 
+             xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro">
+
+    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" Margin="0 20 0 0">
+        <StackPanel ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+
+            <TextBlock TextWrapping="WrapWithOverflow">
+            <Run xml:space="preserve">1. Перейдите по </Run>
+            <Hyperlink NavigateUri="http://dtekgps.ohholding.com.ua/login.html" Command="{Binding HyperlinkCommand}"
+                       CommandParameter="http://dtekgps.ohholding.com.ua/login.html">ссылке</Hyperlink>
+            <Run xml:space="preserve">чтобы сформировать новый токен.</Run>
+            </TextBlock>
+
+            <TextBlock TextWrapping="WrapWithOverflow">
+            <Run xml:space="preserve">2. Для авторизации введите свой логин, пароль.</Run>
+            </TextBlock>
+
+            <TextBlock TextWrapping="WrapWithOverflow">
+            <Run xml:space="preserve">3. В результате успешной авторизации по данной форме произойдёт переадресация.</Run>
+            <LineBreak/>
+            <Run xml:space="preserve">С адресной строки скопируйте токен (изображен на картинке) в соответствующее поле в приложении, нажмите кнопку "Далее".</Run>
+            </TextBlock>
+
+            <Image Margin="0 10" Source="{StaticResource GetTokenSample}"/>
+
+            <PartialViews:OkPartialView/>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</Dialogs:BaseMetroDialog>

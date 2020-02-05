@@ -1,0 +1,183 @@
+﻿<Controls:MetroWindow
+    x:Class="IntegrationSolution.ShellGUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:VM="clr-namespace:Integration.ModuleGUI.ViewModels;assembly=Integration.ModuleGUI"
+    xmlns:converters="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:prism="http://www.codeplex.com/prism"
+    xmlns:views="clr-namespace:Integration.Infrastructure.Views;assembly=Integration.Infrastructure"
+    xmlns:viewsChild="clr-namespace:Integration.ModuleGUI.Views;assembly=Integration.ModuleGUI"
+    Title="DTEK"
+    WindowState="Maximized"
+    MinWidth="900"
+    MinHeight="480"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    BorderThickness="0"
+    GlowBrush="Black"
+    NonActiveBorderBrush="Black"
+    NonActiveGlowBrush="Black"
+    NonActiveWindowTitleBrush="LightGray"
+    TitleAlignment="Center"
+    TitleBarHeight="35"
+    TitleCharacterCasing="Upper"
+    TryToBeFlickerFree="True"
+    WindowStartupLocation="CenterScreen"
+    WindowTitleBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands ShowSeparators="True">
+            <Controls:ToggleSwitch
+                Width="160"
+                Margin="5"
+                VerticalAlignment="Center"
+                FontFamily="Candara Light"
+                FontSize="15"
+                IsChecked="{Binding IsConnectedNavigation, IsAsync=True}"
+                IsEnabled="{Binding IsEnabledNavigation}"
+                OffLabel="Нету связи"
+                OffSwitchBrush="#FFE8C9C9"
+                OnLabel="Подключено"
+                OnSwitchBrush="#FF65BF65"
+                ThumbIndicatorWidth="20">
+                <Controls:ToggleSwitch.Style>
+                    <Style BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" TargetType="{x:Type Controls:ToggleSwitch}">
+                        <Setter Property="ToolTip" Value="Подключение к Wialon" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEnabledNavigation}" Value="False">
+                                <Setter Property="ToolTip" Value="Подождите..." />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Controls:ToggleSwitch.Style>
+            </Controls:ToggleSwitch>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands ShowSeparators="True">
+            <Button
+                VerticalAlignment="Center"
+                Command="{Binding ToggleFlyoutSettingsCommand}"
+                Content="Настройки"
+                FontSize="14" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl prism:RegionManager.RegionName="FlyoutRegion">
+            <Controls:FlyoutsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type Controls:Flyout}">
+                    <Setter Property="Header" Value="{Binding Header}" />
+                    <Setter Property="IsOpen" Value="{Binding IsOpen}" />
+                    <Setter Property="Position" Value="{Binding Position}" />
+                    <Setter Property="IsModal" Value="{Binding IsModal}" />
+                    <Setter Property="AreAnimationsEnabled" Value="True" />
+                    <Setter Property="Theme" Value="{Binding Theme}" />
+                    <Setter Property="CloseButtonVisibility" Value="{Binding CloseButtonVisibility}" />
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                    <Setter Property="SnapsToDevicePixels" Value="True" />
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+                </Style>
+            </Controls:FlyoutsControl.ItemContainerStyle>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
+
+    <Grid>
+        <Grid.Resources>
+            <converters:SelectedItemToContentConverter x:Key="SelectedItemToContentConverter" />
+
+            <!--  this is the template for the items (options too)  -->
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type Controls:HamburgerMenuIconItem}">
+                <Grid
+                    x:Name="RootGrid"
+                    Height="60"
+                    Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="65" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl
+                        Grid.Column="0"
+                        Width="65"
+                        Height="65"
+                        Margin="-7,4,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{Binding Icon}"
+                        Focusable="False">
+                        <ContentControl.RenderTransform>
+                            <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                        </ContentControl.RenderTransform>
+                    </ContentControl>
+                    <TextBlock
+                        x:Name="textBind"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="{Binding Label}" />
+                </Grid>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:HamburgerMenu}}, Path=IsPaneOpen}" Value="False">
+                        <Setter TargetName="RootGrid" Property="ToolTip" Value="{Binding ToolTip, Mode=OneWay}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+        </Grid.Resources>
+
+        <Controls:HamburgerMenu
+            ContentTransition="Down"
+            DisplayMode="CompactInline"
+            IsPaneOpen="False"
+            ItemTemplate="{StaticResource MenuItemTemplate}"
+            ItemsSource="{Binding MenuItems}"
+            OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+            OptionsItemsSource="{Binding MenuOptionItems}"
+            PaneForeground="{StaticResource ToolbarBg}"
+            SelectedIndex="1">
+
+            <!--  PaneBackground="{StaticResource Graident_Bg}"  -->
+            <Controls:HamburgerMenu.PaneBackground>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing Brush="Transparent">
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <PathGeometry Figures="M -350,230 C 130,290 400,300 400,405" />
+                                    <PathGeometry Figures="M 190,110 C 130,290 400,300 400,405" />
+                                    <PathGeometry Figures="M -350,310 C 165,300 390,300 400,405" />
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="{StaticResource Graident_Bg}" Thickness="3" />
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Controls:HamburgerMenu.PaneBackground>
+
+            <!--  select the tag (ViewModel) of the selected item (options item)  -->
+            <Controls:HamburgerMenu.Content>
+                <MultiBinding Converter="{StaticResource SelectedItemToContentConverter}">
+                    <Binding
+                        FallbackValue="{x:Null}"
+                        Mode="OneWay"
+                        Path="SelectedItem.Tag"
+                        RelativeSource="{RelativeSource Self}" />
+                    <Binding
+                        FallbackValue="{x:Null}"
+                        Mode="OneWay"
+                        Path="SelectedOptionsItem.Tag"
+                        RelativeSource="{RelativeSource Self}" />
+                </MultiBinding>
+            </Controls:HamburgerMenu.Content>
+
+        </Controls:HamburgerMenu>
+
+    </Grid>
+
+</Controls:MetroWindow>

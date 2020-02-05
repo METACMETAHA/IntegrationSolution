@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="Integration.Infrastructure.Views.BodyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:WizardProgressBarLibrary;assembly=WizardProgressBarLibrary"
+             xmlns:progressRing="clr-namespace:ProgressRing;assembly=ProgressRing"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="{StaticResource MainArea_BG}">
+            <controls:WizardProgressBar 
+                ItemsSource="{Binding ConfigData.Steps}"
+                DisplayMemberPath="Key.Title"
+                Foreground="{StaticResource HeaderBackground}"
+                Progress="{Binding Progress}"
+                SnapsToDevicePixels="True"
+                Margin="20"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ContentControl Content="{Binding Path=ConfigData.SelectedVM.Value}" 
+                            ScrollViewer.CanContentScroll="True" Margin="5"/>
+        </ScrollViewer>
+        
+        <Grid Grid.Row="2" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="BtnMoveBack"
+                    Command="{Binding MoveCommandPrev}" Content="Назад"
+                    HorizontalAlignment="Left" Margin="5" 
+                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoBack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource login_ok_btn_style}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ConfigData.SelectedVM.Key.CanGoBack}" Value="false">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <TextBlock Grid.Column="1" Text="Заполните поля">
+                <TextBlock.Foreground>
+                    <SolidColorBrush x:Name="OwnBrush" Color="#FF5D5D5D" />
+                </TextBlock.Foreground>
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource InfoTextBoxBtwnNavButtons}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=BtnMoveBack, Path=Visibility}" Value="Visible">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=BtnMoveNext, Path=Visibility}" Value="Visible">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="OwnBrush"
+                                            Storyboard.TargetProperty="Color"
+                                            From="DarkOrange" To="SteelBlue" RepeatBehavior="Forever"
+                                            Duration="0:0:3" AutoReverse="True"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+            
+
+            <Button Grid.Column="2" x:Name="BtnMoveNext"
+                    Command="{Binding MoveCommandNext}" Content="Далее"
+                    HorizontalAlignment="Right" Margin="5" 
+                    IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource login_ok_btn_style}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ConfigData.SelectedVM.Key.CanGoNext}" Value="false">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <TextBlock HorizontalAlignment="Right" Foreground="DarkGray" FontSize="11" FontFamily="Gadugi" Text="Полоса разделения (передвижная)"/>
+        </Grid>
+    </Grid>
+    
+</UserControl>

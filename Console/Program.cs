@@ -1,39 +1,40 @@
-﻿using IntegrationSolution.Entities.Helpers;
-using IntegrationSolution.Entities.Implementations;
-using IntegrationSolution.Entities.Implementations.Fuel;
-using IntegrationSolution.Entities.Interfaces;
-using IntegrationSolution.Excel.Implementations;
+﻿using IntegrationSolution.Excel.Implementations;
+using IntegrationSolution.Excel.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Windows;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using UnityIoC;
+using Newtonsoft.Json.Linq;
 
-namespace Console
+namespace Consoles
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-            Bootstrapper.Startup();
-
-            var file = @"..\..\export.xlsx";
+            string site = "https://hst-api.wialon.com";
             
-
-            ExcelWorker ex = new ExcelWorker(new OfficeOpenXml.ExcelPackage(new FileInfo(file)));
-            var data = ex.GetVehicle<Car>();
-
-            
-            for (int i = 0; i < 20; i++)
+            using (var client = new WebClient())
             {
-                System.Console.WriteLine(data.ElementAt(i).StateNumber + "\t" + data.ElementAt(i).UnitModel + "\t" + data.ElementAt(i).UnitNumber);
-            }
+                var values = new NameValueCollection
+                {
+                    ["svc"] = "token/login",
+                    ["params"] = "{\"token\":\"93662d5dd4ed0a21b9775bd4704d6666895DABE9AB194AF87912246CE60488C6F8B4D168\"}"
+                };
+                client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
 
-            System.Console.WriteLine("Count:\t" + data.Count());
+                var response = client.UploadValues("http://dtekgps.ohholding.com.ua/wialon/ajax.html", values);
+
+                var responseString = Encoding.Default.GetString(response);
+                Console.WriteLine(responseString);
+
+                JObject json = JObject.Parse(responseString);
+            }
+            Console.WriteLine("End");
         }
     }
 }

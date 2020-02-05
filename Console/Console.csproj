@@ -35,6 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +54,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="export.XLSX" />
+    <None Include="Main2.xlsx" />
+    <None Include="packages.config" />
+    <None Include="Интенсивность использивания ТС Декабрь 2018.xlsx" />
+    <None Include="Копия Перезакрепление ТС КЭС 18.03.19 на утв.xlsx" />
+    <None Include="март.XLSX" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
@@ -60,10 +68,6 @@
     <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
       <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
       <Name>IntegrationSolution.Excel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UnityIoC\UnityIoC.csproj">
-      <Project>{ee962093-6eba-4eca-824c-f1c0a617676b}</Project>
-      <Name>UnityIoC</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
