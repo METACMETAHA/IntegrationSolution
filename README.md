@@ -1,3 +1,6 @@
+# Demo usage:
+![](https://github.com/ankriukov/IntegrationSolution/blob/master/file%20(1).gif)
+
 # IntegrationSolution
 Solution for integrate Wialon tracking system and SAP derived files. The project is written in WPF using MahApps.Metro and Prism. There are customize a few controls for provide unusual logic.
 
