@@ -628,6 +628,996 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply the filter from the list.
+        /// </summary>
+        public static string Operations_ApplyListFilterToolTip {
+            get {
+                return ResourceManager.GetString("Operations_ApplyListFilterToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average km per trip.
+        /// </summary>
+        public static string Operations_AvgKmPerTrip {
+            get {
+                return ResourceManager.GetString("Operations_AvgKmPerTrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leaders by average mileage:.
+        /// </summary>
+        public static string Operations_AvgMileageLeaders {
+            get {
+                return ResourceManager.GetString("Operations_AvgMileageLeaders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom performers by average mileage:.
+        /// </summary>
+        public static string Operations_AvgMileageOutsiders {
+            get {
+                return ResourceManager.GetString("Operations_AvgMileageOutsiders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom 10 by average mileage per trip:.
+        /// </summary>
+        public static string Operations_Bottom10ByAvgMileage {
+            get {
+                return ResourceManager.GetString("Operations_Bottom10ByAvgMileage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom 10 by mileage:.
+        /// </summary>
+        public static string Operations_Bottom10ByMileage {
+            get {
+                return ResourceManager.GetString("Operations_Bottom10ByMileage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average mileage per trip: {0} km/trip.
+        /// </summary>
+        public static string Operations_CarAvgMileageLine {
+            get {
+                return ResourceManager.GetString("Operations_CarAvgMileageLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service/department: {0}.
+        /// </summary>
+        public static string Operations_CarDepartmentLine {
+            get {
+                return ResourceManager.GetString("Operations_CarDepartmentLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mileage for the period: {0} km.
+        /// </summary>
+        public static string Operations_CarMileageLine {
+            get {
+                return ResourceManager.GetString("Operations_CarMileageLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structural unit: {0}.
+        /// </summary>
+        public static string Operations_CarStructureLine {
+            get {
+                return ResourceManager.GetString("Operations_CarStructureLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of trips: {0}.
+        /// </summary>
+        public static string Operations_CarTripsCountLine {
+            get {
+                return ResourceManager.GetString("Operations_CarTripsCountLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By average mileage per trip.
+        /// </summary>
+        public static string Operations_ChartAvgMileagePerTrip {
+            get {
+                return ResourceManager.GetString("Operations_ChartAvgMileagePerTrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By longest trips.
+        /// </summary>
+        public static string Operations_ChartLongestTrips {
+            get {
+                return ResourceManager.GetString("Operations_ChartLongestTrips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By mileage.
+        /// </summary>
+        public static string Operations_ChartMileage {
+            get {
+                return ResourceManager.GetString("Operations_ChartMileage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By productivity.
+        /// </summary>
+        public static string Operations_ChartProductivity {
+            get {
+                return ResourceManager.GetString("Operations_ChartProductivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By shortest trips.
+        /// </summary>
+        public static string Operations_ChartShortestTrips {
+            get {
+                return ResourceManager.GetString("Operations_ChartShortestTrips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By number of trips.
+        /// </summary>
+        public static string Operations_ChartTripsCount {
+            get {
+                return ResourceManager.GetString("Operations_ChartTripsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remaining to check: {0} vehicles ....
+        /// </summary>
+        public static string Operations_CheckProgressMessage {
+            get {
+                return ResourceManager.GetString("Operations_CheckProgressMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check the connection to the Wialon navigation system..
+        /// </summary>
+        public static string Operations_CheckWialonConnection {
+            get {
+                return ResourceManager.GetString("Operations_CheckWialonConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicles present in both lists.
+        /// </summary>
+        public static string Operations_CommonCarsHeader {
+            get {
+                return ResourceManager.GetString("Operations_CommonCarsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to continue?.
+        /// </summary>
+        public static string Operations_ContinueQuestion {
+            get {
+                return ResourceManager.GetString("Operations_ContinueQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating report....
+        /// </summary>
+        public static string Operations_CreatingReport {
+            get {
+                return ResourceManager.GetString("Operations_CreatingReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For example: 3.5.
+        /// </summary>
+        public static string Operations_DiscrepancyPercentExample {
+            get {
+                return ResourceManager.GetString("Operations_DiscrepancyPercentExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Acceptable discrepancy percentage.
+        /// </summary>
+        public static string Operations_DiscrepancyPercentTitle {
+            get {
+                return ResourceManager.GetString("Operations_DiscrepancyPercentTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average mileage per trip: {0} km/trip.
+        /// </summary>
+        public static string Operations_DriverAvgMileageLine {
+            get {
+                return ResourceManager.GetString("Operations_DriverAvgMileageLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver chart.
+        /// </summary>
+        public static string Operations_DriverChartTitle {
+            get {
+                return ResourceManager.GetString("Operations_DriverChartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver list.
+        /// </summary>
+        public static string Operations_DriverList {
+            get {
+                return ResourceManager.GetString("Operations_DriverList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longest trip: {0} km ({1}).
+        /// </summary>
+        public static string Operations_DriverLongestTripLine {
+            get {
+                return ResourceManager.GetString("Operations_DriverLongestTripLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total mileage for the period: {0} km.
+        /// </summary>
+        public static string Operations_DriverMileageLine {
+            get {
+                return ResourceManager.GetString("Operations_DriverMileageLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Productivity score: {0}%.
+        /// </summary>
+        public static string Operations_DriverProductivityLine {
+            get {
+                return ResourceManager.GetString("Operations_DriverProductivityLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortest trip: {0} km ({1}).
+        /// </summary>
+        public static string Operations_DriverShortestTripLine {
+            get {
+                return ResourceManager.GetString("Operations_DriverShortestTripLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}   Total trips: {1}.
+        /// </summary>
+        public static string Operations_DriverTotalTripsItem {
+            get {
+                return ResourceManager.GetString("Operations_DriverTotalTripsItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total trips for the period: {0}.
+        /// </summary>
+        public static string Operations_DriverTripsLine {
+            get {
+                return ResourceManager.GetString("Operations_DriverTripsLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}   Total trips: {1} ({2} km).
+        /// </summary>
+        public static string Operations_DriverTripsMileageItem {
+            get {
+                return ResourceManager.GetString("Operations_DriverTripsMileageItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to * There may be several longest and shortest trips with the same mileage. The first one found is show....
+        /// </summary>
+        public static string Operations_DriverTripsNote {
+            get {
+                return ResourceManager.GetString("Operations_DriverTripsNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicles used: {0}.
+        /// </summary>
+        public static string Operations_DriverVehiclesLine {
+            get {
+                return ResourceManager.GetString("Operations_DriverVehiclesLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicles operated ({0}).
+        /// </summary>
+        public static string Operations_DriverVehiclesTitleFormat {
+            get {
+                return ResourceManager.GetString("Operations_DriverVehiclesTitleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of drivers on waybills: {0}.
+        /// </summary>
+        public static string Operations_DriversCountFormat {
+            get {
+                return ResourceManager.GetString("Operations_DriversCountFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver indicators.
+        /// </summary>
+        public static string Operations_DriversSeriesTitle {
+            get {
+                return ResourceManager.GetString("Operations_DriversSeriesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drivers.
+        /// </summary>
+        public static string Operations_DriversTab {
+            get {
+                return ResourceManager.GetString("Operations_DriversTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error!.
+        /// </summary>
+        public static string Operations_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Operations_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fetching vehicles from Wialon.
+        /// </summary>
+        public static string Operations_FetchingWialonVehicles {
+            get {
+                return ResourceManager.GetString("Operations_FetchingWialonVehicles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter by type.
+        /// </summary>
+        public static string Operations_FilterByType {
+            get {
+                return ResourceManager.GetString("Operations_FilterByType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initialize.
+        /// </summary>
+        public static string Operations_InitializeButton {
+            get {
+                return ResourceManager.GetString("Operations_InitializeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick summary of waybills from SAP.
+        /// </summary>
+        public static string Operations_InitializeToolTip {
+            get {
+                return ResourceManager.GetString("Operations_InitializeToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing files.
+        /// </summary>
+        public static string Operations_InitializingFiles {
+            get {
+                return ResourceManager.GetString("Operations_InitializingFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing vehicles: initializing object {0} of {1}..
+        /// </summary>
+        public static string Operations_InitializingVehicleProgress {
+            get {
+                return ResourceManager.GetString("Operations_InitializingVehicleProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing vehicles.
+        /// </summary>
+        public static string Operations_InitializingVehicles {
+            get {
+                return ResourceManager.GetString("Operations_InitializingVehicles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing vehicles. {0} objects queued..
+        /// </summary>
+        public static string Operations_InitializingVehiclesQueued {
+            get {
+                return ResourceManager.GetString("Operations_InitializingVehiclesQueued", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error. Please try again..
+        /// </summary>
+        public static string Operations_InputErrorTitle {
+            get {
+                return ResourceManager.GetString("Operations_InputErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} km.
+        /// </summary>
+        public static string Operations_KmFormat {
+            get {
+                return ResourceManager.GetString("Operations_KmFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} km/trip.
+        /// </summary>
+        public static string Operations_KmPerTripFormat {
+            get {
+                return ResourceManager.GetString("Operations_KmPerTripFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} km ({1:P}).
+        /// </summary>
+        public static string Operations_KmShareFormat {
+            get {
+                return ResourceManager.GetString("Operations_KmShareFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to km.
+        /// </summary>
+        public static string Operations_KmUnit {
+            get {
+                return ResourceManager.GetString("Operations_KmUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error. Try going back and loading the files again..
+        /// </summary>
+        public static string Operations_LoadFilesAgainError {
+            get {
+                return ResourceManager.GetString("Operations_LoadFilesAgainError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longest trip.
+        /// </summary>
+        public static string Operations_LongestTrip {
+            get {
+                return ResourceManager.GetString("Operations_LongestTrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longest trip: {0} km.
+        /// </summary>
+        public static string Operations_LongestTripTitle {
+            get {
+                return ResourceManager.GetString("Operations_LongestTripTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highest average mileage per trip: {0} km/trip {1}.
+        /// </summary>
+        public static string Operations_MaxAvgMileageTitle {
+            get {
+                return ResourceManager.GetString("Operations_MaxAvgMileageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highest mileage for the period: {0} km.
+        /// </summary>
+        public static string Operations_MaxMileageTitle {
+            get {
+                return ResourceManager.GetString("Operations_MaxMileageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mileage audit.
+        /// </summary>
+        public static string Operations_MileageAuditButton {
+            get {
+                return ResourceManager.GetString("Operations_MileageAuditButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compares mileage data from SAP and Wialon.
+        /// </summary>
+        public static string Operations_MileageAuditToolTip {
+            get {
+                return ResourceManager.GetString("Operations_MileageAuditToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mileage.
+        /// </summary>
+        public static string Operations_MileageTab {
+            get {
+                return ResourceManager.GetString("Operations_MileageTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lowest average mileage per trip: {0} km/trip.
+        /// </summary>
+        public static string Operations_MinAvgMileageTitle {
+            get {
+                return ResourceManager.GetString("Operations_MinAvgMileageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data. ....
+        /// </summary>
+        public static string Operations_NoDataForPeriod {
+            get {
+                return ResourceManager.GetString("Operations_NoDataForPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operations.
+        /// </summary>
+        public static string Operations_OperationsTab {
+            get {
+                return ResourceManager.GetString("Operations_OperationsTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}. {1} ({2} / {3})  {4} km.
+        /// </summary>
+        public static string Operations_OutsiderLine {
+            get {
+                return ResourceManager.GetString("Operations_OutsiderLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom performers.
+        /// </summary>
+        public static string Operations_OutsidersListTitle {
+            get {
+                return ResourceManager.GetString("Operations_OutsidersListTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overall chart.
+        /// </summary>
+        public static string Operations_OverallChart {
+            get {
+                return ResourceManager.GetString("Operations_OverallChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Careful: the number must be greater than 0..
+        /// </summary>
+        public static string Operations_PercentMustBePositive {
+            get {
+                return ResourceManager.GetString("Operations_PercentMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please wait.
+        /// </summary>
+        public static string Operations_PleaseWaitTitle {
+            get {
+                return ResourceManager.GetString("Operations_PleaseWaitTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing data....
+        /// </summary>
+        public static string Operations_PreparingData {
+            get {
+                return ResourceManager.GetString("Operations_PreparingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This procedure may take some time..
+        /// </summary>
+        public static string Operations_ProcedureMayTakeTime {
+            get {
+                return ResourceManager.GetString("Operations_ProcedureMayTakeTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Each driver's number of trips is converted to a 100-point scale, where 100 is the driver with the ....
+        /// </summary>
+        public static string Operations_ProductivityAlgorithmStep1 {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityAlgorithmStep1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - From the resulting scale, only drivers with a scale value above 40 are taken into account (i.e. ac....
+        /// </summary>
+        public static string Operations_ProductivityAlgorithmStep2 {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityAlgorithmStep2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Then the average mileage per trip is calculated among the selected drivers..
+        /// </summary>
+        public static string Operations_ProductivityAlgorithmStep3 {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityAlgorithmStep3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to * Driver group selection algorithm: .
+        /// </summary>
+        public static string Operations_ProductivityAlgorithmTitle {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityAlgorithmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average mileage among the selected group of drivers *.
+        /// </summary>
+        public static string Operations_ProductivityDenominator {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityDenominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Productivity = .
+        /// </summary>
+        public static string Operations_ProductivityFormulaLabel {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityFormulaLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This indicator is calculated as follows:.
+        /// </summary>
+        public static string Operations_ProductivityHelpIntro {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityHelpIntro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mileage for the period.
+        /// </summary>
+        public static string Operations_ProductivityNumerator {
+            get {
+                return ResourceManager.GetString("Operations_ProductivityNumerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving.
+        /// </summary>
+        public static string Operations_ProgressSaving {
+            get {
+                return ResourceManager.GetString("Operations_ProgressSaving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing to file.
+        /// </summary>
+        public static string Operations_ProgressWritingToFile {
+            get {
+                return ResourceManager.GetString("Operations_ProgressWritingToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh data.
+        /// </summary>
+        public static string Operations_RefreshDataToolTip {
+            get {
+                return ResourceManager.GetString("Operations_RefreshDataToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The results have been saved successfully. ....
+        /// </summary>
+        public static string Operations_ResultsSavedOpenQuestion {
+            get {
+                return ResourceManager.GetString("Operations_ResultsSavedOpenQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SAP summary.
+        /// </summary>
+        public static string Operations_SapSummaryTab {
+            get {
+                return ResourceManager.GetString("Operations_SapSummaryTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search the chart....
+        /// </summary>
+        public static string Operations_SearchChartWatermark {
+            get {
+                return ResourceManager.GetString("Operations_SearchChartWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search the list....
+        /// </summary>
+        public static string Operations_SearchListWatermark {
+            get {
+                return ResourceManager.GetString("Operations_SearchListWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select vehicles in the common top 10.
+        /// </summary>
+        public static string Operations_SelectCommonTop10 {
+            get {
+                return ResourceManager.GetString("Operations_SelectCommonTop10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a driver first.
+        /// </summary>
+        public static string Operations_SelectDriverFirst {
+            get {
+                return ResourceManager.GetString("Operations_SelectDriverFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select potential drivers.
+        /// </summary>
+        public static string Operations_SelectPotentialDrivers {
+            get {
+                return ResourceManager.GetString("Operations_SelectPotentialDrivers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortest trip.
+        /// </summary>
+        public static string Operations_ShortestTrip {
+            get {
+                return ResourceManager.GetString("Operations_ShortestTrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortest trip: {0} km.
+        /// </summary>
+        public static string Operations_ShortestTripTitle {
+            get {
+                return ResourceManager.GetString("Operations_ShortestTripTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show as a list.
+        /// </summary>
+        public static string Operations_ShowAsListToolTip {
+            get {
+                return ResourceManager.GetString("Operations_ShowAsListToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show bottom performers.
+        /// </summary>
+        public static string Operations_ShowOutsiders {
+            get {
+                return ResourceManager.GetString("Operations_ShowOutsiders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speeding violations: {0}.
+        /// </summary>
+        public static string Operations_SpeedViolationsCount {
+            get {
+                return ResourceManager.GetString("Operations_SpeedViolationsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statistics.
+        /// </summary>
+        public static string Operations_Statistics {
+            get {
+                return ResourceManager.GetString("Operations_Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success!.
+        /// </summary>
+        public static string Operations_SuccessTitle {
+            get {
+                return ResourceManager.GetString("Operations_SuccessTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operations.
+        /// </summary>
+        public static string Operations_Title {
+            get {
+                return ResourceManager.GetString("Operations_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top 10 by average mileage per trip (by waybills).
+        /// </summary>
+        public static string Operations_Top10ByAvgMileage {
+            get {
+                return ResourceManager.GetString("Operations_Top10ByAvgMileage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top 10 by mileage (by waybills).
+        /// </summary>
+        public static string Operations_Top10ByMileage {
+            get {
+                return ResourceManager.GetString("Operations_Top10ByMileage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total mileage.
+        /// </summary>
+        public static string Operations_TotalMileage {
+            get {
+                return ResourceManager.GetString("Operations_TotalMileage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total trips.
+        /// </summary>
+        public static string Operations_TotalTrips {
+            get {
+                return ResourceManager.GetString("Operations_TotalTrips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transport support costs.
+        /// </summary>
+        public static string Operations_TransportCostsButton {
+            get {
+                return ResourceManager.GetString("Operations_TransportCostsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calculates fuel consumption and costs, total mileage and engine hours.
+        /// </summary>
+        public static string Operations_TransportCostsToolTip {
+            get {
+                return ResourceManager.GetString("Operations_TransportCostsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} trips.
+        /// </summary>
+        public static string Operations_TripsFormat {
+            get {
+                return ResourceManager.GetString("Operations_TripsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total trips in the period: {0}.
+        /// </summary>
+        public static string Operations_TripsInPeriodFormat {
+            get {
+                return ResourceManager.GetString("Operations_TripsInPeriodFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personnel number: {0}.
+        /// </summary>
+        public static string Operations_UnitNumberFormat {
+            get {
+                return ResourceManager.GetString("Operations_UnitNumberFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated.
+        /// </summary>
+        public static string Operations_Updated {
+            get {
+                return ResourceManager.GetString("Operations_Updated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicles used in the period: {0}.
+        /// </summary>
+        public static string Operations_VehiclesUsedFormat {
+            get {
+                return ResourceManager.GetString("Operations_VehiclesUsedFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working days.
+        /// </summary>
+        public static string Operations_WorkingDays {
+            get {
+                return ResourceManager.GetString("Operations_WorkingDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mileage chart by system.
         /// </summary>
         public static string PredictionChart_Title {

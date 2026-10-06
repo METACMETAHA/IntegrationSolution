@@ -334,6 +334,395 @@ The following columns are required: "{1}, {2}, {3}, {4}"</value>
 The following columns are required: "{1}, {2}"</value>
     <comment>{0} is the file path; {1}, {2} are Excel column names (data, not translated)</comment>
   </data>
+  <data name="Operations_ApplyListFilterToolTip" xml:space="preserve">
+    <value>Apply the filter from the list</value>
+  </data>
+  <data name="Operations_AvgKmPerTrip" xml:space="preserve">
+    <value>Average km per trip</value>
+  </data>
+  <data name="Operations_AvgMileageLeaders" xml:space="preserve">
+    <value>Leaders by average mileage:</value>
+  </data>
+  <data name="Operations_AvgMileageOutsiders" xml:space="preserve">
+    <value>Bottom performers by average mileage:</value>
+  </data>
+  <data name="Operations_Bottom10ByAvgMileage" xml:space="preserve">
+    <value>Bottom 10 by average mileage per trip:</value>
+  </data>
+  <data name="Operations_Bottom10ByMileage" xml:space="preserve">
+    <value>Bottom 10 by mileage:</value>
+  </data>
+  <data name="Operations_CarAvgMileageLine" xml:space="preserve">
+    <value>Average mileage per trip:	{0} km/trip</value>
+    <comment>Vehicle details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_CarDepartmentLine" xml:space="preserve">
+    <value>Service/department:	{0}</value>
+    <comment>Vehicle details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_CarMileageLine" xml:space="preserve">
+    <value>Mileage for the period:	{0} km</value>
+    <comment>Vehicle details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_CarStructureLine" xml:space="preserve">
+    <value>Structural unit:	{0}</value>
+    <comment>Vehicle details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_CarTripsCountLine" xml:space="preserve">
+    <value>Number of trips:	{0}</value>
+    <comment>Vehicle details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_ChartAvgMileagePerTrip" xml:space="preserve">
+    <value>By average mileage per trip</value>
+    <comment>Drivers chart type selector</comment>
+  </data>
+  <data name="Operations_ChartLongestTrips" xml:space="preserve">
+    <value>By longest trips</value>
+    <comment>Drivers chart type selector</comment>
+  </data>
+  <data name="Operations_ChartMileage" xml:space="preserve">
+    <value>By mileage</value>
+    <comment>Drivers chart type selector</comment>
+  </data>
+  <data name="Operations_ChartProductivity" xml:space="preserve">
+    <value>By productivity</value>
+    <comment>Drivers chart type selector</comment>
+  </data>
+  <data name="Operations_ChartShortestTrips" xml:space="preserve">
+    <value>By shortest trips</value>
+    <comment>Drivers chart type selector</comment>
+  </data>
+  <data name="Operations_ChartTripsCount" xml:space="preserve">
+    <value>By number of trips</value>
+    <comment>Drivers chart type selector</comment>
+  </data>
+  <data name="Operations_CheckProgressMessage" xml:space="preserve">
+    <value>Remaining to check: {0} vehicles
+Checking {1}  ({2})
+Trips in the period: {3} (SAP)
+Trips in the period: {4} (Wialon)
+SAP odometer reading for the period: {5} km
+Wialon odometer reading for the period: {6} km
+
+{7}</value>
+    <comment>Progress message. {1} = model, {2} = state number, {7} = optional speeding line (Operations_SpeedViolationsCount) or empty</comment>
+  </data>
+  <data name="Operations_CheckWialonConnection" xml:space="preserve">
+    <value>Check the connection to the Wialon navigation system.</value>
+  </data>
+  <data name="Operations_CommonCarsHeader" xml:space="preserve">
+    <value>Vehicles present in both lists</value>
+  </data>
+  <data name="Operations_ContinueQuestion" xml:space="preserve">
+    <value>Do you want to continue?</value>
+  </data>
+  <data name="Operations_CreatingReport" xml:space="preserve">
+    <value>Creating report...</value>
+    <comment>Save file dialog title</comment>
+  </data>
+  <data name="Operations_DiscrepancyPercentExample" xml:space="preserve">
+    <value>For example: 3.5</value>
+    <comment>Input dialog message</comment>
+  </data>
+  <data name="Operations_DiscrepancyPercentTitle" xml:space="preserve">
+    <value>Acceptable discrepancy percentage</value>
+    <comment>Input dialog title</comment>
+  </data>
+  <data name="Operations_DriverAvgMileageLine" xml:space="preserve">
+    <value>Average mileage per trip:	{0} km/trip</value>
+    <comment>Driver details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_DriverChartTitle" xml:space="preserve">
+    <value>Driver chart</value>
+  </data>
+  <data name="Operations_DriverList" xml:space="preserve">
+    <value>Driver list</value>
+  </data>
+  <data name="Operations_DriverLongestTripLine" xml:space="preserve">
+    <value>Longest trip:	{0} km	({1})</value>
+    <comment>{1} = date; keep the tabs</comment>
+  </data>
+  <data name="Operations_DriverMileageLine" xml:space="preserve">
+    <value>Total mileage for the period:	{0} km</value>
+    <comment>Driver details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_DriverProductivityLine" xml:space="preserve">
+    <value>Productivity score:	{0}%</value>
+    <comment>Driver details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_DriverShortestTripLine" xml:space="preserve">
+    <value>Shortest trip:	{0} km	({1})</value>
+    <comment>{1} = date; keep the tabs</comment>
+  </data>
+  <data name="Operations_DriverTotalTripsItem" xml:space="preserve">
+    <value>{0}		 Total trips: {1}</value>
+    <comment>{0} = driver name; keep the tabs</comment>
+  </data>
+  <data name="Operations_DriverTripsLine" xml:space="preserve">
+    <value>Total trips for the period:	{0}</value>
+    <comment>Driver details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_DriverTripsMileageItem" xml:space="preserve">
+    <value>{0}		 Total trips: {1} ({2} km)</value>
+    <comment>{0} = driver name; keep the tabs</comment>
+  </data>
+  <data name="Operations_DriverTripsNote" xml:space="preserve">
+    <value>* There may be several longest and shortest trips with the same mileage. The first one found is shown.</value>
+  </data>
+  <data name="Operations_DriverVehiclesLine" xml:space="preserve">
+    <value>Vehicles used:	{0}</value>
+    <comment>Driver details dialog line; keep the tab</comment>
+  </data>
+  <data name="Operations_DriverVehiclesTitleFormat" xml:space="preserve">
+    <value>Vehicles operated ({0})</value>
+    <comment>{0} = driver name</comment>
+  </data>
+  <data name="Operations_DriversCountFormat" xml:space="preserve">
+    <value>Number of drivers on waybills: {0}</value>
+  </data>
+  <data name="Operations_DriversSeriesTitle" xml:space="preserve">
+    <value>Driver indicators</value>
+    <comment>Chart series title (legend)</comment>
+  </data>
+  <data name="Operations_DriversTab" xml:space="preserve">
+    <value>Drivers</value>
+    <comment>Tab header</comment>
+  </data>
+  <data name="Operations_ErrorTitle" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+  <data name="Operations_FetchingWialonVehicles" xml:space="preserve">
+    <value>Fetching vehicles from Wialon</value>
+    <comment>Progress dialog title</comment>
+  </data>
+  <data name="Operations_FilterByType" xml:space="preserve">
+    <value>Filter by type</value>
+  </data>
+  <data name="Operations_InitializeButton" xml:space="preserve">
+    <value>Initialize</value>
+  </data>
+  <data name="Operations_InitializeToolTip" xml:space="preserve">
+    <value>Quick summary of waybills from SAP</value>
+  </data>
+  <data name="Operations_InitializingFiles" xml:space="preserve">
+    <value>Initializing files</value>
+  </data>
+  <data name="Operations_InitializingVehicleProgress" xml:space="preserve">
+    <value>Initializing vehicles: initializing object {0} of {1}.</value>
+  </data>
+  <data name="Operations_InitializingVehicles" xml:space="preserve">
+    <value>Initializing vehicles</value>
+  </data>
+  <data name="Operations_InitializingVehiclesQueued" xml:space="preserve">
+    <value>Initializing vehicles. {0} objects queued.</value>
+  </data>
+  <data name="Operations_InputErrorTitle" xml:space="preserve">
+    <value>Error. Please try again.</value>
+  </data>
+  <data name="Operations_KmFormat" xml:space="preserve">
+    <value>{0} km</value>
+  </data>
+  <data name="Operations_KmPerTripFormat" xml:space="preserve">
+    <value>{0} km/trip</value>
+  </data>
+  <data name="Operations_KmShareFormat" xml:space="preserve">
+    <value>{0} km ({1:P})</value>
+    <comment>Pie chart label: mileage and share</comment>
+  </data>
+  <data name="Operations_KmUnit" xml:space="preserve">
+    <value>km</value>
+    <comment>Used as a ContentStringFormat without placeholder (shows the unit only, as before)</comment>
+  </data>
+  <data name="Operations_LoadFilesAgainError" xml:space="preserve">
+    <value>Error. Try going back and loading the files again.</value>
+  </data>
+  <data name="Operations_LongestTrip" xml:space="preserve">
+    <value>Longest trip</value>
+  </data>
+  <data name="Operations_LongestTripTitle" xml:space="preserve">
+    <value>Longest trip:	{0} km</value>
+    <comment>Dialog title; keep the tab</comment>
+  </data>
+  <data name="Operations_MaxAvgMileageTitle" xml:space="preserve">
+    <value>Highest average mileage per trip:	{0} km/trip {1}</value>
+    <comment>{1} = line break; keep the tab</comment>
+  </data>
+  <data name="Operations_MaxMileageTitle" xml:space="preserve">
+    <value>Highest mileage for the period:	{0} km</value>
+    <comment>Dialog title; keep the tab</comment>
+  </data>
+  <data name="Operations_MileageAuditButton" xml:space="preserve">
+    <value>Mileage audit</value>
+  </data>
+  <data name="Operations_MileageAuditToolTip" xml:space="preserve">
+    <value>Compares mileage data from SAP and Wialon</value>
+  </data>
+  <data name="Operations_MileageTab" xml:space="preserve">
+    <value>Mileage</value>
+    <comment>Tab header</comment>
+  </data>
+  <data name="Operations_MinAvgMileageTitle" xml:space="preserve">
+    <value>Lowest average mileage per trip:	{0} km/trip</value>
+    <comment>Dialog title; keep the tab</comment>
+  </data>
+  <data name="Operations_NoDataForPeriod" xml:space="preserve">
+    <value>No data.
+Try selecting a different period or try again later.</value>
+  </data>
+  <data name="Operations_OperationsTab" xml:space="preserve">
+    <value>Operations</value>
+    <comment>Tab header</comment>
+  </data>
+  <data name="Operations_OutsiderLine" xml:space="preserve">
+    <value>{0}. {1}	({2} / {3})		{4} km</value>
+    <comment>{0} = position, {1} = state number, {2} = model, {3} = type, {4} = mileage; keep the tabs</comment>
+  </data>
+  <data name="Operations_OutsidersListTitle" xml:space="preserve">
+    <value>Bottom performers</value>
+    <comment>Dialog title</comment>
+  </data>
+  <data name="Operations_OverallChart" xml:space="preserve">
+    <value>Overall chart</value>
+  </data>
+  <data name="Operations_PercentMustBePositive" xml:space="preserve">
+    <value>Careful: the number must be greater than 0.</value>
+  </data>
+  <data name="Operations_PleaseWaitTitle" xml:space="preserve">
+    <value>Please wait</value>
+    <comment>Progress dialog title</comment>
+  </data>
+  <data name="Operations_PreparingData" xml:space="preserve">
+    <value>Preparing data...</value>
+  </data>
+  <data name="Operations_ProcedureMayTakeTime" xml:space="preserve">
+    <value>This procedure may take some time.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep1" xml:space="preserve">
+    <value>- Each driver's number of trips is converted to a 100-point scale, where 100 is the driver with the most waybills.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep2" xml:space="preserve">
+    <value>- From the resulting scale, only drivers with a scale value above 40 are taken into account (i.e. actual drivers are selected)</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep3" xml:space="preserve">
+    <value>- Then the average mileage per trip is calculated among the selected drivers.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmTitle" xml:space="preserve">
+    <value>* Driver group selection algorithm: </value>
+    <comment>Keep the trailing space</comment>
+  </data>
+  <data name="Operations_ProductivityDenominator" xml:space="preserve">
+    <value>Average mileage among the selected group of drivers *</value>
+    <comment>Formula denominator</comment>
+  </data>
+  <data name="Operations_ProductivityFormulaLabel" xml:space="preserve">
+    <value>Productivity = </value>
+    <comment>Keep the trailing space; followed by '100 - ' and a fraction</comment>
+  </data>
+  <data name="Operations_ProductivityHelpIntro" xml:space="preserve">
+    <value>This indicator is calculated as follows:</value>
+  </data>
+  <data name="Operations_ProductivityNumerator" xml:space="preserve">
+    <value>Mileage for the period</value>
+    <comment>Formula numerator</comment>
+  </data>
+  <data name="Operations_ProgressSaving" xml:space="preserve">
+    <value>Saving</value>
+    <comment>Progress dialog title</comment>
+  </data>
+  <data name="Operations_ProgressWritingToFile" xml:space="preserve">
+    <value>Writing to file</value>
+    <comment>Progress dialog title</comment>
+  </data>
+  <data name="Operations_RefreshDataToolTip" xml:space="preserve">
+    <value>Refresh data</value>
+  </data>
+  <data name="Operations_ResultsSavedOpenQuestion" xml:space="preserve">
+    <value>The results have been saved successfully.
+Do you want to view them?</value>
+  </data>
+  <data name="Operations_SapSummaryTab" xml:space="preserve">
+    <value>SAP summary</value>
+    <comment>Tab header</comment>
+  </data>
+  <data name="Operations_SearchChartWatermark" xml:space="preserve">
+    <value>Search the chart...</value>
+  </data>
+  <data name="Operations_SearchListWatermark" xml:space="preserve">
+    <value>Search the list...</value>
+  </data>
+  <data name="Operations_SelectCommonTop10" xml:space="preserve">
+    <value>Select vehicles in the common top 10</value>
+  </data>
+  <data name="Operations_SelectDriverFirst" xml:space="preserve">
+    <value>Select a driver first</value>
+  </data>
+  <data name="Operations_SelectPotentialDrivers" xml:space="preserve">
+    <value>Select potential drivers</value>
+  </data>
+  <data name="Operations_ShortestTrip" xml:space="preserve">
+    <value>Shortest trip</value>
+  </data>
+  <data name="Operations_ShortestTripTitle" xml:space="preserve">
+    <value>Shortest trip:	{0} km</value>
+    <comment>Dialog title; keep the tab</comment>
+  </data>
+  <data name="Operations_ShowAsListToolTip" xml:space="preserve">
+    <value>Show as a list</value>
+  </data>
+  <data name="Operations_ShowOutsiders" xml:space="preserve">
+    <value>Show bottom performers</value>
+  </data>
+  <data name="Operations_SpeedViolationsCount" xml:space="preserve">
+    <value>Speeding violations: {0}</value>
+  </data>
+  <data name="Operations_Statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="Operations_SuccessTitle" xml:space="preserve">
+    <value>Success!</value>
+  </data>
+  <data name="Operations_Title" xml:space="preserve">
+    <value>Operations</value>
+    <comment>Wizard step title</comment>
+  </data>
+  <data name="Operations_Top10ByAvgMileage" xml:space="preserve">
+    <value>Top 10 by average mileage per trip (by waybills)</value>
+  </data>
+  <data name="Operations_Top10ByMileage" xml:space="preserve">
+    <value>Top 10 by mileage (by waybills)</value>
+  </data>
+  <data name="Operations_TotalMileage" xml:space="preserve">
+    <value>Total mileage</value>
+  </data>
+  <data name="Operations_TotalTrips" xml:space="preserve">
+    <value>Total trips</value>
+  </data>
+  <data name="Operations_TransportCostsButton" xml:space="preserve">
+    <value>Transport support costs</value>
+  </data>
+  <data name="Operations_TransportCostsToolTip" xml:space="preserve">
+    <value>Calculates fuel consumption and costs, total mileage and engine hours</value>
+  </data>
+  <data name="Operations_TripsFormat" xml:space="preserve">
+    <value>{0} trips</value>
+    <comment>Chart axis label</comment>
+  </data>
+  <data name="Operations_TripsInPeriodFormat" xml:space="preserve">
+    <value>Total trips in the period: {0}</value>
+  </data>
+  <data name="Operations_UnitNumberFormat" xml:space="preserve">
+    <value>Personnel number: {0}</value>
+  </data>
+  <data name="Operations_Updated" xml:space="preserve">
+    <value>Updated</value>
+    <comment>Status text after refreshing the SAP summary</comment>
+  </data>
+  <data name="Operations_VehiclesUsedFormat" xml:space="preserve">
+    <value>Vehicles used in the period: {0}</value>
+  </data>
+  <data name="Operations_WorkingDays" xml:space="preserve">
+    <value>Working days</value>
+  </data>
   <data name="PredictionChart_Title" xml:space="preserve">
     <value>Mileage chart by system</value>
     <comment>Default chart title</comment>

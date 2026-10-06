@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
     xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:behavior="clr-namespace:IntegrationSolution.Common.Behaviors;assembly=IntegrationSolution.Common"
@@ -77,33 +78,33 @@
         </Grid.ColumnDefinitions>
 
         <Controls:MetroAnimatedSingleRowTabControl Grid.ColumnSpan="2">
-            <TabItem Header="Операции">
+            <TabItem Header="{loc:Loc Operations_OperationsTab}">
                 <StackPanel>
                     <Button
                         Margin="10"
                         Padding="10"
                         Command="{Binding WriteTotalStatisticsInFileCommand}"
-                        Content="Затраты на транспортное обеспечение"
+                        Content="{loc:Loc Operations_TransportCostsButton}"
                         Style="{StaticResource LargeBlueBtn}"
-                        ToolTip="Подсчёт расхода топлива и затрат, общего пробега и моточасов наработки" />
+                        ToolTip="{loc:Loc Operations_TransportCostsToolTip}" />
                     <Button
                         Margin="10"
                         Padding="10"
                         Command="{Binding CheckDifferenceOfTotalSpeedCommand}"
-                        Content="Аудит пробегов"
+                        Content="{loc:Loc Operations_MileageAuditButton}"
                         Style="{StaticResource LargeBlueBtn}"
-                        ToolTip="Сравнение данных по пробегу из системы SAP и Wialon" />
+                        ToolTip="{loc:Loc Operations_MileageAuditToolTip}" />
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Сводка по SAP">
+            <TabItem Header="{loc:Loc Operations_SapSummaryTab}">
                 <Grid x:Name="SapDetaisPanel">
                     <Button
                         Margin="10"
                         Padding="10"
                         Command="{Binding ShowDetailsOnSAPCommand}"
-                        Content="Инициализация"
-                        ToolTip="Быстрая сводка по путевым листам из системы SAP">
+                        Content="{loc:Loc Operations_InitializeButton}"
+                        ToolTip="{loc:Loc Operations_InitializeToolTip}">
                         <Button.Style>
                             <Style BasedOn="{StaticResource LargeBlueBtn}" TargetType="Button">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -130,7 +131,7 @@
                                 VerticalAlignment="Top"
                                 Command="{Binding ShowDetailsOnSAPCommand}"
                                 Style="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                                ToolTip="Обновить данные">
+                                ToolTip="{loc:Loc Operations_RefreshDataToolTip}">
                                 <Rectangle
                                     Width="28"
                                     Height="28"
@@ -148,7 +149,7 @@
                             IsTabStop="True"
                             TabStripMargin="5 68"
                             TabStripPlacement="Left">
-                            <Controls:MetroTabItem HorizontalContentAlignment="Stretch" Header="Пробег">
+                            <Controls:MetroTabItem HorizontalContentAlignment="Stretch" Header="{loc:Loc Operations_MileageTab}">
 
                                 <StackPanel>
 
@@ -158,7 +159,7 @@
                                                 <TextBlock
                                                 Margin="10"
                                                 Style="{DynamicResource NormalHeaderWithEffect}"
-                                                Text="Топ 10 по пробегу (по ПЛ)"
+                                                Text="{loc:Loc Operations_Top10ByMileage}"
                                                 TextAlignment="Center"
                                                 TextWrapping="WrapWithOverflow" />
                                                 <charts:PieChart
@@ -213,7 +214,7 @@
                                                             <TextBlock
                                                             Margin="8,5,8,18"
                                                             Style="{DynamicResource SmallHeader}"
-                                                            Text="ТС что находятся в обеих списках"
+                                                            Text="{loc:Loc Operations_CommonCarsHeader}"
                                                             TextAlignment="Center"
                                                             TextWrapping="WrapWithOverflow" />
                                                             <ListView ItemsSource="{Binding CommonCars}" />
@@ -268,7 +269,7 @@
                                                     VerticalContentAlignment="Center"
                                                     BorderThickness="0"
                     Command="{Binding ShowLast10Command}"
-                    ToolTip="Отобразить списком">
+                    ToolTip="{loc:Loc Operations_ShowAsListToolTip}">
                                                 <Button.Style>
                                                     <Style BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
                                                            TargetType="{x:Type Button}">
@@ -304,13 +305,13 @@
                                                             Background="Transparent"
                                                             Orientation="Vertical">
                                                         <ToggleButton
-                                                                Content="Отобрать ТС что попали в общий топ 10"
+                                                                Content="{loc:Loc Operations_SelectCommonTop10}"
                                                                 IsChecked="{Binding IsShowCommonTop10}" />
                                                         <ToggleButton
                                                                 IsChecked="{Binding IsShowLast10}"
-                                                                Content="Отобразить аутсайдеров" />
+                                                                Content="{loc:Loc Operations_ShowOutsiders}" />
 
-                                                        <Expander Header="Отобрать по типу">
+                                                        <Expander Header="{loc:Loc Operations_FilterByType}">
                                                             <ListBox ItemsSource="{Binding ModuleData.VehicleTypes}" MaxHeight="250" 
                                                                      ScrollViewer.CanContentScroll="True">
                                                                 <ListBox.ItemTemplate>
@@ -355,7 +356,7 @@
                                             <TextBlock
                                             Margin="10"
                                             Style="{DynamicResource NormalHeaderWithEffect}"
-                                            Text="Топ 10 по среднему пробегу за поездку (по ПЛ)"
+                                            Text="{loc:Loc Operations_Top10ByAvgMileage}"
                                             TextAlignment="Center"
                                             TextWrapping="WrapWithOverflow" />
                                             <charts:PieChart
@@ -390,7 +391,7 @@
 
                             <Controls:MetroTabItem
                                 HorizontalContentAlignment="Stretch"
-                                Header="Водители"
+                                Header="{loc:Loc Operations_DriversTab}"
                                 ScrollViewer.CanContentScroll="True">
 
                                 <ScrollViewer
@@ -437,7 +438,7 @@
                                                     FontSize="13">
                                                     <TextBox.Style>
                                                         <Style TargetType="{x:Type TextBox}">
-                                                            <Setter Property="Controls:TextBoxHelper.Watermark" Value="Поиск на графике..." />
+                                                            <Setter Property="Controls:TextBoxHelper.Watermark" Value="{loc:Loc Operations_SearchChartWatermark}" />
                                                             <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
                                                             <Setter Property="IsEnabled" Value="True" />
                                                             <Setter Property="Text" Value="{Binding SearchChartField, UpdateSourceTrigger=PropertyChanged}" />
@@ -465,7 +466,7 @@
                                                     <Button ToolTipService.ShowDuration="900000">
                                                         <Button.ToolTip>
                                                             <StackPanel>
-                                                                <TextBlock Text="Данный показатель высчитывается следующим образом:" />
+                                                                <TextBlock Text="{loc:Loc Operations_ProductivityHelpIntro}" />
                                                                 <Grid Margin="10,10,10,30">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition />
@@ -485,7 +486,7 @@
                                                                         <TextBlock
                                                                             FontSize="16"
                                                                             FontWeight="SemiBold"
-                                                                            Text="Продуктивность = " />
+                                                                            Text="{loc:Loc Operations_ProductivityFormulaLabel}" />
                                                                         <TextBlock
                                                                             FontSize="14"
                                                                             Text="100 - "
@@ -493,7 +494,7 @@
                                                                     </StackPanel>
                                                                     <TextBlock
                                                                         Grid.Column="1"
-                                                                        Text="Километраж за период"
+                                                                        Text="{loc:Loc Operations_ProductivityNumerator}"
                                                                         TextAlignment="Center" />
                                                                     <TextBlock
                                                                         Grid.Row="1"
@@ -504,20 +505,20 @@
                                                                     <TextBlock
                                                                         Grid.Row="2"
                                                                         Grid.Column="1"
-                                                                        Text="Средний пробег среди отобранной группы водителей *" />
+                                                                        Text="{loc:Loc Operations_ProductivityDenominator}" />
                                                                 </Grid>
                                                                 <TextBlock
                                                                     Margin="25,0,0,10"
                                                                     FontSize="11"
                                                                     TextAlignment="Left"
                                                                     TextWrapping="WrapWithOverflow">
-                                                                    <Run FontSize="12" Text="* Алгоритм отбора группы водителей: " />
+                                                                    <Run FontSize="12" Text="{loc:Loc Operations_ProductivityAlgorithmTitle}" />
                                                                     <LineBreak />
-                                                                    <Run Text="- Количество поездок у каждого водителя переводятся в 100-бальную шкалу, где 100 - это водитель с наибольшим количеством ПЛ." />
+                                                                    <Run Text="{loc:Loc Operations_ProductivityAlgorithmStep1}" />
                                                                     <LineBreak />
-                                                                    <Run Text="- С высчитанной шкалы отбираются во внимание те водители, у которых значения по шкале больше 40 (то есть отбираются реальные водители)" />
+                                                                    <Run Text="{loc:Loc Operations_ProductivityAlgorithmStep2}" />
                                                                     <LineBreak />
-                                                                    <Run Text="- Затем, среди отобранных водителей подсчитывается средний пробег за поездку." />
+                                                                    <Run Text="{loc:Loc Operations_ProductivityAlgorithmStep3}" />
                                                                     <LineBreak />
                                                                 </TextBlock>
                                                             </StackPanel>
@@ -550,7 +551,7 @@
                                                         Margin="2,0"
                                                         IsChecked="{Binding IsAccessFilterFromListBox}"
                                                         Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
-                                                        ToolTip="Применить фильтрацию из списка">
+                                                        ToolTip="{loc:Loc Operations_ApplyListFilterToolTip}">
                                                         <Rectangle
                                                             Width="15"
                                                             Height="15"
@@ -572,7 +573,7 @@
                                                 ScrollViewer.CanContentScroll="True">
                                                 <charts:CartesianChart.Series>
                                                     <charts:ColumnSeries
-                                                        Title="Показатели по водителям"
+                                                        Title="{loc:Loc Operations_DriversSeriesTitle}"
                                                         Configuration="{Binding Mapper}"
                                                         Values="{Binding DriversStatisticsSAP}" />
                                                 </charts:CartesianChart.Series>
@@ -615,7 +616,7 @@
                                                 <TextBlock
                                                     Margin="10"
                                                     Style="{DynamicResource NormalHeaderWithEffect}"
-                                                    Text="Рабочие дни"
+                                                    Text="{loc:Loc Operations_WorkingDays}"
                                                     TextAlignment="Center"
                                                     TextWrapping="WrapWithOverflow" />
                                                 <charts:PieChart
@@ -670,7 +671,7 @@
                                                         FontStretch="SemiExpanded"
                                                         FontWeight="Light"
                                                         Foreground="Black"
-                                                        Text="Статистика">
+                                                        Text="{loc:Loc Operations_Statistics}">
                                                         <TextBlock.LayoutTransform>
                                                             <RotateTransform Angle="90" />
                                                         </TextBlock.LayoutTransform>
@@ -687,7 +688,7 @@
 
                                                     <StackPanel Width="200">
 
-                                                        <GroupBox Margin="2,10" Header="Всего поездок">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_TotalTrips}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
@@ -697,14 +698,14 @@
                                                             </Grid>
                                                         </GroupBox>
 
-                                                        <GroupBox Margin="2,10" Header="Общий километраж">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_TotalMileage}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding TotalMileageAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmFormat, Arg0={Binding TotalMileageAtAll}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
-                                                                        <ToolTip Content="{Binding TotalMileageAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км" />
+                                                                        <ToolTip Content="{Binding TotalMileageAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{loc:Loc Operations_KmFormat}" />
                                                                     </TextBlock.ToolTip>
                                                                 </TextBlock>
 
@@ -714,14 +715,14 @@
                                                                     Style="{StaticResource InformButton}" />
                                                             </Grid>
                                                         </GroupBox>
-                                                        <GroupBox Margin="2,10" Header="Средний км за поездку">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_AvgKmPerTrip}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding TotalAvgMileagePerTripAtAll, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmPerTripFormat, Arg0={Binding TotalAvgMileagePerTripAtAll}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
-                                                                        <ToolTip Content="{Binding TotalAvgMileagePerTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                        <ToolTip Content="{Binding TotalAvgMileagePerTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{loc:Loc Operations_KmPerTripFormat}" />
                                                                     </TextBlock.ToolTip>
                                                                 </TextBlock>
 
@@ -732,14 +733,14 @@
                                                             </Grid>
                                                         </GroupBox>
 
-                                                        <GroupBox Margin="2,10" Header="Самая длинная поездка">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_LongestTrip}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding TotalMaxTripAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmFormat, Arg0={Binding TotalMaxTripAtAll}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
-                                                                        <ToolTip Content="{Binding TotalMaxTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                        <ToolTip Content="{Binding TotalMaxTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{loc:Loc Operations_KmPerTripFormat}" />
                                                                     </TextBlock.ToolTip>
                                                                 </TextBlock>
                                                                 <Button
@@ -749,14 +750,14 @@
                                                             </Grid>
                                                         </GroupBox>
 
-                                                        <GroupBox Margin="2,10" Header="Самая короткая поездка">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_ShortestTrip}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding TotalMinTripAtAll, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmFormat, Arg0={Binding TotalMinTripAtAll}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
-                                                                        <ToolTip Content="{Binding TotalMinTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                        <ToolTip Content="{Binding TotalMinTripAtAll, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{loc:Loc Operations_KmPerTripFormat}" />
                                                                     </TextBlock.ToolTip>
                                                                 </TextBlock>
 
@@ -804,7 +805,7 @@
                                                         FontStretch="SemiExpanded"
                                                         FontWeight="Light"
                                                         Foreground="Black"
-                                                        Text="Статистика">
+                                                        Text="{loc:Loc Operations_Statistics}">
                                                         <TextBlock.LayoutTransform>
                                                             <RotateTransform Angle="90" />
                                                         </TextBlock.LayoutTransform>
@@ -821,7 +822,7 @@
 
                                                     <StackPanel Width="200">
 
-                                                        <GroupBox Margin="2,10" Header="Всего поездок">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_TotalTrips}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
@@ -831,14 +832,14 @@
                                                             </Grid>
                                                         </GroupBox>
 
-                                                        <GroupBox Margin="2,10" Header="Общий километраж">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_TotalMileage}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding SelectedDriverChart.TotalMileage, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmFormat, Arg0={Binding SelectedDriverChart.TotalMileage}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
-                                                                        <ToolTip Content="{Binding SelectedDriverChart.TotalMileage, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="км" />
+                                                                        <ToolTip Content="{Binding SelectedDriverChart.TotalMileage, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{loc:Loc Operations_KmUnit}" />
                                                                     </TextBlock.ToolTip>
                                                                 </TextBlock>
 
@@ -848,14 +849,14 @@
                                                                     Style="{StaticResource InformButton}" />
                                                             </Grid>
                                                         </GroupBox>
-                                                        <GroupBox Margin="2,10" Header="Средний км за поездку">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_AvgKmPerTrip}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding SelectedDriverChart.AvarageMileagePerTrip, StringFormat='{}{0} км/поездка', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmPerTripFormat, Arg0={Binding SelectedDriverChart.AvarageMileagePerTrip}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
-                                                                        <ToolTip Content="{Binding SelectedDriverChart.AvarageMileagePerTrip, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{}{0} км/поездка" />
+                                                                        <ToolTip Content="{Binding SelectedDriverChart.AvarageMileagePerTrip, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="{loc:Loc Operations_KmPerTripFormat}" />
                                                                     </TextBlock.ToolTip>
                                                                 </TextBlock>
 
@@ -866,11 +867,11 @@
                                                             </Grid>
                                                         </GroupBox>
 
-                                                        <GroupBox Margin="2,10" Header="Самая длинная поездка">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_LongestTrip}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding SelectedDriverChart.MaxTripMileage.Key, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmFormat, Arg0={Binding SelectedDriverChart.MaxTripMileage.Key}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
                                                                         <ToolTip Content="{Binding SelectedDriverChart.MaxTripMileage.Value, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="dd/MM/yyyy" />
@@ -883,11 +884,11 @@
                                                             </Grid>
                                                         </GroupBox>
 
-                                                        <GroupBox Margin="2,10" Header="Самая короткая поездка">
+                                                        <GroupBox Margin="2,10" Header="{loc:Loc Operations_ShortestTrip}">
                                                             <Grid>
                                                                 <TextBlock
                                                                     FontSize="18"
-                                                                    Text="{Binding SelectedDriverChart.MinTripMileage.Key, StringFormat='{}{0} км', FallbackValue='-', TargetNullValue='-'}"
+                                                                    Text="{loc:LocFormat Operations_KmFormat, Arg0={Binding SelectedDriverChart.MinTripMileage.Key}, FallbackValue='-', TargetNullValue='-'}"
                                                                     TextAlignment="Center">
                                                                     <TextBlock.ToolTip>
                                                                         <ToolTip Content="{Binding SelectedDriverChart.MinTripMileage.Value, FallbackValue='-', TargetNullValue='-'}" ContentStringFormat="dd/MM/yyyy" />
@@ -925,7 +926,7 @@
                                                     FontStretch="SemiExpanded"
                                                     FontWeight="Light"
                                                     Foreground="Black"
-                                                    Text="Список водителей">
+                                                    Text="{loc:Loc Operations_DriverList}">
                                                     <TextBlock.LayoutTransform>
                                                         <RotateTransform Angle="90" />
                                                     </TextBlock.LayoutTransform>
@@ -988,7 +989,7 @@
                                                     Margin="0,5,50,5"
                                                     Padding="5,2"
                                                     Controls:TextBoxHelper.ClearTextButton="True"
-                                                    Controls:TextBoxHelper.Watermark="Поиск по списку..."
+                                                    Controls:TextBoxHelper.Watermark="{loc:Loc Operations_SearchListWatermark}"
                                                     FontSize="13"
                                                     Text="{Binding SearchField, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -1005,7 +1006,7 @@
                                                     Badge="{Binding DriversFilteredList.Count, FallbackValue=0, TargetNullValue=0}">
                                                     <Controls:Badged.ToolTip>
                                                         <Border Padding="15,5">
-                                                            <TextBlock FontSize="12" Text="{Binding ModuleData.DriverCollection.Count, StringFormat='Количество водителей по путевым листам: {0}'}" />
+                                                            <TextBlock FontSize="12" Text="{loc:LocFormat Operations_DriversCountFormat, Arg0={Binding ModuleData.DriverCollection.Count}}" />
                                                         </Border>
                                                     </Controls:Badged.ToolTip>
                                                     <Controls:Badged.Effect>
@@ -1024,7 +1025,7 @@
                                                                 FontSize="14"
                                                                 Foreground="Black"
                                                                 Style="{StaticResource RText}"
-                                                                Text="Общий график" />
+                                                                Text="{loc:Loc Operations_OverallChart}" />
                                                             <Rectangle
                                                                 Width="20"
                                                                 Height="20"
@@ -1094,19 +1095,19 @@
                                                                     HorizontalAlignment="Right"
                                                                     FontSize="12"
                                                                     FontWeight="UltraLight"
-                                                                    Text="{Binding UnitNumber, StringFormat='Табельный номер: {0}'}" />
+                                                                    Text="{loc:LocFormat Operations_UnitNumberFormat, Arg0={Binding UnitNumber}}" />
 
                                                                 <TextBlock
                                                                     Grid.Row="1"
                                                                     Grid.Column="1"
                                                                     HorizontalAlignment="Right"
-                                                                    Text="{Binding CountCars, StringFormat='ТС использовано за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    Text="{loc:LocFormat Operations_VehiclesUsedFormat, Arg0={Binding CountCars}, FallbackValue='-', TargetNullValue='-'}" />
 
                                                                 <TextBlock
                                                                     Grid.Row="2"
                                                                     Grid.Column="1"
                                                                     HorizontalAlignment="Right"
-                                                                    Text="{Binding CountTrips, StringFormat='Поездок всего за период: {0}', FallbackValue='-', TargetNullValue='-'}" />
+                                                                    Text="{loc:LocFormat Operations_TripsInPeriodFormat, Arg0={Binding CountTrips}, FallbackValue='-', TargetNullValue='-'}" />
 
                                                             </Grid>
                                                         </DataTemplate>
@@ -1146,7 +1147,7 @@
                                                             Orientation="Vertical">
                                                             <ToggleButton
                                                                 Command="{Binding UpdateFilterDriversCommand}"
-                                                                Content="Отобрать потенциальных водителей"
+                                                                Content="{loc:Loc Operations_SelectPotentialDrivers}"
                                                                 IsChecked="{Binding IsShowOnlyDrivers}" />
                                                         </StackPanel>
                                                     </Border>
@@ -1250,7 +1251,7 @@
 
         <wnd:ChildWindow
             x:Name="driversCarsWnd"
-            Title="{Binding SelectedDriverChart, StringFormat='Список ТС что эксплуатировались ({0})'}"
+            Title="{loc:LocFormat Operations_DriverVehiclesTitleFormat, Arg0={Binding SelectedDriverChart}}"
             Grid.ColumnSpan="2"
             MinWidth="400"
             MinHeight="300"
@@ -1272,7 +1273,7 @@
                 <TextBlock
                     HorizontalAlignment="Center"
                     FontSize="14"
-                    Text="Для начала выделите водителя">
+                    Text="{loc:Loc Operations_SelectDriverFirst}">
                     <TextBlock.Style>
                         <Style BasedOn="{StaticResource RText}" TargetType="{x:Type TextBlock}">
                             <Setter Property="Visibility" Value="Collapsed" />

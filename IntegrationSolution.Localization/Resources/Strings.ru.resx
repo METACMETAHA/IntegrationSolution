@@ -305,6 +305,345 @@
     <value>Неправильная структура "{0}" документа.
 Требуются следующие колонки:" {1}, {2}"</value>
   </data>
+  <data name="Operations_ApplyListFilterToolTip" xml:space="preserve">
+    <value>Применить фильтрацию из списка</value>
+  </data>
+  <data name="Operations_AvgKmPerTrip" xml:space="preserve">
+    <value>Средний км за поездку</value>
+  </data>
+  <data name="Operations_AvgMileageLeaders" xml:space="preserve">
+    <value>Лидеры по среднему пробегу:</value>
+  </data>
+  <data name="Operations_AvgMileageOutsiders" xml:space="preserve">
+    <value>Аутсайдеры по среднему пробегу:</value>
+  </data>
+  <data name="Operations_Bottom10ByAvgMileage" xml:space="preserve">
+    <value>Топ 10 аутсайдеров по среднему пробегу за поездку:</value>
+  </data>
+  <data name="Operations_Bottom10ByMileage" xml:space="preserve">
+    <value>Топ 10 аутсайдеров по пробегу:</value>
+  </data>
+  <data name="Operations_CarAvgMileageLine" xml:space="preserve">
+    <value>Средний пробег за поездку:	{0} км/поездка</value>
+  </data>
+  <data name="Operations_CarDepartmentLine" xml:space="preserve">
+    <value>Служба/отдел:	{0}</value>
+  </data>
+  <data name="Operations_CarMileageLine" xml:space="preserve">
+    <value>Пробег за период:	{0} км</value>
+  </data>
+  <data name="Operations_CarStructureLine" xml:space="preserve">
+    <value>Структурное подразделение:	{0}</value>
+  </data>
+  <data name="Operations_CarTripsCountLine" xml:space="preserve">
+    <value>Количество выездов:	{0}</value>
+  </data>
+  <data name="Operations_ChartAvgMileagePerTrip" xml:space="preserve">
+    <value>Показатели по среднему километражу за поездку</value>
+  </data>
+  <data name="Operations_ChartLongestTrips" xml:space="preserve">
+    <value>Показатели по самым длинным поездкам</value>
+  </data>
+  <data name="Operations_ChartMileage" xml:space="preserve">
+    <value>Показатели по километражу</value>
+  </data>
+  <data name="Operations_ChartProductivity" xml:space="preserve">
+    <value>Показатели по продуктивности</value>
+  </data>
+  <data name="Operations_ChartShortestTrips" xml:space="preserve">
+    <value>Показатели по самым коротким поездкам</value>
+  </data>
+  <data name="Operations_ChartTripsCount" xml:space="preserve">
+    <value>Показатели по количеству поездок</value>
+  </data>
+  <data name="Operations_CheckProgressMessage" xml:space="preserve">
+    <value>Осталось проверить: {0} транспортных средств
+Проверка {1}  ({2})
+Количество поездок за период: {3} (SAP)
+Количество поездок за период: {4} (Wialon)
+Показания одометра за период по системе SAP: {5} км
+Показания одометра за период по системе Wialon: {6} км
+
+{7}</value>
+  </data>
+  <data name="Operations_CheckWialonConnection" xml:space="preserve">
+    <value>Проверьте подключение к навигационной системе Wialon.</value>
+  </data>
+  <data name="Operations_CommonCarsHeader" xml:space="preserve">
+    <value>ТС что находятся в обеих списках</value>
+  </data>
+  <data name="Operations_ContinueQuestion" xml:space="preserve">
+    <value>Вы хотите продолжить?</value>
+  </data>
+  <data name="Operations_CreatingReport" xml:space="preserve">
+    <value>Создание отчёта...</value>
+  </data>
+  <data name="Operations_DiscrepancyPercentExample" xml:space="preserve">
+    <value>Например: 3.5</value>
+  </data>
+  <data name="Operations_DiscrepancyPercentTitle" xml:space="preserve">
+    <value>Допустимый процент расхождения</value>
+  </data>
+  <data name="Operations_DriverAvgMileageLine" xml:space="preserve">
+    <value>Средний километраж за поездку:	{0} км/поездка</value>
+  </data>
+  <data name="Operations_DriverChartTitle" xml:space="preserve">
+    <value>График водителя</value>
+  </data>
+  <data name="Operations_DriverList" xml:space="preserve">
+    <value>Список водителей</value>
+  </data>
+  <data name="Operations_DriverLongestTripLine" xml:space="preserve">
+    <value>Самая длинная поездка:	{0} км	({1})</value>
+  </data>
+  <data name="Operations_DriverMileageLine" xml:space="preserve">
+    <value>Всего километраж за период:	{0} км</value>
+  </data>
+  <data name="Operations_DriverProductivityLine" xml:space="preserve">
+    <value>Показатель продуктивности:	{0}%</value>
+  </data>
+  <data name="Operations_DriverShortestTripLine" xml:space="preserve">
+    <value>Самая короткая поездка:	{0} км	({1})</value>
+  </data>
+  <data name="Operations_DriverTotalTripsItem" xml:space="preserve">
+    <value>{0}		 Всего поездок: {1}</value>
+  </data>
+  <data name="Operations_DriverTripsLine" xml:space="preserve">
+    <value>Всего поездок за период:	{0}</value>
+  </data>
+  <data name="Operations_DriverTripsMileageItem" xml:space="preserve">
+    <value>{0}		 Всего поездок: {1} ({2} км)</value>
+  </data>
+  <data name="Operations_DriverTripsNote" xml:space="preserve">
+    <value>* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.</value>
+  </data>
+  <data name="Operations_DriverVehiclesLine" xml:space="preserve">
+    <value>Использовано транспортных средств:	{0}</value>
+  </data>
+  <data name="Operations_DriverVehiclesTitleFormat" xml:space="preserve">
+    <value>Список ТС что эксплуатировались ({0})</value>
+  </data>
+  <data name="Operations_DriversCountFormat" xml:space="preserve">
+    <value>Количество водителей по путевым листам: {0}</value>
+  </data>
+  <data name="Operations_DriversSeriesTitle" xml:space="preserve">
+    <value>Показатели по водителям</value>
+  </data>
+  <data name="Operations_DriversTab" xml:space="preserve">
+    <value>Водители</value>
+  </data>
+  <data name="Operations_ErrorTitle" xml:space="preserve">
+    <value>Ошибка!</value>
+  </data>
+  <data name="Operations_FetchingWialonVehicles" xml:space="preserve">
+    <value>Выборка транспортных средств из системы Wialon</value>
+  </data>
+  <data name="Operations_FilterByType" xml:space="preserve">
+    <value>Отобрать по типу</value>
+  </data>
+  <data name="Operations_InitializeButton" xml:space="preserve">
+    <value>Инициализация</value>
+  </data>
+  <data name="Operations_InitializeToolTip" xml:space="preserve">
+    <value>Быстрая сводка по путевым листам из системы SAP</value>
+  </data>
+  <data name="Operations_InitializingFiles" xml:space="preserve">
+    <value>Инициализация файлов</value>
+  </data>
+  <data name="Operations_InitializingVehicleProgress" xml:space="preserve">
+    <value>Инициализация транспортных средств: Инициализация {0} объекта из {1}.</value>
+  </data>
+  <data name="Operations_InitializingVehicles" xml:space="preserve">
+    <value>Инициализация транспортных средств</value>
+  </data>
+  <data name="Operations_InitializingVehiclesQueued" xml:space="preserve">
+    <value>Инициализация транспортных средств. На очереди {0} объектов.</value>
+  </data>
+  <data name="Operations_InputErrorTitle" xml:space="preserve">
+    <value>Ошибка. Повторите ввод.</value>
+  </data>
+  <data name="Operations_KmFormat" xml:space="preserve">
+    <value>{0} км</value>
+  </data>
+  <data name="Operations_KmPerTripFormat" xml:space="preserve">
+    <value>{0} км/поездка</value>
+  </data>
+  <data name="Operations_KmShareFormat" xml:space="preserve">
+    <value>{0} км ({1:P})</value>
+  </data>
+  <data name="Operations_KmUnit" xml:space="preserve">
+    <value>км</value>
+  </data>
+  <data name="Operations_LoadFilesAgainError" xml:space="preserve">
+    <value>Ошибка. Попробуйте вернуться и загрузить файлы по новой.</value>
+  </data>
+  <data name="Operations_LongestTrip" xml:space="preserve">
+    <value>Самая длинная поездка</value>
+  </data>
+  <data name="Operations_LongestTripTitle" xml:space="preserve">
+    <value>Самая длинная поездка:	{0} км</value>
+  </data>
+  <data name="Operations_MaxAvgMileageTitle" xml:space="preserve">
+    <value>Самый большой средний километраж за поездку:	{0} км/поездка {1}</value>
+  </data>
+  <data name="Operations_MaxMileageTitle" xml:space="preserve">
+    <value>Самый большой километраж за период:	{0} км</value>
+  </data>
+  <data name="Operations_MileageAuditButton" xml:space="preserve">
+    <value>Аудит пробегов</value>
+  </data>
+  <data name="Operations_MileageAuditToolTip" xml:space="preserve">
+    <value>Сравнение данных по пробегу из системы SAP и Wialon</value>
+  </data>
+  <data name="Operations_MileageTab" xml:space="preserve">
+    <value>Пробег</value>
+  </data>
+  <data name="Operations_MinAvgMileageTitle" xml:space="preserve">
+    <value>Самый малый средний километраж за поездку:	{0} км/поездка</value>
+  </data>
+  <data name="Operations_NoDataForPeriod" xml:space="preserve">
+    <value>Данные отсутствуют.
+Попробуйте выбрать другой период или повторите попытку позже.</value>
+  </data>
+  <data name="Operations_OperationsTab" xml:space="preserve">
+    <value>Операции</value>
+  </data>
+  <data name="Operations_OutsiderLine" xml:space="preserve">
+    <value>{0}. {1}	({2} / {3})		{4}км</value>
+  </data>
+  <data name="Operations_OutsidersListTitle" xml:space="preserve">
+    <value>Список аутсайдеров</value>
+  </data>
+  <data name="Operations_OverallChart" xml:space="preserve">
+    <value>Общий график</value>
+  </data>
+  <data name="Operations_PercentMustBePositive" xml:space="preserve">
+    <value>Внимательней, число должно быть больше от 0.</value>
+  </data>
+  <data name="Operations_PleaseWaitTitle" xml:space="preserve">
+    <value>Подождите пожалуйста</value>
+  </data>
+  <data name="Operations_PreparingData" xml:space="preserve">
+    <value>Подготовка данных...</value>
+  </data>
+  <data name="Operations_ProcedureMayTakeTime" xml:space="preserve">
+    <value>Данная процедура может занять некоторое время.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep1" xml:space="preserve">
+    <value>- Количество поездок у каждого водителя переводятся в 100-балльную шкалу, где 100 - это водитель с наибольшим количеством ПЛ.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep2" xml:space="preserve">
+    <value>- С высчитанной шкалы отбираются во внимание те водители, у которых значения по шкале больше 40 (то есть отбираются реальные водители)</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep3" xml:space="preserve">
+    <value>- Затем, среди отобранных водителей подсчитывается средний пробег за поездку.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmTitle" xml:space="preserve">
+    <value>* Алгоритм отбора группы водителей: </value>
+  </data>
+  <data name="Operations_ProductivityDenominator" xml:space="preserve">
+    <value>Средний пробег среди отобранной группы водителей *</value>
+  </data>
+  <data name="Operations_ProductivityFormulaLabel" xml:space="preserve">
+    <value>Продуктивность = </value>
+  </data>
+  <data name="Operations_ProductivityHelpIntro" xml:space="preserve">
+    <value>Данный показатель высчитывается следующим образом:</value>
+  </data>
+  <data name="Operations_ProductivityNumerator" xml:space="preserve">
+    <value>Километраж за период</value>
+  </data>
+  <data name="Operations_ProgressSaving" xml:space="preserve">
+    <value>Сохранение</value>
+  </data>
+  <data name="Operations_ProgressWritingToFile" xml:space="preserve">
+    <value>Запись в файл</value>
+  </data>
+  <data name="Operations_RefreshDataToolTip" xml:space="preserve">
+    <value>Обновить данные</value>
+  </data>
+  <data name="Operations_ResultsSavedOpenQuestion" xml:space="preserve">
+    <value>Результаты успешно сохранены.
+Желаете ли просмотреть результаты?</value>
+  </data>
+  <data name="Operations_SapSummaryTab" xml:space="preserve">
+    <value>Сводка по SAP</value>
+  </data>
+  <data name="Operations_SearchChartWatermark" xml:space="preserve">
+    <value>Поиск на графике...</value>
+  </data>
+  <data name="Operations_SearchListWatermark" xml:space="preserve">
+    <value>Поиск по списку...</value>
+  </data>
+  <data name="Operations_SelectCommonTop10" xml:space="preserve">
+    <value>Отобрать ТС что попали в общий топ 10</value>
+  </data>
+  <data name="Operations_SelectDriverFirst" xml:space="preserve">
+    <value>Для начала выделите водителя</value>
+  </data>
+  <data name="Operations_SelectPotentialDrivers" xml:space="preserve">
+    <value>Отобрать потенциальных водителей</value>
+  </data>
+  <data name="Operations_ShortestTrip" xml:space="preserve">
+    <value>Самая короткая поездка</value>
+  </data>
+  <data name="Operations_ShortestTripTitle" xml:space="preserve">
+    <value>Самая короткая поездка:	{0} км</value>
+  </data>
+  <data name="Operations_ShowAsListToolTip" xml:space="preserve">
+    <value>Отобразить списком</value>
+  </data>
+  <data name="Operations_ShowOutsiders" xml:space="preserve">
+    <value>Отобразить аутсайдеров</value>
+  </data>
+  <data name="Operations_SpeedViolationsCount" xml:space="preserve">
+    <value>Количество превышений скорости: {0}</value>
+  </data>
+  <data name="Operations_Statistics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="Operations_SuccessTitle" xml:space="preserve">
+    <value>Успех!</value>
+  </data>
+  <data name="Operations_Title" xml:space="preserve">
+    <value>Операции</value>
+  </data>
+  <data name="Operations_Top10ByAvgMileage" xml:space="preserve">
+    <value>Топ 10 по среднему пробегу за поездку (по ПЛ)</value>
+  </data>
+  <data name="Operations_Top10ByMileage" xml:space="preserve">
+    <value>Топ 10 по пробегу (по ПЛ)</value>
+  </data>
+  <data name="Operations_TotalMileage" xml:space="preserve">
+    <value>Общий километраж</value>
+  </data>
+  <data name="Operations_TotalTrips" xml:space="preserve">
+    <value>Всего поездок</value>
+  </data>
+  <data name="Operations_TransportCostsButton" xml:space="preserve">
+    <value>Затраты на транспортное обеспечение</value>
+  </data>
+  <data name="Operations_TransportCostsToolTip" xml:space="preserve">
+    <value>Подсчёт расхода топлива и затрат, общего пробега и моточасов наработки</value>
+  </data>
+  <data name="Operations_TripsFormat" xml:space="preserve">
+    <value>{0} поездок</value>
+  </data>
+  <data name="Operations_TripsInPeriodFormat" xml:space="preserve">
+    <value>Поездок всего за период: {0}</value>
+  </data>
+  <data name="Operations_UnitNumberFormat" xml:space="preserve">
+    <value>Табельный номер: {0}</value>
+  </data>
+  <data name="Operations_Updated" xml:space="preserve">
+    <value>Обновлено</value>
+  </data>
+  <data name="Operations_VehiclesUsedFormat" xml:space="preserve">
+    <value>ТС использовано за период: {0}</value>
+  </data>
+  <data name="Operations_WorkingDays" xml:space="preserve">
+    <value>Рабочие дни</value>
+  </data>
   <data name="PredictionChart_Title" xml:space="preserve">
     <value>График пробега по системам</value>
   </data>
