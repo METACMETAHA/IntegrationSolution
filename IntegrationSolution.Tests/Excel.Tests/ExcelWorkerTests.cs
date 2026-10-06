@@ -8,7 +8,11 @@ using System.IO;
 
 namespace IntegrationSolution.Tests.Excel.Tests
 {
+    /// <summary>
+    /// Writes a workbook to a developer's desktop for manual inspection; excluded from CI ("TestCategory!=Integration").
+    /// </summary>
     [TestClass]
+    [TestCategory("Integration")]
     public class ExcelWorkerTests
     {
         [DataTestMethod]

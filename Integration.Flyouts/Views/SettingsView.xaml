@@ -21,6 +21,7 @@
                                Text="{loc:Loc Settings_LanguageLabel}" />
                     <ComboBox MinWidth="220"
                               HorizontalAlignment="Left"
+                              AutomationProperties.AutomationId="LanguageSelector"
                               AutomationProperties.Name="{loc:Loc Settings_LanguageLabel}"
                               DisplayMemberPath="NativeName"
                               ItemsSource="{Binding Languages}"

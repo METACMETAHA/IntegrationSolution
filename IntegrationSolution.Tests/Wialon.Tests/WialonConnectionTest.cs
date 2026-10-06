@@ -11,7 +11,11 @@ using WialonBase.Interfaces;
 
 namespace IntegrationSolution.Tests.Wialon.Tests
 {
+    /// <summary>
+    /// Talks to the live Wialon server with a personal token; excluded from CI ("TestCategory!=Integration").
+    /// </summary>
     [TestClass]
+    [TestCategory("Integration")]
     public class WialonConnectionTest
     {
         protected IUnityContainer _container;

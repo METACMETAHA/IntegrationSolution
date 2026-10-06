@@ -60,6 +60,7 @@
         <Controls:WindowCommands ShowSeparators="True">
             <Button
                 VerticalAlignment="Center"
+                AutomationProperties.AutomationId="SettingsButton"
                 Command="{Binding ToggleFlyoutSettingsCommand}"
                 Content="{loc:Loc Shell_SettingsButton}"
                 FontSize="14" />
