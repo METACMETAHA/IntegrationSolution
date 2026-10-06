@@ -899,6 +899,9 @@
   <data name="Token_Next" xml:space="preserve">
     <value>Далі</value>
   </data>
+  <data name="Token_NotSet" xml:space="preserve">
+    <value>Токен Wialon не задано. Введіть його в розділі Налаштування &gt; Wialon.</value>
+  </data>
   <data name="Token_PasteHint" xml:space="preserve">
     <value>Вставте отриманий токен у поле</value>
   </data>
