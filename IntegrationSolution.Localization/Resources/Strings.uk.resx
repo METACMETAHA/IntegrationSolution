@@ -166,7 +166,7 @@
     <value>Інструкція з отримання токена</value>
   </data>
   <data name="Dialogs_TokenStep1After" xml:space="preserve">
-    <value>щоб сформувати новий токен.</value>
+    <value>для створення нового токена.</value>
   </data>
   <data name="Dialogs_TokenStep1Before" xml:space="preserve">
     <value>1. Перейдіть за </value>
@@ -178,7 +178,7 @@
     <value>2. Для авторизації введіть свій логін і пароль.</value>
   </data>
   <data name="Dialogs_TokenStep3a" xml:space="preserve">
-    <value>3. Після успішної авторизації за цією формою відбудеться переадресація.</value>
+    <value>3. Після успішної авторизації в цій формі вас буде переадресовано.</value>
   </data>
   <data name="Dialogs_TokenStep3b" xml:space="preserve">
     <value>З адресного рядка скопіюйте токен (зображений на картинці) у відповідне поле в застосунку та натисніть кнопку "Далі".</value>
@@ -208,7 +208,7 @@
     <value>Виберіть файл із розширенням ".xls" або ".xlsx".</value>
   </data>
   <data name="Headers_FileMustExist" xml:space="preserve">
-    <value>Виберіть існуючий файл.</value>
+    <value>Виберіть наявний файл.</value>
   </data>
   <data name="Headers_FileNotExists" xml:space="preserve">
     <value>Файл не існує!</value>
@@ -232,7 +232,7 @@
     <value>Скинути поточне значення</value>
   </data>
   <data name="Headers_SelectFile" xml:space="preserve">
-    <value>Обрати файл</value>
+    <value>Вибрати файл</value>
   </data>
   <data name="Headers_SourceUpdated" xml:space="preserve">
     <value>Джерело ТЗ оновлено!</value>
@@ -277,7 +277,7 @@
     <value>Експорт</value>
   </data>
   <data name="LoadingFiles_FileNotFound" xml:space="preserve">
-    <value>Виберіть існуючий файл.</value>
+    <value>Виберіть наявний файл.</value>
   </data>
   <data name="LoadingFiles_FilePathWatermark" xml:space="preserve">
     <value>Шлях до файлу</value>
@@ -292,18 +292,18 @@
     <value>Завантаження файлів</value>
   </data>
   <data name="LoadingFiles_VehicleListLabel" xml:space="preserve">
-    <value>Загальний список машин</value>
+    <value>Загальний список ТЗ</value>
   </data>
   <data name="LoadingFiles_WrongExtension" xml:space="preserve">
     <value>Виберіть файл із розширенням ".xls" або ".xlsx".</value>
   </data>
   <data name="ModuleData_WrongMainFileStructure" xml:space="preserve">
     <value>Неправильна структура документа "{0}".
-Потрібні такі колонки: "{1}, {2}, {3}, {4}"</value>
+Потрібні такі стовпці: "{1}, {2}, {3}, {4}"</value>
   </data>
   <data name="ModuleData_WrongPathListFileStructure" xml:space="preserve">
     <value>Неправильна структура документа "{0}".
-Потрібні такі колонки: "{1}, {2}"</value>
+Потрібні такі стовпці: "{1}, {2}"</value>
   </data>
   <data name="Operations_ApplyListFilterToolTip" xml:space="preserve">
     <value>Застосувати фільтрацію зі списку</value>
@@ -318,10 +318,10 @@
     <value>Аутсайдери за середнім пробігом:</value>
   </data>
   <data name="Operations_Bottom10ByAvgMileage" xml:space="preserve">
-    <value>Топ 10 аутсайдерів за середнім пробігом за поїздку:</value>
+    <value>Топ-10 аутсайдерів за середнім пробігом за поїздку:</value>
   </data>
   <data name="Operations_Bottom10ByMileage" xml:space="preserve">
-    <value>Топ 10 аутсайдерів за пробігом:</value>
+    <value>Топ-10 аутсайдерів за пробігом:</value>
   </data>
   <data name="Operations_CarAvgMileageLine" xml:space="preserve">
     <value>Середній пробіг за поїздку:	{0} км/поїздка</value>
@@ -361,8 +361,8 @@
 Перевірка {1}  ({2})
 Кількість поїздок за період: {3} (SAP)
 Кількість поїздок за період: {4} (Wialon)
-Показання одометра за період за системою SAP: {5} км
-Показання одометра за період за системою Wialon: {6} км
+Показання одометра за період за даними системи SAP: {5} км
+Показання одометра за період за даними системи Wialon: {6} км
 
 {7}</value>
   </data>
@@ -502,7 +502,7 @@
     <value>Найменший середній кілометраж за поїздку:	{0} км/поїздка</value>
   </data>
   <data name="Operations_NoDataForPeriod" xml:space="preserve">
-    <value>Дані відсутні.
+    <value>Немає даних.
 Спробуйте вибрати інший період або повторіть спробу пізніше.</value>
   </data>
   <data name="Operations_OperationsTab" xml:space="preserve">
@@ -527,10 +527,10 @@
     <value>Підготовка даних...</value>
   </data>
   <data name="Operations_ProcedureMayTakeTime" xml:space="preserve">
-    <value>Ця процедура може зайняти певний час.</value>
+    <value>Ця процедура може тривати певний час.</value>
   </data>
   <data name="Operations_ProductivityAlgorithmStep1" xml:space="preserve">
-    <value>- Кількість поїздок кожного водія переводиться в 100-бальну шкалу, де 100 - це водій з найбільшою кількістю ПЛ.</value>
+    <value>- Кількість поїздок кожного водія переводиться в 100-бальну шкалу, де 100 - це водій із найбільшою кількістю ПЛ.</value>
   </data>
   <data name="Operations_ProductivityAlgorithmStep2" xml:space="preserve">
     <value>- З обчисленої шкали до уваги беруться ті водії, у яких значення за шкалою більше за 40 (тобто відбираються реальні водії)</value>
@@ -567,7 +567,7 @@
 Бажаєте переглянути результати?</value>
   </data>
   <data name="Operations_SapSummaryTab" xml:space="preserve">
-    <value>Зведення за даними SAP</value>
+    <value>Зведення SAP</value>
   </data>
   <data name="Operations_SearchChartWatermark" xml:space="preserve">
     <value>Пошук на графіку...</value>
@@ -576,7 +576,7 @@
     <value>Пошук у списку...</value>
   </data>
   <data name="Operations_SelectCommonTop10" xml:space="preserve">
-    <value>Відібрати ТЗ, що потрапили до спільного топ 10</value>
+    <value>Відібрати ТЗ, що потрапили до спільного топ-10</value>
   </data>
   <data name="Operations_SelectDriverFirst" xml:space="preserve">
     <value>Спочатку виберіть водія</value>
@@ -597,7 +597,7 @@
     <value>Показати аутсайдерів</value>
   </data>
   <data name="Operations_SpeedViolationsCount" xml:space="preserve">
-    <value>Кількість перевищень швидкості: {0}</value>
+    <value>Кількість порушень швидкісного режиму: {0}</value>
   </data>
   <data name="Operations_Statistics" xml:space="preserve">
     <value>Статистика</value>
@@ -609,10 +609,10 @@
     <value>Операції</value>
   </data>
   <data name="Operations_Top10ByAvgMileage" xml:space="preserve">
-    <value>Топ 10 за середнім пробігом за поїздку (за ПЛ)</value>
+    <value>Топ-10 за середнім пробігом за поїздку (за даними ПЛ)</value>
   </data>
   <data name="Operations_Top10ByMileage" xml:space="preserve">
-    <value>Топ 10 за пробігом (за ПЛ)</value>
+    <value>Топ-10 за пробігом (за даними ПЛ)</value>
   </data>
   <data name="Operations_TotalMileage" xml:space="preserve">
     <value>Загальний кілометраж</value>
@@ -624,7 +624,7 @@
     <value>Витрати на транспортне забезпечення</value>
   </data>
   <data name="Operations_TransportCostsToolTip" xml:space="preserve">
-    <value>Підрахунок витрати пального та витрат, загального пробігу й мотогодин напрацювання</value>
+    <value>Підрахунок витрати пального й затрат, загального пробігу та напрацювання в мотогодинах</value>
   </data>
   <data name="Operations_TripsFormat" xml:space="preserve">
     <value>{0} поїздок</value>
@@ -681,7 +681,7 @@
     <value>Відсоток розбіжності</value>
   </data>
   <data name="Report_ColDivision" xml:space="preserve">
-    <value>Підрозділ</value>
+    <value>Структурний підрозділ</value>
   </data>
   <data name="Report_ColDriver" xml:space="preserve">
     <value>Водій</value>
@@ -723,7 +723,7 @@
     <value>Початок (час Wialon)</value>
   </data>
   <data name="Report_ColStateNumber" xml:space="preserve">
-    <value>Держ.номер</value>
+    <value>Держ. номер</value>
   </data>
   <data name="Report_ColTripsSap" xml:space="preserve">
     <value>Кількість поїздок (SAP)</value>
@@ -735,7 +735,7 @@
     <value>Тип</value>
   </data>
   <data name="Report_ColWialonMileageTotal" xml:space="preserve">
-    <value>Загальний пробіг за Wialon</value>
+    <value>Загальний пробіг (Wialon)</value>
   </data>
   <data name="Report_SheetMileageDifference" xml:space="preserve">
     <value>Різниця показань одометрів</value>
@@ -774,7 +774,7 @@
     <value>ПОДРОБИЦІ</value>
   </data>
   <data name="Results_ExtendedReportOnly" xml:space="preserve">
-    <value>Цей розділ доступний лише під час виконання розширеного звіту</value>
+    <value>Цей розділ доступний лише для детального звіту</value>
   </data>
   <data name="Results_FilterByType" xml:space="preserve">
     <value>Відібрати за типом</value>
@@ -792,7 +792,7 @@
     <value>Пошук...</value>
   </data>
   <data name="Results_SelectVehiclePrompt" xml:space="preserve">
-    <value>Для перегляду подробиць оберіть ТЗ</value>
+    <value>Щоб переглянути подробиці, виберіть ТЗ</value>
   </data>
   <data name="Results_ShowOnlyViolations" xml:space="preserve">
     <value>Показати лише ТЗ з порушеннями</value>
@@ -921,7 +921,7 @@
     <value>Операцію виконано успішно</value>
   </data>
   <data name="Wialon_Error1" xml:space="preserve">
-    <value>Недійсна сесія</value>
+    <value>Недійсний сеанс</value>
   </data>
   <data name="Wialon_Error10" xml:space="preserve">
     <value>Перевищено ліміт одночасних запитів</value>
@@ -930,7 +930,7 @@
     <value>Немає повідомлень за вибраний інтервал</value>
   </data>
   <data name="Wialon_Error1002" xml:space="preserve">
-    <value>Елемент з такою унікальною властивістю вже існує</value>
+    <value>Елемент із такою унікальною властивістю вже існує</value>
   </data>
   <data name="Wialon_Error1003" xml:space="preserve">
     <value>Одночасно дозволено лише один запит</value>
@@ -942,13 +942,13 @@
     <value>Перевищено обмеження за часом виконання</value>
   </data>
   <data name="Wialon_Error1011" xml:space="preserve">
-    <value>Час сесії минув або ваша IP-адреса змінилася</value>
+    <value>Час сеансу минув або ваша IP-адреса змінилася</value>
   </data>
   <data name="Wialon_Error11" xml:space="preserve">
     <value>Помилка під час виконання запиту на скидання пароля</value>
   </data>
   <data name="Wialon_Error2" xml:space="preserve">
-    <value>Недійсна назва сервісу</value>
+    <value>Неправильна назва сервісу</value>
   </data>
   <data name="Wialon_Error2014" xml:space="preserve">
     <value>Поточного користувача не можна вибрати під час створення облікового запису</value>
@@ -957,10 +957,10 @@
     <value>Видалення датчика заборонено, оскільки він використовується в іншому датчику або в додаткових властивостях об'єкта</value>
   </data>
   <data name="Wialon_Error3" xml:space="preserve">
-    <value>Недійсний результат</value>
+    <value>Неправильний результат</value>
   </data>
   <data name="Wialon_Error4" xml:space="preserve">
-    <value>Недійсне введення</value>
+    <value>Неправильне введення</value>
   </data>
   <data name="Wialon_Error5" xml:space="preserve">
     <value>Помилка виконання запиту</value>
@@ -969,7 +969,7 @@
     <value>Доступ заборонено</value>
   </data>
   <data name="Wialon_Error8" xml:space="preserve">
-    <value>Недійсні ім'я користувача або пароль</value>
+    <value>Неправильне ім'я користувача або пароль</value>
   </data>
   <data name="Wialon_Error9" xml:space="preserve">
     <value>Сервер авторизації недоступний, будь ласка, повторіть запит пізніше</value>

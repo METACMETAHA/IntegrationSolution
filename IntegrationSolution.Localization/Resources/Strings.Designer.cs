@@ -250,7 +250,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3. After successful authorization on this form, you will be redirected..
+        ///   Looks up a localized string similar to 3. After you sign in successfully on this form, you will be redirected..
         /// </summary>
         public static string Dialogs_TokenStep3a {
             get {
@@ -277,7 +277,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End of work.
+        ///   Looks up a localized string similar to Finish.
         /// </summary>
         public static string Final_Title {
             get {
@@ -457,7 +457,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Common vehicle list.
+        ///   Looks up a localized string similar to Full vehicle list.
         /// </summary>
         public static string Headers_VehicleListHeader {
             get {
@@ -484,7 +484,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please contact technical support..
+        ///   Looks up a localized string similar to Please contact support..
         /// </summary>
         public static string Info_ErrorContactSupport {
             get {
@@ -493,7 +493,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file is missing! Please contact technical support..
+        ///   Looks up a localized string similar to The file is missing! Please contact support..
         /// </summary>
         public static string Info_ErrorFileMissing {
             get {
@@ -529,7 +529,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Waybill headers sample.
+        ///   Looks up a localized string similar to Sample waybill headers.
         /// </summary>
         public static string Info_WaybillHeadersSample {
             get {
@@ -592,7 +592,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vehicle list.
+        ///   Looks up a localized string similar to Full vehicle list.
         /// </summary>
         public static string LoadingFiles_VehicleListLabel {
             get {
@@ -1195,7 +1195,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No data. ....
+        ///   Looks up a localized string similar to No data available. ....
         /// </summary>
         public static string Operations_NoDataForPeriod {
             get {
@@ -1240,7 +1240,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Careful: the number must be greater than 0..
+        ///   Looks up a localized string similar to Be careful: the number must be greater than 0..
         /// </summary>
         public static string Operations_PercentMustBePositive {
             get {
@@ -1411,7 +1411,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select vehicles in the common top 10.
+        ///   Looks up a localized string similar to Select vehicles in both top 10 lists.
         /// </summary>
         public static string Operations_SelectCommonTop10 {
             get {
@@ -1510,7 +1510,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Top 10 by average mileage per trip (by waybills).
+        ///   Looks up a localized string similar to Top 10 by average mileage per trip (from waybills).
         /// </summary>
         public static string Operations_Top10ByAvgMileage {
             get {
@@ -1519,7 +1519,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Top 10 by mileage (by waybills).
+        ///   Looks up a localized string similar to Top 10 by mileage (from waybills).
         /// </summary>
         public static string Operations_Top10ByMileage {
             get {
@@ -1573,7 +1573,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total trips in the period: {0}.
+        ///   Looks up a localized string similar to Total trips for the period: {0}.
         /// </summary>
         public static string Operations_TripsInPeriodFormat {
             get {
@@ -1600,7 +1600,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vehicles used in the period: {0}.
+        ///   Looks up a localized string similar to Vehicles used for the period: {0}.
         /// </summary>
         public static string Operations_VehiclesUsedFormat {
             get {
@@ -1663,7 +1663,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No. of speed violations.
+        ///   Looks up a localized string similar to No. of speeding violations.
         /// </summary>
         public static string ReportSimple_ColSpeedViolations {
             get {
@@ -1681,7 +1681,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Departments.
+        ///   Looks up a localized string similar to Structural units.
         /// </summary>
         public static string ReportSimple_ColStructure {
             get {
@@ -1726,7 +1726,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Division.
+        ///   Looks up a localized string similar to Structural unit.
         /// </summary>
         public static string Report_ColDivision {
             get {
@@ -1888,7 +1888,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total mileage per Wialon.
+        ///   Looks up a localized string similar to Total mileage (Wialon).
         /// </summary>
         public static string Report_ColWialonMileageTotal {
             get {
@@ -2005,7 +2005,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This section is available only when the extended report is run.
+        ///   Looks up a localized string similar to This section is available only for a detailed report.
         /// </summary>
         public static string Results_ExtendedReportOnly {
             get {
@@ -2086,7 +2086,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Department: .
+        ///   Looks up a localized string similar to Structural unit: .
         /// </summary>
         public static string Results_StructureLabel {
             get {
@@ -2122,7 +2122,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trip distance.
+        ///   Looks up a localized string similar to Trip mileage.
         /// </summary>
         public static string Results_TripMileageGroup {
             get {
@@ -2158,7 +2158,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Speed limit violations ({0}).
+        ///   Looks up a localized string similar to Speeding violations ({0}).
         /// </summary>
         public static string Results_ViolationsWindowTitleFormat {
             get {
@@ -2419,7 +2419,7 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can't close Wialon session!.
+        ///   Looks up a localized string similar to Failed to close the Wialon session!.
         /// </summary>
         public static string Wialon_CloseSessionFailed {
             get {

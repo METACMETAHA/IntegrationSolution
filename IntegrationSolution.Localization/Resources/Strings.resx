@@ -193,7 +193,7 @@
     <value>2. Enter your username and password to sign in.</value>
   </data>
   <data name="Dialogs_TokenStep3a" xml:space="preserve">
-    <value>3. After successful authorization on this form, you will be redirected.</value>
+    <value>3. After you sign in successfully on this form, you will be redirected.</value>
   </data>
   <data name="Dialogs_TokenStep3b" xml:space="preserve">
     <value>From the address bar, copy the token (shown in the picture) into the corresponding field in the application and click the "Next" button.</value>
@@ -202,7 +202,7 @@
     <value>Great. You can close the application :)</value>
   </data>
   <data name="Final_Title" xml:space="preserve">
-    <value>End of work</value>
+    <value>Finish</value>
     <comment>Wizard step title</comment>
   </data>
   <data name="Grid_ToggleGridToolTip" xml:space="preserve">
@@ -267,7 +267,7 @@
     <value>Vehicle file name</value>
   </data>
   <data name="Headers_VehicleListHeader" xml:space="preserve">
-    <value>Common vehicle list</value>
+    <value>Full vehicle list</value>
     <comment>Header of the vertical (rotated) expander</comment>
   </data>
   <data name="Home_UnderDevelopment" xml:space="preserve">
@@ -278,10 +278,10 @@
     <comment>Label before the support e-mail address</comment>
   </data>
   <data name="Info_ErrorContactSupport" xml:space="preserve">
-    <value>Please contact technical support.</value>
+    <value>Please contact support.</value>
   </data>
   <data name="Info_ErrorFileMissing" xml:space="preserve">
-    <value>The file is missing! Please contact technical support.</value>
+    <value>The file is missing! Please contact support.</value>
   </data>
   <data name="Info_ErrorFileNotFound" xml:space="preserve">
     <value>Error! File not found.</value>
@@ -295,7 +295,7 @@
     <comment>Caption of the button; the bundled file name itself is data and is not localized</comment>
   </data>
   <data name="Info_WaybillHeadersSample" xml:space="preserve">
-    <value>Waybill headers sample</value>
+    <value>Sample waybill headers</value>
     <comment>Caption of the button; the bundled file name itself is data and is not localized</comment>
   </data>
   <data name="LoadingFiles_ExportLabel" xml:space="preserve">
@@ -319,7 +319,7 @@
     <comment>Wizard step title</comment>
   </data>
   <data name="LoadingFiles_VehicleListLabel" xml:space="preserve">
-    <value>Vehicle list</value>
+    <value>Full vehicle list</value>
   </data>
   <data name="LoadingFiles_WrongExtension" xml:space="preserve">
     <value>Select a file with the ".xls" or ".xlsx" extension.</value>
@@ -399,8 +399,8 @@ The following columns are required: "{1}, {2}"</value>
   <data name="Operations_CheckProgressMessage" xml:space="preserve">
     <value>Remaining to check: {0} vehicles
 Checking {1}  ({2})
-Trips in the period: {3} (SAP)
-Trips in the period: {4} (Wialon)
+Trips for the period: {3} (SAP)
+Trips for the period: {4} (Wialon)
 SAP odometer reading for the period: {5} km
 Wialon odometer reading for the period: {6} km
 
@@ -566,8 +566,8 @@ Wialon odometer reading for the period: {6} km
     <comment>Dialog title; keep the tab</comment>
   </data>
   <data name="Operations_NoDataForPeriod" xml:space="preserve">
-    <value>No data.
-Try selecting a different period or try again later.</value>
+    <value>No data available.
+Select a different period or try again later.</value>
   </data>
   <data name="Operations_OperationsTab" xml:space="preserve">
     <value>Operations</value>
@@ -585,7 +585,7 @@ Try selecting a different period or try again later.</value>
     <value>Overall chart</value>
   </data>
   <data name="Operations_PercentMustBePositive" xml:space="preserve">
-    <value>Careful: the number must be greater than 0.</value>
+    <value>Be careful: the number must be greater than 0.</value>
   </data>
   <data name="Operations_PleaseWaitTitle" xml:space="preserve">
     <value>Please wait</value>
@@ -651,7 +651,7 @@ Do you want to view them?</value>
     <value>Search the list...</value>
   </data>
   <data name="Operations_SelectCommonTop10" xml:space="preserve">
-    <value>Select vehicles in the common top 10</value>
+    <value>Select vehicles in both top 10 lists</value>
   </data>
   <data name="Operations_SelectDriverFirst" xml:space="preserve">
     <value>Select a driver first</value>
@@ -686,10 +686,10 @@ Do you want to view them?</value>
     <comment>Wizard step title</comment>
   </data>
   <data name="Operations_Top10ByAvgMileage" xml:space="preserve">
-    <value>Top 10 by average mileage per trip (by waybills)</value>
+    <value>Top 10 by average mileage per trip (from waybills)</value>
   </data>
   <data name="Operations_Top10ByMileage" xml:space="preserve">
-    <value>Top 10 by mileage (by waybills)</value>
+    <value>Top 10 by mileage (from waybills)</value>
   </data>
   <data name="Operations_TotalMileage" xml:space="preserve">
     <value>Total mileage</value>
@@ -708,7 +708,7 @@ Do you want to view them?</value>
     <comment>Chart axis label</comment>
   </data>
   <data name="Operations_TripsInPeriodFormat" xml:space="preserve">
-    <value>Total trips in the period: {0}</value>
+    <value>Total trips for the period: {0}</value>
   </data>
   <data name="Operations_UnitNumberFormat" xml:space="preserve">
     <value>Personnel number: {0}</value>
@@ -718,7 +718,7 @@ Do you want to view them?</value>
     <comment>Status text after refreshing the SAP summary</comment>
   </data>
   <data name="Operations_VehiclesUsedFormat" xml:space="preserve">
-    <value>Vehicles used in the period: {0}</value>
+    <value>Vehicles used for the period: {0}</value>
   </data>
   <data name="Operations_WorkingDays" xml:space="preserve">
     <value>Working days</value>
@@ -740,13 +740,13 @@ Do you want to view them?</value>
     <value>Model</value>
   </data>
   <data name="ReportSimple_ColSpeedViolations" xml:space="preserve">
-    <value>No. of speed violations</value>
+    <value>No. of speeding violations</value>
   </data>
   <data name="ReportSimple_ColStateNumber" xml:space="preserve">
     <value>License plate</value>
   </data>
   <data name="ReportSimple_ColStructure" xml:space="preserve">
-    <value>Departments</value>
+    <value>Structural units</value>
   </data>
   <data name="ReportSimple_ColTripCount" xml:space="preserve">
     <value>No. of trips</value>
@@ -763,7 +763,7 @@ Do you want to view them?</value>
     <comment>Excel report column header</comment>
   </data>
   <data name="Report_ColDivision" xml:space="preserve">
-    <value>Division</value>
+    <value>Structural unit</value>
     <comment>Excel report column header</comment>
   </data>
   <data name="Report_ColDriver" xml:space="preserve">
@@ -835,7 +835,7 @@ Do you want to view them?</value>
     <comment>Excel report column header</comment>
   </data>
   <data name="Report_ColWialonMileageTotal" xml:space="preserve">
-    <value>Total mileage per Wialon</value>
+    <value>Total mileage (Wialon)</value>
     <comment>Excel report column header</comment>
   </data>
   <data name="Report_SheetMileageDifference" xml:space="preserve">
@@ -881,7 +881,7 @@ Do you want to view them?</value>
     <comment>Upper-case title at the top of the details panel</comment>
   </data>
   <data name="Results_ExtendedReportOnly" xml:space="preserve">
-    <value>This section is available only when the extended report is run</value>
+    <value>This section is available only for a detailed report</value>
   </data>
   <data name="Results_FilterByType" xml:space="preserve">
     <value>Filter by type</value>
@@ -911,7 +911,7 @@ Do you want to view them?</value>
     <comment>Label followed by a value; keep the trailing space</comment>
   </data>
   <data name="Results_StructureLabel" xml:space="preserve">
-    <value>Department: </value>
+    <value>Structural unit: </value>
     <comment>Label followed by a value (structural subdivision, abbreviated); keep the trailing space</comment>
   </data>
   <data name="Results_SummaryTab" xml:space="preserve">
@@ -925,7 +925,7 @@ Do you want to view them?</value>
     <value>Number of trips</value>
   </data>
   <data name="Results_TripMileageGroup" xml:space="preserve">
-    <value>Trip distance</value>
+    <value>Trip mileage</value>
   </data>
   <data name="Results_TypeLabel" xml:space="preserve">
     <value>Type: </value>
@@ -939,7 +939,7 @@ Do you want to view them?</value>
     <value>Violations</value>
   </data>
   <data name="Results_ViolationsWindowTitleFormat" xml:space="preserve">
-    <value>Speed limit violations ({0})</value>
+    <value>Speeding violations ({0})</value>
     <comment>Child window title; {0} is the vehicle license plate</comment>
   </data>
   <data name="Settings_ExcelHeadersTab" xml:space="preserve">
@@ -1040,7 +1040,7 @@ Do you want to view them?</value>
     <comment>Watermark of the token text box</comment>
   </data>
   <data name="Wialon_CloseSessionFailed" xml:space="preserve">
-    <value>Can't close Wialon session!</value>
+    <value>Failed to close the Wialon session!</value>
     <comment>Shown inside the 'Server error: {0}' notification when logging out fails</comment>
   </data>
   <data name="Wialon_ConnectedButServerError" xml:space="preserve">
