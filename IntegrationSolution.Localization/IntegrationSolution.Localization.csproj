@@ -34,7 +34,6 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
@@ -55,9 +54,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\FileLanguagePreferenceStore.cs" />
     <Compile Include="Settings\ILanguagePreferenceStore.cs" />
-    <Compile Include="Settings\LocalizationSettings.cs" />
-    <Compile Include="Settings\UserSettingsLanguagePreferenceStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Strings.resx">

@@ -387,6 +387,8 @@ namespace Integration.ModuleGUI.ViewModels
                     option.RefreshText();
             }
 
+            // The formatters read the localized format on every call; a new delegate instance makes the axis redraw.
+            // (The wrapping does not pile up: the chart assigns a fresh formatter whenever it is recalculated.)
             var formatter = Formatter;
             if (formatter != null)
                 Formatter = val => formatter(val);

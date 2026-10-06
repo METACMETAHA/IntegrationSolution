@@ -121,10 +121,18 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
 
         private void HandleLanguageChanged(object sender, LanguageChangedEventArgs e)
         {
-            if (_titleResourceKey != null)
-                Title = _localization.GetString(_titleResourceKey);
+            // An exception here would stop the remaining listeners from following the switch.
+            try
+            {
+                if (_titleResourceKey != null)
+                    Title = _localization.GetString(_titleResourceKey);
 
-            OnLanguageChanged();
+                OnLanguageChanged();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Failed to apply the UI language '{e.NewLanguage.CultureName}'.", ex);
+            }
         }
 
 

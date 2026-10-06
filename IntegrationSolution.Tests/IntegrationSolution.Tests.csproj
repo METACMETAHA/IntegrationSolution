@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Excel.Tests\ExcelWorkerTests.cs" />
     <Compile Include="Helpers.Tests\Converter.cs" />
+    <Compile Include="Localization.Tests\FileLanguagePreferenceStoreTests.cs" />
     <Compile Include="Localization.Tests\LocalizationServiceTests.cs" />
     <Compile Include="Localization.Tests\ResourceCatalogTests.cs" />
     <Compile Include="Localization.Tests\TestDoubles.cs" />

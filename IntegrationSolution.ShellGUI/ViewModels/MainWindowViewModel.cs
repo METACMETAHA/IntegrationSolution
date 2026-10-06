@@ -15,6 +15,7 @@ using Prism.Events;
 using Prism.Modularity;
 using Prism.Mvvm;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -190,9 +191,17 @@ namespace IntegrationSolution.ShellGUI.ViewModels
         /// </summary>
         private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
         {
-            SetMenuTexts(MenuItems, 0, Strings.Shell_MenuHome, Strings.Shell_MenuHomeToolTip);
-            SetMenuTexts(MenuItems, 1, Strings.Shell_MenuOperations, null);
-            SetMenuTexts(MenuOptionItems, 0, Strings.Shell_MenuHelp, Strings.Shell_MenuHelpToolTip);
+            // An exception here would stop the remaining listeners from following the switch.
+            try
+            {
+                SetMenuTexts(MenuItems, 0, Strings.Shell_MenuHome, Strings.Shell_MenuHomeToolTip);
+                SetMenuTexts(MenuItems, 1, Strings.Shell_MenuOperations, null);
+                SetMenuTexts(MenuOptionItems, 0, Strings.Shell_MenuHelp, Strings.Shell_MenuHelpToolTip);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"Failed to update the menu texts for '{e.NewLanguage.CultureName}'. {ex}");
+            }
         }
 
         private static void SetMenuTexts(HamburgerMenuItemCollection items, int index, string label, string toolTip)

@@ -61,7 +61,14 @@ namespace Integration.Flyouts.ViewModels
                 catch (Exception ex)
                 {
                     Trace.TraceError($"Failed to switch the UI language to '{value.CultureName}'. {ex}");
-                    _notificationManager.NotifyErrorAsync(Strings.Settings_LanguageChangeFailed);
+
+                    // The exception may come from a listener after the switch itself succeeded.
+                    var current = _localization.CurrentLanguage;
+                    if (!current.Equals(value))
+                        _notificationManager.NotifyErrorAsync(Strings.Settings_LanguageChangeFailed);
+
+                    // Always re-sync the selector with the language that is actually active.
+                    _selectedLanguage = current;
                     RaisePropertyChanged(nameof(SelectedLanguage));
                 }
             }

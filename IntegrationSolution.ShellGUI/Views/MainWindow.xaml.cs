@@ -3,6 +3,7 @@ using IntegrationSolution.Localization.Resources;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -34,7 +35,15 @@ namespace IntegrationSolution.ShellGUI
 
         private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
         {
-            ApplyDialogTexts();
+            // An exception here would stop the remaining listeners from following the switch.
+            try
+            {
+                ApplyDialogTexts();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"Failed to update the dialog button texts for '{e.NewLanguage.CultureName}'. {ex}");
+            }
         }
 
         /// <summary>

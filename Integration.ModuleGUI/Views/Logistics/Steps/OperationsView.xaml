@@ -459,9 +459,15 @@
                                                         MinWidth="130"
                                                         Margin="5,13"
                                                         HorizontalAlignment="Right"
-                                                        DisplayMemberPath="Value"
                                                         ItemsSource="{Binding DriversMainCharts}"
-                                                        SelectedIndex="{Binding SelectedIndexDriversMainCharts}" />
+                                                        SelectedIndex="{Binding SelectedIndexDriversMainCharts}">
+                                                        <!-- An item template (not DisplayMemberPath) so the selected item shown on the button also follows language switching. -->
+                                                        <Controls:SplitButton.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Value}" />
+                                                            </DataTemplate>
+                                                        </Controls:SplitButton.ItemTemplate>
+                                                    </Controls:SplitButton>
 
                                                     <Button ToolTipService.ShowDuration="900000">
                                                         <Button.ToolTip>

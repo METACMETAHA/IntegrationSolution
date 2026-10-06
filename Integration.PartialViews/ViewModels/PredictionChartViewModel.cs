@@ -55,8 +55,8 @@ namespace Integration.PartialViews.ViewModels
             TitleResourceKey = nameof(Strings.PredictionChart_Title);
             OnPreviewMouseDown = new DelegateCommand(OnPreviewMouseDownCmd);
 
-            // The view model is created on background threads (Task.Run) by its owners, but a weak event
-            // manager only delivers to the dispatcher thread it was created on, so subscribe on the UI thread.
+            // The view model is created on background threads (Task.Run) by its owners. Subscribe on the UI thread,
+            // so the weak event manager (and its cleanup) lives there instead of on a thread-pool thread.
             var dispatcher = Application.Current?.Dispatcher;
             if (dispatcher == null || dispatcher.CheckAccess())
                 SubscribeToLanguageChanges();

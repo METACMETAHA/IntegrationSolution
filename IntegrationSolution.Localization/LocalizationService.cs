@@ -31,7 +31,7 @@ namespace IntegrationSolution.Localization
         public const string IndexerPropertyName = "Item[]";
 
         private static readonly Lazy<LocalizationService> _instance = new Lazy<LocalizationService>(
-            () => new LocalizationService(Strings.ResourceManager, new UserSettingsLanguagePreferenceStore()),
+            () => new LocalizationService(Strings.ResourceManager, new FileLanguagePreferenceStore()),
             LazyThreadSafetyMode.ExecutionAndPublication);
 
         private readonly object _sync = new object();
@@ -233,8 +233,9 @@ namespace IntegrationSolution.Localization
             {
                 culture = CultureInfo.GetCultureInfo(cultureName);
             }
-            catch (CultureNotFoundException)
+            catch (ArgumentException)
             {
+                // CultureNotFoundException, or a name with invalid characters (e.g. a corrupt preference file).
                 return null;
             }
 
