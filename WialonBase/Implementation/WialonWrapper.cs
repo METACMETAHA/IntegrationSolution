@@ -158,6 +158,16 @@ namespace WialonBase.Implementation
 
         public bool TryConnect()
         {
+            // No token is shipped with the application: the user enters one in Settings > Wialon.
+            if (string.IsNullOrWhiteSpace(_wialonConnection.Token))
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _notificationManager.NotifyWarningAsync(Strings.Token_NotSet);
+                }));
+                return false;
+            }
+
             try
             {
                 return _wialonConnection.TryConnect();

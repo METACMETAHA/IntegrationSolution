@@ -22,7 +22,7 @@ namespace IntegrationSolution.Tests.Localization.Tests
         private static readonly Regex XmlComment = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex Cyrillic = new Regex(@"[Ѐ-ӿ]", RegexOptions.Compiled);
 
-        private static string FindSolutionRoot()
+        internal static string FindSolutionRoot()
         {
             var fromEnvironment = Environment.GetEnvironmentVariable("INTEGRATIONSOLUTION_ROOT");
             if (!string.IsNullOrEmpty(fromEnvironment) && File.Exists(Path.Combine(fromEnvironment, "IntegrationSolution.sln")))

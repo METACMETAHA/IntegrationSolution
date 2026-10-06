@@ -1023,6 +1023,10 @@ Do you want to view them?</value>
     <value>Next</value>
     <comment>Button on the token view; keep in sync with the quoted button name in Dialogs_TokenStep3b</comment>
   </data>
+  <data name="Token_NotSet" xml:space="preserve">
+    <value>No Wialon token is set. Enter one in Settings &gt; Wialon.</value>
+    <comment>Warning notification when the connection switch is turned on without a token</comment>
+  </data>
   <data name="Token_PasteHint" xml:space="preserve">
     <value>Paste the received token into the field</value>
     <comment>Information notification. Russian text: typo 'полученый' fixed to 'полученный'</comment>

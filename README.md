@@ -166,6 +166,12 @@ msbuild IntegrationSolution.sln -m -p:Configuration=Release
 
 The [user guide](docs/user-guide.md) walks through every step.
 
+## Configuration
+
+The Wialon access token is **never committed**: a fresh build starts with *No connection*. Enter your token in
+*Settings → Wialon*; the app checks it and saves it to the `Token` key of `IntegrationSolution.ShellGUI.exe.config`.
+The `Wialon.Tests` integration tests and the `Console` probe read it from the `WIALON_TOKEN` environment variable.
+
 ## Documentation
 
 | | |

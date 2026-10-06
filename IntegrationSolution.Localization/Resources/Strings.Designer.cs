@@ -2383,6 +2383,15 @@ namespace IntegrationSolution.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Wialon token is set. Enter one in Settings &gt; Wialon..
+        /// </summary>
+        public static string Token_NotSet {
+            get {
+                return ResourceManager.GetString("Token_NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paste the received token into the field.
         /// </summary>
         public static string Token_PasteHint {

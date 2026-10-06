@@ -80,14 +80,14 @@ namespace Integration.PartialViews.ViewModels
         {
             if (IsWithToken)
             {
-                var wnd = (MetroWindow)Application.Current.MainWindow;
-                var progress = await wnd.ShowProgressAsync(Strings.Token_Checking, null);
-
                 if (string.IsNullOrWhiteSpace(TokenModel))
                 {
                     _notificationManager.NotifyErrorAsync(Strings.Token_Empty);
                     return;
                 }
+
+                var wnd = (MetroWindow)Application.Current.MainWindow;
+                var progress = await wnd.ShowProgressAsync(Strings.Token_Checking, null);
 
                 bool tryConnect = false;
                 await Task.Run(() =>
