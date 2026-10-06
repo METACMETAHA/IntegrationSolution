@@ -104,9 +104,6 @@ try {
     Select-SettingsTab 'Settings_GeneralTab'
     Close-Settings
 
-    Select-MenuItem 0 0
-    Save-Shot 'home'
-
     Select-MenuItem 1 0
     Save-Shot 'help'
 
