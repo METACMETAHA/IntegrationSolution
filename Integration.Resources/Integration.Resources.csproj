@@ -98,10 +98,10 @@
     <Resource Include="Images\GetTokenSample.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Files\Пример заголовков путевых листов.XLSX">
+    <None Include="Files\Sample-Waybill-Headers.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Files\Руководство пользователя.pdf">
+    <None Include="Files\User-Guide-ru.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -58,11 +58,11 @@ namespace Integration.Infrastructure.ViewModels.Info
                 switch (ind)
                 {
                     case 1:
-                        pathToFile = searchDir.GetFiles("Руководство пользователя.pdf").First();
+                        pathToFile = searchDir.GetFiles("User-Guide-ru.pdf").First();
                         break;
 
                     case 2:
-                        pathToFile = searchDir.GetFiles("Пример заголовков путевых листов.XLSX").First();
+                        pathToFile = searchDir.GetFiles("Sample-Waybill-Headers.xlsx").First();
                         break;
 
                     default:

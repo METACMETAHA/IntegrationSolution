@@ -17,7 +17,8 @@ namespace Consoles
         [STAThread]
         static int Main(string[] args)
         {
-            string site = "https://hst-api.wialon.com";
+            // Defaults to Wialon Hosting; set WIALON_API_URL to probe another Wialon server.
+            string apiUrl = Environment.GetEnvironmentVariable("WIALON_API_URL") ?? "https://hst-api.wialon.com/wialon/ajax.html";
             string token = args.Length > 0 ? args[0] : Environment.GetEnvironmentVariable("WIALON_TOKEN");
             if (string.IsNullOrWhiteSpace(token))
             {
@@ -34,7 +35,7 @@ namespace Consoles
                 };
                 client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
 
-                var response = client.UploadValues("http://dtekgps.ohholding.com.ua/wialon/ajax.html", values);
+                var response = client.UploadValues(apiUrl, values);
 
                 var responseString = Encoding.Default.GetString(response);
                 Console.WriteLine(responseString);

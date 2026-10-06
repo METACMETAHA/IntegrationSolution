@@ -17,8 +17,8 @@
 
             <TextBlock TextWrapping="WrapWithOverflow">
             <Run Text="{loc:Loc Dialogs_TokenStep1Before}" />
-            <Hyperlink NavigateUri="http://dtekgps.ohholding.com.ua/login.html" Command="{Binding HyperlinkCommand}"
-                       CommandParameter="http://dtekgps.ohholding.com.ua/login.html"><Run Text="{loc:Loc Dialogs_TokenStep1Link}" /></Hyperlink>
+            <Hyperlink NavigateUri="https://hosting.wialon.com/login.html" Command="{Binding HyperlinkCommand}"
+                       CommandParameter="https://hosting.wialon.com/login.html"><Run Text="{loc:Loc Dialogs_TokenStep1Link}" /></Hyperlink>
             <Run Text="{loc:Loc Dialogs_TokenStep1After}" />
             </TextBlock>
 
