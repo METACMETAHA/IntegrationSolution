@@ -1,4 +1,5 @@
 ﻿using Integration.ModuleGUI.Models;
+using IntegrationSolution.Localization.Resources;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             CanGoBack = true;
             CanGoNext = false;
-            this.Title = "Конец работы";
+            SetTitleResourceKey(nameof(Strings.Final_Title));
         }
 
         public override bool MoveBack()

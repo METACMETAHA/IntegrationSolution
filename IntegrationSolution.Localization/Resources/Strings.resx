@@ -1,0 +1,761 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Charts_KmFormat" xml:space="preserve">
+    <value>{0} km</value>
+    <comment>Y axis label format of the prediction charts</comment>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Default negative button of message/input dialogs</comment>
+  </data>
+  <data name="Common_ExcelFileFilter" xml:space="preserve">
+    <value>Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*</value>
+    <comment>OpenFileDialog.Filter: keep the 'text|pattern' pairs and the patterns unchanged</comment>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+    <comment>Default affirmative button of message/input dialogs</comment>
+  </data>
+  <data name="Common_PleaseWait" xml:space="preserve">
+    <value>Please wait...</value>
+  </data>
+  <data name="Dialogs_Custom" xml:space="preserve">
+    <value>Custom</value>
+    <comment>Period toggle: dates are picked manually in the calendars</comment>
+  </data>
+  <data name="Dialogs_DatesTitle" xml:space="preserve">
+    <value>Select dates for correct analysis of data from the Wialon system.</value>
+  </data>
+  <data name="Dialogs_DetailedReport" xml:space="preserve">
+    <value>Detailed report</value>
+  </data>
+  <data name="Dialogs_FuelDiesel" xml:space="preserve">
+    <value>Diesel</value>
+    <comment>Watermark of the diesel price input</comment>
+  </data>
+  <data name="Dialogs_FuelGasoline" xml:space="preserve">
+    <value>Gasoline</value>
+    <comment>Watermark of the gasoline price input</comment>
+  </data>
+  <data name="Dialogs_FuelLpg" xml:space="preserve">
+    <value>LPG</value>
+    <comment>Watermark of the LPG price input</comment>
+  </data>
+  <data name="Dialogs_FuelPriceFormat" xml:space="preserve">
+    <value> {0:N2}  UAH/L</value>
+    <comment>NumericUpDown.StringFormat; leading space and the double space before the unit are significant</comment>
+  </data>
+  <data name="Dialogs_FuelPriceTitle" xml:space="preserve">
+    <value>Fuel prices</value>
+  </data>
+  <data name="Dialogs_PerMonth" xml:space="preserve">
+    <value>This month</value>
+    <comment>Period toggle: from the 1st of the current month until now</comment>
+  </data>
+  <data name="Dialogs_PerWeek" xml:space="preserve">
+    <value>This week</value>
+    <comment>Period toggle: from Monday of the current week until now</comment>
+  </data>
+  <data name="Dialogs_Today" xml:space="preserve">
+    <value>Today</value>
+    <comment>Period toggle</comment>
+  </data>
+  <data name="Dialogs_TokenInstructionsTitle" xml:space="preserve">
+    <value>Instructions for getting a token</value>
+  </data>
+  <data name="Dialogs_TokenStep1After" xml:space="preserve">
+    <value>to generate a new token.</value>
+    <comment>Text after the hyperlink</comment>
+  </data>
+  <data name="Dialogs_TokenStep1Before" xml:space="preserve">
+    <value>1. Follow this </value>
+    <comment>Text before the hyperlink; the trailing space is significant</comment>
+  </data>
+  <data name="Dialogs_TokenStep1Link" xml:space="preserve">
+    <value>link</value>
+    <comment>Hyperlink text</comment>
+  </data>
+  <data name="Dialogs_TokenStep2" xml:space="preserve">
+    <value>2. Enter your username and password to sign in.</value>
+  </data>
+  <data name="Dialogs_TokenStep3a" xml:space="preserve">
+    <value>3. After successful authorization on this form, you will be redirected.</value>
+  </data>
+  <data name="Dialogs_TokenStep3b" xml:space="preserve">
+    <value>From the address bar, copy the token (shown in the picture) into the corresponding field in the application and click the "Next" button.</value>
+  </data>
+  <data name="Final_Message" xml:space="preserve">
+    <value>Great. You can close the application :)</value>
+  </data>
+  <data name="Final_Title" xml:space="preserve">
+    <value>End of work</value>
+    <comment>Wizard step title</comment>
+  </data>
+  <data name="Grid_ToggleGridToolTip" xml:space="preserve">
+    <value>Show/hide grid</value>
+  </data>
+  <data name="Grid_ToggleHeadersToolTip" xml:space="preserve">
+    <value>Show/hide headers</value>
+  </data>
+  <data name="Header_Title" xml:space="preserve">
+    <value>Transport support monitoring</value>
+  </data>
+  <data name="Headers_EditToolTip" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Headers_EmptyError" xml:space="preserve">
+    <value>Header cannot be empty</value>
+    <comment>Shown to the user via an error notification</comment>
+  </data>
+  <data name="Headers_FileExtension" xml:space="preserve">
+    <value>Select a file with the ".xls" or ".xlsx" extension.</value>
+    <comment>Shown to the user via an error notification</comment>
+  </data>
+  <data name="Headers_FileMustExist" xml:space="preserve">
+    <value>Select an existing file.</value>
+    <comment>Shown to the user via an error notification</comment>
+  </data>
+  <data name="Headers_FileNotExists" xml:space="preserve">
+    <value>File does not exist!</value>
+  </data>
+  <data name="Headers_HeaderNameWatermark" xml:space="preserve">
+    <value>Header name</value>
+  </data>
+  <data name="Headers_HoverHint" xml:space="preserve">
+    <value>Hover over a button to see its tooltip</value>
+  </data>
+  <data name="Headers_NoChanges" xml:space="preserve">
+    <value>No changes</value>
+  </data>
+  <data name="Headers_NotChanged" xml:space="preserve">
+    <value>This parameter has not been changed</value>
+    <comment>Shown to the user via an error notification</comment>
+  </data>
+  <data name="Headers_ResetAllToolTip" xml:space="preserve">
+    <value>Reset all</value>
+  </data>
+  <data name="Headers_ResetCurrentToolTip" xml:space="preserve">
+    <value>Reset current value</value>
+  </data>
+  <data name="Headers_SelectFile" xml:space="preserve">
+    <value>Select file</value>
+  </data>
+  <data name="Headers_SourceUpdated" xml:space="preserve">
+    <value>Vehicle source updated!</value>
+  </data>
+  <data name="Headers_SplitterToolTip" xml:space="preserve">
+    <value>Splitter</value>
+  </data>
+  <data name="Headers_Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Headers_VehicleFileWatermark" xml:space="preserve">
+    <value>Vehicle file name</value>
+  </data>
+  <data name="Headers_VehicleListHeader" xml:space="preserve">
+    <value>Common vehicle list</value>
+    <comment>Header of the vertical (rotated) expander</comment>
+  </data>
+  <data name="Home_UnderDevelopment" xml:space="preserve">
+    <value>Under development</value>
+  </data>
+  <data name="Info_Contact" xml:space="preserve">
+    <value>Contact:</value>
+    <comment>Label before the support e-mail address</comment>
+  </data>
+  <data name="Info_ErrorContactSupport" xml:space="preserve">
+    <value>Please contact technical support.</value>
+  </data>
+  <data name="Info_ErrorFileMissing" xml:space="preserve">
+    <value>The file is missing! Please contact technical support.</value>
+  </data>
+  <data name="Info_ErrorFileNotFound" xml:space="preserve">
+    <value>Error! File not found.</value>
+  </data>
+  <data name="Info_SaveToolTip" xml:space="preserve">
+    <value>Save</value>
+    <comment>Tooltip of the buttons that copy a bundled document to Downloads</comment>
+  </data>
+  <data name="Info_UserGuide" xml:space="preserve">
+    <value>User guide</value>
+    <comment>Caption of the button; the bundled file name itself is data and is not localized</comment>
+  </data>
+  <data name="Info_WaybillHeadersSample" xml:space="preserve">
+    <value>Waybill headers sample</value>
+    <comment>Caption of the button; the bundled file name itself is data and is not localized</comment>
+  </data>
+  <data name="LoadingFiles_ExportLabel" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="LoadingFiles_FileNotFound" xml:space="preserve">
+    <value>Select an existing file.</value>
+  </data>
+  <data name="LoadingFiles_FilePathWatermark" xml:space="preserve">
+    <value>File path</value>
+  </data>
+  <data name="LoadingFiles_LoadFileButton" xml:space="preserve">
+    <value>Load file...</value>
+  </data>
+  <data name="LoadingFiles_Success" xml:space="preserve">
+    <value>Great!</value>
+    <comment>Status text shown after both files were loaded successfully</comment>
+  </data>
+  <data name="LoadingFiles_Title" xml:space="preserve">
+    <value>Loading files</value>
+    <comment>Wizard step title</comment>
+  </data>
+  <data name="LoadingFiles_VehicleListLabel" xml:space="preserve">
+    <value>Vehicle list</value>
+  </data>
+  <data name="LoadingFiles_WrongExtension" xml:space="preserve">
+    <value>Select a file with the ".xls" or ".xlsx" extension.</value>
+  </data>
+  <data name="ModuleData_WrongMainFileStructure" xml:space="preserve">
+    <value>Invalid structure of the document "{0}".
+The following columns are required: "{1}, {2}, {3}, {4}"</value>
+    <comment>{0} is the file path; {1}..{4} are Excel column names (data, not translated)</comment>
+  </data>
+  <data name="ModuleData_WrongPathListFileStructure" xml:space="preserve">
+    <value>Invalid structure of the document "{0}".
+The following columns are required: "{1}, {2}"</value>
+    <comment>{0} is the file path; {1}, {2} are Excel column names (data, not translated)</comment>
+  </data>
+  <data name="PredictionChart_Title" xml:space="preserve">
+    <value>Mileage chart by system</value>
+    <comment>Default chart title</comment>
+  </data>
+  <data name="Quiz_SplitterToolTip" xml:space="preserve">
+    <value>Splitter</value>
+  </data>
+  <data name="ReportSimple_ColDiscrepancy" xml:space="preserve">
+    <value>Discrepancy</value>
+  </data>
+  <data name="ReportSimple_ColMileageDifference" xml:space="preserve">
+    <value>Mileage difference</value>
+  </data>
+  <data name="ReportSimple_ColModel" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="ReportSimple_ColSpeedViolations" xml:space="preserve">
+    <value>No. of speed violations</value>
+  </data>
+  <data name="ReportSimple_ColStateNumber" xml:space="preserve">
+    <value>License plate</value>
+  </data>
+  <data name="ReportSimple_ColStructure" xml:space="preserve">
+    <value>Departments</value>
+  </data>
+  <data name="ReportSimple_ColTripCount" xml:space="preserve">
+    <value>No. of trips</value>
+  </data>
+  <data name="ReportSimple_ColType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Report_ColDepartureDate" xml:space="preserve">
+    <value>Departure date</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColDiscrepancyPercent" xml:space="preserve">
+    <value>Discrepancy percentage</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColDivision" xml:space="preserve">
+    <value>Division</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColDriver" xml:space="preserve">
+    <value>Driver</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColDriverNumber" xml:space="preserve">
+    <value>Driver personnel number</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColEndLocation" xml:space="preserve">
+    <value>End (location)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColEndSapTime" xml:space="preserve">
+    <value>End (SAP time)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColEndWialonTime" xml:space="preserve">
+    <value>End (Wialon time)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColMileageAnalysis" xml:space="preserve">
+    <value>Mileage analysis</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColModel" xml:space="preserve">
+    <value>Model</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColOdometerSap" xml:space="preserve">
+    <value>Odometer reading (SAP)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColOdometerWialon" xml:space="preserve">
+    <value>Odometer reading (Wialon)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColSpeedViolations" xml:space="preserve">
+    <value>Number of speeding violations</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColStartLocation" xml:space="preserve">
+    <value>Start (location)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColStartSapTime" xml:space="preserve">
+    <value>Start (SAP time)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColStartWialonTime" xml:space="preserve">
+    <value>Start (Wialon time)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColStateNumber" xml:space="preserve">
+    <value>License plate</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColTripsSap" xml:space="preserve">
+    <value>Number of trips (SAP)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColTripsWialon" xml:space="preserve">
+    <value>Number of trips (Wialon)</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColType" xml:space="preserve">
+    <value>Type</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_ColWialonMileageTotal" xml:space="preserve">
+    <value>Total mileage per Wialon</value>
+    <comment>Excel report column header</comment>
+  </data>
+  <data name="Report_SheetMileageDifference" xml:space="preserve">
+    <value>Odometer reading difference</value>
+    <comment>Excel worksheet name: max 31 characters, none of : \ / ? * [ ]</comment>
+  </data>
+  <data name="Report_SheetSapNoMileage" xml:space="preserve">
+    <value>Waybill but no mileage</value>
+    <comment>Excel worksheet name (vehicles that have a waybill in SAP but no mileage in Wialon): max 31 characters, none of : \ / ? * [ ]</comment>
+  </data>
+  <data name="Report_SheetWialonNoWaybill" xml:space="preserve">
+    <value>Mileage but no waybill</value>
+    <comment>Excel worksheet name (vehicles that have mileage in Wialon but no waybill in SAP): max 31 characters, none of : \ / ? * [ ]</comment>
+  </data>
+  <data name="Results_ColAddress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Results_ColDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Results_ColDistanceKm" xml:space="preserve">
+    <value>Distance (km)</value>
+  </data>
+  <data name="Results_ColDuration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Results_ColSpeedKmh" xml:space="preserve">
+    <value>Speed (km/h)</value>
+    <comment>Original Russian text had the typo 'Скоорость'; fixed</comment>
+  </data>
+  <data name="Results_ColSpeedLimitKmh" xml:space="preserve">
+    <value>Speed limit (km/h)</value>
+  </data>
+  <data name="Results_ComparisonTab" xml:space="preserve">
+    <value>Comparison</value>
+  </data>
+  <data name="Results_DetailsHeader" xml:space="preserve">
+    <value>Details</value>
+    <comment>Vertical header of the right expander</comment>
+  </data>
+  <data name="Results_DetailsTitle" xml:space="preserve">
+    <value>DETAILS</value>
+    <comment>Upper-case title at the top of the details panel</comment>
+  </data>
+  <data name="Results_ExtendedReportOnly" xml:space="preserve">
+    <value>This section is available only when the extended report is run</value>
+  </data>
+  <data name="Results_FilterByType" xml:space="preserve">
+    <value>Filter by type</value>
+  </data>
+  <data name="Results_HideNoMileageVehicles" xml:space="preserve">
+    <value>Hide vehicles with no mileage</value>
+  </data>
+  <data name="Results_MileageDeviationLabel" xml:space="preserve">
+    <value>Mileage deviation: </value>
+    <comment>Label followed by a value; keep the trailing space</comment>
+  </data>
+  <data name="Results_ModelLabel" xml:space="preserve">
+    <value>Model: </value>
+    <comment>Label followed by a value; keep the trailing space</comment>
+  </data>
+  <data name="Results_SearchWatermark" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="Results_SelectVehiclePrompt" xml:space="preserve">
+    <value>Select a vehicle to view details</value>
+  </data>
+  <data name="Results_ShowOnlyViolations" xml:space="preserve">
+    <value>Show only vehicles with violations</value>
+  </data>
+  <data name="Results_StateNumberLabel" xml:space="preserve">
+    <value>License plate: </value>
+    <comment>Label followed by a value; keep the trailing space</comment>
+  </data>
+  <data name="Results_StructureLabel" xml:space="preserve">
+    <value>Department: </value>
+    <comment>Label followed by a value (structural subdivision, abbreviated); keep the trailing space</comment>
+  </data>
+  <data name="Results_SummaryTab" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Results_Title" xml:space="preserve">
+    <value>Results</value>
+    <comment>Wizard step title</comment>
+  </data>
+  <data name="Results_TripCountGroup" xml:space="preserve">
+    <value>Number of trips</value>
+  </data>
+  <data name="Results_TripMileageGroup" xml:space="preserve">
+    <value>Trip distance</value>
+  </data>
+  <data name="Results_TypeLabel" xml:space="preserve">
+    <value>Type: </value>
+    <comment>Label followed by a value; keep the trailing space</comment>
+  </data>
+  <data name="Results_VehicleListHeader" xml:space="preserve">
+    <value>Vehicle list</value>
+    <comment>Vertical header of the left expander</comment>
+  </data>
+  <data name="Results_ViolationsButton" xml:space="preserve">
+    <value>Violations</value>
+  </data>
+  <data name="Results_ViolationsWindowTitleFormat" xml:space="preserve">
+    <value>Speed limit violations ({0})</value>
+    <comment>Child window title; {0} is the vehicle license plate</comment>
+  </data>
+  <data name="Settings_ExcelHeadersTab" xml:space="preserve">
+    <value>Excel headers</value>
+  </data>
+  <data name="Settings_GeneralTab" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Settings_Header" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Settings flyout header</comment>
+  </data>
+  <data name="Settings_LanguageChangeFailed" xml:space="preserve">
+    <value>Failed to switch the interface language.</value>
+  </data>
+  <data name="Settings_LanguageChanged" xml:space="preserve">
+    <value>Interface language: English</value>
+    <comment>Notification shown after switching; each translation names its own language</comment>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>The interface switches immediately. Your choice is saved for the next launches.</value>
+  </data>
+  <data name="Settings_LanguageLabel" xml:space="preserve">
+    <value>Interface language</value>
+  </data>
+  <data name="Shell_ConnectedToWialon" xml:space="preserve">
+    <value>Connected to Wialon!</value>
+  </data>
+  <data name="Shell_MenuHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Shell_MenuHelpToolTip" xml:space="preserve">
+    <value>Help.</value>
+  </data>
+  <data name="Shell_MenuHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Shell_MenuHomeToolTip" xml:space="preserve">
+    <value>Under development.</value>
+  </data>
+  <data name="Shell_MenuOperations" xml:space="preserve">
+    <value>Operations</value>
+  </data>
+  <data name="Shell_SettingsButton" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Shell_WialonConnected" xml:space="preserve">
+    <value>Connected</value>
+    <comment>Wialon connection toggle, ON state label</comment>
+  </data>
+  <data name="Shell_WialonConnectionToolTip" xml:space="preserve">
+    <value>Connection to Wialon</value>
+  </data>
+  <data name="Shell_WialonDisconnected" xml:space="preserve">
+    <value>No connection</value>
+    <comment>Wialon connection toggle, OFF state label</comment>
+  </data>
+  <data name="Shell_WialonSessionExpired" xml:space="preserve">
+    <value>The Wialon session has expired!</value>
+  </data>
+  <data name="Shell_WialonSessionExtended" xml:space="preserve">
+    <value>The Wialon session has been extended!</value>
+  </data>
+  <data name="Token_Checking" xml:space="preserve">
+    <value>Checking token</value>
+    <comment>Title of the progress dialog</comment>
+  </data>
+  <data name="Token_Empty" xml:space="preserve">
+    <value>Token is empty</value>
+    <comment>Error notification</comment>
+  </data>
+  <data name="Token_GetToken" xml:space="preserve">
+    <value>Get a token</value>
+    <comment>Radio button on the token view</comment>
+  </data>
+  <data name="Token_HaveToken" xml:space="preserve">
+    <value>I already have a token</value>
+    <comment>Radio button on the token view</comment>
+  </data>
+  <data name="Token_Next" xml:space="preserve">
+    <value>Next</value>
+    <comment>Button on the token view; keep in sync with the quoted button name in Dialogs_TokenStep3b</comment>
+  </data>
+  <data name="Token_PasteHint" xml:space="preserve">
+    <value>Paste the received token into the field</value>
+    <comment>Information notification. Russian text: typo 'полученый' fixed to 'полученный'</comment>
+  </data>
+  <data name="Token_PreviousRestored" xml:space="preserve">
+    <value>Previous token restored</value>
+    <comment>Warning notification</comment>
+  </data>
+  <data name="Token_Updated" xml:space="preserve">
+    <value>Token updated</value>
+    <comment>Success notification</comment>
+  </data>
+  <data name="Token_Watermark" xml:space="preserve">
+    <value>Token</value>
+    <comment>Watermark of the token text box</comment>
+  </data>
+  <data name="Wialon_CloseSessionFailed" xml:space="preserve">
+    <value>Can't close Wialon session!</value>
+    <comment>Shown inside the 'Server error: {0}' notification when logging out fails</comment>
+  </data>
+  <data name="Wialon_ConnectedButServerError" xml:space="preserve">
+    <value>The connection was established, but the server returned the following error: {0}</value>
+  </data>
+  <data name="Wialon_Error0" xml:space="preserve">
+    <value>Operation completed successfully</value>
+    <comment>Wialon error code 0</comment>
+  </data>
+  <data name="Wialon_Error1" xml:space="preserve">
+    <value>Invalid session</value>
+    <comment>Wialon error code 1</comment>
+  </data>
+  <data name="Wialon_Error10" xml:space="preserve">
+    <value>The limit of concurrent requests has been exceeded</value>
+    <comment>Wialon error code 10</comment>
+  </data>
+  <data name="Wialon_Error1001" xml:space="preserve">
+    <value>No messages for the selected interval</value>
+    <comment>Wialon error code 1001</comment>
+  </data>
+  <data name="Wialon_Error1002" xml:space="preserve">
+    <value>An item with this unique property already exists</value>
+    <comment>Wialon error code 1002</comment>
+  </data>
+  <data name="Wialon_Error1003" xml:space="preserve">
+    <value>Only one request is allowed at a time</value>
+    <comment>Wialon error code 1003</comment>
+  </data>
+  <data name="Wialon_Error1004" xml:space="preserve">
+    <value>The message count limit has been exceeded</value>
+    <comment>Wialon error code 1004</comment>
+  </data>
+  <data name="Wialon_Error1005" xml:space="preserve">
+    <value>The execution time limit has been exceeded</value>
+    <comment>Wialon error code 1005</comment>
+  </data>
+  <data name="Wialon_Error1011" xml:space="preserve">
+    <value>The session has expired or your IP address has changed</value>
+    <comment>Wialon error code 1011</comment>
+  </data>
+  <data name="Wialon_Error11" xml:space="preserve">
+    <value>An error occurred while executing the password reset request</value>
+    <comment>Wialon error code 11</comment>
+  </data>
+  <data name="Wialon_Error2" xml:space="preserve">
+    <value>Invalid service name</value>
+    <comment>Wialon error code 2</comment>
+  </data>
+  <data name="Wialon_Error2014" xml:space="preserve">
+    <value>The current user cannot be selected when creating an account</value>
+    <comment>Wialon error code 2014</comment>
+  </data>
+  <data name="Wialon_Error2015" xml:space="preserve">
+    <value>The sensor cannot be deleted because it is used in another sensor or in additional properties of the object</value>
+    <comment>Wialon error code 2015</comment>
+  </data>
+  <data name="Wialon_Error3" xml:space="preserve">
+    <value>Invalid result</value>
+    <comment>Wialon error code 3</comment>
+  </data>
+  <data name="Wialon_Error4" xml:space="preserve">
+    <value>Invalid input</value>
+    <comment>Wialon error code 4</comment>
+  </data>
+  <data name="Wialon_Error5" xml:space="preserve">
+    <value>Request execution error</value>
+    <comment>Wialon error code 5</comment>
+  </data>
+  <data name="Wialon_Error7" xml:space="preserve">
+    <value>Access denied</value>
+    <comment>Wialon error code 7</comment>
+  </data>
+  <data name="Wialon_Error8" xml:space="preserve">
+    <value>Invalid username or password</value>
+    <comment>Wialon error code 8</comment>
+  </data>
+  <data name="Wialon_Error9" xml:space="preserve">
+    <value>The authorization server is unavailable, please try again later</value>
+    <comment>Wialon error code 9</comment>
+  </data>
+  <data name="Wialon_ErrorUnknown" xml:space="preserve">
+    <value>Unknown error</value>
+    <comment>Wialon error code 6 and the fallback for codes without a description</comment>
+  </data>
+  <data name="Wialon_ServerError" xml:space="preserve">
+    <value>Server error: {0}</value>
+  </data>
+  <data name="Wizard_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Wizard_FillFields" xml:space="preserve">
+    <value>Fill in the fields</value>
+    <comment>Animated hint between the navigation buttons</comment>
+  </data>
+  <data name="Wizard_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Wizard_ProgressMessage" xml:space="preserve">
+    <value>Stay calm!
+We know what we're doing :)</value>
+    <comment>Message of the progress dialog shown while moving to the next wizard step; the trailing parenthesis is a smiley</comment>
+  </data>
+  <data name="Wizard_SplitterHint" xml:space="preserve">
+    <value>Splitter bar (movable)</value>
+  </data>
+</root>

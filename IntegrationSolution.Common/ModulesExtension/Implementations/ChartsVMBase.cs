@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Common.Models;
+using IntegrationSolution.Localization.Resources;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -44,7 +45,7 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
                     throw new Exception();
 
                 XFormatter = val => new DateTime((long)val).ToString("MMMM dd");
-                YFormatter = val => val.ToString() + " км";
+                YFormatter = val => string.Format(Strings.Charts_KmFormat, val);
 
                 return true;
             }

@@ -68,9 +68,12 @@
     <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -83,6 +86,7 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
@@ -93,6 +97,11 @@
   <ItemGroup>
     <Compile Include="Excel.Tests\ExcelWorkerTests.cs" />
     <Compile Include="Helpers.Tests\Converter.cs" />
+    <Compile Include="Localization.Tests\LocalizationServiceTests.cs" />
+    <Compile Include="Localization.Tests\ResourceCatalogTests.cs" />
+    <Compile Include="Localization.Tests\TestDoubles.cs" />
+    <Compile Include="Localization.Tests\WpfLocalizationTests.cs" />
+    <Compile Include="Localization.Tests\XamlLocalizationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wialon.Tests\WialonConnectionTest.cs" />
   </ItemGroup>
@@ -112,6 +121,10 @@
     <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
       <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
       <Name>IntegrationSolution.Excel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IntegrationSolution.Localization\IntegrationSolution.Localization.csproj">
+      <Project>{B07D11E7-7C90-486E-BC25-E4DA98648AF9}</Project>
+      <Name>IntegrationSolution.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\WialonBase\WialonBase.csproj">
       <Project>{8019A8FB-BE45-4773-9D8B-19315197C451}</Project>

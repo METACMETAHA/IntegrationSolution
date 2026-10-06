@@ -7,12 +7,13 @@
              xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"  
              xmlns:PartialViews="clr-namespace:IntegrationSolution.Dialogs.PartialViews"
              xmlns:local="clr-namespace:IntegrationSolution.Dialogs.Views"
-             mc:Ignorable="d" Title="Выберите даты для корректного анализа данных из системы Wialon.">
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
+             mc:Ignorable="d" Title="{loc:Loc Dialogs_DatesTitle}">
 
     <StackPanel>
         <PartialViews:DatesFromToPartialView/>
 
-        <CheckBox IsChecked="{Binding Dates.IsWithDetails}" Content="Подробный отчёт" Margin="10"
+        <CheckBox IsChecked="{Binding Dates.IsWithDetails}" Content="{loc:Loc Dialogs_DetailedReport}" Margin="10"
                   FontStyle="Italic" FontStretch="SemiExpanded" HorizontalAlignment="Left"/>
 
         <PartialViews:OkCancelPartialView/>

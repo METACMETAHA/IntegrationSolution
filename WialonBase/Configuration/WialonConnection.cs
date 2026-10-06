@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Common.Implementations;
+using IntegrationSolution.Localization.Resources;
 using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -81,7 +82,7 @@ namespace WialonBase.Configuration
 
                     if (_jsonConnectionInfo["reason"] != null)
                         if (!string.IsNullOrWhiteSpace(_jsonConnectionInfo["reason"].Value<string>()))
-                            throw new Exception($"Подключение установлено, но получена следующая ошибка от сервера: {_jsonConnectionInfo["reason"].Value<string>()}");
+                            throw new Exception(string.Format(Strings.Wialon_ConnectedButServerError, _jsonConnectionInfo["reason"].Value<string>()));
                 }
                 
                 return true;
@@ -114,7 +115,7 @@ namespace WialonBase.Configuration
                     _jsonConnectionInfo = JObject.Parse(responseString);
 
                     if (_jsonConnectionInfo["error"].Value<string>() != "0")
-                        throw new Exception("Can't close Wialon session!");
+                        throw new Exception(Strings.Wialon_CloseSessionFailed);
 
                     return true;
                 }

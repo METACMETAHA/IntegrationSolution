@@ -5,6 +5,7 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Integration.PartialViews.Views"
+    xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
     <StackPanel>
         <ToggleButton
@@ -13,7 +14,7 @@
             Margin="15"
             IsChecked="{Binding GridConfiguration.VerticalGridLinesIsVisible}"
             Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
-            ToolTip="Отобразить/скрыть сетку">
+            ToolTip="{loc:Loc Grid_ToggleGridToolTip}">
             <Rectangle
                 Width="35"
                 Height="35"
@@ -30,7 +31,7 @@
             Margin="15"
             IsChecked="{Binding GridConfiguration.HeaderIsVisible}"
             Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}"
-            ToolTip="Отобразить/скрыть заголовки">
+            ToolTip="{loc:Loc Grid_ToggleHeadersToolTip}">
             <Rectangle
                 Width="25"
                 Height="25"

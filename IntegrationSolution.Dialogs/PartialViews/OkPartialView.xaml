@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IntegrationSolution.Dialogs.PartialViews"
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
 
     <StackPanel
       Orientation="Horizontal" HorizontalAlignment="Right"
       Margin="10">
-        <Button Command="{Binding OkCommand}" Content="OK" IsDefault="True"
+        <Button Command="{Binding OkCommand}" Content="{loc:Loc Common_Ok}" IsDefault="True"
                         HorizontalAlignment="Right"
                         Width="100" Margin="10" Style="{DynamicResource AccentedSquareButtonStyle}"/>
     </StackPanel>

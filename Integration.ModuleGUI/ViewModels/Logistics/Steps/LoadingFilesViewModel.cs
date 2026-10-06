@@ -1,5 +1,6 @@
 ﻿using Integration.ModuleGUI.Models;
 using IntegrationSolution.Common.Entities;
+using IntegrationSolution.Localization.Resources;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -22,7 +23,7 @@ namespace Integration.ModuleGUI.ViewModels
     {
         public LoadingFilesViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
-            this.Title = "Загрузка файлов";
+            SetTitleResourceKey(nameof(Strings.LoadingFiles_Title));
             LoadFileCommand = new DelegateCommand<string>(Load);
         }
 
@@ -39,7 +40,7 @@ namespace Integration.ModuleGUI.ViewModels
                     this.Error = new IntegrationSolution.Common.Entities.Error()
                     {
                         IsError = false,
-                        ErrorDescription = "Отлично!"
+                        ErrorDescription = Strings.LoadingFiles_Success
                     };
                 }
                 else
@@ -79,7 +80,7 @@ namespace Integration.ModuleGUI.ViewModels
                 Multiselect = false,
                 CheckPathExists = true,
                 DefaultExt = ".xlsx | .xls",
-                Filter = "Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*"
+                Filter = Strings.Common_ExcelFileFilter
             };
 
             if (fileDialog.ShowDialog() != true)
@@ -92,7 +93,7 @@ namespace Integration.ModuleGUI.ViewModels
                 this.Error = new IntegrationSolution.Common.Entities.Error()
                 {
                     IsError = true,
-                    ErrorDescription = $"Выберите существующий файл."
+                    ErrorDescription = Strings.LoadingFiles_FileNotFound
                 };
                 IsWithoutExceptions = false;
             }
@@ -103,7 +104,7 @@ namespace Integration.ModuleGUI.ViewModels
                 this.Error = new IntegrationSolution.Common.Entities.Error()
                 {
                     IsError = true,
-                    ErrorDescription = $"Выберите файл с расширением \".xls\" или \".xlsx\"."
+                    ErrorDescription = Strings.LoadingFiles_WrongExtension
                 };
                 IsWithoutExceptions = false;
             }

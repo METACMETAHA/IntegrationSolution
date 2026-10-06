@@ -157,6 +157,10 @@
       <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>
       <Name>IntegrationSolution.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IntegrationSolution.Localization\IntegrationSolution.Localization.csproj">
+      <Project>{B07D11E7-7C90-486E-BC25-E4DA98648AF9}</Project>
+      <Name>IntegrationSolution.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

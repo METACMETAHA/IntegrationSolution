@@ -6,6 +6,7 @@ using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel;
 using IntegrationSolution.Excel.Implementations;
 using IntegrationSolution.Excel.Interfaces;
+using IntegrationSolution.Localization.Resources;
 using OfficeOpenXml;
 using Prism.Mvvm;
 using System;
@@ -169,20 +170,22 @@ namespace Integration.ModuleGUI.Models
                     , _headerNames.PropertiesData[nameof(_headerNames.Departments)]
                     , _headerNames.PropertiesData[nameof(_headerNames.ModelOfVehicle)]);
                 if (headers.Count != 4)
-                    throw new Exception($"Неправильная структура \"{this.PathToMainFile}\" документа.\nТребуются следующие колонки:\" " +
-                    $"{_headerNames.PropertiesData[nameof(_headerNames.StateNumber)]}, " +
-                    $"{_headerNames.PropertiesData[nameof(_headerNames.TypeOfVehicle)]}, " +
-                    $"{_headerNames.PropertiesData[nameof(_headerNames.Departments)]}, " +
-                    $"{_headerNames.PropertiesData[nameof(_headerNames.ModelOfVehicle)]}\"");
+                    throw new Exception(string.Format(Strings.ModuleData_WrongMainFileStructure,
+                        this.PathToMainFile,
+                        _headerNames.PropertiesData[nameof(_headerNames.StateNumber)],
+                        _headerNames.PropertiesData[nameof(_headerNames.TypeOfVehicle)],
+                        _headerNames.PropertiesData[nameof(_headerNames.Departments)],
+                        _headerNames.PropertiesData[nameof(_headerNames.ModelOfVehicle)]));
 
                 ExcelPathListFile = (IExcel)_container.Resolve<ICarOperations>(new ResolverOverride[] { new ParameterOverride("excelPackage", ePathList) });
                 headers = IntegrationSolution.Excel.Common.StaticHelper.GetHeadersAddress((ExcelBase)ExcelPathListFile
                     , _headerNames.PropertiesData[nameof(_headerNames.StateNumber)]
                     , _headerNames.PropertiesData[nameof(_headerNames.TotalMileage)]);
                 if (headers.Count != 2)
-                    throw new Exception($"Неправильная структура \"{this.PathToPathListFile}\" документа.\nТребуются следующие колонки:\" " +
-                    $"{_headerNames.PropertiesData[nameof(_headerNames.StateNumber)]}, " +
-                    $"{_headerNames.PropertiesData[nameof(_headerNames.TotalMileage)]}\"");
+                    throw new Exception(string.Format(Strings.ModuleData_WrongPathListFileStructure,
+                        this.PathToPathListFile,
+                        _headerNames.PropertiesData[nameof(_headerNames.StateNumber)],
+                        _headerNames.PropertiesData[nameof(_headerNames.TotalMileage)]));
             }
             catch (Exception ex)
             { return ex; }

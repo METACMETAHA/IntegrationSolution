@@ -5,6 +5,7 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dsx="clr-namespace:DsxGridCtrl;assembly=DsxGridCtrl"
+    xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 
     <StackPanel>
@@ -50,7 +51,7 @@
                     FilterCriteria="Contains"
                     FilterType="TextBox"
                     FooterType="None"
-                    Header="Гос.номер"
+                    Header="{loc:Loc ReportSimple_ColStateNumber}"
                     IsSizable="False"
                     IsSortable="True"
                     ViewType="Text" />
@@ -62,7 +63,7 @@
                     EditType="None"
                     FieldName="UnitModel"
                     FilterType="TextBox"
-                    Header="Модель"
+                    Header="{loc:Loc ReportSimple_ColModel}"
                     IsSizable="True"
                     ViewType="Text" />
 
@@ -73,7 +74,7 @@
                     EditType="None"
                     FieldName="Type"
                     FilterType="TextBox"
-                    Header="Тип"
+                    Header="{loc:Loc ReportSimple_ColType}"
                     IsSizable="True"
                     ViewType="Text" />
 
@@ -84,7 +85,7 @@
                     EditType="TextBox"
                     FieldName="StructureName"
                     FilterType="TextBox"
-                    Header="Структурные подразделения"
+                    Header="{loc:Loc ReportSimple_ColStructure}"
                     IsSizable="True"
                     ViewType="Text" />
 
@@ -96,7 +97,7 @@
                     FieldName="CountTrips"
                     FilterCriteria="GreaterOrEqual"
                     FilterType="TextBox"
-                    Header="К-во поездок"
+                    Header="{loc:Loc ReportSimple_ColTripCount}"
                     IsSizable="True"
                     IsSortable="False"
                     ViewType="Integer" />
@@ -108,7 +109,7 @@
                     EditType="None"
                     FieldName="IndicatorMileage"
                     FilterType="TextBox"
-                    Header="Разница километража"
+                    Header="{loc:Loc ReportSimple_ColMileageDifference}"
                     IsSizable="True"
                     IsSortable="False"
                     ViewType="Text" />
@@ -121,7 +122,7 @@
                     FieldName="CountSpeedViolations"
                     FilterCriteria="GreaterOrEqual"
                     FilterType="TextBox"
-                    Header="К-во нарушений скор. режима"
+                    Header="{loc:Loc ReportSimple_ColSpeedViolations}"
                     IsSizable="True"
                     IsSortable="False"
                     ViewType="Integer" />
@@ -133,7 +134,7 @@
                     EditType="TextBox"
                     FieldName="PercentDifference"
                     FilterType="TextBox"
-                    Header="Расхождение"
+                    Header="{loc:Loc ReportSimple_ColDiscrepancy}"
                     IsSizable="True"
                     IsSortable="True"
                     ViewType="Text" />

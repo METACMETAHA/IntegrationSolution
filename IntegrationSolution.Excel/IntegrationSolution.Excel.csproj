@@ -105,6 +105,10 @@
       <Project>{a26a525e-0bbc-43fe-a9d5-07553da077ab}</Project>
       <Name>IntegrationSolution.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IntegrationSolution.Localization\IntegrationSolution.Localization.csproj">
+      <Project>{B07D11E7-7C90-486E-BC25-E4DA98648AF9}</Project>
+      <Name>IntegrationSolution.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

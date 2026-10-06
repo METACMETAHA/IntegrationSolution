@@ -6,6 +6,7 @@ using IntegrationSolution.Common;
 using IntegrationSolution.Common.Entities;
 using IntegrationSolution.Dialogs;
 using IntegrationSolution.Excel;
+using IntegrationSolution.Localization;
 using IntegrationSolution.ShellGUI.ControlRegionAdapter;
 using IntegrationSolution.ShellGUI.ViewModels;
 using log4net;
@@ -35,6 +36,14 @@ namespace IntegrationSolution.ShellGUI
     /// </summary>
     public partial class App : PrismApplication
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            // The UI language must be applied before Prism creates the shell and any view.
+            LocalizationService.Instance.Initialize();
+
+            base.OnStartup(e);
+        }
+
         protected override Window CreateShell()
         {
             base.InitializeModules();
@@ -54,6 +63,7 @@ namespace IntegrationSolution.ShellGUI
             base.ConfigureServiceLocator();
             log4net.Config.XmlConfigurator.Configure();
 
+            containerRegistry.RegisterInstance<ILocalizationService>(LocalizationService.Instance);
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
         }
 
