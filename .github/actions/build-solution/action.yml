@@ -1,0 +1,33 @@
+name: Build solution
+description: Installs the missing .NET Framework targeting packs, restores NuGet packages and builds IntegrationSolution.sln with MSBuild.
+
+inputs:
+  configuration:
+    description: Build configuration.
+    default: Release
+
+runs:
+  using: composite
+  steps:
+    # VS 2022 no longer ships the .NET Framework 4.0 / 4.6.1 targeting packs.
+    - name: Install missing .NET Framework targeting packs
+      shell: pwsh
+      run: ./build/Install-TargetingPacks.ps1
+
+    - uses: microsoft/setup-msbuild@v2
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: packages
+        key: nuget-${{ hashFiles('**/packages.config') }}
+        restore-keys: nuget-
+
+    - name: Restore NuGet packages
+      shell: pwsh
+      run: nuget restore IntegrationSolution.sln -NonInteractive
+
+    # The .vdproj installer is skipped by MSBuild (MSB4078); it needs Visual Studio with the Installer Projects extension.
+    - name: Build
+      shell: pwsh
+      run: msbuild IntegrationSolution.sln -m -nologo -verbosity:minimal "-p:Configuration=${{ inputs.configuration }}" "-bl:artifacts/logs/build.binlog"
