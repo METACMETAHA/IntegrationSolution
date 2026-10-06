@@ -1,15 +1,16 @@
-# IntegrationSolution · Transport support monitoring
+# SAP Wialon Fleet Audit · Transport support monitoring
 
 **A modular WPF desktop application that reconciles SAP waybills with Wialon GPS tracking.** It runs mileage audits, calculates
 fuel and cost totals, builds driver and vehicle analytics, and writes Excel reports.
 
-[![Windows CI](https://github.com/METACMETAHA/IntegrationSolution/actions/workflows/windows-ci.yml/badge.svg)](https://github.com/METACMETAHA/IntegrationSolution/actions/workflows/windows-ci.yml)
+[![Windows CI](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml/badge.svg)](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6)
 ![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.6.1-512BD4?logo=dotnet)
 ![WPF](https://img.shields.io/badge/UI-WPF%20%C2%B7%20MVVM-5C2D91)
 [![Prism](https://img.shields.io/badge/Prism-7.1%20%2B%20Unity-2C5BB4)](https://prismlibrary.com/)
 [![MahApps.Metro](https://img.shields.io/badge/MahApps.Metro-2.0-41B1E1)](https://mahapps.com/)
 ![UI languages](https://img.shields.io/badge/UI%20languages-EN%20%7C%20UK%20%7C%20RU-FFD500)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 [Features](#features) · [Screenshots](#screenshots) · [Architecture](#architecture-at-a-glance) ·
 [Getting started](#getting-started) · [Documentation](docs/README.md) · [Contributing](#contributing)
@@ -76,7 +77,7 @@ The screenshots above are captured from the running app by [CI](.github/workflow
 
 ### Demo
 
-![](https://github.com/ankriukov/IntegrationSolution/blob/master/file%20(1).gif)
+![Results: searching the vehicle list by license plate](docs/screenshots/legacy/demo-results-search-by-license-plate.gif)
 
 <details>
 <summary><b>More screenshots</b> (with real data, from the original Russian UI)</summary>
@@ -84,36 +85,36 @@ The screenshots above are captured from the running app by [CI](.github/workflow
 **Loading files.** The start step checks the Excel files and their SAP headers. If a file does not fit, you cannot go to the
 next step.
 
-![Loading files](%D0%91%D0%B5%D0%B7%D1%8B%D0%BC%D1%8F%D0%BD%D0%BD%D1%8B%D0%B9.png)
+![Loading files](docs/screenshots/legacy/wizard-loading-files.png)
 
 **SAP summary.** Top 10 vehicles by mileage and by average trip, with a filter by vehicle type.
 
-![SAP summary: mileage](4.png)
+![SAP summary: mileage](docs/screenshots/legacy/sap-summary-vehicles-top10.png)
 
 **SAP summary.** The drivers chart, and one driver's daily mileage, working days and statistics.
 
-![SAP summary: drivers](5.png)
-![SAP summary: driver details](6.png)
+![SAP summary: drivers](docs/screenshots/legacy/sap-summary-drivers-chart.png)
+![SAP summary: driver details](docs/screenshots/legacy/sap-summary-driver-details.png)
 
 **Results.** The summary grid, and the per-vehicle comparison of SAP and Wialon mileage with details and violations.
 
-![Results: summary](8.png)
-![Results: comparison](9.png)
+![Results: summary](docs/screenshots/legacy/results-summary-grid.png)
+![Results: comparison](docs/screenshots/legacy/results-comparison-chart.png)
 
 **Mileage audit report.** The rows are grouped by vehicle, and the header stays at the top while scrolling.
 
-![Report](7.png)
+![Report](docs/screenshots/legacy/report-mileage-audit-excel.png)
 
 **Settings.** Your own header names for the Excel files, with a restore to the factory defaults, and the Wialon token.
 
-![Settings: Excel headers](2.png)
-![Settings: Wialon token](3.png)
+![Settings: Excel headers](docs/screenshots/legacy/settings-excel-headers.png)
+![Settings: Wialon token](docs/screenshots/legacy/settings-wialon-token.png)
 
 </details>
 
 ## Architecture at a glance
 
-IntegrationSolution is a **modular application**:
+The app is a **modular application**:
 
 * **Composition: [Prism](https://prismlibrary.com/).** It provides modules, dependency injection with **Unity**, an event
   aggregator and a region adapter for flyouts.
@@ -146,9 +147,11 @@ The [architecture docs](docs/architecture.md) cover the solution map, startup se
 
 **Try a build without compiling.**
 
-1. Open the latest green [Windows CI run](https://github.com/METACMETAHA/IntegrationSolution/actions/workflows/windows-ci.yml).
-2. Download the `IntegrationSolution-Release` artifact. You need to be signed in to GitHub.
-3. Unzip it and run `IntegrationSolution.ShellGUI.exe`.
+1. Download the zip from the latest [release](https://github.com/METACMETAHA/sap-wialon-fleet-audit/releases/latest).
+2. Unzip it and run `IntegrationSolution.ShellGUI.exe`.
+
+Every push to `master` also uploads a build as an artifact of the
+[Windows CI run](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml) (you must be signed in to GitHub to download it).
 
 **Build from source** on Windows with Visual Studio 2022 (the *.NET desktop development* workload):
 
@@ -170,7 +173,13 @@ The [user guide](docs/user-guide.md) walks through every step.
 
 The Wialon access token is **never committed**: a fresh build starts with *No connection*. Enter your token in
 *Settings → Wialon*; the app checks it and saves it to the `Token` key of `IntegrationSolution.ShellGUI.exe.config`.
-The `Wialon.Tests` integration tests and the `Console` probe read it from the `WIALON_TOKEN` environment variable.
+
+The app talks to **Wialon Hosting** by default. For a self-hosted Wialon server, edit the `APIUrl` (for example
+`https://wialon.example.com/wialon/ajax.html`) and `TokenUrl` keys in `IntegrationSolution.ShellGUI.exe.config` next to the
+exe. Keep your server address out of commits.
+
+The `Wialon.Tests` integration tests and the `Console` probe read the token from the `WIALON_TOKEN` environment variable.
+The probe reads the server address from `WIALON_API_URL`.
 
 ## Documentation
 
@@ -207,3 +216,8 @@ a Windows runner, and the app and screenshots are uploaded as artifacts.
    that XAML uses no hard-coded text.
 2. Keep pull requests focused, and make sure **Windows CI** is green.
 3. UI changes: a maintainer adds the `update-screenshots` label, and CI re-captures the screenshots.
+
+## License
+
+[MIT](LICENSE). SAP and Wialon are trademarks of their owners; this project is independent and not affiliated with
+SAP SE or Gurtam. The DTEK name and logo shown in the screenshots belong to their owner.

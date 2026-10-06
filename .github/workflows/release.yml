@@ -1,0 +1,37 @@
+name: Release
+
+# Push a tag such as v0.1.0 to build the app and attach it to a GitHub release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish the release
+    runs-on: windows-2022
+    timeout-minutes: 30
+    env:
+      CONFIGURATION: Release
+      INTEGRATIONSOLUTION_ROOT: ${{ github.workspace }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        uses: ./.github/actions/build-solution
+        with:
+          configuration: ${{ env.CONFIGURATION }}
+
+      - name: Create the release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          $zip = "sap-wialon-fleet-audit-$env:TAG-win.zip"
+          Compress-Archive -Path "IntegrationSolution.ShellGUI\bin\$env:CONFIGURATION\*" -DestinationPath $zip
+          gh release create $env:TAG $zip --title $env:TAG --generate-notes
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directories:
+      - "/*"
+    schedule:
+      interval: weekly
+    groups:
+      nuget-minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Major versions of these change the API or the license (EPPlus 5+ is not free for commercial use).
+      - dependency-name: EPPlus
+        update-types: ["version-update:semver-major"]
+      - dependency-name: Prism.*
+        update-types: ["version-update:semver-major"]
+      - dependency-name: Unity
+        update-types: ["version-update:semver-major"]
+      - dependency-name: MahApps.Metro*
+        update-types: ["version-update:semver-major"]
+      - dependency-name: LiveCharts*
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly

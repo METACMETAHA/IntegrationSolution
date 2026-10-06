@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve IntegrationSolution! Bug reports, ideas and pull requests are welcome.
+Thanks for helping improve SAP Wialon Fleet Audit! Bug reports, ideas and pull requests are welcome.
 
 ## Before you start
 

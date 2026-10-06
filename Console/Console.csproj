@@ -55,12 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="export.XLSX" />
-    <None Include="Main2.xlsx" />
+    <None Include="Waybills-export.xlsx" />
+    <None Include="Vehicle-List-2.xlsx" />
     <None Include="packages.config" />
-    <None Include="Интенсивность использивания ТС Декабрь 2018.xlsx" />
-    <None Include="Копия Перезакрепление ТС КЭС 18.03.19 на утв.xlsx" />
-    <None Include="март.XLSX" />
+    <None Include="Vehicle-Utilization-2018-12.xlsx" />
+    <None Include="Vehicle-Reassignment-2019-03.xlsx" />
+    <None Include="Waybills-2019-03.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">

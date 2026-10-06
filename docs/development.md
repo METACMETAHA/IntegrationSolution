@@ -58,6 +58,16 @@ flowchart LR
 
 Both workflows share the composite action [`.github/actions/build-solution`](../.github/actions/build-solution/action.yml).
 
+## Releases
+
+Push a tag such as `v0.1.0` and the **Release** workflow builds the solution and attaches `sap-wialon-fleet-audit-<tag>-win.zip`
+to a GitHub release with generated notes.
+
+## Screenshots
+
+`docs/screenshots/*.png` are generated from the running app by the *README screenshots* workflow. `docs/screenshots/legacy/`
+holds hand-made captures of the original Russian UI. Name new files in English, in lowercase with hyphens.
+
 ## UI automation scripts
 
 The scripts in `build/` drive the real application through **Windows UI Automation**. They use no extra tools; they run in
