@@ -9,4 +9,4 @@
 | [Development](development.md) | build, test, use CI without a Windows machine, refresh the screenshots |
 
 The screenshots in [`screenshots/`](screenshots) are taken from the running app by the
-[README screenshots](../.github/workflows/readme-screenshots.yml) workflow, so they always match the code.
+[README screenshots](../.github/workflows/readme-screenshots.yml) workflow. To refresh them, add the `update-screenshots` label to a pull request.

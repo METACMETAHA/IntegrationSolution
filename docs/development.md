@@ -5,7 +5,7 @@
 Requirements:
 
 * Windows 10 or 11 with **Visual Studio 2022** and the *.NET desktop development* workload (MSBuild and NuGet included).
-* The **.NET Framework 4.0 and 4.6.1 targeting packs**. Visual Studio 2022 no longer ships them; to install them from
+* The **.NET Framework 4.0, 4.5.2, 4.6 and 4.6.1 targeting packs**. Visual Studio 2022 lacks some of them; to install the missing ones from
   Microsoft's official NuGet packages, run this once from an elevated PowerShell:
 
   ```powershell

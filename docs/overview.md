@@ -11,7 +11,11 @@ transport service. It answers three questions about the vehicle fleet:
    working days, longest and shortest trips.
 
 It was built for the fleet of DTEK Networks (*ДТЕК Мережі*), a Ukrainian electricity distribution system operator, and the shell
-carries its branding. The logic is generic: any SAP waybill export with configurable column names, plus any Wialon account.
+carries its branding.
+
+* **SAP input.** Any SAP waybill export works, because the column names are configurable.
+* **Wialon.** The audit expects a specific report template in the Wialon account. See
+  [technical debt](architecture.md#known-technical-debt).
 
 ## Context
 
@@ -23,7 +27,7 @@ flowchart LR
 
     App["Transport support monitoring<br/>(this app)"]
 
-    App -- "mileage audit report (.xlsx)" --> R1["Discrepancies · vehicles without tracks ·<br/>tracks without waybills"]
+    App -- "mileage audit report (.xlsx)" --> R1["Discrepancies · vehicles not in Wialon ·<br/>Wialon units not in the list"]
     App -- "writes totals back" --> R2["Fuel, costs, mileage,<br/>engine hours per vehicle"]
     App -- "on screen" --> R3["Vehicle and driver dashboards ·<br/>daily SAP vs Wialon charts · speeding"]
 ```
@@ -47,7 +51,8 @@ to Cyrillic, and spaces, dots and dashes are removed.
 * **Mileage audit (SAP ↔ Wialon).**
   * Period presets: today, this week, this month, or custom dates.
   * A simple or a detailed report, with an adjustable tolerance.
-  * Colour-coded results, plus the vehicles that exist on only one side.
+  * Colour-coded results.
+  * Separate lists of vehicles not found in Wialon and of Wialon units missing from the vehicle list.
 * **Speeding analysis.** It lists every violation from Wialon with time, address, duration, speed and limit, and shows each one on a speed gauge.
 * **Transport support costs.**
   * Fuel consumption and cost for diesel, gasoline and LPG; the prices are entered on the spot.
@@ -58,11 +63,12 @@ to Cyrillic, and spaces, dots and dashes are removed.
   * Six driver metrics, and a daily mileage and weekday breakdown for each driver.
   * Works offline.
 * **Excel reports.**
-  * Three sheets with a frozen header, trips grouped by vehicle (collapsible) and colour highlighting.
+  * Three sheets: a frozen header on the main sheet, trips grouped by vehicle (collapsible) and colour highlighting.
+  * Sheet and column names follow the UI language.
   * Excel does not need to be installed.
 * **Configurable input format.**
   * Rename the expected column names, then reset one or all of them to the factory defaults.
-  * Files are checked before you can continue, and the error names the missing columns.
+  * Files are checked before you can continue, and the error lists the required columns.
 * **Wialon integration.**
   * A connection toggle in the title bar, with a session keep-alive.
   * A guided token setup.

@@ -44,14 +44,14 @@ It was built for the fleet of DTEK Networks (*ДТЕК Мережі*), a Ukraini
 ## Features
 
 * 🔍 **Mileage audit (SAP ↔ Wialon).** For any period it reports the per-vehicle difference in mileage and trips against a
-  tolerance you set. It also lists vehicles that have waybills but no tracks, and tracks but no waybills.
+  tolerance you set. It also lists vehicles that are not found in Wialon, and Wialon units that are missing from the vehicle list.
 * 🚨 **Speeding analysis.** Every Wialon speeding event, with time, address, duration and speed, shown on a gauge.
 * ⛽ **Transport support costs.** Fuel by type at prices you enter, plus mileage and engine hours, per vehicle and per
   structural unit. Works offline.
 * 📊 **SAP summary dashboards.** Top and bottom 10 vehicles, six driver metrics, daily mileage and working days per driver
   ([LiveCharts](https://lvcharts.net/)).
-* 📑 **Excel reports.** Three sheets with frozen headers, collapsible trips grouped by vehicle, and colour-coded
-  discrepancies. Office does not need to be installed.
+* 📑 **Excel reports.** Three sheets, with a frozen header on the main sheet, collapsible trips grouped by vehicle, and
+  colour-coded discrepancies. Office does not need to be installed.
 * 🧩 **Configurable input format.** Rename the expected SAP columns or reset them to the defaults. Files are checked before
   you continue.
 * 🌐 **Three UI languages, switched live.** English (default), Ukrainian and Russian, remembered for each user.
@@ -138,7 +138,7 @@ Each functional area is a Prism module that registers its own views, view models
 | Composition | Prism 7.1, Unity 5, `IEventAggregator`, a `FlyoutsControl` region adapter |
 | Integration | EPPlus 4.5 (Excel), Newtonsoft.Json (Wialon Remote API over HTTP) |
 | Cross-cutting | `IntegrationSolution.Localization` (resx, live switching), log4net, ToastNotifications |
-| Quality | MSTest and Moq; GitHub Actions on Windows with a UI Automation smoke test |
+| Quality | MSTest; GitHub Actions on Windows with a UI Automation smoke test |
 
 The [architecture docs](docs/architecture.md) cover the solution map, startup sequence, UI composition and data flow, with diagrams.
 
@@ -153,7 +153,7 @@ The [architecture docs](docs/architecture.md) cover the solution map, startup se
 **Build from source** on Windows with Visual Studio 2022 (the *.NET desktop development* workload):
 
 ```powershell
-./build/Install-TargetingPacks.ps1         # once, elevated: the .NET Framework 4.0 / 4.6.1 targeting packs
+./build/Install-TargetingPacks.ps1         # once, elevated: the .NET Framework 4.0 / 4.5.2 / 4.6 / 4.6.1 targeting packs
 nuget restore IntegrationSolution.sln
 msbuild IntegrationSolution.sln -m -p:Configuration=Release
 .\IntegrationSolution.ShellGUI\bin\Release\IntegrationSolution.ShellGUI.exe
@@ -197,6 +197,7 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md). Yo
 a Windows runner, and the app and screenshots are uploaded as artifacts.
 
 1. Read [development](docs/development.md). For any UI text, also read [localization](docs/localization.md): every string goes
-   through `Strings.resx` in all three languages, and the tests enforce it.
+   through `Strings.resx` in all three languages. The tests check that the keys and placeholders match in every language and
+   that XAML uses no hard-coded text.
 2. Keep pull requests focused, and make sure **Windows CI** is green.
 3. UI changes: a maintainer adds the `update-screenshots` label, and CI re-captures the screenshots.
