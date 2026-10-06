@@ -72,7 +72,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="ToastNotifications, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797" />
+    <Reference Include="ToastNotifications, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.2.5.1\lib\net40\ToastNotifications.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
@@ -167,6 +169,10 @@
     <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
       <Project>{b4f847fe-667c-4189-92ae-9cccaf77e341}</Project>
       <Name>IntegrationSolution.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IntegrationSolution.Localization\IntegrationSolution.Localization.csproj">
+      <Project>{B07D11E7-7C90-486E-BC25-E4DA98648AF9}</Project>
+      <Name>IntegrationSolution.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\NotificationConstructor\NotificationConstructor.csproj">
       <Project>{E91C928C-E71D-478A-A1A9-55C3E1E5A533}</Project>

@@ -51,6 +51,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Integration.Setup", "Integr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Analytics", "IntegrationSolution.Analytics\IntegrationSolution.Analytics.csproj", "{0C4E510F-83C5-4A47-8449-59AA540C0BDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSolution.Localization", "IntegrationSolution.Localization\IntegrationSolution.Localization.csproj", "{B07D11E7-7C90-486E-BC25-E4DA98648AF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{0C4E510F-83C5-4A47-8449-59AA540C0BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C4E510F-83C5-4A47-8449-59AA540C0BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C4E510F-83C5-4A47-8449-59AA540C0BDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B07D11E7-7C90-486E-BC25-E4DA98648AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B07D11E7-7C90-486E-BC25-E4DA98648AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B07D11E7-7C90-486E-BC25-E4DA98648AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B07D11E7-7C90-486E-BC25-E4DA98648AF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

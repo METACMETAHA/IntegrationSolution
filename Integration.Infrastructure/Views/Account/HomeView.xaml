@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Integration.Infrastructure.Views.Account"
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
              mc:Ignorable="d">
 
-    <TextBlock FontSize="42" Text="В разработке" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <TextBlock FontSize="42" Text="{loc:Loc Home_UnderDevelopment}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     
     <!--Add region for login and register-->
 

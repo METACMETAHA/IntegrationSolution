@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Helpers="clr-namespace:IntegrationSolution.Common.Helpers;assembly=IntegrationSolution.Common"
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
              mc:Ignorable="d"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsContainerVirtualizable="True"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -45,7 +46,7 @@
                     Padding="12" Margin="10" 
                     Command="{Binding ResetAllHeadersCommand}"
                     Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                    ToolTip="Сбросить все">
+                    ToolTip="{loc:Loc Headers_ResetAllToolTip}">
                 <Rectangle Width="28" Height="28" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_layer_minus}" />
@@ -55,7 +56,7 @@
         </Grid>
 
         <GridSplitter Grid.Column="1" IsEnabled="False" ShowsPreview="False" Width="1" Background="{StaticResource HeaderBackground}"
-                      VerticalAlignment="Stretch" ToolTip="Разделитель"/>
+                      VerticalAlignment="Stretch" ToolTip="{loc:Loc Headers_SplitterToolTip}"/>
 
         <!--Third column-->
         <Grid Grid.Column="2" Margin="5 5 0 0" 
@@ -63,7 +64,7 @@
 
             <StackPanel Width="auto" MinWidth="30" Margin="5 5 23 5">
                 <TextBox Padding="4" Margin="10 7" Width="280"
-                     Controls:TextBoxHelper.Watermark="Название заголовка"
+                     Controls:TextBoxHelper.Watermark="{loc:Loc Headers_HeaderNameWatermark}"
                      Controls:TextBoxHelper.IsWaitingForData="True"
                      Controls:TextBoxHelper.UseFloatingWatermark="True"
                      Controls:TextBoxHelper.ClearTextButton="True"
@@ -84,7 +85,7 @@
                             Padding="12" Margin="10" 
                             Command="{Binding ResetSelectedHeaderCommand}"
                             Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                            ToolTip="Сбросить текущее значение">
+                            ToolTip="{loc:Loc Headers_ResetCurrentToolTip}">
                         <Rectangle Width="24" Height="24" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}" />
@@ -96,7 +97,7 @@
                             Padding="12" Margin="10" 
                             Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
                             Command="{Binding UpdateSelectedHeaderCommand}"
-                            ToolTip="Изменить">
+                            ToolTip="{loc:Loc Headers_EditToolTip}">
                         <Rectangle Width="24" Height="24">
                             <Rectangle.Fill>
                                 <SolidColorBrush x:Name="editBrush">
@@ -122,7 +123,7 @@
                         </Rectangle>
                     </Button>
 
-                    <TextBlock Text="Чтобы увидеть подсказку - наведите на кнопку" 
+                    <TextBlock Text="{loc:Loc Headers_HoverHint}" 
                                Grid.ColumnSpan="2" Grid.Row="1"
                                Style="{StaticResource InfoTextBoxBtwnNavButtons}"
                                TextWrapping="Wrap" FontSize="12" 
@@ -150,7 +151,7 @@
 
             <Expander ExpandDirection="Left" FlowDirection="LeftToRight" HorizontalAlignment="Right" Margin="0 -50 -10 0">
                 <Expander.Header>
-                    <TextBlock Text="Общий список машин" 
+                    <TextBlock Text="{loc:Loc Headers_VehicleListHeader}" 
                                Height="17" FontSize="14"
                                Foreground="Black">
                         <TextBlock.LayoutTransform>
@@ -162,7 +163,7 @@
                     <Border Background="#F2F2D4" Opacity="0.67" Margin="0" BorderThickness="0"/>
                     <StackPanel>
                         <TextBox Padding="4" Margin="10 7" Width="300" TextWrapping="WrapWithOverflow"
-                                 Controls:TextBoxHelper.Watermark="Название файла с ТС"
+                                 Controls:TextBoxHelper.Watermark="{loc:Loc Headers_VehicleFileWatermark}"
                                  Controls:TextBoxHelper.IsWaitingForData="True"
                                  Controls:TextBoxHelper.UseFloatingWatermark="True"
                                  Controls:TextBoxHelper.ClearTextButton="True"
@@ -176,7 +177,7 @@
                         </TextBox>
                         <Button Margin="10 7"
                                 HorizontalAlignment="Right"
-                                Content="Выбрать файл" FontSize="11"
+                                Content="{loc:Loc Headers_SelectFile}" FontSize="11"
                                 Style="{StaticResource GrayButton}"
                                 Command="{Binding LoadMainCarFileCommand}"/>
                     </StackPanel>

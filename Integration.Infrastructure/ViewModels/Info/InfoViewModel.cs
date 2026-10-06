@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Common.Helpers;
+using IntegrationSolution.Localization.Resources;
 using NotificationConstructor.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -49,7 +50,7 @@ namespace Integration.Infrastructure.ViewModels.Info
                 }
 
                 if (searchDir == null)
-                    throw new Exception("Ошибка! Файл не найден.");
+                    throw new Exception(Strings.Info_ErrorFileNotFound);
                 #endregion
 
                 var downloadsDir = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\Downloads");
@@ -65,11 +66,11 @@ namespace Integration.Infrastructure.ViewModels.Info
                         break;
 
                     default:
-                        throw new Exception("Обратитесь в службу поддержки.");
+                        throw new Exception(Strings.Info_ErrorContactSupport);
                 }
 
                 if (!File.Exists(pathToFile.FullName))
-                    throw new Exception("Файл отсутствует! Обратитесь в службу поддержки.");
+                    throw new Exception(Strings.Info_ErrorFileMissing);
 
                 if (Directory.Exists(downloadsDir))
                 {

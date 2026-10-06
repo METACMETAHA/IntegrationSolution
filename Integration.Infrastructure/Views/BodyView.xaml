@@ -6,6 +6,7 @@
              xmlns:controls="clr-namespace:WizardProgressBarLibrary;assembly=WizardProgressBarLibrary"
              xmlns:progressRing="clr-namespace:ProgressRing;assembly=ProgressRing"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -39,7 +40,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" x:Name="BtnMoveBack"
-                    Command="{Binding MoveCommandPrev}" Content="Назад"
+                    Command="{Binding MoveCommandPrev}" Content="{loc:Loc Wizard_Back}"
                     HorizontalAlignment="Left" Margin="5" 
                     IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoBack, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                 <Button.Style>
@@ -54,7 +55,7 @@
                 </Button.Style>
             </Button>
 
-            <TextBlock Grid.Column="1" Text="Заполните поля">
+            <TextBlock Grid.Column="1" Text="{loc:Loc Wizard_FillFields}">
                 <TextBlock.Foreground>
                     <SolidColorBrush x:Name="OwnBrush" Color="#FF5D5D5D" />
                 </TextBlock.Foreground>
@@ -87,7 +88,7 @@
             
 
             <Button Grid.Column="2" x:Name="BtnMoveNext"
-                    Command="{Binding MoveCommandNext}" Content="Далее"
+                    Command="{Binding MoveCommandNext}" Content="{loc:Loc Wizard_Next}"
                     HorizontalAlignment="Right" Margin="5" 
                     IsEnabled="{Binding Path=ConfigData.SelectedVM.Key.CanGoNext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                 <Button.Style>
@@ -104,7 +105,7 @@
         </Grid>
 
         <Grid Grid.Row="3">
-            <TextBlock HorizontalAlignment="Right" Foreground="DarkGray" FontSize="11" FontFamily="Gadugi" Text="Полоса разделения (передвижная)"/>
+            <TextBlock HorizontalAlignment="Right" Foreground="DarkGray" FontSize="11" FontFamily="Gadugi" Text="{loc:Loc Wizard_SplitterHint}"/>
         </Grid>
     </Grid>
     

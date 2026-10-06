@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntegrationSolution.Localization.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,42 +9,39 @@ namespace WialonBase.Helpers
 {
     public class WialonExceptions
     {
-        private static readonly Dictionary<int, string> _exceptionsInfoByCode = new Dictionary<int, string>
+        // Messages are resolved at call time (through the lambdas), so they follow the current UI language.
+        private static readonly Dictionary<int, Func<string>> _exceptionsInfoByCode = new Dictionary<int, Func<string>>
         {
-            {0, "Удачное выполнение операции" },
-            {1, "Недействительная сессия" },
-            {2, "Неверное имя сервиса" },
-            {3, "Неверный результат" },
-            {4, "Неверный ввод" },
-            {5, "Ошибка выполнения запроса" },
-            {6, "Неизвестная ошибка" },
-            {7, "Доступ запрещен" },
-            {8, "Неверный пароль или имя пользователя" },
-            {9, "Сервер авторизации недоступен, пожалуйста попробуйте повторить запрос позже" },
-            {10, "Превышен лимит одновременных запросов" },
-            {11, "Ошибка во время выполнения запроса на сброс пароля" },
-            {1001, "Нет сообщений для выбранного интервала" },
-            {1002, "Элемент с таким уникальным свойством уже существует" },
-            {1003, "Только один запрос разрешается в данный момент времени" },
-            {1004, "Превышено ограничение по числу сообщений" },
-            {1005, "Ограничение по времени выполнения было превышено" },
-            {1011, "Время сессии истекло либо ваш IP изменился" },
-            {2014, "Текущий пользователь не может быть выбран при создании учетной записи" },
-            {2015, "Удаление датчика запрещено по причине использования в другом датчике или дополнительных свойствах объекта" },
+            {0, () => Strings.Wialon_Error0 },
+            {1, () => Strings.Wialon_Error1 },
+            {2, () => Strings.Wialon_Error2 },
+            {3, () => Strings.Wialon_Error3 },
+            {4, () => Strings.Wialon_Error4 },
+            {5, () => Strings.Wialon_Error5 },
+            {6, () => Strings.Wialon_ErrorUnknown },
+            {7, () => Strings.Wialon_Error7 },
+            {8, () => Strings.Wialon_Error8 },
+            {9, () => Strings.Wialon_Error9 },
+            {10, () => Strings.Wialon_Error10 },
+            {11, () => Strings.Wialon_Error11 },
+            {1001, () => Strings.Wialon_Error1001 },
+            {1002, () => Strings.Wialon_Error1002 },
+            {1003, () => Strings.Wialon_Error1003 },
+            {1004, () => Strings.Wialon_Error1004 },
+            {1005, () => Strings.Wialon_Error1005 },
+            {1011, () => Strings.Wialon_Error1011 },
+            {2014, () => Strings.Wialon_Error2014 },
+            {2015, () => Strings.Wialon_Error2015 },
         };
 
 
         public static string GetErrorMsg(int code)
         {
-            string errorByCode = "Неизвестная ошибка";
-            try
-            {
-                return _exceptionsInfoByCode[code];
-            }
-            catch
-            {
-                return errorByCode;
-            }
+            Func<string> getMessage;
+            if (_exceptionsInfoByCode.TryGetValue(code, out getMessage))
+                return getMessage();
+
+            return Strings.Wialon_ErrorUnknown;
         }
     }
 }

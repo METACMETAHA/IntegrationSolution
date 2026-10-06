@@ -3,6 +3,7 @@ using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
+using IntegrationSolution.Localization.Resources;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -34,14 +35,14 @@ namespace IntegrationSolution.Excel.Implementations
         {
             using (ExcelPackage excel = new ExcelPackage())
             {
-                var worksheet = excel.Workbook.Worksheets.Add("Разница показаний одометров");
+                var worksheet = excel.Workbook.Worksheets.Add(Strings.Report_SheetMileageDifference);
                 var headerRow = new List<string[]>()
                 {
-                    new string[] { "Подразделение", "Гос.номер", "Модель", "Тип",
-                        "Пробег всего по Wialon", "Кол-во превышений скоростного режима",
-                        "Кол-во поездок (SAP)", "Кол-во поездок (Wialon)",
-                        "Показания одометра (SAP)", "Показания одометра (Wialon)",
-                        "Анализ пробегов", "Процент расхождения" }
+                    new string[] { Strings.Report_ColDivision, Strings.Report_ColStateNumber, Strings.Report_ColModel, Strings.Report_ColType,
+                        Strings.Report_ColWialonMileageTotal, Strings.Report_ColSpeedViolations,
+                        Strings.Report_ColTripsSap, Strings.Report_ColTripsWialon,
+                        Strings.Report_ColOdometerSap, Strings.Report_ColOdometerWialon,
+                        Strings.Report_ColMileageAnalysis, Strings.Report_ColDiscrepancyPercent }
                 };
 
                 worksheet.Column(5).Width = worksheet.Column(5).Width * 1.5;
@@ -124,18 +125,18 @@ namespace IntegrationSolution.Excel.Implementations
         {
             using (ExcelPackage excel = new ExcelPackage())
             {
-                var worksheet = excel.Workbook.Worksheets.Add("Разница показаний одометров");
+                var worksheet = excel.Workbook.Worksheets.Add(Strings.Report_SheetMileageDifference);
                 worksheet.OutLineSummaryBelow = false;
 
                 var headerRow = new List<string[]>()
                 {
-                    new string[] { "Подразделение", "Гос.номер", "Модель", "Тип", //4
-                        "Показания одометра (SAP)", "Показания одометра (Wialon)", //6
-                        "Анализ пробегов", "Процент расхождения", //8
-                        "Дата выезда", "Начало (время SAP)", "Начало (время Wialon)", "Начало (локация)", //12
-                        "Конец (время SAP)", "Конец (время Wialon)", "Конец (локация)", //15
-                        "Пробег всего по Wialon", "Кол-во превышений скоростного режима", //17
-                        "Водитель", "Табельный номер водителя" } //19
+                    new string[] { Strings.Report_ColDivision, Strings.Report_ColStateNumber, Strings.Report_ColModel, Strings.Report_ColType, //4
+                        Strings.Report_ColOdometerSap, Strings.Report_ColOdometerWialon, //6
+                        Strings.Report_ColMileageAnalysis, Strings.Report_ColDiscrepancyPercent, //8
+                        Strings.Report_ColDepartureDate, Strings.Report_ColStartSapTime, Strings.Report_ColStartWialonTime, Strings.Report_ColStartLocation, //12
+                        Strings.Report_ColEndSapTime, Strings.Report_ColEndWialonTime, Strings.Report_ColEndLocation, //15
+                        Strings.Report_ColWialonMileageTotal, Strings.Report_ColSpeedViolations, //17
+                        Strings.Report_ColDriver, Strings.Report_ColDriverNumber } //19
                 };
 
                 #region Columns` Style
@@ -320,17 +321,17 @@ namespace IntegrationSolution.Excel.Implementations
             #region Filling distinct cars
             if (sapCars != null)
             {
-                var worksheet = excel.Workbook.Worksheets.Add("ТС с ПЛ без пробега");
+                var worksheet = excel.Workbook.Worksheets.Add(Strings.Report_SheetSapNoMileage);
                 worksheet.OutLineSummaryBelow = false;
 
                 var headerRow = new List<string[]>()
                     {
                         new string[] {
-                            "Подразделение",
-                            "Гос.номер", "Модель", "Тип",
-                            "Дата выезда", "Начало (время SAP)", "Конец (время SAP)",
-                            "Показания одометра (SAP)",
-                            "Водитель", "Табельный номер водителя" }
+                            Strings.Report_ColDivision,
+                            Strings.Report_ColStateNumber, Strings.Report_ColModel, Strings.Report_ColType,
+                            Strings.Report_ColDepartureDate, Strings.Report_ColStartSapTime, Strings.Report_ColEndSapTime,
+                            Strings.Report_ColOdometerSap,
+                            Strings.Report_ColDriver, Strings.Report_ColDriverNumber }
                     };
 
 
@@ -401,12 +402,12 @@ namespace IntegrationSolution.Excel.Implementations
             #region Filling distinct cars
             if (wialonCars != null)
             {
-                var worksheet = excel.Workbook.Worksheets.Add("ТС с пробегом без ПЛ");
+                var worksheet = excel.Workbook.Worksheets.Add(Strings.Report_SheetWialonNoWaybill);
                 worksheet.OutLineSummaryBelow = false;
 
                 var headerRow = new List<string[]>()
                     {
-                        new string[] { "ID", "Гос.номер" }
+                        new string[] { "ID", Strings.Report_ColStateNumber }
                     };
 
                 var row = 1;

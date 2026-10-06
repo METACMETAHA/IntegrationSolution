@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:IntegrationSolution.Dialogs.Views"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:PartialViews="clr-namespace:IntegrationSolution.Dialogs.PartialViews"
-             Title="Инструкция по получению токена"
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
+             Title="{loc:Loc Dialogs_TokenInstructionsTitle}"
              DialogTitleFontSize="32" FontSize="16" 
              xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro">
 
@@ -15,20 +16,20 @@
 
 
             <TextBlock TextWrapping="WrapWithOverflow">
-            <Run xml:space="preserve">1. Перейдите по </Run>
+            <Run Text="{loc:Loc Dialogs_TokenStep1Before}" />
             <Hyperlink NavigateUri="http://dtekgps.ohholding.com.ua/login.html" Command="{Binding HyperlinkCommand}"
-                       CommandParameter="http://dtekgps.ohholding.com.ua/login.html">ссылке</Hyperlink>
-            <Run xml:space="preserve">чтобы сформировать новый токен.</Run>
+                       CommandParameter="http://dtekgps.ohholding.com.ua/login.html"><Run Text="{loc:Loc Dialogs_TokenStep1Link}" /></Hyperlink>
+            <Run Text="{loc:Loc Dialogs_TokenStep1After}" />
             </TextBlock>
 
             <TextBlock TextWrapping="WrapWithOverflow">
-            <Run xml:space="preserve">2. Для авторизации введите свой логин, пароль.</Run>
+            <Run Text="{loc:Loc Dialogs_TokenStep2}" />
             </TextBlock>
 
             <TextBlock TextWrapping="WrapWithOverflow">
-            <Run xml:space="preserve">3. В результате успешной авторизации по данной форме произойдёт переадресация.</Run>
+            <Run Text="{loc:Loc Dialogs_TokenStep3a}" />
             <LineBreak/>
-            <Run xml:space="preserve">С адресной строки скопируйте токен (изображен на картинке) в соответствующее поле в приложении, нажмите кнопку "Далее".</Run>
+            <Run Text="{loc:Loc Dialogs_TokenStep3b}" />
             </TextBlock>
 
             <Image Margin="0 10" Source="{StaticResource GetTokenSample}"/>

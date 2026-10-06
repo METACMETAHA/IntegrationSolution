@@ -48,8 +48,14 @@ namespace DsxGridCtrl
             this.CellTemplate           = gridViewColumn.CellTemplate;
             this.CellTemplateSelector   = gridViewColumn.CellTemplateSelector;
             this.DisplayMemberBinding   = gridViewColumn.DisplayMemberBinding;
-            this.Header                 = gridViewColumn.Header;
             this.Width                  = gridViewColumn.Width;
+
+            // A bound header (e.g. localized text) must keep following its source column; plain values are copied.
+            if (BindingOperations.IsDataBound(gridViewColumn, GridViewColumn.HeaderProperty))
+                BindingOperations.SetBinding(this, GridViewColumn.HeaderProperty,
+                    new Binding { Source = gridViewColumn, Path = new PropertyPath(GridViewColumn.HeaderProperty), Mode = BindingMode.OneWay });
+            else
+                this.Header             = gridViewColumn.Header;
 
             DsxColumn _gridViewColumn = gridViewColumn as DsxColumn;
 

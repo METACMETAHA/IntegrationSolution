@@ -1,5 +1,6 @@
 ﻿using Integration.Infrastructure.Constants;
 using IntegrationSolution.Common.ModulesExtension.Implementations;
+using IntegrationSolution.Localization.Resources;
 using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -88,7 +89,7 @@ namespace Integration.Infrastructure.ViewModels
         private async void MoveNext()
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
-            var progress = await wnd.ShowProgressAsync("Подождите...", "Соблюдайте спокойствие!\nМы знаем что делаем)");
+            var progress = await wnd.ShowProgressAsync(Strings.Common_PleaseWait, Strings.Wizard_ProgressMessage);
             progress.SetIndeterminate();
 
             var index = ConfigData.Steps.IndexOf(ConfigData.SelectedVM);

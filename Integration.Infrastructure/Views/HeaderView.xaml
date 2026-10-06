@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
     xmlns:local="clr-namespace:Integration.Infrastructure.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
@@ -17,7 +18,7 @@
             Grid.Column="0"
             VerticalAlignment="Center"
             Style="{StaticResource NormalHeaderWithEffect}"
-            Text="Мониторинг транспортного обеспечения" />
+            Text="{loc:Loc Header_Title}" />
 
         <ContentControl
             Grid.Column="1"

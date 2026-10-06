@@ -10,6 +10,7 @@ using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
 using IntegrationSolution.Excel.Interfaces;
+using IntegrationSolution.Localization.Resources;
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Defaults;
@@ -144,14 +145,38 @@ namespace Integration.ModuleGUI.ViewModels
             }
         }
 
-        public Dictionary<int, string> DriversMainCharts { get; set; } = new Dictionary<int, string>()
+        /// <summary>
+        /// Item of the drivers chart selector: <see cref="Key"/> is the chart index (same as the selected index),
+        /// <see cref="Value"/> is read from the resources, so the text follows UI language switching
+        /// without re-creating the items (which would reset the selected chart).
+        /// </summary>
+        public sealed class DriversChartOption : Prism.Mvvm.BindableBase
+        {
+            private readonly Func<string> _text;
+
+            public DriversChartOption(int key, Func<string> text)
             {
-                { 0, "Показатели по километражу" },
-                { 1, "Показатели по продуктивности" },
-                { 2, "Показатели по среднему километражу за поездку" },
-                { 3, "Показатели по количеству поездок" },
-                { 4, "Показатели по самым длинным поездкам" },
-                { 5, "Показатели по самым коротким поездкам" }
+                Key = key;
+                _text = text;
+            }
+
+            public int Key { get; }
+
+            public string Value => _text();
+
+            public void RefreshText() => RaisePropertyChanged(nameof(Value));
+
+            public override string ToString() => Value;
+        }
+
+        public List<DriversChartOption> DriversMainCharts { get; set; } = new List<DriversChartOption>()
+            {
+                new DriversChartOption(0, () => Strings.Operations_ChartMileage),
+                new DriversChartOption(1, () => Strings.Operations_ChartProductivity),
+                new DriversChartOption(2, () => Strings.Operations_ChartAvgMileagePerTrip),
+                new DriversChartOption(3, () => Strings.Operations_ChartTripsCount),
+                new DriversChartOption(4, () => Strings.Operations_ChartLongestTrips),
+                new DriversChartOption(5, () => Strings.Operations_ChartShortestTrips)
             };
         private int selectedIndexDriversMainCharts;
         public int SelectedIndexDriversMainCharts
@@ -324,7 +349,7 @@ namespace Integration.ModuleGUI.ViewModels
 
         public OperationsViewModel(IDialogManager dialogManager, IUnityContainer container, IEventAggregator ea) : base(container, ea)
         {
-            this.Title = "Операции";
+            SetTitleResourceKey(nameof(Strings.Operations_Title));
             this.CanGoBack = true;
             this.CanGoNext = false;
 
@@ -345,6 +370,32 @@ namespace Integration.ModuleGUI.ViewModels
             GridConfiguration = new GridConfiguration();
 
             _dialogManager = dialogManager;
+        }
+
+
+        /// <summary>
+        /// Refreshes texts produced in code: the chart selector items (in place, the selected chart is kept),
+        /// the axis formatter (re-assigned so the chart redraws its labels) and the driver chart title.
+        /// </summary>
+        protected override void OnLanguageChanged()
+        {
+            base.OnLanguageChanged();
+
+            if (DriversMainCharts != null)
+            {
+                foreach (var option in DriversMainCharts)
+                    option.RefreshText();
+            }
+
+            // The formatters read the localized format on every call; a new delegate instance makes the axis redraw.
+            // (The wrapping does not pile up: the chart assigns a fresh formatter whenever it is recalculated.)
+            var formatter = Formatter;
+            if (formatter != null)
+                Formatter = val => formatter(val);
+
+            var driverChart = PredictionDriversChartContext as PredictionChartViewModel;
+            if (driverChart != null)
+                driverChart.Title = Strings.Operations_DriverChartTitle;
         }
         #endregion
 
@@ -387,7 +438,7 @@ namespace Integration.ModuleGUI.ViewModels
                 {
                     var percentage = 75;
 
-                    progress.SetTitle($"Запись в файл");
+                    progress.SetTitle(Strings.Operations_ProgressWritingToFile);
                     if (percentage < 90)
                         percentage += 9;
                     progress.SetProgress(percentage / 100);
@@ -399,7 +450,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                     (this.ModuleData.ExcelMainFile as ICarOperations).WriteInTotalResultOfEachStructure(ModuleData.Vehicles);
 
-                    progress.SetTitle($"Сохранение");
+                    progress.SetTitle(Strings.Operations_ProgressSaving);
                     progress.SetProgress(0.99);
                     ModuleData.ExcelMainFile.Save();
                     this.CanGoNext = true;
@@ -434,11 +485,11 @@ namespace Integration.ModuleGUI.ViewModels
             var wnd = (MetroWindow)Application.Current.MainWindow;
             string nameReport = "";
 
-            var desicion = await wnd.ShowMessageAsync("Вы хотите продолжить?", "Данная процедура может занять некоторое время.", MessageDialogStyle.AffirmativeAndNegative);
+            var desicion = await wnd.ShowMessageAsync(Strings.Operations_ContinueQuestion, Strings.Operations_ProcedureMayTakeTime, MessageDialogStyle.AffirmativeAndNegative);
             if (desicion != MessageDialogResult.Affirmative)
                 return;
 
-            var tmp_progress = await wnd.ShowProgressAsync("Подождите пожалуйста", "Подготовка данных...");
+            var tmp_progress = await wnd.ShowProgressAsync(Strings.Operations_PleaseWaitTitle, Strings.Operations_PreparingData);
 
             // Get cars from Wialon
             ICollection<CarWialon> wialonCars = null;
@@ -450,7 +501,7 @@ namespace Integration.ModuleGUI.ViewModels
 
             if (wialonCars == null)
             {
-                await wnd.ShowMessageAsync("Ошибка!", "Проверьте подключение к навигационной системе Wialon.");
+                await wnd.ShowMessageAsync(Strings.Operations_ErrorTitle, Strings.Operations_CheckWialonConnection);
                 return;
             }
             else
@@ -467,16 +518,16 @@ namespace Integration.ModuleGUI.ViewModels
             {
                 try
                 {
-                    var percInput = await wnd.ShowInputAsync("Допустимый процент расхождения", "Например: 3.5");
+                    var percInput = await wnd.ShowInputAsync(Strings.Operations_DiscrepancyPercentTitle, Strings.Operations_DiscrepancyPercentExample);
                     if (percInput == null)
                         return;
                     avaliablePercent = Double.Parse(percInput.Replace('.', ',').Trim());
                     if (avaliablePercent <= 0)
-                        throw new Exception("Внимательней, число должно быть больше от 0.");
+                        throw new Exception(Strings.Operations_PercentMustBePositive);
                 }
                 catch (Exception ex)
                 {
-                    wnd.ShowModalMessageExternal("Ошибка. Повторите ввод.", ex.Message);
+                    wnd.ShowModalMessageExternal(Strings.Operations_InputErrorTitle, ex.Message);
                 }
             } while (avaliablePercent <= 0);
             #endregion
@@ -509,17 +560,17 @@ namespace Integration.ModuleGUI.ViewModels
                     {
                         ModuleData.SimpleDataForReport = new ObservableCollection<IntegratedVehicleInfo>(await this.GetVehicleInfos<IntegratedVehicleInfo>(progress, datesFromToContext));
                         if (ModuleData.SimpleDataForReport == null || !ModuleData.SimpleDataForReport.Any())
-                            throw new Exception("Данные отсутствуют.\nПопробуйте выбрать другой период или повторите попытку позже.");
+                            throw new Exception(Strings.Operations_NoDataForPeriod);
                     }
                     else
                     {
                         ModuleData.DetailsDataForReport = new ObservableCollection<IntegratedVehicleInfoDetails>(await this.GetVehicleInfos<IntegratedVehicleInfoDetails>(progress, datesFromToContext));
                         if (ModuleData.DetailsDataForReport == null || !ModuleData.DetailsDataForReport.Any())
-                            throw new Exception("Данные отсутствуют.\nПопробуйте выбрать другой период или повторите попытку позже.");
+                            throw new Exception(Strings.Operations_NoDataForPeriod);
                     }
 
                     var percentage = 95;
-                    progress.SetTitle("Сохранение");
+                    progress.SetTitle(Strings.Operations_ProgressSaving);
                     progress.SetProgress(percentage / 100);
 
                     this.CanGoNext = true;
@@ -529,11 +580,11 @@ namespace Integration.ModuleGUI.ViewModels
                     {
                         Microsoft.Win32.SaveFileDialog fileDialog = new Microsoft.Win32.SaveFileDialog
                         {
-                            Title = "Создание отчёта...",
+                            Title = Strings.Operations_CreatingReport,
                             ValidateNames = true,
                             CheckPathExists = true,
                             DefaultExt = ".xlsx | .xls",
-                            Filter = "Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*"
+                            Filter = Strings.Common_ExcelFileFilter
                         };
                         
                         if (fileDialog.ShowDialog() != true)
@@ -589,7 +640,7 @@ namespace Integration.ModuleGUI.ViewModels
                 Error = new IntegrationSolution.Common.Entities.Error()
                 {
                     IsError = false,
-                    ErrorDescription = "Обновлено"
+                    ErrorDescription = Strings.Operations_Updated
                 };
             }
             catch (Exception ex)
@@ -612,16 +663,16 @@ namespace Integration.ModuleGUI.ViewModels
             if (car != null)
             {
                 if (!string.IsNullOrWhiteSpace(car.Department))
-                    msg.AppendLine($"Служба/отдел:\t{car.Department}");
+                    msg.AppendLine(string.Format(Strings.Operations_CarDepartmentLine, car.Department));
 
                 if (!string.IsNullOrWhiteSpace(car.StructureName))
-                    msg.AppendLine($"Структурное подразделение:\t{car.StructureName}");
+                    msg.AppendLine(string.Format(Strings.Operations_CarStructureLine, car.StructureName));
 
                 if (car.TripResulted != null)
                 {
-                    msg.AppendLine($"Количество выездов:\t{car.CountTrips}");
-                    msg.AppendLine($"Пробег за период:\t{car.TripResulted.TotalMileage} км");
-                    msg.AppendLine($"Средний пробег за поездку:\t{Math.Round((car.TripResulted.TotalMileage / car.CountTrips.Value), 2)} км/поездка");
+                    msg.AppendLine(string.Format(Strings.Operations_CarTripsCountLine, car.CountTrips));
+                    msg.AppendLine(string.Format(Strings.Operations_CarMileageLine, car.TripResulted.TotalMileage));
+                    msg.AppendLine(string.Format(Strings.Operations_CarAvgMileageLine, Math.Round((car.TripResulted.TotalMileage / car.CountTrips.Value), 2)));
                 }
 
                 await _dialogManager.ShowMessageBox($"{car.UnitModel}\t{car.StateNumber}", msg.ToString());
@@ -636,17 +687,17 @@ namespace Integration.ModuleGUI.ViewModels
                 var avgDriversTrips = (int)(ModuleData.DriverCollection.Where(x => x.CountTrips > avgTripsAtAll).Select(x => x.CountTrips).Average() * 0.65);
                 var avgMileage = ModuleData.DriverCollection.Where(x => x.CountTrips >= avgDriversTrips).Select(x => x.AvarageMileagePerTrip).Average();
 
-                msg.AppendLine($"Всего поездок за период:\t{driver.CountTrips}");
-                msg.AppendLine($"Использовано транспортных средств:\t{driver.CountCars}");
+                msg.AppendLine(string.Format(Strings.Operations_DriverTripsLine, driver.CountTrips));
+                msg.AppendLine(string.Format(Strings.Operations_DriverVehiclesLine, driver.CountCars));
                 msg.AppendLine();
-                msg.AppendLine($"Всего километраж за период:\t{Math.Round((driver.TotalMileage), 2)} км");
-                msg.AppendLine($"Средний километраж за поездку:\t{Math.Round((driver.AvarageMileagePerTrip), 2)} км/поездка");
-                msg.AppendLine($"Самая длинная поездка:\t{driver.MaxTripMileage.Key} км\t({driver.MaxTripMileage.Value.ToShortDateString()})");
-                msg.AppendLine($"Самая коротка поездка:\t{driver.MinTripMileage.Key} км\t({driver.MinTripMileage.Value.ToShortDateString()})");
-                msg.AppendLine($"Показатель продуктивности:\t{driver.GetEffectivityPercent(avgMileage)}%");
+                msg.AppendLine(string.Format(Strings.Operations_DriverMileageLine, Math.Round((driver.TotalMileage), 2)));
+                msg.AppendLine(string.Format(Strings.Operations_DriverAvgMileageLine, Math.Round((driver.AvarageMileagePerTrip), 2)));
+                msg.AppendLine(string.Format(Strings.Operations_DriverLongestTripLine, driver.MaxTripMileage.Key, driver.MaxTripMileage.Value.ToShortDateString()));
+                msg.AppendLine(string.Format(Strings.Operations_DriverShortestTripLine, driver.MinTripMileage.Key, driver.MinTripMileage.Value.ToShortDateString()));
+                msg.AppendLine(string.Format(Strings.Operations_DriverProductivityLine, driver.GetEffectivityPercent(avgMileage)));
                 msg.AppendLine();
                 msg.AppendLine();
-                msg.AppendLine("* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.");
+                msg.AppendLine(Strings.Operations_DriverTripsNote);
 
                 await _dialogManager.ShowMessageBox($"{driver.ToString()}\t({driver.UnitNumber})", msg.ToString());
             }
@@ -685,7 +736,7 @@ namespace Integration.ModuleGUI.ViewModels
                     if (drivers == null || !drivers.Any())
                         return;
 
-                    Title = $"Самая короткая поездка:\t{TotalMinTripAtAll} км";
+                    Title = string.Format(Strings.Operations_ShortestTripTitle, TotalMinTripAtAll);
 
                     for (int i = 0; i < drivers.Count; i++)
                     {
@@ -701,7 +752,7 @@ namespace Integration.ModuleGUI.ViewModels
                     if (drivers == null || !drivers.Any())
                         return;
 
-                    Title = $"Самая длинная поездка:\t{TotalMaxTripAtAll} км";
+                    Title = string.Format(Strings.Operations_LongestTripTitle, TotalMaxTripAtAll);
 
                     for (int i = 0; i < drivers.Count; i++)
                     {
@@ -718,11 +769,11 @@ namespace Integration.ModuleGUI.ViewModels
                     if (drivers == null || !drivers.Any())
                         return;
 
-                    Title = $"Самый большой километраж за период:\t{max} км";
+                    Title = string.Format(Strings.Operations_MaxMileageTitle, max);
 
                     for (int i = 0; i < drivers.Count; i++)
                     {
-                        msg.AppendLine($"{drivers[i]}\t\t Всего поездок: {drivers[i].CountTrips}");
+                        msg.AppendLine(string.Format(Strings.Operations_DriverTotalTripsItem, drivers[i], drivers[i].CountTrips));
                     }
                     break;
                 #endregion
@@ -736,26 +787,26 @@ namespace Integration.ModuleGUI.ViewModels
                     Title = "";
                     if (driversMax != null && driversMax.Any())
                     {
-                        Title = $"Самый большой средний километраж за поездку:\t{avgMax} км/поездка {Environment.NewLine}";
+                        Title = string.Format(Strings.Operations_MaxAvgMileageTitle, avgMax, Environment.NewLine);
 
                         for (int i = 0; i < driversMax.Count; i++)
                         {
-                            msg.AppendLine($"Лидеры по среднему пробегу:");
-                            msg.AppendLine($"{driversMax[i]}\t\t Всего поездок: {driversMax[i].CountTrips} ({driversMax[i].TotalMileage} км)");
+                            msg.AppendLine(Strings.Operations_AvgMileageLeaders);
+                            msg.AppendLine(string.Format(Strings.Operations_DriverTripsMileageItem, driversMax[i], driversMax[i].CountTrips, driversMax[i].TotalMileage));
                         }
                     }
 
                     if (driversMin != null && driversMin.Any())
                     {
-                        Title += $"Самый малый средний километраж за поездку:\t{avgMin} км/поездка";
+                        Title += string.Format(Strings.Operations_MinAvgMileageTitle, avgMin);
 
                         msg.AppendLine();
                         msg.AppendLine();
-                        msg.AppendLine($"Аутсайдеры по среднему пробегу:");
+                        msg.AppendLine(Strings.Operations_AvgMileageOutsiders);
 
                         for (int i = 0; i < driversMin.Count; i++)
                         {
-                            msg.AppendLine($"{driversMin[i]}\t\t Всего поездок: {driversMin[i].CountTrips} ({driversMin[i].TotalMileage} км)");
+                            msg.AppendLine(string.Format(Strings.Operations_DriverTripsMileageItem, driversMin[i], driversMin[i].CountTrips, driversMin[i].TotalMileage));
                         }
                     }
 
@@ -784,11 +835,11 @@ namespace Integration.ModuleGUI.ViewModels
                 {
                     PredictionDriversChartContext = new PredictionChartViewModel(
                         PrepareData(SelectedDriverChart.HistoryDrive.SelectMany(x => x.Value)))
-                    { Title = "График водителя" };
+                    { Title = Strings.Operations_DriverChartTitle };
                 });
 
                 DriverWorkingDays = InitializeChartsData(SelectedDriverChart.HistoryDrive.SelectMany(x => x.Value)
-                    , chartPoint => string.Format("{0} км ({1:P})", chartPoint.Y, chartPoint.Participation));
+                    , chartPoint => string.Format(Strings.Operations_KmShareFormat, chartPoint.Y, chartPoint.Participation));
             }
         }
 
@@ -823,14 +874,14 @@ namespace Integration.ModuleGUI.ViewModels
 
             StringBuilder msg = new StringBuilder();
 
-            msg.AppendLine("Топ 10 аутсайдеров по пробегу:" + Environment.NewLine);
-            topTotal.ForEach(x => msg.AppendLine($"{(topTotal.IndexOf(x) + 1).ToString()}. {x.StateNumber}\t({x.UnitModel} / {x.Type})\t\t{x.TripResulted?.TotalMileage}км"));
+            msg.AppendLine(Strings.Operations_Bottom10ByMileage + Environment.NewLine);
+            topTotal.ForEach(x => msg.AppendLine(string.Format(Strings.Operations_OutsiderLine, (topTotal.IndexOf(x) + 1).ToString(), x.StateNumber, x.UnitModel, x.Type, x.TripResulted?.TotalMileage)));
 
 
-            msg.AppendLine(Environment.NewLine + Environment.NewLine + "Топ 10 аутсайдеров по среднему пробегу за поездку:" + Environment.NewLine);
-            topAvg.ForEach(x => msg.AppendLine($"{(topAvg.IndexOf(x) + 1).ToString()}. {x.StateNumber}\t({x.UnitModel} / {x.Type})\t\t{(Math.Round((x.TripResulted?.TotalMileage / x.CountTrips ?? -1), 2)).ToString()}км"));
+            msg.AppendLine(Environment.NewLine + Environment.NewLine + Strings.Operations_Bottom10ByAvgMileage + Environment.NewLine);
+            topAvg.ForEach(x => msg.AppendLine(string.Format(Strings.Operations_OutsiderLine, (topAvg.IndexOf(x) + 1).ToString(), x.StateNumber, x.UnitModel, x.Type, (Math.Round((x.TripResulted?.TotalMileage / x.CountTrips ?? -1), 2)).ToString())));
 
-            wnd.ShowModalMessageExternal("Список аутсайдеров", msg.ToString());
+            wnd.ShowModalMessageExternal(Strings.Operations_OutsidersListTitle, msg.ToString());
         }
         
         protected override void UnCheckFilterTypeVehicle(string type)
@@ -846,24 +897,24 @@ namespace Integration.ModuleGUI.ViewModels
         {
             Error = null;
             var wnd = (MetroWindow)Application.Current.MainWindow;
-            var progress = await wnd.ShowProgressAsync("Подождите...", "Инициализация файлов");
+            var progress = await wnd.ShowProgressAsync(Strings.Common_PleaseWait, Strings.Operations_InitializingFiles);
 
             await Task.Run(() =>
             {
                 try
                 {
                     double percentage = 0;
-                    progress.SetTitle("Инициализация транспортных средств");
+                    progress.SetTitle(Strings.Operations_InitializingVehicles);
                     percentage += 5;
                     progress.SetProgress(percentage / 100);
 
                     var cars = (this.ModuleData.ExcelMainFile as ICarOperations)?.GetVehicles()?.ToList();
                     var storageData = (this.ModuleData.ExcelPathListFile as ICarOperations);
 
-                    progress.SetTitle($"Инициализация транспортных средств. На очереди {cars.Count} обьектов.");
+                    progress.SetTitle(string.Format(Strings.Operations_InitializingVehiclesQueued, cars.Count));
 
                     if (cars == null || storageData == null || !cars.Any())
-                        throw new Exception("Ошибка. Попробуйте вернуться и загрузить файлы по новой.");
+                        throw new Exception(Strings.Operations_LoadFilesAgainError);
 
                     int countCarsPerOnePercent = (cars.Count / 70) + 1;
                     for (int i = 0; i < cars.Count; i++)
@@ -873,7 +924,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                         if (i % countCarsPerOnePercent == 0)
                         {
-                            progress.SetTitle($"Инициализация транспортных средств: Инициализация {i} обьекта из {cars.Count}.");
+                            progress.SetTitle(string.Format(Strings.Operations_InitializingVehicleProgress, i, cars.Count));
                             progress.SetProgress(++percentage / 100);
                         }
                     }
@@ -943,12 +994,12 @@ namespace Integration.ModuleGUI.ViewModels
             CarMileageStatisticsSAP = InitializeChartsData(
                 resTotal
                     , ChartDefinition.CarMileageStatisticsSAP
-                    , chartPoint => string.Format("{0} км", chartPoint.Y));
+                    , chartPoint => string.Format(Strings.Operations_KmFormat, chartPoint.Y));
 
             CarAverageMileageByTripStatisticsSAP = InitializeChartsData(
                 resAvg
                 , ChartDefinition.CarAverageMileageByTripStatisticsSAP
-                , chartPoint => string.Format("{0} км", chartPoint.Y));
+                , chartPoint => string.Format(Strings.Operations_KmFormat, chartPoint.Y));
 
         }
 
@@ -1080,8 +1131,8 @@ namespace Integration.ModuleGUI.ViewModels
         private void NotifySuccessAndOpenFile(string path)
         {
             var wnd = (MetroWindow)Application.Current.MainWindow;
-            var userDesicion = wnd.ShowModalMessageExternal("Успех!",
-                    "Результаты успешно сохранены.\nЖелаете ли просмотреть результаты?",
+            var userDesicion = wnd.ShowModalMessageExternal(Strings.Operations_SuccessTitle,
+                    Strings.Operations_ResultsSavedOpenQuestion,
                     MessageDialogStyle.AffirmativeAndNegative);
             try
             {
@@ -1123,7 +1174,7 @@ namespace Integration.ModuleGUI.ViewModels
                             .Take(CountTake).ToArray();
                     DriversStatisticsSAP = record.AsChartValues();
                     Labels = new ObservableCollection<string>(record.Select(x => $"{x.LastName} {x.FirstName}."));
-                    Formatter = val => (val).ToString() + " км";
+                    Formatter = val => string.Format(Strings.Operations_KmFormat, val);
                     return;
                 }
 
@@ -1176,7 +1227,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                         UpdateChartData(records);
 
-                        Formatter = val => (Math.Round(val, 2)).ToString() + " км/поездка";
+                        Formatter = val => string.Format(Strings.Operations_KmPerTripFormat, Math.Round(val, 2));
                         Mapper = Mappers.Xy<Driver>()
                     .X((driver, ind) => ind)
                     .Y(driver => driver.AvarageMileagePerTrip);
@@ -1194,7 +1245,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                         UpdateChartData(records);
 
-                        Formatter = val => (val).ToString() + " поездок";
+                        Formatter = val => string.Format(Strings.Operations_TripsFormat, val);
                         Mapper = Mappers.Xy<Driver>()
                     .X((driver, ind) => ind)
                     .Y(driver => driver.CountTrips);
@@ -1213,7 +1264,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                         UpdateChartData(records);
 
-                        Formatter = val => (Math.Round(val, 2)).ToString() + " км";
+                        Formatter = val => string.Format(Strings.Operations_KmFormat, Math.Round(val, 2));
                         Mapper = Mappers.Xy<Driver>()
                     .X((driver, ind) => ind)
                     .Y(driver => driver.MaxTripMileage.Key);
@@ -1232,7 +1283,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                         UpdateChartData(records);
 
-                        Formatter = val => (Math.Round(val, 2)).ToString() + " км";
+                        Formatter = val => string.Format(Strings.Operations_KmFormat, Math.Round(val, 2));
                         Mapper = Mappers.Xy<Driver>()
                     .X((driver, ind) => ind)
                     .Y(driver => driver.MinTripMileage.Key);
@@ -1252,7 +1303,7 @@ namespace Integration.ModuleGUI.ViewModels
 
                         UpdateChartData(records);
 
-                        Formatter = val => (val).ToString() + " км";
+                        Formatter = val => string.Format(Strings.Operations_KmFormat, val);
                         Mapper = Mappers.Xy<Driver>()
                     .X((driver, ind) => ind)
                     .Y(driver => driver.HistoryDrive.Select(z => z.Value.Sum(k => k.TotalMileage)).FirstOrDefault());
@@ -1350,7 +1401,7 @@ namespace Integration.ModuleGUI.ViewModels
                 {
                     var percentage = 60;
 
-                    progress.SetTitle($"Выборка транспортных средств из системы Wialon");
+                    progress.SetTitle(Strings.Operations_FetchingWialonVehicles);
                     if (percentage < 90)
                         percentage += 3;
                     progress.SetProgress(percentage / 100);
@@ -1397,13 +1448,15 @@ namespace Integration.ModuleGUI.ViewModels
                         //    continue;
                         //}
 
-                        progress.SetMessage($"Осталось проверить: {ModuleData.Vehicles.Count - indexCurrent} транспортных средств\n" +
-                            $"Проверка {item.UnitModel}  ({item.StateNumber})\n" +
-                            $"Количество поездок за период: {item.Trips?.Count} (SAP)\n" +
-                            $"Количество поездок за период: {tripWialon?.CountTrips} (Wialon)\n" +
-                            $"Показания одометра за период по системе SAP: {item.TripResulted?.TotalMileage} км\n" +
-                            $"Показания одометра за период по системе Wialon: {tripWialon?.Mileage} км\n\n" +
-                            $"{((tripWialon?.SpeedViolation != null) ? $"Количество превышений скорости: {tripWialon?.SpeedViolation.Count()}" : $"")}");
+                        progress.SetMessage(string.Format(Strings.Operations_CheckProgressMessage,
+                            ModuleData.Vehicles.Count - indexCurrent,
+                            item.UnitModel,
+                            item.StateNumber,
+                            item.Trips?.Count,
+                            tripWialon?.CountTrips,
+                            item.TripResulted?.TotalMileage,
+                            tripWialon?.Mileage,
+                            (tripWialon?.SpeedViolation != null) ? string.Format(Strings.Operations_SpeedViolationsCount, tripWialon?.SpeedViolation.Count()) : ""));
 
                         var integratedVehicle = _container.Resolve<T>();
 

@@ -1,0 +1,73 @@
+name: Windows CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build, test, UI smoke test
+    runs-on: windows-2022
+    timeout-minutes: 30
+    env:
+      CONFIGURATION: Release
+      INTEGRATIONSOLUTION_ROOT: ${{ github.workspace }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        uses: ./.github/actions/build-solution
+        with:
+          configuration: ${{ env.CONFIGURATION }}
+
+      # "Integration" tests need a live Wialon account or a developer's machine.
+      - name: Unit tests
+        shell: pwsh
+        run: |
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+          $vstest = & $vswhere -latest -products * -find '**\TestPlatform\vstest.console.exe' | Select-Object -First 1
+          if (-not $vstest) { throw 'vstest.console.exe was not found.' }
+          & $vstest "IntegrationSolution.Tests\bin\$env:CONFIGURATION\IntegrationSolution.Tests.dll" `
+            '/TestCaseFilter:TestCategory!=Integration' `
+            '/TestAdapterPath:packages\MSTest.TestAdapter.1.3.2\build\_common' `
+            '/Logger:trx;LogFileName=unit-tests.trx' `
+            '/ResultsDirectory:artifacts\TestResults'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: UI smoke test (language switching)
+        shell: powershell
+        run: ./build/Invoke-UiSmokeTest.ps1 -AppPath "IntegrationSolution.ShellGUI\bin\$env:CONFIGURATION\IntegrationSolution.ShellGUI.exe" -OutputDirectory artifacts\screenshots
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: artifacts/screenshots
+          if-no-files-found: ignore
+
+      - name: Upload test results and build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-and-logs
+          path: |
+            artifacts/TestResults
+            artifacts/logs
+          if-no-files-found: ignore
+
+      - name: Upload application
+        uses: actions/upload-artifact@v4
+        with:
+          name: IntegrationSolution-${{ env.CONFIGURATION }}
+          path: IntegrationSolution.ShellGUI/bin/${{ env.CONFIGURATION }}

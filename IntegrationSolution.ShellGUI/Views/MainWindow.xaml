@@ -6,6 +6,7 @@
     xmlns:VM="clr-namespace:Integration.ModuleGUI.ViewModels;assembly=Integration.ModuleGUI"
     xmlns:converters="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
     xmlns:prism="http://www.codeplex.com/prism"
     xmlns:views="clr-namespace:Integration.Infrastructure.Views;assembly=Integration.Infrastructure"
     xmlns:viewsChild="clr-namespace:Integration.ModuleGUI.Views;assembly=Integration.ModuleGUI"
@@ -36,17 +37,17 @@
                 FontSize="15"
                 IsChecked="{Binding IsConnectedNavigation, IsAsync=True}"
                 IsEnabled="{Binding IsEnabledNavigation}"
-                OffLabel="Нету связи"
+                OffLabel="{loc:Loc Shell_WialonDisconnected}"
                 OffSwitchBrush="#FFE8C9C9"
-                OnLabel="Подключено"
+                OnLabel="{loc:Loc Shell_WialonConnected}"
                 OnSwitchBrush="#FF65BF65"
                 ThumbIndicatorWidth="20">
                 <Controls:ToggleSwitch.Style>
                     <Style BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" TargetType="{x:Type Controls:ToggleSwitch}">
-                        <Setter Property="ToolTip" Value="Подключение к Wialon" />
+                        <Setter Property="ToolTip" Value="{loc:Loc Shell_WialonConnectionToolTip}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsEnabledNavigation}" Value="False">
-                                <Setter Property="ToolTip" Value="Подождите..." />
+                                <Setter Property="ToolTip" Value="{loc:Loc Common_PleaseWait}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -59,8 +60,9 @@
         <Controls:WindowCommands ShowSeparators="True">
             <Button
                 VerticalAlignment="Center"
+                AutomationProperties.AutomationId="SettingsButton"
                 Command="{Binding ToggleFlyoutSettingsCommand}"
-                Content="Настройки"
+                Content="{loc:Loc Shell_SettingsButton}"
                 FontSize="14" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>

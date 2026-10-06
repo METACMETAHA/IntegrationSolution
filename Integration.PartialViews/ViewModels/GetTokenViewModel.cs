@@ -2,6 +2,7 @@
 using IntegrationSolution.Common.Enums;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Common.Interfaces;
+using IntegrationSolution.Localization.Resources;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NotificationConstructor.Interfaces;
@@ -79,14 +80,14 @@ namespace Integration.PartialViews.ViewModels
         {
             if (IsWithToken)
             {
-                var wnd = (MetroWindow)Application.Current.MainWindow;
-                var progress = await wnd.ShowProgressAsync("Проверка токена", null);
-
                 if (string.IsNullOrWhiteSpace(TokenModel))
                 {
-                    _notificationManager.NotifyErrorAsync("Токен пуст");
+                    _notificationManager.NotifyErrorAsync(Strings.Token_Empty);
                     return;
                 }
+
+                var wnd = (MetroWindow)Application.Current.MainWindow;
+                var progress = await wnd.ShowProgressAsync(Strings.Token_Checking, null);
 
                 bool tryConnect = false;
                 await Task.Run(() =>
@@ -97,12 +98,12 @@ namespace Integration.PartialViews.ViewModels
                 {
                     _settings["Token"] = TokenModel;
                     _wialonContext.UpdateToken();
-                    _notificationManager.NotifySuccessAsync("Токен обновлен");
+                    _notificationManager.NotifySuccessAsync(Strings.Token_Updated);
                 }
                 else
                 {
                     TokenModel = _settings["Token"]?.ToString();
-                    _notificationManager.NotifyWarningAsync("Восстановлен предыдущий токен");
+                    _notificationManager.NotifyWarningAsync(Strings.Token_PreviousRestored);
                 }
                 if (progress.IsOpen)
                     await progress.CloseAsync();
@@ -111,7 +112,7 @@ namespace Integration.PartialViews.ViewModels
             {
                 await _dialogManager.ShowDialogAsync(DialogNamesEnum.InstructionsForToken);
                 IsWithToken = true;
-                _notificationManager.NotifyInformationAsync("Вставьте полученый токен в поле");
+                _notificationManager.NotifyInformationAsync(Strings.Token_PasteHint);
             }
             #endregion
         }

@@ -2,6 +2,7 @@
 using IntegrationSolution.Common.Events;
 using IntegrationSolution.Common.Interfaces;
 using IntegrationSolution.Common.ModulesExtension.Interfaces;
+using IntegrationSolution.Localization;
 using log4net;
 using NotificationConstructor.Interfaces;
 using Prism.Events;
@@ -25,10 +26,20 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
         protected readonly IEventAggregator _eventAggregator;
         protected readonly ILog _logger;
         protected readonly INotificationManager _notificationManager;
+        protected readonly ILocalizationService _localization;
+
+        private string _titleResourceKey;
 
         #region Properties
-        // TODO: in future, name of each node should be loaded from dictionary by nameof class
-        public string Title { get; protected set; }
+        private string _title;
+        /// <summary>
+        /// Title of the node in WizzardControl. Use <see cref="SetTitleResourceKey"/> to make it localizable.
+        /// </summary>
+        public string Title
+        {
+            get { return _title; }
+            protected set { SetProperty(ref _title, value); }
+        }
 
 
         private bool _isActive;
@@ -79,13 +90,49 @@ namespace IntegrationSolution.Common.ModulesExtension.Implementations
             _eventAggregator = ea;
             _logger = LogManager.GetLogger(this.GetType());
             _notificationManager = _container.Resolve<INotificationManager>();
+            _localization = _container.Resolve<ILocalizationService>();
+            LanguageChangedEventManager.AddHandler(_localization, HandleLanguageChanged);
 
-            // TODO: in future, name of each node should be loaded from dictionary by nameof class
             this.Title = this.GetType().Name;
 
             CanGoBack = false;
             CanGoNext = false;
             IsFinished = false;
+        }
+
+
+        /// <summary>
+        /// Sets <see cref="Title"/> from a localization resource key; the title follows UI language switching.
+        /// </summary>
+        protected void SetTitleResourceKey(string resourceKey)
+        {
+            _titleResourceKey = resourceKey;
+            Title = _localization.GetString(resourceKey);
+        }
+
+
+        /// <summary>
+        /// Called on the UI thread after the UI language was switched.
+        /// Override to refresh texts that are produced in code (XAML texts refresh automatically).
+        /// </summary>
+        protected virtual void OnLanguageChanged()
+        { }
+
+
+        private void HandleLanguageChanged(object sender, LanguageChangedEventArgs e)
+        {
+            // An exception here would stop the remaining listeners from following the switch.
+            try
+            {
+                if (_titleResourceKey != null)
+                    Title = _localization.GetString(_titleResourceKey);
+
+                OnLanguageChanged();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Failed to apply the UI language '{e.NewLanguage.CultureName}'.", ex);
+            }
         }
 
 

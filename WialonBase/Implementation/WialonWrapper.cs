@@ -1,4 +1,5 @@
 ﻿using IntegrationSolution.Entities.Implementations.Wialon;
+using IntegrationSolution.Localization.Resources;
 using log4net;
 using Newtonsoft.Json.Linq;
 using NotificationConstructor.Interfaces;
@@ -157,6 +158,16 @@ namespace WialonBase.Implementation
 
         public bool TryConnect()
         {
+            // No token is shipped with the application: the user enters one in Settings > Wialon.
+            if (string.IsNullOrWhiteSpace(_wialonConnection.Token))
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _notificationManager.NotifyWarningAsync(Strings.Token_NotSet);
+                }));
+                return false;
+            }
+
             try
             {
                 return _wialonConnection.TryConnect();
@@ -165,7 +176,7 @@ namespace WialonBase.Implementation
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                    _notificationManager.NotifyErrorAsync(string.Format(Strings.Wialon_ServerError, ex.Message));
                 });                
                 return false;
             }
@@ -183,7 +194,7 @@ namespace WialonBase.Implementation
 
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                    _notificationManager.NotifyErrorAsync(string.Format(Strings.Wialon_ServerError, ex.Message));
                 }));
                 return false;
             }
@@ -200,7 +211,7 @@ namespace WialonBase.Implementation
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    _notificationManager.NotifyErrorAsync("Ошибка сервера: " + ex.Message);
+                    _notificationManager.NotifyErrorAsync(string.Format(Strings.Wialon_ServerError, ex.Message));
                 }));
                 return false;
             }

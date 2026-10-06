@@ -1,0 +1,1002 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Charts_KmFormat" xml:space="preserve">
+    <value>{0} км</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Common_ExcelFileFilter" xml:space="preserve">
+    <value>Документ Excel (.xlsx)|*.xlsx|Документ Excel (.xls)|*.xls|Все файлы (*.*)|*.*</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_PleaseWait" xml:space="preserve">
+    <value>Подождите...</value>
+  </data>
+  <data name="Dialogs_Custom" xml:space="preserve">
+    <value>Выборочно</value>
+  </data>
+  <data name="Dialogs_DatesTitle" xml:space="preserve">
+    <value>Выберите даты для корректного анализа данных из системы Wialon.</value>
+  </data>
+  <data name="Dialogs_DetailedReport" xml:space="preserve">
+    <value>Подробный отчёт</value>
+  </data>
+  <data name="Dialogs_FuelDiesel" xml:space="preserve">
+    <value>Дизель</value>
+  </data>
+  <data name="Dialogs_FuelGasoline" xml:space="preserve">
+    <value>Бензин</value>
+  </data>
+  <data name="Dialogs_FuelLpg" xml:space="preserve">
+    <value>Газ</value>
+  </data>
+  <data name="Dialogs_FuelPriceFormat" xml:space="preserve">
+    <value> {0:N2}  грн/л</value>
+  </data>
+  <data name="Dialogs_FuelPriceTitle" xml:space="preserve">
+    <value>Цены на топливо</value>
+  </data>
+  <data name="Dialogs_PerMonth" xml:space="preserve">
+    <value>За месяц</value>
+  </data>
+  <data name="Dialogs_PerWeek" xml:space="preserve">
+    <value>За неделю</value>
+  </data>
+  <data name="Dialogs_Today" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="Dialogs_TokenInstructionsTitle" xml:space="preserve">
+    <value>Инструкция по получению токена</value>
+  </data>
+  <data name="Dialogs_TokenStep1After" xml:space="preserve">
+    <value>чтобы сформировать новый токен.</value>
+  </data>
+  <data name="Dialogs_TokenStep1Before" xml:space="preserve">
+    <value>1. Перейдите по </value>
+  </data>
+  <data name="Dialogs_TokenStep1Link" xml:space="preserve">
+    <value>ссылке</value>
+  </data>
+  <data name="Dialogs_TokenStep2" xml:space="preserve">
+    <value>2. Для авторизации введите свой логин, пароль.</value>
+  </data>
+  <data name="Dialogs_TokenStep3a" xml:space="preserve">
+    <value>3. В результате успешной авторизации по данной форме произойдёт переадресация.</value>
+  </data>
+  <data name="Dialogs_TokenStep3b" xml:space="preserve">
+    <value>С адресной строки скопируйте токен (изображен на картинке) в соответствующее поле в приложении, нажмите кнопку "Далее".</value>
+  </data>
+  <data name="Final_Message" xml:space="preserve">
+    <value>Отлично. Можете закрыть приложение :)</value>
+  </data>
+  <data name="Final_Title" xml:space="preserve">
+    <value>Конец работы</value>
+  </data>
+  <data name="Grid_ToggleGridToolTip" xml:space="preserve">
+    <value>Отобразить/скрыть сетку</value>
+  </data>
+  <data name="Grid_ToggleHeadersToolTip" xml:space="preserve">
+    <value>Отобразить/скрыть заголовки</value>
+  </data>
+  <data name="Header_Title" xml:space="preserve">
+    <value>Мониторинг транспортного обеспечения</value>
+  </data>
+  <data name="Headers_EditToolTip" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="Headers_EmptyError" xml:space="preserve">
+    <value>Заголовок не может быть пустым</value>
+  </data>
+  <data name="Headers_FileExtension" xml:space="preserve">
+    <value>Выберите файл с расширением ".xls" или ".xlsx".</value>
+  </data>
+  <data name="Headers_FileMustExist" xml:space="preserve">
+    <value>Выберите существующий файл.</value>
+  </data>
+  <data name="Headers_FileNotExists" xml:space="preserve">
+    <value>Файл не существует!</value>
+  </data>
+  <data name="Headers_HeaderNameWatermark" xml:space="preserve">
+    <value>Название заголовка</value>
+  </data>
+  <data name="Headers_HoverHint" xml:space="preserve">
+    <value>Чтобы увидеть подсказку - наведите на кнопку</value>
+  </data>
+  <data name="Headers_NoChanges" xml:space="preserve">
+    <value>Изменения отсутствуют</value>
+  </data>
+  <data name="Headers_NotChanged" xml:space="preserve">
+    <value>Данный параметр не менялся</value>
+  </data>
+  <data name="Headers_ResetAllToolTip" xml:space="preserve">
+    <value>Сбросить все</value>
+  </data>
+  <data name="Headers_ResetCurrentToolTip" xml:space="preserve">
+    <value>Сбросить текущее значение</value>
+  </data>
+  <data name="Headers_SelectFile" xml:space="preserve">
+    <value>Выбрать файл</value>
+  </data>
+  <data name="Headers_SourceUpdated" xml:space="preserve">
+    <value>Источник ТС обновлен!</value>
+  </data>
+  <data name="Headers_SplitterToolTip" xml:space="preserve">
+    <value>Разделитель</value>
+  </data>
+  <data name="Headers_Updated" xml:space="preserve">
+    <value>Обновлено</value>
+  </data>
+  <data name="Headers_VehicleFileWatermark" xml:space="preserve">
+    <value>Название файла с ТС</value>
+  </data>
+  <data name="Headers_VehicleListHeader" xml:space="preserve">
+    <value>Общий список машин</value>
+  </data>
+  <data name="Home_UnderDevelopment" xml:space="preserve">
+    <value>В разработке</value>
+  </data>
+  <data name="Info_Contact" xml:space="preserve">
+    <value>Связь:</value>
+  </data>
+  <data name="Info_ErrorContactSupport" xml:space="preserve">
+    <value>Обратитесь в службу поддержки.</value>
+  </data>
+  <data name="Info_ErrorFileMissing" xml:space="preserve">
+    <value>Файл отсутствует! Обратитесь в службу поддержки.</value>
+  </data>
+  <data name="Info_ErrorFileNotFound" xml:space="preserve">
+    <value>Ошибка! Файл не найден.</value>
+  </data>
+  <data name="Info_SaveToolTip" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Info_UserGuide" xml:space="preserve">
+    <value>Руководство пользователя</value>
+  </data>
+  <data name="Info_WaybillHeadersSample" xml:space="preserve">
+    <value>Пример заголовков путевых листов</value>
+  </data>
+  <data name="LoadingFiles_ExportLabel" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
+  <data name="LoadingFiles_FileNotFound" xml:space="preserve">
+    <value>Выберите существующий файл.</value>
+  </data>
+  <data name="LoadingFiles_FilePathWatermark" xml:space="preserve">
+    <value>Путь к файлу</value>
+  </data>
+  <data name="LoadingFiles_LoadFileButton" xml:space="preserve">
+    <value>Загрузить файл...</value>
+  </data>
+  <data name="LoadingFiles_Success" xml:space="preserve">
+    <value>Отлично!</value>
+  </data>
+  <data name="LoadingFiles_Title" xml:space="preserve">
+    <value>Загрузка файлов</value>
+  </data>
+  <data name="LoadingFiles_VehicleListLabel" xml:space="preserve">
+    <value>Общий список машин</value>
+  </data>
+  <data name="LoadingFiles_WrongExtension" xml:space="preserve">
+    <value>Выберите файл с расширением ".xls" или ".xlsx".</value>
+  </data>
+  <data name="ModuleData_WrongMainFileStructure" xml:space="preserve">
+    <value>Неправильная структура "{0}" документа.
+Требуются следующие колонки:" {1}, {2}, {3}, {4}"</value>
+  </data>
+  <data name="ModuleData_WrongPathListFileStructure" xml:space="preserve">
+    <value>Неправильная структура "{0}" документа.
+Требуются следующие колонки:" {1}, {2}"</value>
+  </data>
+  <data name="Operations_ApplyListFilterToolTip" xml:space="preserve">
+    <value>Применить фильтрацию из списка</value>
+  </data>
+  <data name="Operations_AvgKmPerTrip" xml:space="preserve">
+    <value>Средний км за поездку</value>
+  </data>
+  <data name="Operations_AvgMileageLeaders" xml:space="preserve">
+    <value>Лидеры по среднему пробегу:</value>
+  </data>
+  <data name="Operations_AvgMileageOutsiders" xml:space="preserve">
+    <value>Аутсайдеры по среднему пробегу:</value>
+  </data>
+  <data name="Operations_Bottom10ByAvgMileage" xml:space="preserve">
+    <value>Топ 10 аутсайдеров по среднему пробегу за поездку:</value>
+  </data>
+  <data name="Operations_Bottom10ByMileage" xml:space="preserve">
+    <value>Топ 10 аутсайдеров по пробегу:</value>
+  </data>
+  <data name="Operations_CarAvgMileageLine" xml:space="preserve">
+    <value>Средний пробег за поездку:	{0} км/поездка</value>
+  </data>
+  <data name="Operations_CarDepartmentLine" xml:space="preserve">
+    <value>Служба/отдел:	{0}</value>
+  </data>
+  <data name="Operations_CarMileageLine" xml:space="preserve">
+    <value>Пробег за период:	{0} км</value>
+  </data>
+  <data name="Operations_CarStructureLine" xml:space="preserve">
+    <value>Структурное подразделение:	{0}</value>
+  </data>
+  <data name="Operations_CarTripsCountLine" xml:space="preserve">
+    <value>Количество выездов:	{0}</value>
+  </data>
+  <data name="Operations_ChartAvgMileagePerTrip" xml:space="preserve">
+    <value>Показатели по среднему километражу за поездку</value>
+  </data>
+  <data name="Operations_ChartLongestTrips" xml:space="preserve">
+    <value>Показатели по самым длинным поездкам</value>
+  </data>
+  <data name="Operations_ChartMileage" xml:space="preserve">
+    <value>Показатели по километражу</value>
+  </data>
+  <data name="Operations_ChartProductivity" xml:space="preserve">
+    <value>Показатели по продуктивности</value>
+  </data>
+  <data name="Operations_ChartShortestTrips" xml:space="preserve">
+    <value>Показатели по самым коротким поездкам</value>
+  </data>
+  <data name="Operations_ChartTripsCount" xml:space="preserve">
+    <value>Показатели по количеству поездок</value>
+  </data>
+  <data name="Operations_CheckProgressMessage" xml:space="preserve">
+    <value>Осталось проверить: {0} транспортных средств
+Проверка {1}  ({2})
+Количество поездок за период: {3} (SAP)
+Количество поездок за период: {4} (Wialon)
+Показания одометра за период по системе SAP: {5} км
+Показания одометра за период по системе Wialon: {6} км
+
+{7}</value>
+  </data>
+  <data name="Operations_CheckWialonConnection" xml:space="preserve">
+    <value>Проверьте подключение к навигационной системе Wialon.</value>
+  </data>
+  <data name="Operations_CommonCarsHeader" xml:space="preserve">
+    <value>ТС что находятся в обеих списках</value>
+  </data>
+  <data name="Operations_ContinueQuestion" xml:space="preserve">
+    <value>Вы хотите продолжить?</value>
+  </data>
+  <data name="Operations_CreatingReport" xml:space="preserve">
+    <value>Создание отчёта...</value>
+  </data>
+  <data name="Operations_DiscrepancyPercentExample" xml:space="preserve">
+    <value>Например: 3.5</value>
+  </data>
+  <data name="Operations_DiscrepancyPercentTitle" xml:space="preserve">
+    <value>Допустимый процент расхождения</value>
+  </data>
+  <data name="Operations_DriverAvgMileageLine" xml:space="preserve">
+    <value>Средний километраж за поездку:	{0} км/поездка</value>
+  </data>
+  <data name="Operations_DriverChartTitle" xml:space="preserve">
+    <value>График водителя</value>
+  </data>
+  <data name="Operations_DriverList" xml:space="preserve">
+    <value>Список водителей</value>
+  </data>
+  <data name="Operations_DriverLongestTripLine" xml:space="preserve">
+    <value>Самая длинная поездка:	{0} км	({1})</value>
+  </data>
+  <data name="Operations_DriverMileageLine" xml:space="preserve">
+    <value>Всего километраж за период:	{0} км</value>
+  </data>
+  <data name="Operations_DriverProductivityLine" xml:space="preserve">
+    <value>Показатель продуктивности:	{0}%</value>
+  </data>
+  <data name="Operations_DriverShortestTripLine" xml:space="preserve">
+    <value>Самая короткая поездка:	{0} км	({1})</value>
+  </data>
+  <data name="Operations_DriverTotalTripsItem" xml:space="preserve">
+    <value>{0}		 Всего поездок: {1}</value>
+  </data>
+  <data name="Operations_DriverTripsLine" xml:space="preserve">
+    <value>Всего поездок за период:	{0}</value>
+  </data>
+  <data name="Operations_DriverTripsMileageItem" xml:space="preserve">
+    <value>{0}		 Всего поездок: {1} ({2} км)</value>
+  </data>
+  <data name="Operations_DriverTripsNote" xml:space="preserve">
+    <value>* Самых длинных и коротких поездок с одинаковым километражем может быть несколько. Отображается первая найденная.</value>
+  </data>
+  <data name="Operations_DriverVehiclesLine" xml:space="preserve">
+    <value>Использовано транспортных средств:	{0}</value>
+  </data>
+  <data name="Operations_DriverVehiclesTitleFormat" xml:space="preserve">
+    <value>Список ТС что эксплуатировались ({0})</value>
+  </data>
+  <data name="Operations_DriversCountFormat" xml:space="preserve">
+    <value>Количество водителей по путевым листам: {0}</value>
+  </data>
+  <data name="Operations_DriversSeriesTitle" xml:space="preserve">
+    <value>Показатели по водителям</value>
+  </data>
+  <data name="Operations_DriversTab" xml:space="preserve">
+    <value>Водители</value>
+  </data>
+  <data name="Operations_ErrorTitle" xml:space="preserve">
+    <value>Ошибка!</value>
+  </data>
+  <data name="Operations_FetchingWialonVehicles" xml:space="preserve">
+    <value>Выборка транспортных средств из системы Wialon</value>
+  </data>
+  <data name="Operations_FilterByType" xml:space="preserve">
+    <value>Отобрать по типу</value>
+  </data>
+  <data name="Operations_InitializeButton" xml:space="preserve">
+    <value>Инициализация</value>
+  </data>
+  <data name="Operations_InitializeToolTip" xml:space="preserve">
+    <value>Быстрая сводка по путевым листам из системы SAP</value>
+  </data>
+  <data name="Operations_InitializingFiles" xml:space="preserve">
+    <value>Инициализация файлов</value>
+  </data>
+  <data name="Operations_InitializingVehicleProgress" xml:space="preserve">
+    <value>Инициализация транспортных средств: Инициализация {0} объекта из {1}.</value>
+  </data>
+  <data name="Operations_InitializingVehicles" xml:space="preserve">
+    <value>Инициализация транспортных средств</value>
+  </data>
+  <data name="Operations_InitializingVehiclesQueued" xml:space="preserve">
+    <value>Инициализация транспортных средств. На очереди {0} объектов.</value>
+  </data>
+  <data name="Operations_InputErrorTitle" xml:space="preserve">
+    <value>Ошибка. Повторите ввод.</value>
+  </data>
+  <data name="Operations_KmFormat" xml:space="preserve">
+    <value>{0} км</value>
+  </data>
+  <data name="Operations_KmPerTripFormat" xml:space="preserve">
+    <value>{0} км/поездка</value>
+  </data>
+  <data name="Operations_KmShareFormat" xml:space="preserve">
+    <value>{0} км ({1:P})</value>
+  </data>
+  <data name="Operations_KmUnit" xml:space="preserve">
+    <value>км</value>
+  </data>
+  <data name="Operations_LoadFilesAgainError" xml:space="preserve">
+    <value>Ошибка. Попробуйте вернуться и загрузить файлы по новой.</value>
+  </data>
+  <data name="Operations_LongestTrip" xml:space="preserve">
+    <value>Самая длинная поездка</value>
+  </data>
+  <data name="Operations_LongestTripTitle" xml:space="preserve">
+    <value>Самая длинная поездка:	{0} км</value>
+  </data>
+  <data name="Operations_MaxAvgMileageTitle" xml:space="preserve">
+    <value>Самый большой средний километраж за поездку:	{0} км/поездка {1}</value>
+  </data>
+  <data name="Operations_MaxMileageTitle" xml:space="preserve">
+    <value>Самый большой километраж за период:	{0} км</value>
+  </data>
+  <data name="Operations_MileageAuditButton" xml:space="preserve">
+    <value>Аудит пробегов</value>
+  </data>
+  <data name="Operations_MileageAuditToolTip" xml:space="preserve">
+    <value>Сравнение данных по пробегу из системы SAP и Wialon</value>
+  </data>
+  <data name="Operations_MileageTab" xml:space="preserve">
+    <value>Пробег</value>
+  </data>
+  <data name="Operations_MinAvgMileageTitle" xml:space="preserve">
+    <value>Самый малый средний километраж за поездку:	{0} км/поездка</value>
+  </data>
+  <data name="Operations_NoDataForPeriod" xml:space="preserve">
+    <value>Данные отсутствуют.
+Попробуйте выбрать другой период или повторите попытку позже.</value>
+  </data>
+  <data name="Operations_OperationsTab" xml:space="preserve">
+    <value>Операции</value>
+  </data>
+  <data name="Operations_OutsiderLine" xml:space="preserve">
+    <value>{0}. {1}	({2} / {3})		{4}км</value>
+  </data>
+  <data name="Operations_OutsidersListTitle" xml:space="preserve">
+    <value>Список аутсайдеров</value>
+  </data>
+  <data name="Operations_OverallChart" xml:space="preserve">
+    <value>Общий график</value>
+  </data>
+  <data name="Operations_PercentMustBePositive" xml:space="preserve">
+    <value>Внимательней, число должно быть больше от 0.</value>
+  </data>
+  <data name="Operations_PleaseWaitTitle" xml:space="preserve">
+    <value>Подождите пожалуйста</value>
+  </data>
+  <data name="Operations_PreparingData" xml:space="preserve">
+    <value>Подготовка данных...</value>
+  </data>
+  <data name="Operations_ProcedureMayTakeTime" xml:space="preserve">
+    <value>Данная процедура может занять некоторое время.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep1" xml:space="preserve">
+    <value>- Количество поездок у каждого водителя переводятся в 100-балльную шкалу, где 100 - это водитель с наибольшим количеством ПЛ.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep2" xml:space="preserve">
+    <value>- С высчитанной шкалы отбираются во внимание те водители, у которых значения по шкале больше 40 (то есть отбираются реальные водители)</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmStep3" xml:space="preserve">
+    <value>- Затем, среди отобранных водителей подсчитывается средний пробег за поездку.</value>
+  </data>
+  <data name="Operations_ProductivityAlgorithmTitle" xml:space="preserve">
+    <value>* Алгоритм отбора группы водителей: </value>
+  </data>
+  <data name="Operations_ProductivityDenominator" xml:space="preserve">
+    <value>Средний пробег среди отобранной группы водителей *</value>
+  </data>
+  <data name="Operations_ProductivityFormulaLabel" xml:space="preserve">
+    <value>Продуктивность = </value>
+  </data>
+  <data name="Operations_ProductivityHelpIntro" xml:space="preserve">
+    <value>Данный показатель высчитывается следующим образом:</value>
+  </data>
+  <data name="Operations_ProductivityNumerator" xml:space="preserve">
+    <value>Километраж за период</value>
+  </data>
+  <data name="Operations_ProgressSaving" xml:space="preserve">
+    <value>Сохранение</value>
+  </data>
+  <data name="Operations_ProgressWritingToFile" xml:space="preserve">
+    <value>Запись в файл</value>
+  </data>
+  <data name="Operations_RefreshDataToolTip" xml:space="preserve">
+    <value>Обновить данные</value>
+  </data>
+  <data name="Operations_ResultsSavedOpenQuestion" xml:space="preserve">
+    <value>Результаты успешно сохранены.
+Желаете ли просмотреть результаты?</value>
+  </data>
+  <data name="Operations_SapSummaryTab" xml:space="preserve">
+    <value>Сводка по SAP</value>
+  </data>
+  <data name="Operations_SearchChartWatermark" xml:space="preserve">
+    <value>Поиск на графике...</value>
+  </data>
+  <data name="Operations_SearchListWatermark" xml:space="preserve">
+    <value>Поиск по списку...</value>
+  </data>
+  <data name="Operations_SelectCommonTop10" xml:space="preserve">
+    <value>Отобрать ТС что попали в общий топ 10</value>
+  </data>
+  <data name="Operations_SelectDriverFirst" xml:space="preserve">
+    <value>Для начала выделите водителя</value>
+  </data>
+  <data name="Operations_SelectPotentialDrivers" xml:space="preserve">
+    <value>Отобрать потенциальных водителей</value>
+  </data>
+  <data name="Operations_ShortestTrip" xml:space="preserve">
+    <value>Самая короткая поездка</value>
+  </data>
+  <data name="Operations_ShortestTripTitle" xml:space="preserve">
+    <value>Самая короткая поездка:	{0} км</value>
+  </data>
+  <data name="Operations_ShowAsListToolTip" xml:space="preserve">
+    <value>Отобразить списком</value>
+  </data>
+  <data name="Operations_ShowOutsiders" xml:space="preserve">
+    <value>Отобразить аутсайдеров</value>
+  </data>
+  <data name="Operations_SpeedViolationsCount" xml:space="preserve">
+    <value>Количество превышений скорости: {0}</value>
+  </data>
+  <data name="Operations_Statistics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="Operations_SuccessTitle" xml:space="preserve">
+    <value>Успех!</value>
+  </data>
+  <data name="Operations_Title" xml:space="preserve">
+    <value>Операции</value>
+  </data>
+  <data name="Operations_Top10ByAvgMileage" xml:space="preserve">
+    <value>Топ 10 по среднему пробегу за поездку (по ПЛ)</value>
+  </data>
+  <data name="Operations_Top10ByMileage" xml:space="preserve">
+    <value>Топ 10 по пробегу (по ПЛ)</value>
+  </data>
+  <data name="Operations_TotalMileage" xml:space="preserve">
+    <value>Общий километраж</value>
+  </data>
+  <data name="Operations_TotalTrips" xml:space="preserve">
+    <value>Всего поездок</value>
+  </data>
+  <data name="Operations_TransportCostsButton" xml:space="preserve">
+    <value>Затраты на транспортное обеспечение</value>
+  </data>
+  <data name="Operations_TransportCostsToolTip" xml:space="preserve">
+    <value>Подсчёт расхода топлива и затрат, общего пробега и моточасов наработки</value>
+  </data>
+  <data name="Operations_TripsFormat" xml:space="preserve">
+    <value>{0} поездок</value>
+  </data>
+  <data name="Operations_TripsInPeriodFormat" xml:space="preserve">
+    <value>Поездок всего за период: {0}</value>
+  </data>
+  <data name="Operations_UnitNumberFormat" xml:space="preserve">
+    <value>Табельный номер: {0}</value>
+  </data>
+  <data name="Operations_Updated" xml:space="preserve">
+    <value>Обновлено</value>
+  </data>
+  <data name="Operations_VehiclesUsedFormat" xml:space="preserve">
+    <value>ТС использовано за период: {0}</value>
+  </data>
+  <data name="Operations_WorkingDays" xml:space="preserve">
+    <value>Рабочие дни</value>
+  </data>
+  <data name="PredictionChart_Title" xml:space="preserve">
+    <value>График пробега по системам</value>
+  </data>
+  <data name="Quiz_SplitterToolTip" xml:space="preserve">
+    <value>Разделитель</value>
+  </data>
+  <data name="ReportSimple_ColDiscrepancy" xml:space="preserve">
+    <value>Расхождение</value>
+  </data>
+  <data name="ReportSimple_ColMileageDifference" xml:space="preserve">
+    <value>Разница километража</value>
+  </data>
+  <data name="ReportSimple_ColModel" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="ReportSimple_ColSpeedViolations" xml:space="preserve">
+    <value>К-во нарушений скор. режима</value>
+  </data>
+  <data name="ReportSimple_ColStateNumber" xml:space="preserve">
+    <value>Гос.номер</value>
+  </data>
+  <data name="ReportSimple_ColStructure" xml:space="preserve">
+    <value>Структурные подразделения</value>
+  </data>
+  <data name="ReportSimple_ColTripCount" xml:space="preserve">
+    <value>К-во поездок</value>
+  </data>
+  <data name="ReportSimple_ColType" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Report_ColDepartureDate" xml:space="preserve">
+    <value>Дата выезда</value>
+  </data>
+  <data name="Report_ColDiscrepancyPercent" xml:space="preserve">
+    <value>Процент расхождения</value>
+  </data>
+  <data name="Report_ColDivision" xml:space="preserve">
+    <value>Подразделение</value>
+  </data>
+  <data name="Report_ColDriver" xml:space="preserve">
+    <value>Водитель</value>
+  </data>
+  <data name="Report_ColDriverNumber" xml:space="preserve">
+    <value>Табельный номер водителя</value>
+  </data>
+  <data name="Report_ColEndLocation" xml:space="preserve">
+    <value>Конец (локация)</value>
+  </data>
+  <data name="Report_ColEndSapTime" xml:space="preserve">
+    <value>Конец (время SAP)</value>
+  </data>
+  <data name="Report_ColEndWialonTime" xml:space="preserve">
+    <value>Конец (время Wialon)</value>
+  </data>
+  <data name="Report_ColMileageAnalysis" xml:space="preserve">
+    <value>Анализ пробегов</value>
+  </data>
+  <data name="Report_ColModel" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="Report_ColOdometerSap" xml:space="preserve">
+    <value>Показания одометра (SAP)</value>
+  </data>
+  <data name="Report_ColOdometerWialon" xml:space="preserve">
+    <value>Показания одометра (Wialon)</value>
+  </data>
+  <data name="Report_ColSpeedViolations" xml:space="preserve">
+    <value>Кол-во превышений скоростного режима</value>
+  </data>
+  <data name="Report_ColStartLocation" xml:space="preserve">
+    <value>Начало (локация)</value>
+  </data>
+  <data name="Report_ColStartSapTime" xml:space="preserve">
+    <value>Начало (время SAP)</value>
+  </data>
+  <data name="Report_ColStartWialonTime" xml:space="preserve">
+    <value>Начало (время Wialon)</value>
+  </data>
+  <data name="Report_ColStateNumber" xml:space="preserve">
+    <value>Гос.номер</value>
+  </data>
+  <data name="Report_ColTripsSap" xml:space="preserve">
+    <value>Кол-во поездок (SAP)</value>
+  </data>
+  <data name="Report_ColTripsWialon" xml:space="preserve">
+    <value>Кол-во поездок (Wialon)</value>
+  </data>
+  <data name="Report_ColType" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Report_ColWialonMileageTotal" xml:space="preserve">
+    <value>Пробег всего по Wialon</value>
+  </data>
+  <data name="Report_SheetMileageDifference" xml:space="preserve">
+    <value>Разница показаний одометров</value>
+  </data>
+  <data name="Report_SheetSapNoMileage" xml:space="preserve">
+    <value>ТС с ПЛ без пробега</value>
+  </data>
+  <data name="Report_SheetWialonNoWaybill" xml:space="preserve">
+    <value>ТС с пробегом без ПЛ</value>
+  </data>
+  <data name="Results_ColAddress" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Results_ColDate" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Results_ColDistanceKm" xml:space="preserve">
+    <value>Расстояние (км)</value>
+  </data>
+  <data name="Results_ColDuration" xml:space="preserve">
+    <value>Продолжительность</value>
+  </data>
+  <data name="Results_ColSpeedKmh" xml:space="preserve">
+    <value>Скорость (км/ч)</value>
+  </data>
+  <data name="Results_ColSpeedLimitKmh" xml:space="preserve">
+    <value>Ограничение (км/ч)</value>
+  </data>
+  <data name="Results_ComparisonTab" xml:space="preserve">
+    <value>Сравнение</value>
+  </data>
+  <data name="Results_DetailsHeader" xml:space="preserve">
+    <value>Подробности</value>
+  </data>
+  <data name="Results_DetailsTitle" xml:space="preserve">
+    <value>ПОДРОБНОСТИ</value>
+  </data>
+  <data name="Results_ExtendedReportOnly" xml:space="preserve">
+    <value>Данная секция доступна только при выполнении расширенного отчёта</value>
+  </data>
+  <data name="Results_FilterByType" xml:space="preserve">
+    <value>Отобрать по типу</value>
+  </data>
+  <data name="Results_HideNoMileageVehicles" xml:space="preserve">
+    <value>Скрыть ТС без пробега</value>
+  </data>
+  <data name="Results_MileageDeviationLabel" xml:space="preserve">
+    <value>Отклонение пробегов: </value>
+  </data>
+  <data name="Results_ModelLabel" xml:space="preserve">
+    <value>Модель: </value>
+  </data>
+  <data name="Results_SearchWatermark" xml:space="preserve">
+    <value>Поиск...</value>
+  </data>
+  <data name="Results_SelectVehiclePrompt" xml:space="preserve">
+    <value>Для просмотра подробностей выберите ТС</value>
+  </data>
+  <data name="Results_ShowOnlyViolations" xml:space="preserve">
+    <value>Отобразить только ТС с нарушениями</value>
+  </data>
+  <data name="Results_StateNumberLabel" xml:space="preserve">
+    <value>Гос.номер: </value>
+  </data>
+  <data name="Results_StructureLabel" xml:space="preserve">
+    <value>Структурное подр.: </value>
+  </data>
+  <data name="Results_SummaryTab" xml:space="preserve">
+    <value>Сводка</value>
+  </data>
+  <data name="Results_Title" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="Results_TripCountGroup" xml:space="preserve">
+    <value>Количество поездок</value>
+  </data>
+  <data name="Results_TripMileageGroup" xml:space="preserve">
+    <value>Километраж поездок</value>
+  </data>
+  <data name="Results_TypeLabel" xml:space="preserve">
+    <value>Тип: </value>
+  </data>
+  <data name="Results_VehicleListHeader" xml:space="preserve">
+    <value>Список транспортных средств</value>
+  </data>
+  <data name="Results_ViolationsButton" xml:space="preserve">
+    <value>Нарушения</value>
+  </data>
+  <data name="Results_ViolationsWindowTitleFormat" xml:space="preserve">
+    <value>Нарушения скоростного режима ({0})</value>
+  </data>
+  <data name="Settings_ExcelHeadersTab" xml:space="preserve">
+    <value>Excel заголовки</value>
+  </data>
+  <data name="Settings_GeneralTab" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="Settings_Header" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Settings_LanguageChangeFailed" xml:space="preserve">
+    <value>Не удалось изменить язык интерфейса.</value>
+  </data>
+  <data name="Settings_LanguageChanged" xml:space="preserve">
+    <value>Язык интерфейса: русский</value>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>Интерфейс переключается сразу. Ваш выбор сохраняется для следующих запусков.</value>
+  </data>
+  <data name="Settings_LanguageLabel" xml:space="preserve">
+    <value>Язык интерфейса</value>
+  </data>
+  <data name="Shell_ConnectedToWialon" xml:space="preserve">
+    <value>Подключено к Wialon!</value>
+  </data>
+  <data name="Shell_MenuHelp" xml:space="preserve">
+    <value>Справка</value>
+  </data>
+  <data name="Shell_MenuHelpToolTip" xml:space="preserve">
+    <value>Справка.</value>
+  </data>
+  <data name="Shell_MenuHome" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="Shell_MenuHomeToolTip" xml:space="preserve">
+    <value>В разработке.</value>
+  </data>
+  <data name="Shell_MenuOperations" xml:space="preserve">
+    <value>Операции</value>
+  </data>
+  <data name="Shell_SettingsButton" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Shell_WialonConnected" xml:space="preserve">
+    <value>Подключено</value>
+  </data>
+  <data name="Shell_WialonConnectionToolTip" xml:space="preserve">
+    <value>Подключение к Wialon</value>
+  </data>
+  <data name="Shell_WialonDisconnected" xml:space="preserve">
+    <value>Нету связи</value>
+  </data>
+  <data name="Shell_WialonSessionExpired" xml:space="preserve">
+    <value>Сеанс подключения к системе Wialon истек!</value>
+  </data>
+  <data name="Shell_WialonSessionExtended" xml:space="preserve">
+    <value>Сеанс подключения к системе Wialon продолжен!</value>
+  </data>
+  <data name="Token_Checking" xml:space="preserve">
+    <value>Проверка токена</value>
+  </data>
+  <data name="Token_Empty" xml:space="preserve">
+    <value>Токен пуст</value>
+  </data>
+  <data name="Token_GetToken" xml:space="preserve">
+    <value>Получить токен</value>
+  </data>
+  <data name="Token_HaveToken" xml:space="preserve">
+    <value>У меня уже есть токен</value>
+  </data>
+  <data name="Token_Next" xml:space="preserve">
+    <value>Далее</value>
+  </data>
+  <data name="Token_NotSet" xml:space="preserve">
+    <value>Токен Wialon не задан. Введите его в разделе Настройки &gt; Wialon.</value>
+  </data>
+  <data name="Token_PasteHint" xml:space="preserve">
+    <value>Вставьте полученный токен в поле</value>
+  </data>
+  <data name="Token_PreviousRestored" xml:space="preserve">
+    <value>Восстановлен предыдущий токен</value>
+  </data>
+  <data name="Token_Updated" xml:space="preserve">
+    <value>Токен обновлен</value>
+  </data>
+  <data name="Token_Watermark" xml:space="preserve">
+    <value>Токен</value>
+  </data>
+  <data name="Wialon_CloseSessionFailed" xml:space="preserve">
+    <value>Не удалось закрыть сеанс Wialon!</value>
+  </data>
+  <data name="Wialon_ConnectedButServerError" xml:space="preserve">
+    <value>Подключение установлено, но получена следующая ошибка от сервера: {0}</value>
+  </data>
+  <data name="Wialon_Error0" xml:space="preserve">
+    <value>Удачное выполнение операции</value>
+  </data>
+  <data name="Wialon_Error1" xml:space="preserve">
+    <value>Недействительная сессия</value>
+  </data>
+  <data name="Wialon_Error10" xml:space="preserve">
+    <value>Превышен лимит одновременных запросов</value>
+  </data>
+  <data name="Wialon_Error1001" xml:space="preserve">
+    <value>Нет сообщений для выбранного интервала</value>
+  </data>
+  <data name="Wialon_Error1002" xml:space="preserve">
+    <value>Элемент с таким уникальным свойством уже существует</value>
+  </data>
+  <data name="Wialon_Error1003" xml:space="preserve">
+    <value>Только один запрос разрешается в данный момент времени</value>
+  </data>
+  <data name="Wialon_Error1004" xml:space="preserve">
+    <value>Превышено ограничение по числу сообщений</value>
+  </data>
+  <data name="Wialon_Error1005" xml:space="preserve">
+    <value>Ограничение по времени выполнения было превышено</value>
+  </data>
+  <data name="Wialon_Error1011" xml:space="preserve">
+    <value>Время сессии истекло либо ваш IP изменился</value>
+  </data>
+  <data name="Wialon_Error11" xml:space="preserve">
+    <value>Ошибка во время выполнения запроса на сброс пароля</value>
+  </data>
+  <data name="Wialon_Error2" xml:space="preserve">
+    <value>Неверное имя сервиса</value>
+  </data>
+  <data name="Wialon_Error2014" xml:space="preserve">
+    <value>Текущий пользователь не может быть выбран при создании учетной записи</value>
+  </data>
+  <data name="Wialon_Error2015" xml:space="preserve">
+    <value>Удаление датчика запрещено по причине использования в другом датчике или дополнительных свойствах объекта</value>
+  </data>
+  <data name="Wialon_Error3" xml:space="preserve">
+    <value>Неверный результат</value>
+  </data>
+  <data name="Wialon_Error4" xml:space="preserve">
+    <value>Неверный ввод</value>
+  </data>
+  <data name="Wialon_Error5" xml:space="preserve">
+    <value>Ошибка выполнения запроса</value>
+  </data>
+  <data name="Wialon_Error7" xml:space="preserve">
+    <value>Доступ запрещен</value>
+  </data>
+  <data name="Wialon_Error8" xml:space="preserve">
+    <value>Неверный пароль или имя пользователя</value>
+  </data>
+  <data name="Wialon_Error9" xml:space="preserve">
+    <value>Сервер авторизации недоступен, пожалуйста попробуйте повторить запрос позже</value>
+  </data>
+  <data name="Wialon_ErrorUnknown" xml:space="preserve">
+    <value>Неизвестная ошибка</value>
+  </data>
+  <data name="Wialon_ServerError" xml:space="preserve">
+    <value>Ошибка сервера: {0}</value>
+  </data>
+  <data name="Wizard_Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Wizard_FillFields" xml:space="preserve">
+    <value>Заполните поля</value>
+  </data>
+  <data name="Wizard_Next" xml:space="preserve">
+    <value>Далее</value>
+  </data>
+  <data name="Wizard_ProgressMessage" xml:space="preserve">
+    <value>Соблюдайте спокойствие!
+Мы знаем что делаем)</value>
+  </data>
+  <data name="Wizard_SplitterHint" xml:space="preserve">
+    <value>Полоса разделения (передвижная)</value>
+  </data>
+</root>

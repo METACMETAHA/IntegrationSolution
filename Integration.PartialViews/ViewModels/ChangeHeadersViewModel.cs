@@ -1,6 +1,7 @@
 ﻿using IntegrationSolution.Common.Entities;
 using IntegrationSolution.Common.Implementations;
 using IntegrationSolution.Excel;
+using IntegrationSolution.Localization.Resources;
 using log4net;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
@@ -113,7 +114,7 @@ namespace Integration.PartialViews.ViewModels
                 if (SelectedHeader.Value != null && SelectedHeader.Value != ValueForSelectedHeader)
                 {
                     if (string.IsNullOrWhiteSpace(ValueForSelectedHeader))
-                        throw new Exception("Заголовок не может быть пустым");
+                        throw new Exception(Strings.Headers_EmptyError);
 
                     SelectedHeader = new KeyValuePair<string, string>(SelectedHeader.Key, ValueForSelectedHeader);
 
@@ -128,7 +129,7 @@ namespace Integration.PartialViews.ViewModels
                     Headers[SelectedHeader.Key] = _headerNames.PropertiesData[SelectedHeader.Key] = ValueForSelectedHeader;
                     
 
-                    _notificationManager.NotifyInformationAsync("Обновлено");
+                    _notificationManager.NotifyInformationAsync(Strings.Headers_Updated);
                 }
             }
             catch (Exception ex)
@@ -144,7 +145,7 @@ namespace Integration.PartialViews.ViewModels
             {
                 if (_settings.HeaderNamesChanged == null || !_settings.HeaderNamesChanged.Any())
                 {
-                    _notificationManager.NotifyWarningAsync("Изменения отсутствуют");
+                    _notificationManager.NotifyWarningAsync(Strings.Headers_NoChanges);
                     return;
                 }
 
@@ -158,9 +159,9 @@ namespace Integration.PartialViews.ViewModels
                             = _headerNames.GetFieldValueByPropName(_headerNames, SelectedHeader.Key);
 
                         SelectedHeader = new KeyValuePair<string, string>(SelectedHeader.Key, Headers[SelectedHeader.Key]);
-                        _notificationManager.NotifyInformationAsync("Обновлено");
+                        _notificationManager.NotifyInformationAsync(Strings.Headers_Updated);
                     }
-                    else throw new Exception("Данный параметр не менялся");
+                    else throw new Exception(Strings.Headers_NotChanged);
                 }
             }
             catch (Exception ex)
@@ -188,9 +189,9 @@ namespace Integration.PartialViews.ViewModels
                     }                    
 
                     SelectedHeader = new KeyValuePair<string, string>(SelectedHeader.Key, Headers[SelectedHeader.Key]);
-                    _notificationManager.NotifyInformationAsync("Обновлено");
+                    _notificationManager.NotifyInformationAsync(Strings.Headers_Updated);
                 }
-                else _notificationManager.NotifyWarningAsync("Изменения отсутствуют");
+                else _notificationManager.NotifyWarningAsync(Strings.Headers_NoChanges);
             }
             catch (Exception ex)
             {
@@ -208,7 +209,7 @@ namespace Integration.PartialViews.ViewModels
                     Multiselect = false,
                     CheckPathExists = true,
                     DefaultExt = ".xlsx | .xls",
-                    Filter = "Excel document (.xlsx)|*.xlsx|Excel document (.xls)|*.xls|All files (*.*)|*.*"
+                    Filter = Strings.Common_ExcelFileFilter
                 };
                 if (fileDialog.ShowDialog() != true)
                     return;
@@ -217,13 +218,13 @@ namespace Integration.PartialViews.ViewModels
 
                 if (!File.Exists(fileDialog.FileName))
                 {
-                    throw new Exception($"Выберите существующий файл.");
+                    throw new Exception(Strings.Headers_FileMustExist);
                 }
 
                 var ext = Path.GetExtension(fileDialog.FileName).ToLowerInvariant();
                 if (ext != ".xls" && ext != ".xlsx")
                 {
-                    throw new Exception($"Выберите файл с расширением \".xls\" или \".xlsx\".");
+                    throw new Exception(Strings.Headers_FileExtension);
                 }
 
                 _settings.PathToMainFile = fileDialog.FileName;
@@ -245,12 +246,12 @@ namespace Integration.PartialViews.ViewModels
                 if (File.Exists(Settings.PathToMainFile))
                 {
                     pathToMainFileBeforeChanges = Settings.PathToMainFile;
-                    _notificationManager?.NotifySuccessAsync("Источник ТС обновлен!");
+                    _notificationManager?.NotifySuccessAsync(Strings.Headers_SourceUpdated);
                 }
                 else
                 {
                     Settings.PathToMainFile = null;
-                    _notificationManager?.NotifyWarningAsync("Файл не существует!");
+                    _notificationManager?.NotifyWarningAsync(Strings.Headers_FileNotExists);
                 }
             }
         }

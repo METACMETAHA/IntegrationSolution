@@ -1,6 +1,9 @@
-﻿using MahApps.Metro.Controls;
+﻿using IntegrationSolution.Localization;
+using IntegrationSolution.Localization.Resources;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,9 +25,35 @@ namespace IntegrationSolution.ShellGUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow()
+        public MainWindow(ILocalizationService localization)
         {
             InitializeComponent();
+
+            ApplyDialogTexts();
+            LanguageChangedEventManager.AddHandler(localization, OnLanguageChanged);
+        }
+
+        private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
+        {
+            // An exception here would stop the remaining listeners from following the switch.
+            try
+            {
+                ApplyDialogTexts();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"Failed to update the dialog button texts for '{e.NewLanguage.CultureName}'. {ex}");
+            }
+        }
+
+        /// <summary>
+        /// Default button texts of MahApps message/input/progress dialogs shown over this window
+        /// (they are used whenever a dialog is shown without explicit settings).
+        /// </summary>
+        private void ApplyDialogTexts()
+        {
+            MetroDialogOptions.AffirmativeButtonText = Strings.Common_Ok;
+            MetroDialogOptions.NegativeButtonText = Strings.Common_Cancel;
         }
 
         protected override void OnClosed(EventArgs e)

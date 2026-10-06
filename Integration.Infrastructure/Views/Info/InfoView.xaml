@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Integration.Infrastructure.Views.Info"
              xmlns:views="clr-namespace:Integration.Infrastructure.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
              mc:Ignorable="d" 
              xmlns:prism="http://www.codeplex.com/prism"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -24,7 +25,7 @@
                 Margin="45" 
                 Command="{Binding DownloadCommand}" CommandParameter="1"
                 Style="{DynamicResource RibbonButton}"
-                ToolTip="Сохранить">
+                ToolTip="{loc:Loc Info_SaveToolTip}">
             <Button.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -38,7 +39,7 @@
                             <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page_file_pdf_tag}"/>
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <ContentPresenter Grid.Column="1" Content="Руководство пользователя"
+                    <ContentPresenter Grid.Column="1" Content="{loc:Loc Info_UserGuide}"
                                       TextElement.FontSize="16" Margin="0 20 20 20"
                                       HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
@@ -50,7 +51,7 @@
                 Margin="45" 
                 Command="{Binding DownloadCommand}" CommandParameter="2"
                 Style="{DynamicResource RibbonButton}"
-                ToolTip="Сохранить">
+                ToolTip="{loc:Loc Info_SaveToolTip}">
             <Button.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -64,7 +65,7 @@
                             <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
                         </Rectangle.OpacityMask>
                     </Rectangle>
-                    <ContentPresenter Grid.Column="1" Content="Пример заголовков путевых листов"
+                    <ContentPresenter Grid.Column="1" Content="{loc:Loc Info_WaybillHeadersSample}"
                                       TextElement.FontSize="16" Margin="0 20 20 20"
                                       HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
@@ -74,7 +75,7 @@
         <TextBlock Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center"
                    VerticalAlignment="Bottom" Margin="20"
                    FontSize="16">
-            <Run Text="Связь:"/>
+            <Run Text="{loc:Loc Info_Contact}"/>
             <Run Foreground="Blue" Text="an.kr.working@gmail.com"/>
         </TextBlock>
 

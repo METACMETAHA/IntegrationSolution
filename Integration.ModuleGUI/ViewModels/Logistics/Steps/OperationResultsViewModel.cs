@@ -8,6 +8,7 @@ using IntegrationSolution.Common.ModulesExtension.Implementations;
 using IntegrationSolution.Entities.Implementations.Wialon;
 using IntegrationSolution.Entities.Interfaces;
 using IntegrationSolution.Entities.SelfEntities;
+using IntegrationSolution.Localization.Resources;
 using LiveCharts.Defaults;
 using MahApps.Metro.Controls;
 using Prism.Commands;
@@ -171,7 +172,7 @@ namespace Integration.ModuleGUI.ViewModels
         {
             CanGoBack = true;
             CanGoNext = true;
-            this.Title = "Результаты";
+            SetTitleResourceKey(nameof(Strings.Results_Title));
 
             OnCarChangedCmd = new DelegateCommand(OnCarChanged);
             LoadedCommand = new DelegateCommand(() => { UpdateFilterCars(); });

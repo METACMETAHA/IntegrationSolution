@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
     xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
@@ -33,7 +34,7 @@
             Padding="10"
             VerticalAlignment="Center"
             Style="{StaticResource MedHeaderBold}"
-            Text="Общий список машин"
+            Text="{loc:Loc LoadingFiles_VehicleListLabel}"
             TextAlignment="Center" />
         <TextBlock
             Grid.Row="1"
@@ -42,7 +43,7 @@
             Padding="10"
             VerticalAlignment="Center"
             Style="{StaticResource MedHeaderBold}"
-            Text="Экспорт"
+            Text="{loc:Loc LoadingFiles_ExportLabel}"
             TextAlignment="Center" />
 
         <TextBox
@@ -53,7 +54,7 @@
             Padding="4"
             metro:TextBoxHelper.IsWaitingForData="True"
             metro:TextBoxHelper.UseFloatingWatermark="True"
-            metro:TextBoxHelper.Watermark="Путь к файлу"
+            metro:TextBoxHelper.Watermark="{loc:Loc LoadingFiles_FilePathWatermark}"
             IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"
             IsReadOnly="True"
             Text="{Binding ModuleData.PathToMainFile, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
@@ -66,7 +67,7 @@
             Padding="4"
             metro:TextBoxHelper.IsWaitingForData="True"
             metro:TextBoxHelper.UseFloatingWatermark="True"
-            metro:TextBoxHelper.Watermark="Путь к файлу"
+            metro:TextBoxHelper.Watermark="{loc:Loc LoadingFiles_FilePathWatermark}"
             IsEnabled="{Binding IsFinished, Converter={StaticResource boolConvert}}"
             IsReadOnly="True"
             Text="{Binding ModuleData.PathToPathListFile, UpdateSourceTrigger=PropertyChanged}" />
@@ -80,7 +81,7 @@
             BorderThickness="1"
             Command="{Binding LoadFileCommand, IsAsync=True}"
             CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Name}"
-            Content="Загрузить файл..."
+            Content="{loc:Loc LoadingFiles_LoadFileButton}"
             Style="{StaticResource GrayButton}" />
 
         <Button
@@ -92,7 +93,7 @@
             BorderThickness="1"
             Command="{Binding LoadFileCommand}"
             CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Name}"
-            Content="Загрузить файл..."
+            Content="{loc:Loc LoadingFiles_LoadFileButton}"
             Style="{StaticResource GrayButton}" />
     </Grid>
 

@@ -4,6 +4,8 @@ using Integration.Infrastructure.Views.Account;
 using Integration.Infrastructure.Views.Info;
 using Integration.Infrastructure.Views.Logistics;
 using IntegrationSolution.Common.Events;
+using IntegrationSolution.Localization;
+using IntegrationSolution.Localization.Resources;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.IconPacks;
@@ -13,6 +15,7 @@ using Prism.Events;
 using Prism.Modularity;
 using Prism.Mvvm;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -29,6 +32,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
         private readonly IUnityContainer _container;
         private readonly IEventAggregator _eventAggregator;
         private readonly INotificationManager _notificationManager;
+        private readonly ILocalizationService _localization;
         private readonly Timer _timer;       
         
 
@@ -63,7 +67,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 {
                     Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                     {
-                        _notificationManager.NotifySuccessAsync("Подключено к Wialon!");
+                        _notificationManager.NotifySuccessAsync(Strings.Shell_ConnectedToWialon);
                     }));
                     _timer.Start();
                 }
@@ -114,6 +118,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
         {
             _container = container;
             _notificationManager = _container.Resolve<INotificationManager>();
+            _localization = _container.Resolve<ILocalizationService>();
             _eventAggregator = ea;
             _timer = new Timer(840000); // 14min. Session live 15min. - 840000ms
             _timer.AutoReset = true;
@@ -123,6 +128,8 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             
             IsEnabledNavigation = true;
             this.CreateMenuItems();
+
+            LanguageChangedEventManager.AddHandler(_localization, OnLanguageChanged);
         }
         
 
@@ -146,14 +153,14 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 new HamburgerMenuIconItem()
                 {
                     Icon = Application.Current.TryFindResource("appbar_home_garage_open"),
-                    Label = "Главная",
-                    ToolTip = "В разработке.",
+                    Label = Strings.Shell_MenuHome,
+                    ToolTip = Strings.Shell_MenuHomeToolTip,
                     Tag = _container.Resolve<UserControl>(nameof(HomeView))
                 },
                 new HamburgerMenuIconItem()
                 {
                     Icon = Application.Current.TryFindResource("appbar_scale_unbalanced"),
-                    Label = "Операции",
+                    Label = Strings.Shell_MenuOperations,
                     ToolTip = "SAP + Wialon.",
                     Tag = _container.Resolve<UserControl>(nameof(LogisticsQuizView))
                 }
@@ -171,11 +178,41 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 new HamburgerMenuIconItem()
                 {
                     Icon = Application.Current.TryFindResource("appbar_information"),
-                    Label = "Справка",
-                    ToolTip = "Справка.",
+                    Label = Strings.Shell_MenuHelp,
+                    ToolTip = Strings.Shell_MenuHelpToolTip,
                     Tag = _container.Resolve<UserControl>(nameof(InfoView))
                 }
             };
+        }
+
+        /// <summary>
+        /// Menu items are created in code, so their texts are refreshed in place
+        /// (re-creating the items would reset the selected page).
+        /// </summary>
+        private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
+        {
+            // An exception here would stop the remaining listeners from following the switch.
+            try
+            {
+                SetMenuTexts(MenuItems, 0, Strings.Shell_MenuHome, Strings.Shell_MenuHomeToolTip);
+                SetMenuTexts(MenuItems, 1, Strings.Shell_MenuOperations, null);
+                SetMenuTexts(MenuOptionItems, 0, Strings.Shell_MenuHelp, Strings.Shell_MenuHelpToolTip);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"Failed to update the menu texts for '{e.NewLanguage.CultureName}'. {ex}");
+            }
+        }
+
+        private static void SetMenuTexts(HamburgerMenuItemCollection items, int index, string label, string toolTip)
+        {
+            var item = items != null && index < items.Count ? items[index] as HamburgerMenuItem : null;
+            if (item == null)
+                return;
+
+            item.Label = label;
+            if (toolTip != null)
+                item.ToolTip = toolTip;
         }
 
         // Timer for control Wialon connection
@@ -185,7 +222,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    _notificationManager.NotifySuccessAsync("Сеанс подключения к системе Wialon продолжен!");
+                    _notificationManager.NotifySuccessAsync(Strings.Shell_WialonSessionExtended);
                 }));
             }
             else
@@ -193,7 +230,7 @@ namespace IntegrationSolution.ShellGUI.ViewModels
                 this.IsConnectedNavigation = false;
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    _notificationManager.NotifyInformationAsync("Сеанс подключения к системе Wialon истек!");
+                    _notificationManager.NotifyInformationAsync(Strings.Shell_WialonSessionExpired);
                 }));
 
                 _timer.Stop();

@@ -13,17 +13,24 @@ namespace Consoles
 {
     class Program
     {
+        // The Wialon access token is never kept in the sources: pass it as the first argument or in WIALON_TOKEN.
         [STAThread]
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             string site = "https://hst-api.wialon.com";
-            
+            string token = args.Length > 0 ? args[0] : Environment.GetEnvironmentVariable("WIALON_TOKEN");
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                Console.Error.WriteLine("Usage: Console.exe <token>, or set the WIALON_TOKEN environment variable.");
+                return 1;
+            }
+
             using (var client = new WebClient())
             {
                 var values = new NameValueCollection
                 {
                     ["svc"] = "token/login",
-                    ["params"] = "{\"token\":\"93662d5dd4ed0a21b9775bd4704d6666895DABE9AB194AF87912246CE60488C6F8B4D168\"}"
+                    ["params"] = "{\"token\":\"" + token + "\"}"
                 };
                 client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
 
@@ -35,6 +42,7 @@ namespace Consoles
                 JObject json = JObject.Parse(responseString);
             }
             Console.WriteLine("End");
+            return 0;
         }
     }
 }

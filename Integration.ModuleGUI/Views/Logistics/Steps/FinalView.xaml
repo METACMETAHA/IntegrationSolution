@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:IntegrationSolution.Common.Converters;assembly=IntegrationSolution.Common"
+             xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"
              xmlns:local="clr-namespace:Integration.ModuleGUI.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -13,7 +14,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <TextBlock Text="Отлично. Можете закрыть приложение :)" 
+        <TextBlock Text="{loc:Loc Final_Message}" 
                    Style="{StaticResource InfoTextBoxBtwnNavButtons}"
                    FontSize="36" VerticalAlignment="Center">
             <TextBlock.Foreground>

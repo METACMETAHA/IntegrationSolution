@@ -139,6 +139,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IntegrationSolution.Localization\IntegrationSolution.Localization.csproj">
+      <Project>{B07D11E7-7C90-486E-BC25-E4DA98648AF9}</Project>
+      <Name>IntegrationSolution.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NotificationConstructor\NotificationConstructor.csproj">
       <Project>{E91C928C-E71D-478A-A1A9-55C3E1E5A533}</Project>
       <Name>NotificationConstructor</Name>
