@@ -3,7 +3,7 @@
 **A modular WPF desktop application that reconciles SAP waybills with Wialon GPS tracking.** It runs mileage audits, calculates
 fuel and cost totals, builds driver and vehicle analytics, and writes Excel reports.
 
-[![Windows CI](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml/badge.svg)](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml)
+[![Windows CI](https://github.com/METACMETAHA/IntegrationSolution/actions/workflows/windows-ci.yml/badge.svg)](https://github.com/METACMETAHA/IntegrationSolution/actions/workflows/windows-ci.yml)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6)
 ![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.6.1-512BD4?logo=dotnet)
 ![WPF](https://img.shields.io/badge/UI-WPF%20%C2%B7%20MVVM-5C2D91)
@@ -147,11 +147,11 @@ The [architecture docs](docs/architecture.md) cover the solution map, startup se
 
 **Try a build without compiling.**
 
-1. Download the zip from the latest [release](https://github.com/METACMETAHA/sap-wialon-fleet-audit/releases/latest).
+1. Download the zip from the latest [release](https://github.com/METACMETAHA/IntegrationSolution/releases/latest).
 2. Unzip it and run `IntegrationSolution.ShellGUI.exe`.
 
 Every push to `master` also uploads a build as an artifact of the
-[Windows CI run](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml) (you must be signed in to GitHub to download it).
+[Windows CI run](https://github.com/METACMETAHA/IntegrationSolution/actions/workflows/windows-ci.yml) (you must be signed in to GitHub to download it).
 
 **Build from source** on Windows with Visual Studio 2022 (the *.NET desktop development* workload):
 
