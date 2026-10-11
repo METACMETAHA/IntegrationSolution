@@ -50,7 +50,7 @@ jobs:
 
       - name: Upload screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: screenshots
           path: artifacts/screenshots
@@ -58,7 +58,7 @@ jobs:
 
       - name: Upload test results and build log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-and-logs
           path: |
@@ -67,7 +67,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Upload application
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: IntegrationSolution-${{ env.CONFIGURATION }}
           path: IntegrationSolution.ShellGUI/bin/${{ env.CONFIGURATION }}
