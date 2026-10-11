@@ -1,5 +1,5 @@
 ﻿using DialogConstruction.Interfaces;
-using IntegrationSolution.Common.Implementations;
+using FleetAudit.Common.Implementations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

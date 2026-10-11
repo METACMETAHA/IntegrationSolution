@@ -15,17 +15,17 @@ Requirements:
 Build:
 
 ```powershell
-nuget restore IntegrationSolution.sln
-msbuild IntegrationSolution.sln -m -p:Configuration=Release
-.\IntegrationSolution.ShellGUI\bin\Release\IntegrationSolution.ShellGUI.exe
+nuget restore FleetAudit.sln
+msbuild FleetAudit.sln -m -p:Configuration=Release
+.\FleetAudit.App\bin\Release\FleetAudit.App.exe
 ```
 
-`Integration.Setup` (`.vdproj`, the MSI installer) is skipped by MSBuild. To build it, open the solution in Visual Studio
+`FleetAudit.Installer` (`.vdproj`, the MSI installer) is skipped by MSBuild. To build it, open the solution in Visual Studio
 with the *Microsoft Visual Studio Installer Projects* extension installed.
 
 ## Tests
 
-The tests are MSTest projects in `IntegrationSolution.Tests`:
+The tests are MSTest projects in `FleetAudit.Tests`:
 
 | Folder | Covers |
 | --- | --- |
@@ -35,7 +35,7 @@ The tests are MSTest projects in `IntegrationSolution.Tests`:
 | `Excel.Tests`, `Wialon.Tests` | Tagged `Integration`: they need a live Wialon account or files on a developer machine. `Wialon.Tests` read the token from the `WIALON_TOKEN` environment variable and are inconclusive without it |
 
 ```powershell
-vstest.console.exe IntegrationSolution.Tests\bin\Release\IntegrationSolution.Tests.dll /TestCaseFilter:"TestCategory!=Integration"
+vstest.console.exe FleetAudit.Tests\bin\Release\FleetAudit.Tests.dll /TestCaseFilter:"TestCategory!=Integration"
 ```
 
 ## No Windows machine? Use CI
@@ -53,7 +53,7 @@ flowchart LR
 
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
-| [`windows-ci.yml`](../.github/workflows/windows-ci.yml) | push to `master`, every pull request, manual | Build, unit tests, UI smoke test. Uploads the ready-to-run app (`IntegrationSolution-Release`), a screenshot of every step, `.trx` results and the MSBuild binlog. |
+| [`windows-ci.yml`](../.github/workflows/windows-ci.yml) | push to `master`, every pull request, manual | Build, unit tests, UI smoke test. Uploads the ready-to-run app (`FleetAudit-Release`), a screenshot of every step, `.trx` results and the MSBuild binlog. |
 | [`readme-screenshots.yml`](../.github/workflows/readme-screenshots.yml) | the `update-screenshots` label on a pull request, or manual | Re-captures `docs/screenshots/*.png` from the running app and commits them to the pull request branch. Remove and re-add the label to run it again. |
 
 Both workflows share the composite action [`.github/actions/build-solution`](../.github/actions/build-solution/action.yml).

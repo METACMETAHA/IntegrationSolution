@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using DialogConstruction.Interfaces;
-using IntegrationSolution.Common.Enums;
+using FleetAudit.Common.Enums;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Unity;

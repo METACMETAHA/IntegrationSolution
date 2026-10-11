@@ -8,14 +8,14 @@
     so README links stay stable. Run it with Windows PowerShell 5.1 in an interactive desktop session.
 
 .EXAMPLE
-    ./build/Capture-ReadmeScreenshots.ps1 -AppPath IntegrationSolution.ShellGUI\bin\Release\IntegrationSolution.ShellGUI.exe
+    ./build/Capture-ReadmeScreenshots.ps1 -AppPath FleetAudit.App\bin\Release\FleetAudit.App.exe
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [string] $AppPath,
     [string] $OutputDirectory = 'docs\screenshots',
-    [string] $ResourceDirectory = 'IntegrationSolution.Localization\Resources',
+    [string] $ResourceDirectory = 'FleetAudit.Localization\Resources',
     [int] $TimeoutSeconds = 60,
     [int] $Width = 1440,
     [int] $Height = 810,

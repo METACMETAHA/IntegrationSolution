@@ -1,5 +1,5 @@
 ﻿using DialogConstruction.Implementations;
-using IntegrationSolution.Common.Enums;
+using FleetAudit.Common.Enums;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;

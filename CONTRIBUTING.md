@@ -12,7 +12,7 @@ Thanks for helping improve SAP Wialon Fleet Audit! Bug reports, ideas and pull r
 ## Pull requests
 
 1. Keep each pull request focused on one change, with a clear description of what changed and why.
-2. All UI text goes through `IntegrationSolution.Localization/Resources/Strings.resx` **and** its `uk` and `ru` translations.
+2. All UI text goes through `FleetAudit.Localization/Resources/Strings.resx` **and** its `uk` and `ru` translations.
    The localization tests fail otherwise. See [docs/localization.md](docs/localization.md).
 3. Follow the existing MVVM and Prism structure: views without logic, view models derived from `ViewModelBase`, services
    registered in their module. See [docs/architecture.md](docs/architecture.md).

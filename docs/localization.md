@@ -22,7 +22,7 @@ sequenceDiagram
     User->>Settings: picks a language in the combo box
     Settings->>Service: ChangeLanguage("uk")
     Service->>Service: set CurrentUICulture (UI thread + new threads)
-    Service->>Store: Save("uk") → %LocalAppData%\IntegrationSolution\ui-language.txt
+    Service->>Store: Save("uk") → %LocalAppData%\FleetAudit\ui-language.txt
     Service-->>Xaml: PropertyChanged("Item[]")
     Note over Xaml: every localized binding re-reads its key
     Service-->>VMs: LanguageChanged (weak event)
@@ -41,7 +41,7 @@ sequenceDiagram
 
 | Where | How |
 | --- | --- |
-| XAML text | `xmlns:loc="clr-namespace:IntegrationSolution.Localization.Markup;assembly=IntegrationSolution.Localization"`, then `Text="{loc:Loc Shell_SettingsButton}"` |
+| XAML text | `xmlns:loc="clr-namespace:FleetAudit.Localization.Markup;assembly=FleetAudit.Localization"`, then `Text="{loc:Loc Shell_SettingsButton}"` |
 | XAML text with values | `{loc:LocFormat Operations_KmFormat, Arg0={Binding TotalMileageAtAll}, FallbackValue='-'}`. Use it instead of `StringFormat` with hard-coded words. |
 | C# | Read the strongly typed `Strings.Key` or call `ILocalizationService.Format(key, args)`. A view model overrides `ViewModelBase.OnLanguageChanged()` to rebuild its texts. |
 | Other classes | `LanguageChangedEventManager.AddHandler(...)` gives a weak subscription, so the subscriber is never kept alive. |
@@ -49,9 +49,9 @@ sequenceDiagram
 
 ## Adding a string or a language
 
-1. Add the key to `IntegrationSolution.Localization/Resources/Strings.resx`. Visual Studio regenerates `Strings.Designer.cs`.
+1. Add the key to `FleetAudit.Localization/Resources/Strings.resx`. Visual Studio regenerates `Strings.Designer.cs`.
 2. Add the same key to `Strings.uk.resx` and `Strings.ru.resx`. Keys are named `Area_Name`, for example `Results_SummaryTab`.
-3. The tests in `IntegrationSolution.Tests/Localization.Tests` fail in these cases:
+3. The tests in `FleetAudit.Tests/Localization.Tests` fail in these cases:
    * a translation is missing;
    * the `{0}` placeholders differ between languages;
    * XAML uses a key that does not exist;

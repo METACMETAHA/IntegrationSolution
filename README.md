@@ -125,20 +125,20 @@ Each functional area is a Prism module that registers its own views, view models
 
 | Prism module | Project | Provides |
 | --- | --- | --- |
-| `InfrastructureModule` | `Integration.Infrastructure` | Wizard host (header, steps, status log), Home, Help |
-| `ModuleGUIModule` | `Integration.ModuleGUI` | The four wizard steps: Loading files → Operations → Results → Finish |
-| `FlyoutsModule` *(on demand)* | `Integration.Flyouts` | The Settings flyout: language, Wialon token, Excel headers |
-| `DialogsModule` | `IntegrationSolution.Dialogs` | Metro dialogs with typed results: period, fuel prices, token help |
-| `WialonModule` | `WialonBase` | Wialon Remote API client and JSON → entity mapping |
-| `IntegrationSolutionExcelModule` | `IntegrationSolution.Excel` | Reads the SAP files and writes the reports ([EPPlus](https://github.com/EPPlusSoftware/EPPlus)) |
-| `CommonModule` | `IntegrationSolution.Common` | Shared configuration, `ViewModelBase`, events |
+| `InfrastructureModule` | `FleetAudit.Wizard` | Wizard host (header, steps, status log), Home, Help |
+| `ModuleGUIModule` | `FleetAudit.Wizard.Steps` | The four wizard steps: Loading files → Operations → Results → Finish |
+| `FlyoutsModule` *(on demand)* | `FleetAudit.Settings` | The Settings flyout: language, Wialon token, Excel headers |
+| `DialogsModule` | `FleetAudit.Dialogs` | Metro dialogs with typed results: period, fuel prices, token help |
+| `WialonModule` | `FleetAudit.Wialon` | Wialon Remote API client and JSON → entity mapping |
+| `ExcelModule` | `FleetAudit.Excel` | Reads the SAP files and writes the reports ([EPPlus](https://github.com/EPPlusSoftware/EPPlus)) |
+| `CommonModule` | `FleetAudit.Common` | Shared configuration, `ViewModelBase`, events |
 
 | Layer | Technology |
 | --- | --- |
 | UI | WPF on .NET Framework 4.6.1, MahApps.Metro 2.0 and IconPacks, LiveCharts 0.9, custom controls (`DsxGridCtrl` data grid, wizard progress bar) |
 | Composition | Prism 7.1, Unity 5, `IEventAggregator`, a `FlyoutsControl` region adapter |
 | Integration | EPPlus 4.5 (Excel), Newtonsoft.Json (Wialon Remote API over HTTP) |
-| Cross-cutting | `IntegrationSolution.Localization` (resx, live switching), log4net, ToastNotifications |
+| Cross-cutting | `FleetAudit.Localization` (resx, live switching), log4net, ToastNotifications |
 | Quality | MSTest; GitHub Actions on Windows with a UI Automation smoke test |
 
 The [architecture docs](docs/architecture.md) cover the solution map, startup sequence, UI composition and data flow, with diagrams.
@@ -148,7 +148,7 @@ The [architecture docs](docs/architecture.md) cover the solution map, startup se
 **Try a build without compiling.**
 
 1. Download the zip from the latest [release](https://github.com/METACMETAHA/sap-wialon-fleet-audit/releases/latest).
-2. Unzip it and run `IntegrationSolution.ShellGUI.exe`.
+2. Unzip it and run `FleetAudit.App.exe`.
 
 Every push to `master` also uploads a build as an artifact of the
 [Windows CI run](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml) (you must be signed in to GitHub to download it).
@@ -157,9 +157,9 @@ Every push to `master` also uploads a build as an artifact of the
 
 ```powershell
 ./build/Install-TargetingPacks.ps1         # once, elevated: the .NET Framework 4.0 / 4.5.2 / 4.6 / 4.6.1 targeting packs
-nuget restore IntegrationSolution.sln
-msbuild IntegrationSolution.sln -m -p:Configuration=Release
-.\IntegrationSolution.ShellGUI\bin\Release\IntegrationSolution.ShellGUI.exe
+nuget restore FleetAudit.sln
+msbuild FleetAudit.sln -m -p:Configuration=Release
+.\FleetAudit.App\bin\Release\FleetAudit.App.exe
 ```
 
 **Use it.**
@@ -172,10 +172,10 @@ The [user guide](docs/user-guide.md) walks through every step.
 ## Configuration
 
 The Wialon access token is **never committed**: a fresh build starts with *No connection*. Enter your token in
-*Settings → Wialon*; the app checks it and saves it to the `Token` key of `IntegrationSolution.ShellGUI.exe.config`.
+*Settings → Wialon*; the app checks it and saves it to the `Token` key of `FleetAudit.App.exe.config`.
 
 The app talks to **Wialon Hosting** by default. For a self-hosted Wialon server, edit the `APIUrl` (for example
-`https://wialon.example.com/wialon/ajax.html`) and `TokenUrl` keys in `IntegrationSolution.ShellGUI.exe.config` next to the
+`https://wialon.example.com/wialon/ajax.html`) and `TokenUrl` keys in `FleetAudit.App.exe.config` next to the
 exe. Keep your server address out of commits.
 
 The `Wialon.Tests` integration tests and the `Console` probe read the token from the `WIALON_TOKEN` environment variable.

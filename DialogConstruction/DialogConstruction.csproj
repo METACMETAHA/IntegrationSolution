@@ -105,9 +105,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IntegrationSolution.Common\IntegrationSolution.Common.csproj">
+    <ProjectReference Include="..\FleetAudit.Common\FleetAudit.Common.csproj">
       <Project>{B4F847FE-667C-4189-92AE-9CCCAF77E341}</Project>
-      <Name>IntegrationSolution.Common</Name>
+      <Name>FleetAudit.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

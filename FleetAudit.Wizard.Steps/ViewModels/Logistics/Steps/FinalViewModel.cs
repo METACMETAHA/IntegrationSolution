@@ -1,0 +1,32 @@
+﻿using FleetAudit.Wizard.Steps.Models;
+using FleetAudit.Localization.Resources;
+using Prism.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Unity;
+
+namespace FleetAudit.Wizard.Steps.ViewModels
+{
+    public class FinalViewModel : VMLocalBase
+    {
+        public FinalViewModel(IUnityContainer container, IEventAggregator ea) : base(container, ea)
+        {
+            CanGoBack = true;
+            CanGoNext = false;
+            SetTitleResourceKey(nameof(Strings.Final_Title));
+        }
+
+        public override bool MoveBack()
+        {
+            return true;
+        }
+
+        public override async Task<bool> MoveNext()
+        {
+            return true;
+        }
+    }
+}
