@@ -1,6 +1,6 @@
 # Architecture
 
-IntegrationSolution is a **modular WPF application**:
+SAP Wialon Fleet Audit is a **modular WPF application**:
 
 * **Composition.** [Prism 7](https://prismlibrary.com/) with a [Unity](https://github.com/unitycontainer/unity) container. Each feature area is a Prism module that registers its own views and services.
 * **UI.** [MahApps.Metro](https://mahapps.com/): metro window, hamburger menu, flyouts and dialogs.
