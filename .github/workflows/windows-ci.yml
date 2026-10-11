@@ -23,7 +23,7 @@ jobs:
       INTEGRATIONSOLUTION_ROOT: ${{ github.workspace }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Build
         uses: ./.github/actions/build-solution
