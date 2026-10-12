@@ -1,9 +1,15 @@
 name: Release
 
-# Push a tag such as v0.1.0 to build the app and the MSI installer and attach them to a GitHub release.
+# Push a tag such as v0.1.0, or run this workflow from the Actions tab with a tag name, to build the app and the
+# MSI installer and attach them to a GitHub release. A manual run creates the tag on the commit it runs on.
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to create and release, such as v0.1.0
+        required: true
 
 permissions:
   contents: write
@@ -16,7 +22,7 @@ jobs:
     env:
       CONFIGURATION: Release
       FLEETAUDIT_ROOT: ${{ github.workspace }}
-      TAG: ${{ github.ref_name }}
+      TAG: ${{ inputs.tag || github.ref_name }}
 
     steps:
       - uses: actions/checkout@v7
@@ -59,5 +65,5 @@ jobs:
           Compress-Archive -Path "FleetAudit.App\bin\$env:CONFIGURATION\*" -DestinationPath $zip
           $msi = "sap-wialon-fleet-audit-$env:TAG-win-x86.msi"
           Copy-Item "FleetAudit.Installer\$env:CONFIGURATION\FleetAudit.Installer.msi" $msi
-          gh release create $env:TAG $zip $msi --title $env:TAG --generate-notes
+          gh release create $env:TAG $zip $msi --title $env:TAG --generate-notes --target $env:GITHUB_SHA
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
