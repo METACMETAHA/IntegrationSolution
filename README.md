@@ -7,7 +7,7 @@ fuel and cost totals, builds driver and vehicle analytics, and writes Excel repo
 
 [![Windows CI](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml/badge.svg)](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6)
-![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.6.1-512BD4?logo=dotnet)
+![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4?logo=dotnet)
 ![WPF](https://img.shields.io/badge/UI-WPF%20%C2%B7%20MVVM-5C2D91)
 [![Prism](https://img.shields.io/badge/Prism-7.1%20%2B%20Unity-2C5BB4)](https://prismlibrary.com/)
 [![MahApps.Metro](https://img.shields.io/badge/MahApps.Metro-2.0-41B1E1)](https://mahapps.com/)
@@ -137,7 +137,7 @@ Each functional area is a Prism module that registers its own views, view models
 
 | Layer | Technology |
 | --- | --- |
-| UI | WPF on .NET Framework 4.6.1, MahApps.Metro 2.0 and IconPacks, LiveCharts 0.9, custom controls (`DsxGridCtrl` data grid, wizard progress bar) |
+| UI | WPF on .NET Framework 4.8, MahApps.Metro 2.0 and IconPacks, LiveCharts 0.9, custom controls (`DsxGridCtrl` data grid, wizard progress bar) |
 | Composition | Prism 7.1, Unity 5, `IEventAggregator`, a `FlyoutsControl` region adapter |
 | Integration | EPPlus 4.5 (Excel), Newtonsoft.Json (Wialon Remote API over HTTP) |
 | Cross-cutting | `FleetAudit.Localization` (resx, live switching), log4net, ToastNotifications |
@@ -157,10 +157,10 @@ The [architecture docs](docs/architecture.md) cover the solution map, startup se
 Every push to `master` also uploads a build as an artifact of the
 [Windows CI run](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml) (you must be signed in to GitHub to download it).
 
-**Build from source** on Windows with Visual Studio 2022 (the *.NET desktop development* workload):
+**Build from source** on Windows with Visual Studio 2022 (the *.NET desktop development* workload and the
+.NET Framework 4.8 targeting pack):
 
 ```powershell
-./build/Install-TargetingPacks.ps1         # once, elevated: the .NET Framework 4.0 / 4.5.2 / 4.6 / 4.6.1 targeting packs
 nuget restore FleetAudit.sln
 msbuild FleetAudit.sln -m -p:Configuration=Release
 .\FleetAudit.App\bin\Release\FleetAudit.App.exe
@@ -206,7 +206,7 @@ The app started as an internal tool (2019) and is being modernized as an open-so
   * screenshots generated from the app;
   * these docs.
 * Next steps, listed under [technical debt](docs/architecture.md#known-technical-debt):
-  * SDK-style projects on .NET Framework 4.8;
+  * SDK-style projects instead of `packages.config`;
   * protected storage for the Wialon token and user settings;
   * removing unused projects.
 
