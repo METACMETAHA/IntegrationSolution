@@ -381,6 +381,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5AD068FF436B42A0AE9A20025BCE576C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5B3C4D4D7B7D9B3FBAF23A76D9327631"
         "OwnerKey" = "8:_EC9A42E9EA05E903635A66B18B0EA721"
         "MsmSig" = "8:_UNDEFINED"
@@ -2385,7 +2391,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_39D38AF9C1B1449DA5A95B792AA1F40F"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\..\\Downloads\\car-insurance-_1_.ico"
+            "SourcePath" = "8:..\\FleetAudit.App\\car-insurance-_1_.ico"
             "TargetName" = "8:car-insurance-_1_.ico"
             "Tag" = "8:"
             "Folder" = "8:_EB030264012346389292E0E35E4C7572"
@@ -5245,6 +5251,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{7C5CE5F4-A32B-408A-992D-1F446ABBCE61}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5AD068FF436B42A0AE9A20025BCE576C"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_EB030264012346389292E0E35E4C7572"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:ContentFiles"
+            "OutputProjectGuid" = "8:{DFA26885-87B2-457A-BA04-AE4222649462}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
