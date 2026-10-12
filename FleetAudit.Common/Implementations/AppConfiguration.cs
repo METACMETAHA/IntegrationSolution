@@ -15,26 +15,20 @@ namespace FleetAudit.Common.Implementations
     {
         public SerializeConfigDTO ConfigDTO { get; set; }
 
-        private Configuration configurationFile;
-        
         public AppConfiguration(SerializeConfigDTO configDTO)
         {
             ConfigDTO = configDTO;
-
-            configurationFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         }
 
+        /// <summary>
+        /// Reads an appSetting. Read-only: the application <c>.config</c> sits in the install folder, which a standard user
+        /// cannot write. The Wialon token is kept per user by <see cref="WialonTokenStore"/>.
+        /// </summary>
         public object this[string propertyName]
         {
             get
             {
                 return ConfigurationManager.AppSettings[propertyName];
-            }
-            set
-            {
-                configurationFile.AppSettings.Settings[propertyName].Value = value.ToString();
-                configurationFile.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
             }
         }
         

@@ -1035,6 +1035,10 @@ Do you want to view them?</value>
     <value>Previous token restored</value>
     <comment>Warning notification</comment>
   </data>
+  <data name="Token_SaveFailed" xml:space="preserve">
+    <value>Failed to save the token.</value>
+    <comment>Error notification; the token is stored per user in the local application data folder</comment>
+  </data>
   <data name="Token_Updated" xml:space="preserve">
     <value>Token updated</value>
     <comment>Success notification</comment>

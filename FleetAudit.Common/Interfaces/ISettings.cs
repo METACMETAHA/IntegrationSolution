@@ -8,6 +8,6 @@ namespace FleetAudit.Common.Interfaces
 {
     public interface ISettings
     {
-        object this[string propertyName] { get; set; }
+        object this[string propertyName] { get; }
     }
 }

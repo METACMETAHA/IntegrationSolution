@@ -121,7 +121,7 @@ Cells are highlighted when the difference is over the tolerance you entered:
 | Tab | What you can do |
 | --- | --- |
 | **General** | Interface language (English, Українська, Русский). The switch is immediate, and the choice is remembered. |
-| **Wialon** | *Get a token* plus **Next** opens step-by-step instructions. *I already have a token* lets you paste a token; the app checks it and keeps the old one if the new one is invalid. |
+| **Wialon** | *Get a token* plus **Next** opens step-by-step instructions. *I already have a token* lets you paste a token; the app checks it and keeps the old one if the new one is invalid. The token is saved encrypted for your Windows account, so every Windows user enters their own. |
 | **Excel headers** | Rename any expected column (hover over a name to see its id), reset one name or all of them, and set the default vehicle-list file. The changes are saved when you close the app normally. |
 
 | General | Excel headers |
