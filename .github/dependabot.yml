@@ -5,9 +5,14 @@ updates:
       - "/*"
     schedule:
       interval: weekly
+    # Patch updates come as one pull request. Minor updates (e.g. MahApps.Metro, Prism, Unity) come one package
+    # per pull request, covering every project that uses it, so a breaking one can be reviewed or declined on its own.
     groups:
-      nuget-minor-and-patch:
-        update-types: [minor, patch]
+      nuget-patch:
+        update-types: [patch]
+      nuget-minor:
+        update-types: [minor]
+        group-by: dependency-name
     ignore:
       # Major versions of these change the API or the license (EPPlus 5+ is not free for commercial use).
       - dependency-name: EPPlus
