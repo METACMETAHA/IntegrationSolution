@@ -18,6 +18,16 @@ updates:
       # Prism/Unity, Caliburn.Micro) or the license (EPPlus 5+ is not free for commercial use), so they are done by hand.
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      # Two stacks whose packages depend on each other: MahApps.Metro (2.0 alpha builds) with ControlzEx, SimpleChildWindow
+      # and Metro.Dialogs, and Prism with Unity and CommonServiceLocator. Updating them one package at a time breaks the
+      # build (mixed Unity assemblies) or silently changes styles (MahApps 2.0 renamed its resource keys), so they are
+      # upgraded together by hand, with a visual check.
+      - dependency-name: "MahApps.Metro*"
+      - dependency-name: "ControlzEx"
+      - dependency-name: "Metro.Dialogs"
+      - dependency-name: "Prism.*"
+      - dependency-name: "Unity*"
+      - dependency-name: "CommonServiceLocator"
 
   - package-ecosystem: github-actions
     directory: "/"
