@@ -56,7 +56,7 @@ flowchart LR
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
 | [`windows-ci.yml`](../.github/workflows/windows-ci.yml) | push to `master`, every pull request, manual | Build, unit tests, UI smoke test. Uploads the ready-to-run app (`FleetAudit-Release`), a screenshot of every step, `.trx` results and the MSBuild binlog. A second job builds the MSI (version `0.0.<run number>`), installs it silently, runs the UI smoke test against the installed app and uninstalls it; it uploads the MSI (`FleetAudit-Installer-Release`) and the msiexec logs. |
-| [`release.yml`](../.github/workflows/release.yml) | a `v*` tag, e.g. `v0.1.0` | Builds the app, stamps the tag into the MSI version, builds and tests the MSI as above, then publishes a GitHub release with the MSI and a zip of the app. |
+| [`release.yml`](../.github/workflows/release.yml) | a `v*` tag, e.g. `v0.1.0`, or a manual run with a tag name | Builds the app, stamps the tag into the MSI version, builds and tests the MSI as above, then publishes a GitHub release with the MSI and a zip of the app. |
 | [`readme-screenshots.yml`](../.github/workflows/readme-screenshots.yml) | the `update-screenshots` label on a pull request, or manual | Re-captures `docs/screenshots/*.png` from the running app and commits them to the pull request branch. Remove and re-add the label to run it again. |
 
 All three workflows share the composite action [`.github/actions/build-solution`](../.github/actions/build-solution/action.yml).
