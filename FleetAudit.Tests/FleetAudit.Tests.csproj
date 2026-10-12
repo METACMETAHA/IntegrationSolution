@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.Tests\SerializableTests.cs" />
+    <Compile Include="Common.Tests\WialonTokenStoreTests.cs" />
     <Compile Include="Configuration.Tests\NoCommittedTokensTests.cs" />
     <Compile Include="Excel.Tests\ExcelWorkerTests.cs" />
     <Compile Include="Helpers.Tests\Converter.cs" />

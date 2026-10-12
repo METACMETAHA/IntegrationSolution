@@ -26,6 +26,7 @@ namespace FleetAudit.Wialon.Configuration
         protected readonly ILog _logger;
 
         private readonly string _contentType = "application/x-www-form-urlencoded";
+        private readonly WialonTokenStore _tokenStore = new WialonTokenStore();
         private JObject _jsonConnectionInfo;
         #endregion
 
@@ -45,7 +46,7 @@ namespace FleetAudit.Wialon.Configuration
         public WialonConnection()
         {
             _logger = LogManager.GetLogger(this.GetType());
-            Token = ConfigurationManager.AppSettings[nameof(Token)];
+            Token = _tokenStore.LoadOrLegacy();
             APIUrl = ConfigurationManager.AppSettings[nameof(APIUrl)];
             TokenUrl = ConfigurationManager.AppSettings[nameof(TokenUrl)];
             OAuth = ConfigurationManager.AppSettings[nameof(OAuth)];
@@ -265,7 +266,7 @@ namespace FleetAudit.Wialon.Configuration
 
         public void UpdateToken()
         {
-            Token = ConfigurationManager.AppSettings[nameof(Token)];
+            Token = _tokenStore.LoadOrLegacy();
         }
     }
 }

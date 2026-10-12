@@ -46,7 +46,8 @@ namespace FleetAudit.Tests.Configuration.Tests
             var config = File.ReadAllText(Path.Combine(SolutionRoot(), "FleetAudit.App", "App.config"));
             var tokens = TokenSetting.Matches(config);
 
-            // AppConfiguration only overwrites existing keys, so Settings > Wialon needs the key to save a token.
+            // The key is the legacy fallback (a token set by an administrator or in a portable copy); Settings > Wialon
+            // saves the token per user instead (WialonTokenStore) and never writes this file.
             Assert.AreEqual(1, tokens.Count, "App.config must have exactly one 'Token' key in appSettings.");
             Assert.AreEqual(string.Empty, tokens[0].Groups[1].Value, "App.config must not ship a Wialon token.");
         }

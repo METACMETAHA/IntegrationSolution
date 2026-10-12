@@ -176,11 +176,13 @@ The [user guide](docs/user-guide.md) walks through every step.
 ## Configuration
 
 The Wialon access token is **never committed**: a fresh build starts with *No connection*. Enter your token in
-*Settings → Wialon*; the app checks it and saves it to the `Token` key of `FleetAudit.App.exe.config`.
+*Settings → Wialon*; the app checks it and saves it encrypted for your Windows user in
+`%LocalAppData%\FleetAudit\wialon-token.dat`, so no admin rights are needed. If nothing is saved there, the app reads the
+`Token` key of `FleetAudit.App.exe.config` (a portable copy, or a token set by an administrator). It never writes that file.
 
 The app talks to **Wialon Hosting** by default. For a self-hosted Wialon server, edit the `APIUrl` (for example
 `https://wialon.example.com/wialon/ajax.html`) and `TokenUrl` keys in `FleetAudit.App.exe.config` next to the
-exe. Keep your server address out of commits.
+exe (this needs write access to the install folder). Keep your server address out of commits.
 
 The `Wialon.Tests` integration tests and the `Console` probe read the token from the `WIALON_TOKEN` environment variable.
 The probe reads the server address from `WIALON_API_URL`.
@@ -204,10 +206,11 @@ The app started as an internal tool (2019) and is being modernized as an open-so
   * a clean-machine build;
   * Windows CI with an end-to-end UI test;
   * screenshots generated from the app;
+  * a per-user, encrypted Wialon token;
   * these docs.
 * Next steps, listed under [technical debt](docs/architecture.md#known-technical-debt):
   * SDK-style projects instead of `packages.config`;
-  * protected storage for the Wialon token and user settings;
+  * a safer storage format for the user settings (`sys.dat`);
   * removing unused projects.
 
 ## Contributing

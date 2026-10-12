@@ -10,6 +10,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace FleetAudit.SharedViews.ViewModels
 {
     public class GetTokenViewModel : BindableBase
     {
-        protected readonly AppConfiguration _settings;
+        protected readonly WialonTokenStore _tokenStore;
         protected readonly INavigationOperations _wialonContext;
         protected readonly IDialogManager _dialogManager;
         protected readonly INotificationManager _notificationManager;
@@ -45,19 +46,19 @@ namespace FleetAudit.SharedViews.ViewModels
 
 
         public GetTokenViewModel(
-            AppConfiguration settings,
+            WialonTokenStore tokenStore,
             INavigationOperations navigationOperations,
             IDialogManager dialogManager,
             INotificationManager notificationManager)
         {
-            _settings = settings;
+            _tokenStore = tokenStore;
             _dialogManager = dialogManager;
             _wialonContext = navigationOperations;
             _notificationManager = notificationManager;
 
             UpdateTokenCommand = new DelegateCommand(UpdateTokenCmd);
 
-            TokenModel = settings["Token"]?.ToString();
+            TokenModel = _tokenStore.LoadOrLegacy();
 
             IsWithToken |= !string.IsNullOrWhiteSpace(TokenModel);
 
@@ -94,15 +95,14 @@ namespace FleetAudit.SharedViews.ViewModels
                 {
                     tryConnect = _wialonContext.TryConnect(TokenModel);
                 });
-                if (tryConnect)
+                if (tryConnect && TrySaveToken(TokenModel))
                 {
-                    _settings["Token"] = TokenModel;
                     _wialonContext.UpdateToken();
                     _notificationManager.NotifySuccessAsync(Strings.Token_Updated);
                 }
                 else
                 {
-                    TokenModel = _settings["Token"]?.ToString();
+                    TokenModel = _tokenStore.LoadOrLegacy();
                     _notificationManager.NotifyWarningAsync(Strings.Token_PreviousRestored);
                 }
                 if (progress.IsOpen)
@@ -115,6 +115,21 @@ namespace FleetAudit.SharedViews.ViewModels
                 _notificationManager.NotifyInformationAsync(Strings.Token_PasteHint);
             }
             #endregion
+        }
+
+        private bool TrySaveToken(string token)
+        {
+            try
+            {
+                _tokenStore.Save(token);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"Failed to save the Wialon token. {ex}");
+                _notificationManager.NotifyErrorAsync(Strings.Token_SaveFailed);
+                return false;
+            }
         }
     }
 }

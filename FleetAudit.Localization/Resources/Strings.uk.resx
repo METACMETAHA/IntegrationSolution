@@ -908,6 +908,9 @@
   <data name="Token_PreviousRestored" xml:space="preserve">
     <value>Відновлено попередній токен</value>
   </data>
+  <data name="Token_SaveFailed" xml:space="preserve">
+    <value>Не вдалося зберегти токен.</value>
+  </data>
   <data name="Token_Updated" xml:space="preserve">
     <value>Токен оновлено</value>
   </data>

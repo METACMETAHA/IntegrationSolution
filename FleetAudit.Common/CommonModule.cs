@@ -21,6 +21,7 @@ namespace FleetAudit.Common
         {
             containerRegistry.RegisterSingleton<FuelPrice>();
             containerRegistry.RegisterSingleton<AppConfiguration>();
+            containerRegistry.RegisterInstance(new WialonTokenStore());
             containerRegistry.RegisterSingleton<SerializeConfigDTO>();
         }
     }

@@ -2410,6 +2410,15 @@ namespace FleetAudit.Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to save the token..
+        /// </summary>
+        public static string Token_SaveFailed {
+            get {
+                return ResourceManager.GetString("Token_SaveFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Token updated.
         /// </summary>
         public static string Token_Updated {

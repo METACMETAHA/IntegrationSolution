@@ -69,7 +69,7 @@ flowchart TB
 | `FleetAudit.Excel` | Reads SAP exports and writes the reports, with header names the user can configure (`HeaderNames`). |
 | `FleetAudit.Wialon` | Wialon Remote API over HTTP (`token/login`, `core/search_items`, `report/exec_report`, …) and JSON → entity mapping. |
 | `FleetAudit.Domain` | Domain model: `Car`, `TripSAP`, `Driver`, `CarWialon`, `TripWialon`, `SpeedViolationWialon`, `IntegratedVehicleInfo`, `CompareIndicator<T>`. |
-| `FleetAudit.Common` | `ViewModelBase`, Prism events, converters, `AppConfiguration`, `SerializeConfigDTO` (user settings). |
+| `FleetAudit.Common` | `ViewModelBase`, Prism events, converters, `AppConfiguration` (read-only `appSettings`), `WialonTokenStore` (the per-user Wialon token), `SerializeConfigDTO` (user settings). |
 | `FleetAudit.Localization` | Runtime language switching. See [localization.md](localization.md). |
 | `DsxGridCtrl` | A custom data grid with a filter row, sorting, footers and frozen panes. It shows the results and the violations. |
 | `WizardProgressBarLibrary`, `NotificationConstructor` | The step progress bar of the wizard, and a wrapper over ToastNotifications. |
@@ -153,7 +153,8 @@ and engine hours from the waybills, and writes them back into the *Full vehicle 
 | --- | --- |
 | UI language | `%LocalAppData%\FleetAudit\ui-language.txt` |
 | Custom Excel header names, the default path of the vehicle list | `%LocalAppData%\FleetAudit\sys.dat` (binary-serialized `SerializeConfigDTO`) |
-| Wialon API URL and access token | `FleetAudit.App.exe.config` (`appSettings`). *Settings → Wialon* writes the new token there. |
+| Wialon access token | `%LocalAppData%\FleetAudit\wialon-token.dat`, encrypted with DPAPI for the current Windows user (`WialonTokenStore`). *Settings → Wialon* writes it. When no token is saved, the `Token` key of `FleetAudit.App.exe.config` is read instead (portable copies, or a token set by an administrator); the app never writes that file. |
+| Wialon API URL | `FleetAudit.App.exe.config` (`appSettings`). It is not editable in the app. |
 | Logs | `%LocalAppData%\FleetAudit\log\log-file.log`, rolling, 10 MB × 5 (log4net, configured in `App.config`) |
 
 ## Known technical debt
@@ -163,8 +164,9 @@ The list is kept short and honest, so contributors know where to start:
 * Legacy project format: `packages.config` and old-style `.csproj` files (all projects target .NET Framework 4.8). Moving to
   SDK-style projects would simplify the build.
 * The MahApps.Metro packages are mixed `2.0.0-alpha` builds.
-* `sys.dat` uses `BinaryFormatter`. The Wialon token lives in the application `.config` next to the exe, which a standard user
-  cannot write after a per-machine install. Both should move to protected, per-user storage.
+* `sys.dat` uses `BinaryFormatter`. It should move to a safer format.
+* The Wialon token file is encrypted for one Windows user. Another user, or the same user on another machine, enters the token
+  again; there is no shared or roaming token.
 * The mileage audit runs a fixed Wialon report: resource 725, template 1, reading the `Поездки` and `Превышение скорости` tables.
   A different Wialon account has to provide a matching template.
 * `IntegrationSolution.Analytics` (k-means), `IntegrationSolution.Logger`, `IPAddressUserControl` and `ProgressRing` are not used by
