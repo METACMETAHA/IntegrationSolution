@@ -14,16 +14,9 @@ updates:
         update-types: [minor]
         group-by: dependency-name
     ignore:
-      # Major versions of these change the API or the license (EPPlus 5+ is not free for commercial use).
-      - dependency-name: EPPlus
-        update-types: ["version-update:semver-major"]
-      - dependency-name: Prism.*
-        update-types: ["version-update:semver-major"]
-      - dependency-name: Unity
-        update-types: ["version-update:semver-major"]
-      - dependency-name: MahApps.Metro*
-        update-types: ["version-update:semver-major"]
-      - dependency-name: LiveCharts*
+      # No major updates: in this .NET Framework app they change APIs across the stack (MahApps.Metro/ControlzEx,
+      # Prism/Unity, Caliburn.Micro) or the license (EPPlus 5+ is not free for commercial use), so they are done by hand.
+      - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
