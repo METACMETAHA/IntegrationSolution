@@ -160,8 +160,8 @@ and engine hours from the waybills, and writes them back into the *Full vehicle 
 
 The list is kept short and honest, so contributors know where to start:
 
-* Legacy project format: `packages.config`, and .NET Framework 4.0 to 4.6.1 targets. Moving to SDK-style projects and .NET Framework 4.8
-  would simplify the build.
+* Legacy project format: `packages.config` and old-style `.csproj` files (all projects target .NET Framework 4.8). Moving to
+  SDK-style projects would simplify the build.
 * The MahApps.Metro packages are mixed `2.0.0-alpha` builds.
 * `sys.dat` uses `BinaryFormatter`. The Wialon token lives in the application `.config` next to the exe, which a standard user
   cannot write after a per-machine install. Both should move to protected, per-user storage.

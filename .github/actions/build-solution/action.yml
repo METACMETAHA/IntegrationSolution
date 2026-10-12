@@ -1,5 +1,5 @@
 name: Build solution
-description: Installs the missing .NET Framework targeting packs, restores NuGet packages and builds FleetAudit.sln with MSBuild.
+description: Restores NuGet packages and builds FleetAudit.sln with MSBuild.
 
 inputs:
   configuration:
@@ -9,11 +9,6 @@ inputs:
 runs:
   using: composite
   steps:
-    # VS 2022 no longer ships the .NET Framework 4.0 / 4.6.1 targeting packs.
-    - name: Install missing .NET Framework targeting packs
-      shell: pwsh
-      run: ./build/Install-TargetingPacks.ps1
-
     - uses: microsoft/setup-msbuild@v2
 
     - name: Cache NuGet packages

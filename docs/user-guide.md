@@ -4,7 +4,7 @@ A short English version of the built-in guide. To open the original Russian PDF,
 
 ## Requirements
 
-* Windows with .NET Framework 4.6.1 or later. Windows 10 and 11 already have it.
+* Windows with .NET Framework 4.8 or later. Windows 10 (version 1903 or later) and Windows 11 already have it.
 * The Wialon features need an internet connection, a Wialon access token, and a Wialon account that provides the report the
   audit uses. See [architecture → technical debt](architecture.md#known-technical-debt).
 

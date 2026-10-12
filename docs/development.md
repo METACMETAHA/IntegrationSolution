@@ -5,12 +5,8 @@
 Requirements:
 
 * Windows 10 or 11 with **Visual Studio 2022** and the *.NET desktop development* workload (MSBuild and NuGet included).
-* The **.NET Framework 4.0, 4.5.2, 4.6 and 4.6.1 targeting packs**. Visual Studio 2022 lacks some of them; to install the missing ones from
-  Microsoft's official NuGet packages, run this once from an elevated PowerShell:
-
-  ```powershell
-  ./build/Install-TargetingPacks.ps1
-  ```
+* The **.NET Framework 4.8 targeting pack**. The *.NET desktop development* workload normally installs it; if it is missing, add it
+  in the Visual Studio Installer under *Individual components*. Every project in the solution targets .NET Framework 4.8.
 
 Build:
 
@@ -51,7 +47,7 @@ Windows setup:
 
 ```mermaid
 flowchart LR
-    PR[Push or pull request] --> Build["Build<br/>targeting packs · NuGet restore · MSBuild"]
+    PR[Push or pull request] --> Build["Build<br/>NuGet restore · MSBuild"]
     Build --> Unit["Unit tests<br/>vstest, without the Integration category"]
     Unit --> Smoke["UI smoke test<br/>starts the app, switches en → uk → ru,<br/>restarts, checks that the choice is kept"]
     Smoke --> Art[("Artifacts<br/>the app · screenshots · test results · binlog")]
@@ -85,7 +81,6 @@ Windows PowerShell 5.1.
 | `UiAutomation.ps1` | Shared helpers: start and stop the app, find elements, select a language, take screenshots, dump the automation tree |
 | `Invoke-UiSmokeTest.ps1` | The end-to-end language switching test that CI runs |
 | `Capture-ReadmeScreenshots.ps1` | Fixed-size window screenshots for the README and these docs |
-| `Install-TargetingPacks.ps1` | Installs the missing .NET Framework reference assemblies |
 
 The scripts find controls by `AutomationProperties.AutomationId` (`SettingsButton`, `LanguageSelector`). Keep those ids when
 you edit the views. Expected texts are read from the `.resx` files, so the scripts stay ASCII-only.
