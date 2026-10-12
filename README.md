@@ -1,3 +1,5 @@
+<img src="docs/images/logo.png" alt="" width="96" align="right">
+
 # SAP Wialon Fleet Audit · Transport support monitoring
 
 **A modular WPF desktop application that reconciles SAP waybills with Wialon GPS tracking.** It runs mileage audits, calculates
