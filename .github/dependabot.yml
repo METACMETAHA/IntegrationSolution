@@ -20,9 +20,6 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: LiveCharts*
         update-types: ["version-update:semver-major"]
-      # log4net 3.x targets .NET Framework 4.6.2 (the projects target 4.6/4.6.1) and Dependabot would bump one project at a time.
-      - dependency-name: log4net
-        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: "/"
