@@ -2391,8 +2391,8 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_39D38AF9C1B1449DA5A95B792AA1F40F"
             {
-            "SourcePath" = "8:..\\FleetAudit.App\\car-insurance-_1_.ico"
-            "TargetName" = "8:car-insurance-_1_.ico"
+            "SourcePath" = "8:..\\FleetAudit.App\\app.ico"
+            "TargetName" = "8:app.ico"
             "Tag" = "8:"
             "Folder" = "8:_EB030264012346389292E0E35E4C7572"
             "Condition" = "8:"
