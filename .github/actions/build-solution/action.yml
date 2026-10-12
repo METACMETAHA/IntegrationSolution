@@ -27,7 +27,7 @@ runs:
       shell: pwsh
       run: nuget restore FleetAudit.sln -NonInteractive
 
-    # The .vdproj installer is skipped by MSBuild (MSB4078); it needs Visual Studio with the Installer Projects extension.
+    # The .vdproj installer is skipped by MSBuild (MSB4078); build/Build-Installer.ps1 builds it with Visual Studio.
     - name: Build
       shell: pwsh
       run: msbuild FleetAudit.sln -m -nologo -verbosity:minimal "-p:Configuration=${{ inputs.configuration }}" "-bl:artifacts/logs/build.binlog"
