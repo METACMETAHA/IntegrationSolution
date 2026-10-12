@@ -147,8 +147,10 @@ The [architecture docs](docs/architecture.md) cover the solution map, startup se
 
 **Try a build without compiling.**
 
-1. Download the zip from the latest [release](https://github.com/METACMETAHA/sap-wialon-fleet-audit/releases/latest).
-2. Unzip it and run `FleetAudit.App.exe`.
+1. From the latest [release](https://github.com/METACMETAHA/sap-wialon-fleet-audit/releases/latest), download the installer
+   (`sap-wialon-fleet-audit-<version>-win-x86.msi`) or the portable zip.
+2. Run the MSI (it adds Desktop and Start menu shortcuts and an Apps & Features entry), or unzip the zip and run
+   `FleetAudit.App.exe`. Neither is code-signed, so Windows SmartScreen may ask you to confirm (*More info → Run anyway*).
 
 Every push to `master` also uploads a build as an artifact of the
 [Windows CI run](https://github.com/METACMETAHA/sap-wialon-fleet-audit/actions/workflows/windows-ci.yml) (you must be signed in to GitHub to download it).

@@ -88,6 +88,11 @@ jobs:
         with:
           configuration: ${{ env.CONFIGURATION }}
 
+      # release.yml stamps the tag the same way, so the stamping is tested on every pull request too.
+      - name: Stamp the installer version
+        shell: pwsh
+        run: ./build/Set-InstallerVersion.ps1 -Version "0.0.$env:GITHUB_RUN_NUMBER"
+
       - name: Build the installer
         shell: pwsh
         run: ./build/Build-Installer.ps1 -Configuration $env:CONFIGURATION
