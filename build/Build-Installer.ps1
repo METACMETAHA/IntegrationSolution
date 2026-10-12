@@ -38,8 +38,11 @@ $devenv = Join-Path $vs 'Common7\IDE\devenv.com'
 & $devenv FleetAudit.sln /Build "$Configuration|Any CPU" /Project 'FleetAudit.Installer\FleetAudit.Installer.vdproj' /Out $LogPath
 $exitCode = $LASTEXITCODE
 
+# devenv can exit with 0 although a project failed, so the summary line is checked too.
+$summary = Select-String -Path $LogPath -Pattern 'Build: \d+ succeeded, (\d+) failed' | Select-Object -Last 1
+$failed = if ($summary) { [int] $summary.Matches[0].Groups[1].Value } else { -1 }
 $msi = "FleetAudit.Installer\$Configuration\FleetAudit.Installer.msi"
-if ($exitCode -ne 0 -or -not (Test-Path $msi)) {
-    throw "The installer build failed (devenv exit code $exitCode); see $LogPath."
+if ($exitCode -ne 0 -or $failed -ne 0 -or -not (Test-Path $msi)) {
+    throw "The installer build failed (devenv exit code $exitCode, failed projects $failed); see $LogPath."
 }
 Write-Host "Built $msi ($([math]::Round((Get-Item $msi).Length / 1MB, 1)) MB)"

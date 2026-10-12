@@ -5,9 +5,9 @@
 .DESCRIPTION
     1. msiexec /i /qn, then finds the installed FleetAudit.App.exe under Program Files.
     2. Every .exe, .dll, .exe.config and data file of the MSBuild output (-ReferenceDirectory) must be installed,
-       and the installer must add its Desktop and Start menu shortcuts.
+       and the installer must add its Desktop and Start menu shortcuts and an Apps & Features entry.
     3. Runs Invoke-UiSmokeTest.ps1 against the installed app.
-    4. msiexec /x /qn, then checks that the files and shortcuts are gone.
+    4. msiexec /x /qn, then checks that the files, the shortcuts and the Apps & Features entry are gone.
 
     The msiexec logs go to -OutputDirectory. Needs administrator rights (the MSI installs per machine);
     GitHub-hosted Windows runners have them. Run it with Windows PowerShell 5.1, like the smoke test.
@@ -39,6 +39,28 @@ function Invoke-Msiexec([string] $Action, [string] $LogName) {
     Write-Host "msiexec $Action succeeded."
 }
 
+function Get-MsiProperty([string] $Name) {
+    $installer = New-Object -ComObject WindowsInstaller.Installer
+    $database = $installer.GetType().InvokeMember('OpenDatabase', 'InvokeMethod', $null, $installer, @($MsiPath, 0))
+    $view = $database.GetType().InvokeMember('OpenView', 'InvokeMethod', $null, $database, @("SELECT Value FROM Property WHERE Property = '$Name'"))
+    [void] $view.GetType().InvokeMember('Execute', 'InvokeMethod', $null, $view, $null)
+    $record = $view.GetType().InvokeMember('Fetch', 'InvokeMethod', $null, $view, $null)
+    $value = $record.GetType().InvokeMember('StringData', 'GetProperty', $null, $record, @(1))
+    [void] $view.GetType().InvokeMember('Close', 'InvokeMethod', $null, $view, $null)
+    # Release the database so that msiexec can open the package.
+    foreach ($object in $record, $view, $database, $installer) { [void] [Runtime.InteropServices.Marshal]::ReleaseComObject($object) }
+    $value
+}
+
+# The Apps & Features entry of the package, or $null.
+function Get-UninstallEntry {
+    'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall', 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall' |
+        ForEach-Object { Join-Path $_ $productCode } |
+        Where-Object { Test-Path $_ } |
+        ForEach-Object { Get-ItemProperty $_ } |
+        Select-Object -First 1
+}
+
 function Find-InstalledApp {
     Get-ChildItem -Path ${env:ProgramFiles(x86)}, $env:ProgramFiles -Filter 'FleetAudit.App.exe' -Recurse -Depth 3 -ErrorAction SilentlyContinue |
         Select-Object -First 1
@@ -57,6 +79,9 @@ function Get-RuntimeFiles([string] $Directory) {
         ForEach-Object { $_.FullName.Substring($Directory.Length).TrimStart('\') } |
         Sort-Object
 }
+
+$productCode = Get-MsiProperty 'ProductCode'
+Write-Host "Testing $(Get-MsiProperty 'ProductName') $(Get-MsiProperty 'ProductVersion') $productCode"
 
 if (Find-InstalledApp) { throw 'FleetAudit.App.exe is already installed; uninstall it first.' }
 $shortcutsBefore = @(Get-Shortcuts)
@@ -82,6 +107,10 @@ try {
     if ($newShortcuts.Count -lt 2) { throw "Expected Desktop and Start menu shortcuts, found: $($newShortcuts -join ', ')" }
     Write-Host "Shortcuts: $($newShortcuts.Count)"
 
+    $entry = Get-UninstallEntry
+    if (-not $entry) { throw "Apps & Features has no entry for $productCode." }
+    Write-Host "Apps & Features: $($entry.DisplayName) $($entry.DisplayVersion), $($entry.Publisher)"
+
     & (Join-Path $PSScriptRoot 'Invoke-UiSmokeTest.ps1') -AppPath $app.FullName -OutputDirectory (Join-Path $OutputDirectory 'screenshots')
 }
 finally {
@@ -91,4 +120,5 @@ finally {
 if (Find-InstalledApp) { throw 'FleetAudit.App.exe is still installed after the uninstallation.' }
 $leftShortcuts = @(Get-Shortcuts | Where-Object { $_ -notin $shortcutsBefore })
 if ($leftShortcuts) { throw "Shortcuts left after the uninstallation: $($leftShortcuts -join ', ')" }
+if (Get-UninstallEntry) { throw "Apps & Features still lists $productCode after the uninstallation." }
 Write-Host 'Installer test passed.'
