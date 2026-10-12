@@ -22,5 +22,5 @@ Thanks for helping improve SAP Wialon Fleet Audit! Bug reports, ideas and pull r
 
 ## Reporting a bug
 
-Describe what you did, what you expected and what happened. Attach the relevant part of `log\log-file.log` (in the app's working folder)
+Describe what you did, what you expected and what happened. Attach the relevant part of `%LocalAppData%\FleetAudit\log\log-file.log`
 and a screenshot if you can. Never post Wialon tokens or real waybill data.

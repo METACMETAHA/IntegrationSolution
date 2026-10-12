@@ -35,6 +35,7 @@ The tests are MSTest projects in `FleetAudit.Tests`:
 | Folder | Covers |
 | --- | --- |
 | `Localization.Tests` | Resource parity across en/uk/ru, placeholders, XAML keys, no hard-coded Cyrillic, language switching and persistence |
+| `Common.Tests` | Where `sys.dat` is stored (`%LocalAppData%\FleetAudit`): path resolution, folder creation, save and load, using a temporary folder |
 | `Configuration.Tests` | No Wialon token (or other 64+ hex-digit value) in any `.cs` or `.config` file; `App.config` keeps an empty `Token` key |
 | `Helpers.Tests` | Placeholder for the license-plate converter. It has no assertions yet. |
 | `Excel.Tests`, `Wialon.Tests` | Tagged `Integration`: they need a live Wialon account or files on a developer machine. `Wialon.Tests` read the token from the `WIALON_TOKEN` environment variable and are inconclusive without it |

@@ -34,7 +34,7 @@ namespace FleetAudit.Common.Implementations
 
             try
             {
-                using (FileStream fs = new FileStream(this.FileName, FileMode.Open))
+                using (FileStream fs = new FileStream(ResolveFilePath(), FileMode.Open))
                     result = (T)formatter.Deserialize(fs);
             }
             catch (Exception)
@@ -52,13 +52,31 @@ namespace FleetAudit.Common.Implementations
             formatter = new BinaryFormatter();
             try
             {
-                using (FileStream fs = new FileStream(this.FileName, FileMode.OpenOrCreate))
+                string path = ResolveFilePath();
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
                     formatter.Serialize(fs, data);
             }
             catch (Exception ex)
             {
                 _logger.Fatal(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// The full path of <see cref="FileName"/>. A relative name lives in <c>%LocalAppData%\FleetAudit</c>, not in the
+        /// working directory: the app is installed per machine, so the install folder is read-only for a standard user.
+        /// </summary>
+        public string ResolveFilePath()
+        {
+            if (Path.IsPathRooted(FileName))
+                return FileName;
+
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "FleetAudit",
+                FileName);
         }
     }
 }
