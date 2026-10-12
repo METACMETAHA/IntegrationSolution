@@ -118,7 +118,7 @@ flowchart LR
 * **Feedback.**
   * Long operations show MahApps progress dialogs.
   * Results appear as toast notifications in the bottom-right corner.
-  * Every status message is also written to log4net (`log\log-file.log`).
+  * Every status message is also written to log4net (`%LocalAppData%\FleetAudit\log\log-file.log`).
 
 ## Data flow: mileage audit
 
@@ -152,9 +152,9 @@ and engine hours from the waybills, and writes them back into the *Full vehicle 
 | What | Where |
 | --- | --- |
 | UI language | `%LocalAppData%\FleetAudit\ui-language.txt` |
-| Custom Excel header names, the default path of the vehicle list | `sys.dat` (binary-serialized `SerializeConfigDTO`) in the working directory |
+| Custom Excel header names, the default path of the vehicle list | `%LocalAppData%\FleetAudit\sys.dat` (binary-serialized `SerializeConfigDTO`) |
 | Wialon API URL and access token | `FleetAudit.App.exe.config` (`appSettings`). *Settings → Wialon* writes the new token there. |
-| Logs | `log\log-file.log`, rolling, 10 MB × 5 (log4net, configured in `App.config`) |
+| Logs | `%LocalAppData%\FleetAudit\log\log-file.log`, rolling, 10 MB × 5 (log4net, configured in `App.config`) |
 
 ## Known technical debt
 
@@ -163,8 +163,8 @@ The list is kept short and honest, so contributors know where to start:
 * Legacy project format: `packages.config`, and .NET Framework 4.0 to 4.6.1 targets. Moving to SDK-style projects and .NET Framework 4.8
   would simplify the build.
 * The MahApps.Metro packages are mixed `2.0.0-alpha` builds.
-* `sys.dat` uses `BinaryFormatter`. The Wialon token lives in the application `.config`. Both should move to protected,
-  per-user storage.
+* `sys.dat` uses `BinaryFormatter`. The Wialon token lives in the application `.config` next to the exe, which a standard user
+  cannot write after a per-machine install. Both should move to protected, per-user storage.
 * The mileage audit runs a fixed Wialon report: resource 725, template 1, reading the `Поездки` and `Превышение скорости` tables.
   A different Wialon account has to provide a matching template.
 * `IntegrationSolution.Analytics` (k-means), `IntegrationSolution.Logger`, `IPAddressUserControl` and `ProgressRing` are not used by

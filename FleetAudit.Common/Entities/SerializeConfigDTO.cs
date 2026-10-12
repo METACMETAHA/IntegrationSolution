@@ -36,7 +36,9 @@ namespace FleetAudit.Common.Entities
             }
         }
         
-        public SerializeConfigDTO() : base("sys.dat")
+        public const string DefaultFileName = "sys.dat";
+
+        public SerializeConfigDTO() : base(DefaultFileName)
         {
             var obj = Deserialize();
 

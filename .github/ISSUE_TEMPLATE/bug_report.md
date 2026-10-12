@@ -15,5 +15,5 @@ labels: bug
 - Windows version:
 - UI language:
 
-Attach the relevant part of `log\log-file.log` and a screenshot if you can.
+Attach the relevant part of `%LocalAppData%\FleetAudit\log\log-file.log` and a screenshot if you can.
 Never post Wialon tokens, server addresses or real waybill data.
