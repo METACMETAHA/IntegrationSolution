@@ -66,9 +66,11 @@ function Find-InstalledApp {
         Select-Object -First 1
 }
 
+# The Desktop and Start menu shortcuts named after the product.
 function Get-Shortcuts {
     'Desktop', 'CommonDesktopDirectory', 'Programs', 'CommonPrograms' |
-        ForEach-Object { Get-ChildItem -Path ([Environment]::GetFolderPath($_)) -Filter '*.lnk' -ErrorAction SilentlyContinue } |
+        ForEach-Object { Get-ChildItem -LiteralPath ([Environment]::GetFolderPath($_)) -Filter '*.lnk' -ErrorAction SilentlyContinue } |
+        Where-Object { $_.BaseName -eq $productName } |
         ForEach-Object { $_.FullName }
 }
 
@@ -81,7 +83,8 @@ function Get-RuntimeFiles([string] $Directory) {
 }
 
 $productCode = Get-MsiProperty 'ProductCode'
-Write-Host "Testing $(Get-MsiProperty 'ProductName') $(Get-MsiProperty 'ProductVersion') $productCode"
+$productName = Get-MsiProperty 'ProductName'
+Write-Host "Testing $productName $(Get-MsiProperty 'ProductVersion') $productCode"
 
 if (Find-InstalledApp) { throw 'FleetAudit.App.exe is already installed; uninstall it first.' }
 $shortcutsBefore = @(Get-Shortcuts)
@@ -93,7 +96,7 @@ try {
     $installDirectory = $app.DirectoryName
     Write-Host "Installed to $installDirectory"
 
-    $missing = @(Get-RuntimeFiles $ReferenceDirectory | Where-Object { -not (Test-Path (Join-Path $installDirectory $_)) })
+    $missing = @(Get-RuntimeFiles $ReferenceDirectory | Where-Object { -not (Test-Path -LiteralPath (Join-Path $installDirectory $_)) })
     Get-ChildItem -Path $installDirectory -File -Recurse |
         ForEach-Object { $_.FullName.Substring($installDirectory.Length).TrimStart('\') } |
         Sort-Object |
