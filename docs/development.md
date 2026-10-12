@@ -20,8 +20,13 @@ msbuild FleetAudit.sln -m -p:Configuration=Release
 .\FleetAudit.App\bin\Release\FleetAudit.App.exe
 ```
 
-`FleetAudit.Installer` (`.vdproj`, the MSI installer) is skipped by MSBuild. To build it, open the solution in Visual Studio
-with the *Microsoft Visual Studio Installer Projects* extension installed.
+`FleetAudit.Installer` (`.vdproj`, the MSI installer) is skipped by MSBuild. Build it with Visual Studio and the
+*Microsoft Visual Studio Installer Projects* extension, either in the IDE or, after the MSBuild build above, from the command line:
+
+```powershell
+./build/Build-Installer.ps1                     # FleetAudit.Installer\Release\FleetAudit.Installer.msi
+./build/Test-Installer.ps1 -MsiPath FleetAudit.Installer\Release\FleetAudit.Installer.msi   # elevated: install, smoke test, uninstall
+```
 
 ## Tests
 
@@ -53,10 +58,11 @@ flowchart LR
 
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
-| [`windows-ci.yml`](../.github/workflows/windows-ci.yml) | push to `master`, every pull request, manual | Build, unit tests, UI smoke test. Uploads the ready-to-run app (`FleetAudit-Release`), a screenshot of every step, `.trx` results and the MSBuild binlog. |
+| [`windows-ci.yml`](../.github/workflows/windows-ci.yml) | push to `master`, every pull request, manual | Build, unit tests, UI smoke test. Uploads the ready-to-run app (`FleetAudit-Release`), a screenshot of every step, `.trx` results and the MSBuild binlog. A second job builds the MSI (version `0.0.<run number>`), installs it silently, runs the UI smoke test against the installed app and uninstalls it; it uploads the MSI (`FleetAudit-Installer-Release`) and the msiexec logs. |
+| [`release.yml`](../.github/workflows/release.yml) | a `v*` tag, e.g. `v0.1.0` | Builds the app, stamps the tag into the MSI version, builds and tests the MSI as above, then publishes a GitHub release with the MSI and a zip of the app. |
 | [`readme-screenshots.yml`](../.github/workflows/readme-screenshots.yml) | the `update-screenshots` label on a pull request, or manual | Re-captures `docs/screenshots/*.png` from the running app and commits them to the pull request branch. Remove and re-add the label to run it again. |
 
-Both workflows share the composite action [`.github/actions/build-solution`](../.github/actions/build-solution/action.yml).
+All three workflows share the composite action [`.github/actions/build-solution`](../.github/actions/build-solution/action.yml).
 
 ## Releases
 

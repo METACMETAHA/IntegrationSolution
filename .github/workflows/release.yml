@@ -1,6 +1,6 @@
 name: Release
 
-# Push a tag such as v0.1.0 to build the app and attach it to a GitHub release.
+# Push a tag such as v0.1.0 to build the app and the MSI installer and attach them to a GitHub release.
 on:
   push:
     tags: ['v*']
@@ -12,10 +12,11 @@ jobs:
   release:
     name: Build and publish the release
     runs-on: windows-2022
-    timeout-minutes: 30
+    timeout-minutes: 40
     env:
       CONFIGURATION: Release
       FLEETAUDIT_ROOT: ${{ github.workspace }}
+      TAG: ${{ github.ref_name }}
 
     steps:
       - uses: actions/checkout@v7
@@ -25,13 +26,38 @@ jobs:
         with:
           configuration: ${{ env.CONFIGURATION }}
 
+      # The tag (v1.2.3) becomes the MSI ProductVersion; a new ProductCode lets each release upgrade the previous one.
+      - name: Stamp the installer version
+        shell: pwsh
+        run: ./build/Set-InstallerVersion.ps1 -Version $env:TAG
+
+      - name: Build the installer
+        shell: pwsh
+        run: ./build/Build-Installer.ps1 -Configuration $env:CONFIGURATION
+
+      # A broken installer must not be published.
+      - name: Install, smoke test, uninstall
+        shell: powershell
+        run: ./build/Test-Installer.ps1 -MsiPath "FleetAudit.Installer\$env:CONFIGURATION\FleetAudit.Installer.msi" -ReferenceDirectory "FleetAudit.App\bin\$env:CONFIGURATION"
+
+      - name: Upload installer logs
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: installer-logs
+          path: |
+            artifacts/installer
+            artifacts/logs
+          if-no-files-found: ignore
+
       - name: Create the release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref_name }}
         run: |
           $zip = "sap-wialon-fleet-audit-$env:TAG-win.zip"
           Compress-Archive -Path "FleetAudit.App\bin\$env:CONFIGURATION\*" -DestinationPath $zip
-          gh release create $env:TAG $zip --title $env:TAG --generate-notes
+          $msi = "sap-wialon-fleet-audit-$env:TAG-win-x86.msi"
+          Copy-Item "FleetAudit.Installer\$env:CONFIGURATION\FleetAudit.Installer.msi" $msi
+          gh release create $env:TAG $zip $msi --title $env:TAG --generate-notes
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
