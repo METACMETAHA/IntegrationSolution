@@ -4,9 +4,9 @@
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
 "ProjectName" = "8:FleetAudit.Installer"
-"LanguageId" = "3:1049"
-"CodePage" = "3:1251"
-"UILanguageId" = "3:1049"
+"LanguageId" = "3:1033"
+"CodePage" = "3:1252"
+"UILanguageId" = "3:1033"
 "SccProjectName" = "8:"
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
@@ -377,6 +377,12 @@
         {
         "MsmKey" = "8:_5563CE20CDE22619554026D2D7B90A12"
         "OwnerKey" = "8:_0FA4F2AC54D7465F89F1523926F3B078"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5AD068FF436B42A0AE9A20025BCE576C"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2286,7 +2292,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -2385,7 +2391,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_39D38AF9C1B1449DA5A95B792AA1F40F"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\..\\Downloads\\car-insurance-_1_.ico"
+            "SourcePath" = "8:..\\FleetAudit.App\\car-insurance-_1_.ico"
             "TargetName" = "8:car-insurance-_1_.ico"
             "Tag" = "8:"
             "Folder" = "8:_EB030264012346389292E0E35E4C7572"
@@ -4634,7 +4640,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_EB030264012346389292E0E35E4C7572"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFilesFolder][ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
@@ -4653,32 +4659,32 @@
         }
         "MsiBootstrapper"
         {
-        "LangId" = "3:1049"
+        "LangId" = "3:1033"
         "RequiresElevation" = "11:FALSE"
         }
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Мониторинг транспортного обеспечения"
-        "ProductCode" = "8:{71E4E77E-3D90-40FE-827E-EF40FC4BAB9A}"
-        "PackageCode" = "8:{3E3B8686-B06F-4284-8827-DB138D82DE76}"
+        "ProductName" = "8:SAP Wialon Fleet Audit"
+        "ProductCode" = "8:{FBED76AB-AE6C-4FEB-B1C7-D72529558F46}"
+        "PackageCode" = "8:{86804A70-9B99-4174-8A51-49D7D6783647}"
         "UpgradeCode" = "8:{1D6B5DF8-4CA9-4F3B-8A44-BD239122FDEF}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Мониторинг транспортного обеспечения"
+        "ProductVersion" = "8:0.1.0"
+        "Manufacturer" = "8:Anton Kriukov"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
-        "Title" = "8:Установка Мониторинг транспортного обеспечения"
-        "Subject" = "8:"
+        "ARPHELPLINK" = "8:https://github.com/METACMETAHA/sap-wialon-fleet-audit/issues"
+        "Title" = "8:SAP Wialon Fleet Audit Setup"
+        "Subject" = "8:SAP Wialon Fleet Audit"
         "ARPCONTACT" = "8:Anton Kriukov"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPCOMMENTS" = "8:Reconciles SAP waybills with Wialon GPS tracking."
+        "ARPURLINFOABOUT" = "8:https://github.com/METACMETAHA/sap-wialon-fleet-audit"
+        "ARPPRODUCTICON" = "8:_39D38AF9C1B1449DA5A95B792AA1F40F"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -4781,23 +4787,9 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3F852C8A67E94D388D2E82E719AB3F68"
-            {
-            "Name" = "8:Shortcut to Primary output from FleetAudit.App (Active)"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_0FA4F2AC54D7465F89F1523926F3B078"
-            "Folder" = "8:_EB030264012346389292E0E35E4C7572"
-            "WorkingFolder" = "8:_EB030264012346389292E0E35E4C7572"
-            "Icon" = "8:_39D38AF9C1B1449DA5A95B792AA1F40F"
-            "Feature" = "8:"
-            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8F1170E565794191A57ADFC2B7F0DA8D"
             {
-            "Name" = "8:Мониторинг транспортного обеспечения"
+            "Name" = "8:SAP Wialon Fleet Audit"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -4811,7 +4803,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_C236440592204056AD6F234492B81149"
             {
-            "Name" = "8:Мониторинг транспортного обеспечения"
+            "Name" = "8:SAP Wialon Fleet Audit"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -5245,6 +5237,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{7C5CE5F4-A32B-408A-992D-1F446ABBCE61}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5AD068FF436B42A0AE9A20025BCE576C"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_EB030264012346389292E0E35E4C7572"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:ContentFiles"
+            "OutputProjectGuid" = "8:{DFA26885-87B2-457A-BA04-AE4222649462}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

@@ -98,12 +98,12 @@
     <Resource Include="Images\GetTokenSample.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Files\Sample-Waybill-Headers.xlsx">
+    <Content Include="Files\Sample-Waybill-Headers.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Files\User-Guide-ru.pdf">
+    </Content>
+    <Content Include="Files\User-Guide-ru.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

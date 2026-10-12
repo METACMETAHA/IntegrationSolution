@@ -71,3 +71,48 @@ jobs:
         with:
           name: FleetAudit-${{ env.CONFIGURATION }}
           path: FleetAudit.App/bin/${{ env.CONFIGURATION }}
+
+  installer:
+    name: Installer (MSI) build, install, smoke test, uninstall
+    runs-on: windows-2022
+    timeout-minutes: 40
+    env:
+      CONFIGURATION: Release
+      FLEETAUDIT_ROOT: ${{ github.workspace }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build
+        uses: ./.github/actions/build-solution
+        with:
+          configuration: ${{ env.CONFIGURATION }}
+
+      # release.yml stamps the tag the same way, so the stamping is tested on every pull request too.
+      - name: Stamp the installer version
+        shell: pwsh
+        run: ./build/Set-InstallerVersion.ps1 -Version "0.0.$env:GITHUB_RUN_NUMBER"
+
+      - name: Build the installer
+        shell: pwsh
+        run: ./build/Build-Installer.ps1 -Configuration $env:CONFIGURATION
+
+      - name: Install, smoke test, uninstall
+        shell: powershell
+        run: ./build/Test-Installer.ps1 -MsiPath "FleetAudit.Installer\$env:CONFIGURATION\FleetAudit.Installer.msi" -ReferenceDirectory "FleetAudit.App\bin\$env:CONFIGURATION"
+
+      - name: Upload installer logs and screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: installer-test
+          path: |
+            artifacts/installer
+            artifacts/logs/installer-build.log
+          if-no-files-found: ignore
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v7
+        with:
+          name: FleetAudit-Installer-${{ env.CONFIGURATION }}
+          path: FleetAudit.Installer/${{ env.CONFIGURATION }}
