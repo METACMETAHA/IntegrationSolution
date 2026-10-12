@@ -1,5 +1,5 @@
 name: Build solution
-description: Installs the missing .NET Framework targeting packs, restores NuGet packages and builds IntegrationSolution.sln with MSBuild.
+description: Installs the missing .NET Framework targeting packs, restores NuGet packages and builds FleetAudit.sln with MSBuild.
 
 inputs:
   configuration:
@@ -25,9 +25,9 @@ runs:
 
     - name: Restore NuGet packages
       shell: pwsh
-      run: nuget restore IntegrationSolution.sln -NonInteractive
+      run: nuget restore FleetAudit.sln -NonInteractive
 
     # The .vdproj installer is skipped by MSBuild (MSB4078); it needs Visual Studio with the Installer Projects extension.
     - name: Build
       shell: pwsh
-      run: msbuild IntegrationSolution.sln -m -nologo -verbosity:minimal "-p:Configuration=${{ inputs.configuration }}" "-bl:artifacts/logs/build.binlog"
+      run: msbuild FleetAudit.sln -m -nologo -verbosity:minimal "-p:Configuration=${{ inputs.configuration }}" "-bl:artifacts/logs/build.binlog"

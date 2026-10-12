@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 30
     env:
       CONFIGURATION: Release
-      INTEGRATIONSOLUTION_ROOT: ${{ github.workspace }}
+      FLEETAUDIT_ROOT: ${{ github.workspace }}
 
     steps:
       - uses: actions/checkout@v7
@@ -32,6 +32,6 @@ jobs:
           TAG: ${{ github.ref_name }}
         run: |
           $zip = "sap-wialon-fleet-audit-$env:TAG-win.zip"
-          Compress-Archive -Path "IntegrationSolution.ShellGUI\bin\$env:CONFIGURATION\*" -DestinationPath $zip
+          Compress-Archive -Path "FleetAudit.App\bin\$env:CONFIGURATION\*" -DestinationPath $zip
           gh release create $env:TAG $zip --title $env:TAG --generate-notes
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -1,0 +1,90 @@
+﻿using FleetAudit.Common.Helpers;
+using FleetAudit.Localization.Resources;
+using NotificationConstructor.Interfaces;
+using Prism.Commands;
+using Prism.Mvvm;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using Unity;
+
+namespace FleetAudit.Wizard.ViewModels.Info
+{
+    public class InfoViewModel : BindableBase
+    {
+        protected readonly IUnityContainer _container;
+        protected readonly INotificationManager _notificationManager;
+
+        public InfoViewModel(
+            IUnityContainer container,
+            INotificationManager notificationManager)
+        {
+            _container = container;
+            _notificationManager = notificationManager;
+
+            DownloadCommand = new DelegateCommand<object>(DownloadCmd);
+        }
+
+
+        public DelegateCommand<object> DownloadCommand { get; private set; }
+        protected void DownloadCmd(object index)
+        {
+            try
+            {
+                int ind = int.Parse(index.ToString());
+                FileInfo pathToFile = null;
+
+                #region Get Executable assembley
+                var dirs = Directory.GetDirectories(Directory.GetCurrentDirectory());
+                DirectoryInfo searchDir = null;
+                foreach (var dirName in dirs)
+                {
+                    var dir = new DirectoryInfo(dirName);
+                    if (dir.Name == "Files")
+                        searchDir = dir;
+                }
+
+                if (searchDir == null)
+                    throw new Exception(Strings.Info_ErrorFileNotFound);
+                #endregion
+
+                var downloadsDir = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\Downloads");
+
+                switch (ind)
+                {
+                    case 1:
+                        pathToFile = searchDir.GetFiles("User-Guide-ru.pdf").First();
+                        break;
+
+                    case 2:
+                        pathToFile = searchDir.GetFiles("Sample-Waybill-Headers.xlsx").First();
+                        break;
+
+                    default:
+                        throw new Exception(Strings.Info_ErrorContactSupport);
+                }
+
+                if (!File.Exists(pathToFile.FullName))
+                    throw new Exception(Strings.Info_ErrorFileMissing);
+
+                if (Directory.Exists(downloadsDir))
+                {
+                    File.Delete(Path.Combine(downloadsDir, pathToFile.Name));
+                }
+
+                var newFile = pathToFile.CopyTo(Path.Combine(downloadsDir, pathToFile.Name));
+                string argument = "/select, \"" + newFile.FullName + "\"";
+                System.Diagnostics.Process.Start("explorer.exe", argument);
+            }
+            catch (Exception ex)
+            {
+                _notificationManager?.NotifyErrorAsync(ex.Message);
+            }
+        }
+    }
+}

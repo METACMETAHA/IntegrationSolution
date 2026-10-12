@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 30
     env:
       CONFIGURATION: Release
-      INTEGRATIONSOLUTION_ROOT: ${{ github.workspace }}
+      FLEETAUDIT_ROOT: ${{ github.workspace }}
 
     steps:
       - uses: actions/checkout@v7
@@ -37,7 +37,7 @@ jobs:
           $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
           $vstest = & $vswhere -latest -products * -find '**\TestPlatform\vstest.console.exe' | Select-Object -First 1
           if (-not $vstest) { throw 'vstest.console.exe was not found.' }
-          & $vstest "IntegrationSolution.Tests\bin\$env:CONFIGURATION\IntegrationSolution.Tests.dll" `
+          & $vstest "FleetAudit.Tests\bin\$env:CONFIGURATION\FleetAudit.Tests.dll" `
             '/TestCaseFilter:TestCategory!=Integration' `
             '/TestAdapterPath:packages\MSTest.TestAdapter.1.3.2\build\_common' `
             '/Logger:trx;LogFileName=unit-tests.trx' `
@@ -46,7 +46,7 @@ jobs:
 
       - name: UI smoke test (language switching)
         shell: powershell
-        run: ./build/Invoke-UiSmokeTest.ps1 -AppPath "IntegrationSolution.ShellGUI\bin\$env:CONFIGURATION\IntegrationSolution.ShellGUI.exe" -OutputDirectory artifacts\screenshots
+        run: ./build/Invoke-UiSmokeTest.ps1 -AppPath "FleetAudit.App\bin\$env:CONFIGURATION\FleetAudit.App.exe" -OutputDirectory artifacts\screenshots
 
       - name: Upload screenshots
         if: always()
@@ -69,5 +69,5 @@ jobs:
       - name: Upload application
         uses: actions/upload-artifact@v7
         with:
-          name: IntegrationSolution-${{ env.CONFIGURATION }}
-          path: IntegrationSolution.ShellGUI/bin/${{ env.CONFIGURATION }}
+          name: FleetAudit-${{ env.CONFIGURATION }}
+          path: FleetAudit.App/bin/${{ env.CONFIGURATION }}

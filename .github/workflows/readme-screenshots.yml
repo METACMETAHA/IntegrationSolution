@@ -39,7 +39,7 @@ jobs:
 
       - name: Capture screenshots
         shell: powershell
-        run: ./build/Capture-ReadmeScreenshots.ps1 -AppPath IntegrationSolution.ShellGUI\bin\Release\IntegrationSolution.ShellGUI.exe -OutputDirectory docs\screenshots -DumpAutomationTree
+        run: ./build/Capture-ReadmeScreenshots.ps1 -AppPath FleetAudit.App\bin\Release\FleetAudit.App.exe -OutputDirectory docs\screenshots -DumpAutomationTree
 
       - name: Upload screenshots
         if: always()

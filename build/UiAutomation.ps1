@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Windows UI Automation helpers for driving IntegrationSolution.ShellGUI (dot-source this file).
+    Windows UI Automation helpers for driving FleetAudit.App (dot-source this file).
 
 .DESCRIPTION
     Shared by Invoke-UiSmokeTest.ps1 and Capture-ReadmeScreenshots.ps1. Before dot-sourcing, the caller
@@ -39,7 +39,7 @@ $ControlType = [System.Windows.Automation.ControlType]
 $LanguageIndex = @{ en = 0; uk = 1; ru = 2 }
 
 # Where FileLanguagePreferenceStore keeps the chosen language.
-$LanguagePreferenceFile = Join-Path $env:LOCALAPPDATA 'IntegrationSolution\ui-language.txt'
+$LanguagePreferenceFile = Join-Path $env:LOCALAPPDATA 'FleetAudit\ui-language.txt'
 
 $script:Step = 0
 $script:Shell = $null

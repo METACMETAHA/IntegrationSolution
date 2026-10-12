@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="FleetAudit.Wizard.Views.Info.InfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FleetAudit.Wizard.Views.Info"
+             xmlns:views="clr-namespace:FleetAudit.Wizard.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:loc="clr-namespace:FleetAudit.Localization.Markup;assembly=FleetAudit.Localization"
+             mc:Ignorable="d" 
+             xmlns:prism="http://www.codeplex.com/prism"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+
+        <Button HorizontalAlignment="Left" VerticalAlignment="Center"
+                Margin="45" 
+                Command="{Binding DownloadCommand}" CommandParameter="1"
+                Style="{DynamicResource RibbonButton}"
+                ToolTip="{loc:Loc Info_SaveToolTip}">
+            <Button.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="28" Height="34" Margin="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page_file_pdf_tag}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <ContentPresenter Grid.Column="1" Content="{loc:Loc Info_UserGuide}"
+                                      TextElement.FontSize="16" Margin="0 20 20 20"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            </Button.Content>
+        </Button>
+
+        <Button Grid.Column="1"
+                HorizontalAlignment="Left" VerticalAlignment="Center"
+                Margin="45" 
+                Command="{Binding DownloadCommand}" CommandParameter="2"
+                Style="{DynamicResource RibbonButton}"
+                ToolTip="{loc:Loc Info_SaveToolTip}">
+            <Button.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle x:Name="iconExcel" Width="28" Height="34" Margin="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <ContentPresenter Grid.Column="1" Content="{loc:Loc Info_WaybillHeadersSample}"
+                                      TextElement.FontSize="16" Margin="0 20 20 20"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            </Button.Content>
+        </Button>
+
+        <TextBlock Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom" Margin="20"
+                   FontSize="16">
+            <Run Text="{loc:Loc Info_Contact}"/>
+            <Run Foreground="Blue" Text="an.kr.working@gmail.com"/>
+        </TextBlock>
+
+    </Grid>
+</UserControl>

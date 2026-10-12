@@ -1,0 +1,42 @@
+﻿<Dialogs:BaseMetroDialog x:Class="FleetAudit.Dialogs.Views.InstructionsForToken"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FleetAudit.Dialogs.Views"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:PartialViews="clr-namespace:FleetAudit.Dialogs.PartialViews"
+             xmlns:loc="clr-namespace:FleetAudit.Localization.Markup;assembly=FleetAudit.Localization"
+             Title="{loc:Loc Dialogs_TokenInstructionsTitle}"
+             DialogTitleFontSize="32" FontSize="16" 
+             xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro">
+
+    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" Margin="0 20 0 0">
+        <StackPanel ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+
+            <TextBlock TextWrapping="WrapWithOverflow">
+            <Run Text="{loc:Loc Dialogs_TokenStep1Before}" />
+            <Hyperlink NavigateUri="https://hosting.wialon.com/login.html" Command="{Binding HyperlinkCommand}"
+                       CommandParameter="https://hosting.wialon.com/login.html"><Run Text="{loc:Loc Dialogs_TokenStep1Link}" /></Hyperlink>
+            <Run Text="{loc:Loc Dialogs_TokenStep1After}" />
+            </TextBlock>
+
+            <TextBlock TextWrapping="WrapWithOverflow">
+            <Run Text="{loc:Loc Dialogs_TokenStep2}" />
+            </TextBlock>
+
+            <TextBlock TextWrapping="WrapWithOverflow">
+            <Run Text="{loc:Loc Dialogs_TokenStep3a}" />
+            <LineBreak/>
+            <Run Text="{loc:Loc Dialogs_TokenStep3b}" />
+            </TextBlock>
+
+            <Image Margin="0 10" Source="{StaticResource GetTokenSample}"/>
+
+            <PartialViews:OkPartialView/>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</Dialogs:BaseMetroDialog>

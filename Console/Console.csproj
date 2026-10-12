@@ -63,13 +63,13 @@
     <None Include="Waybills-2019-03.xlsx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IntegrationSolution.Entities\IntegrationSolution.Entities.csproj">
+    <ProjectReference Include="..\FleetAudit.Domain\FleetAudit.Domain.csproj">
       <Project>{A26A525E-0BBC-43FE-A9D5-07553DA077AB}</Project>
-      <Name>IntegrationSolution.Entities</Name>
+      <Name>FleetAudit.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IntegrationSolution.Excel\IntegrationSolution.Excel.csproj">
+    <ProjectReference Include="..\FleetAudit.Excel\FleetAudit.Excel.csproj">
       <Project>{CA90B115-9C20-4ECB-8A52-14B2826F07A6}</Project>
-      <Name>IntegrationSolution.Excel</Name>
+      <Name>FleetAudit.Excel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

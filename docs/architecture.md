@@ -16,26 +16,26 @@ The UI follows MVVM throughout.
 ```mermaid
 flowchart TB
     subgraph Shell["Shell"]
-        ShellGUI["IntegrationSolution.ShellGUI<br/><i>PrismApplication · MainWindow · hamburger menu</i>"]
+        ShellGUI["FleetAudit.App<br/><i>PrismApplication · MainWindow · hamburger menu</i>"]
     end
 
     subgraph Features["Prism modules: UI"]
-        Infra["Integration.Infrastructure<br/><i>wizard host · Home · Help</i>"]
-        ModuleGUI["Integration.ModuleGUI<br/><i>the 4 wizard steps</i>"]
-        Flyouts["Integration.Flyouts<br/><i>Settings flyout (on demand)</i>"]
-        Dialogs["IntegrationSolution.Dialogs<br/><i>fuel prices · period · token help</i>"]
-        Partial["Integration.PartialViews<br/><i>token · Excel headers · charts</i>"]
+        Infra["FleetAudit.Wizard<br/><i>wizard host · Home · Help</i>"]
+        ModuleGUI["FleetAudit.Wizard.Steps<br/><i>the 4 wizard steps</i>"]
+        Flyouts["FleetAudit.Settings<br/><i>Settings flyout (on demand)</i>"]
+        Dialogs["FleetAudit.Dialogs<br/><i>fuel prices · period · token help</i>"]
+        Partial["FleetAudit.SharedViews<br/><i>token · Excel headers · charts</i>"]
     end
 
     subgraph Services["Prism modules: integration"]
-        Excel["IntegrationSolution.Excel<br/><i>SAP files in, reports out (EPPlus)</i>"]
-        Wialon["WialonBase<br/><i>Wialon Remote API client</i>"]
+        Excel["FleetAudit.Excel<br/><i>SAP files in, reports out (EPPlus)</i>"]
+        Wialon["FleetAudit.Wialon<br/><i>Wialon Remote API client</i>"]
     end
 
     subgraph Core["Core"]
-        Common["IntegrationSolution.Common<br/><i>ViewModelBase · events · config</i>"]
-        Entities["IntegrationSolution.Entities<br/><i>vehicles · trips · drivers</i>"]
-        Loc["IntegrationSolution.Localization<br/><i>en · uk · ru</i>"]
+        Common["FleetAudit.Common<br/><i>ViewModelBase · events · config</i>"]
+        Entities["FleetAudit.Domain<br/><i>vehicles · trips · drivers</i>"]
+        Loc["FleetAudit.Localization<br/><i>en · uk · ru</i>"]
     end
 
     subgraph Controls["Reusable controls and helpers"]
@@ -43,7 +43,7 @@ flowchart TB
         WizardBar["WizardProgressBarLibrary"]
         DialogLib["DialogConstruction"]
         Toasts["NotificationConstructor"]
-        Res["Integration.Resources"]
+        Res["FleetAudit.Resources"]
     end
 
     ShellGUI --> Features
@@ -60,20 +60,20 @@ flowchart TB
 
 | Project | Role |
 | --- | --- |
-| `IntegrationSolution.ShellGUI` | Entry point (`WinExe`). It holds the Prism bootstrap, the main window, the Wialon connection toggle and the session keep-alive. |
-| `Integration.Infrastructure` | Hosts the wizard: `LogisticsQuizView` with its header, body and footer. `ConfigurationData` lists the steps. It also contains Home and Help. |
-| `Integration.ModuleGUI` | The wizard steps (Loading files → Operations → Results → Finish) and `CommonModuleData`, the state the steps share. |
-| `Integration.Flyouts` | The Settings flyout with three tabs: General (language), Wialon (token) and Excel headers. It loads on demand. |
-| `Integration.PartialViews` | Views reused across screens: token entry, header editor, mileage and speed charts. |
-| `IntegrationSolution.Dialogs` / `DialogConstruction` | MahApps metro dialogs with typed, `Task`-based results (`IDialogManager.ShowDialogAsync<T>`). |
-| `IntegrationSolution.Excel` | Reads SAP exports and writes the reports, with header names the user can configure (`HeaderNames`). |
-| `WialonBase` | Wialon Remote API over HTTP (`token/login`, `core/search_items`, `report/exec_report`, …) and JSON → entity mapping. |
-| `IntegrationSolution.Entities` | Domain model: `Car`, `TripSAP`, `Driver`, `CarWialon`, `TripWialon`, `SpeedViolationWialon`, `IntegratedVehicleInfo`, `CompareIndicator<T>`. |
-| `IntegrationSolution.Common` | `ViewModelBase`, Prism events, converters, `AppConfiguration`, `SerializeConfigDTO` (user settings). |
-| `IntegrationSolution.Localization` | Runtime language switching. See [localization.md](localization.md). |
+| `FleetAudit.App` | Entry point (`WinExe`). It holds the Prism bootstrap, the main window, the Wialon connection toggle and the session keep-alive. |
+| `FleetAudit.Wizard` | Hosts the wizard: `LogisticsQuizView` with its header, body and footer. `ConfigurationData` lists the steps. It also contains Home and Help. |
+| `FleetAudit.Wizard.Steps` | The wizard steps (Loading files → Operations → Results → Finish) and `CommonModuleData`, the state the steps share. |
+| `FleetAudit.Settings` | The Settings flyout with three tabs: General (language), Wialon (token) and Excel headers. It loads on demand. |
+| `FleetAudit.SharedViews` | Views reused across screens: token entry, header editor, mileage and speed charts. |
+| `FleetAudit.Dialogs` / `DialogConstruction` | MahApps metro dialogs with typed, `Task`-based results (`IDialogManager.ShowDialogAsync<T>`). |
+| `FleetAudit.Excel` | Reads SAP exports and writes the reports, with header names the user can configure (`HeaderNames`). |
+| `FleetAudit.Wialon` | Wialon Remote API over HTTP (`token/login`, `core/search_items`, `report/exec_report`, …) and JSON → entity mapping. |
+| `FleetAudit.Domain` | Domain model: `Car`, `TripSAP`, `Driver`, `CarWialon`, `TripWialon`, `SpeedViolationWialon`, `IntegratedVehicleInfo`, `CompareIndicator<T>`. |
+| `FleetAudit.Common` | `ViewModelBase`, Prism events, converters, `AppConfiguration`, `SerializeConfigDTO` (user settings). |
+| `FleetAudit.Localization` | Runtime language switching. See [localization.md](localization.md). |
 | `DsxGridCtrl` | A custom data grid with a filter row, sorting, footers and frozen panes. It shows the results and the violations. |
 | `WizardProgressBarLibrary`, `NotificationConstructor` | The step progress bar of the wizard, and a wrapper over ToastNotifications. |
-| `Integration.Setup` | MSI installer (Visual Studio Installer Projects). |
+| `FleetAudit.Installer` | MSI installer (Visual Studio Installer Projects). |
 
 ## Startup
 
@@ -126,8 +126,8 @@ flowchart LR
 sequenceDiagram
     actor User
     participant Step as Wizard steps
-    participant Excel as IntegrationSolution.Excel
-    participant Wialon as WialonBase
+    participant Excel as FleetAudit.Excel
+    participant Wialon as FleetAudit.Wialon
     participant Wapi as Wialon Remote API
     participant Report as ExcelReportWriter
 
@@ -151,9 +151,9 @@ and engine hours from the waybills, and writes them back into the *Full vehicle 
 
 | What | Where |
 | --- | --- |
-| UI language | `%LocalAppData%\IntegrationSolution\ui-language.txt` |
+| UI language | `%LocalAppData%\FleetAudit\ui-language.txt` |
 | Custom Excel header names, the default path of the vehicle list | `sys.dat` (binary-serialized `SerializeConfigDTO`) in the working directory |
-| Wialon API URL and access token | `IntegrationSolution.ShellGUI.exe.config` (`appSettings`). *Settings → Wialon* writes the new token there. |
+| Wialon API URL and access token | `FleetAudit.App.exe.config` (`appSettings`). *Settings → Wialon* writes the new token there. |
 | Logs | `log\log-file.log`, rolling, 10 MB × 5 (log4net, configured in `App.config`) |
 
 ## Known technical debt
